@@ -67,7 +67,7 @@ WSGI_APPLICATION = 'odile_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dbodile',
+        'NAME': config('NAME_DB'),
         'USER': config('USER_DB'),
         'PASSWORD': config('PASSWORD_DB'),
         'HOST': 'localhost',
@@ -116,7 +116,7 @@ STATICFILES_FINDERS = [
 ]
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'pages/static'),
+    os.path.join(BASE_DIR, 'main/static'),
 ]
 SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR, 'static')
 
