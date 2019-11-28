@@ -14,8 +14,37 @@
                 </div>
                 <div class="product-card-text">
                     <p> {{ product.name }} </p>
-                    <p>{{ product.price }}</p>
-                    <a href="{% url 'product-detail' product.slug %}">Voir le produit</a>
+                    <p>{{ product.price }}€</p>
+
+                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                        data-target="#exampleModal{{ product.id}}">
+                        Voir le produit
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal{{ product.id}}" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{{ product.name}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {{ product.description }}
+                        {{ product.price }}€
+                        <a href="{{ product.get_add_to_cart_url }}">Ajouter au panier</a>
+                        <a href="{{ product.get_remove_from_cart_url }}">Supprimer du panier</a>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
                 </div>
             </div>
         </div>

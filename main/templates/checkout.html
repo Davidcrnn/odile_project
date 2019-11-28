@@ -11,24 +11,24 @@
                         {% csrf_token %}
 
                         <h3>Informations personnelles</h3>
-                        <div class="row">
 
-                            <div class="md-form mb-5">
-                                <!-- <input type='text' placeholder='1234 Main St' id='shipping_address' name='shipping_address'
+
+                        <div class="md-form mb-2">
+                            <!-- <input type='text' placeholder='1234 Main St' id='shipping_address' name='shipping_address'
                                     class='form-control' /> -->
-                                <label for="shipping_address" class="">Nom</label>
-                                {{ form.name }}
-                            </div>
-
-                            <div class="md-form mb-5">
-                                <!-- <input type='text' placeholder='1234 Main St' id='shipping_address' name='shipping_address'
-                                    class='form-control' /> -->
-                                <label for="shipping_address" class="">Prénom</label>
-
-                                {{ form.prenom }}
-                            </div>
+                            <label for="shipping_address" class="">Nom</label>
+                            {{ form.name }}
                         </div>
-                        <div class="md-form mb-5">
+
+                        <div class="md-form mb-2">
+                            <!-- <input type='text' placeholder='1234 Main St' id='shipping_address' name='shipping_address'
+                                    class='form-control' /> -->
+                            <label for="shipping_address" class="">Prénom</label>
+
+                            {{ form.prenom }}
+                        </div>
+
+                        <div class="md-form mb-2">
                             <!-- <input type='text' placeholder='1234 Main St' id='shipping_address' name='shipping_address'
                                     class='form-control' /> -->
                             <label for="shipping_address" class="">Email</label>
@@ -36,28 +36,28 @@
                             {{ form.email }}
                         </div>
 
-                        <div class="md-form mb-5">
+                        <div class="md-form mb-2">
                             <!-- <input type='text' placeholder='1234 Main St' id='shipping_address' name='shipping_address'
                                 class='form-control' /> -->
                             <label for="shipping_address" class="">Téléphone</label>
                             {{ form.phone }}
                         </div>
 
-                        <div class="md-form mb-5">
+                        <div class="md-form mb-2">
                             <!-- <input type='text' placeholder='Apartment or suite' id='shipping_address2'
                                 name='shipping_address2' class='form-control' /> -->
                             <label for="shipping_address2" class="">Adresse</label>
                             {{ form.adresse }}
                         </div>
 
-                        <div class="md-form mb-5">
+                        <div class="md-form mb-2">
                             <!-- <input type='text' placeholder='Apartment or suite' id='shipping_address2'
                                     name='shipping_address2' class='form-control' /> -->
                             <label for="shipping_address2" class="">Code postal</label>
                             {{ form.code_postal }}
                         </div>
 
-                        <div class="md-form mb-5">
+                        <div class="md-form mb-2">
                             <!-- <input type='text' placeholder='Apartment or suite' id='shipping_address2'
                                         name='shipping_address2' class='form-control' /> -->
                             <label for="shipping_address2" class="">Pays</label>
@@ -77,6 +77,16 @@
                             {% endfor %}
                         </div>
 
+                        <h3>MOdalités de livraison</h3>
+                        <div class="row">
+                            <div class="col">
+
+                                {{ form.datetime_field }}
+
+
+                            </div>
+                        </div>
+
                         <hr class="mb-4">
                         <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
 
@@ -85,7 +95,9 @@
                 </div>
 
             </div>
-
+            <div class="col-md-4 mb-4">
+                {% include 'order-snippet.html' %}
+            </div>
 
         </div>
 
