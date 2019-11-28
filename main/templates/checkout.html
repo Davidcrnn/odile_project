@@ -11,23 +11,23 @@
                         {% csrf_token %}
 
                         <h3>Informations personnelles</h3>
-                        <div class="row">
 
-                            <div class="md-form mb-5">
-                                <!-- <input type='text' placeholder='1234 Main St' id='shipping_address' name='shipping_address'
+
+                        <div class="md-form mb-5">
+                            <!-- <input type='text' placeholder='1234 Main St' id='shipping_address' name='shipping_address'
                                     class='form-control' /> -->
-                                <label for="shipping_address" class="">Nom</label>
-                                {{ form.name }}
-                            </div>
-
-                            <div class="md-form mb-5">
-                                <!-- <input type='text' placeholder='1234 Main St' id='shipping_address' name='shipping_address'
-                                    class='form-control' /> -->
-                                <label for="shipping_address" class="">Prénom</label>
-
-                                {{ form.prenom }}
-                            </div>
+                            <label for="shipping_address" class="">Nom</label>
+                            {{ form.name }}
                         </div>
+
+                        <div class="md-form mb-5">
+                            <!-- <input type='text' placeholder='1234 Main St' id='shipping_address' name='shipping_address'
+                                    class='form-control' /> -->
+                            <label for="shipping_address" class="">Prénom</label>
+
+                            {{ form.prenom }}
+                        </div>
+
                         <div class="md-form mb-5">
                             <!-- <input type='text' placeholder='1234 Main St' id='shipping_address' name='shipping_address'
                                     class='form-control' /> -->
@@ -77,6 +77,13 @@
                             {% endfor %}
                         </div>
 
+                        <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                            {{ form.datetime_field }}
+                            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+
                         <hr class="mb-4">
                         <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
 
@@ -95,5 +102,11 @@
 {% endblock content %}
 
 {% block extra_scripts %}
-
+<script>
+    $(document).ready(function () {
+        $("#datetimepicker1").datepicker({
+            format: 'DD/MM/YYYY HH:mm',
+        });
+    });
+</script>
 {% endblock extra_scripts %}
