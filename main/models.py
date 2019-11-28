@@ -1,11 +1,12 @@
 from django.db import models
 from django.conf import settings
 from django.urls import reverse
+from django_countries.fields import CountryField
 
 
 class Product(models.Model):
     name = models.CharField(max_length=50)
-    price = models.FloatField()
+    price = models.FloatField(verbose_name='Prix')
     image = models.ImageField(blank=True, null=True)
     description = models.TextField()
     slug = models.SlugField()
@@ -41,7 +42,18 @@ class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
     products = models.ManyToManyField(OrderProduct)
+    ref_code = models.CharField(max_length=20)
+    payment = models.ForeignKey(
+        'Payment', on_delete=models.SET_NULL, blank=True, null=True)
+    information = models.ForeignKey(
+        'Info', on_delete=models.SET_NULL, blank=True, null=True)
     ordered = models.BooleanField(default=False)
+    coupon = models.ForeignKey(
+        'Coupon', on_delete=models.SET_NULL, blank=True, null=True)
+    is_delivered = models.BooleanField(default=False)
+    received = models.BooleanField(default=False)
+    refund_requested = models.BooleanField(default=False)
+    refund_granted = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username
@@ -50,4 +62,52 @@ class Order(models.Model):
         total = 0
         for order_product in self.products.all():
             total += order_product.get_total_product_price()
+        if self.coupon:
+            total -= self.coupon.amount
         return total
+
+
+class Payment(models.Model):
+    stripe_charge_id = models.CharField(max_length=50)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.SET_NULL, blank=True, null=True)
+    amount = models.FloatField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username
+
+
+class Coupon(models.Model):
+    code = models.CharField(max_length=15)
+    amount = models.FloatField()
+
+    def __str__(self):
+        return self.code
+
+
+class Refund(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    reason = models.TextField()
+    accepted = models.BooleanField(default=False)
+    email = models.EmailField()
+
+    def __str__(self):
+        return f"{self.pk}"
+
+
+class Info(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
+    name = models.CharField(max_length=30)
+    prenom = models.CharField(max_length=30)
+    phone = models.IntegerField()
+    email = models.EmailField()
+    adresse = models.CharField(max_length=60)
+    code_postal = models.IntegerField()
+    pays = CountryField(multiple=False)
+    # TODO
+    # datetime_field
+
+    def __str__(self):
+        return self.user.username

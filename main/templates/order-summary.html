@@ -25,7 +25,7 @@
                         <a href="{% url 'remove-single-product-from-cart' order_product.product.slug %}">
                             <i class="fas fa-minus mr-2"></i></a>
                         {{ order_product.quantity }}
-                        <a href="{% url 'add-to-cart' order_product.product.slug %}"><i
+                        <a href="{% url 'add-single-item-to-cart' order_product.product.slug %}"><i
                                 class="fas fa-plus ml-2"></i></a>
                     </td>
                     <td>{{ order_product.get_total_product_price}}€ <a style='color: red;'
@@ -45,6 +45,13 @@
                     </td>
                 </tr>
                 {% endfor %}
+
+                {% if object.coupon %}
+                <tr>
+                    <td colspan="4">Coupon</td>
+                    <td> - {{ object.coupon.amount}}€</td>
+                </tr>
+                {% endif %}
 
                 {% if object.get_total %}
 

@@ -68,6 +68,37 @@ def add_to_cart(request, slug):
             messages.info(
                 request, 'La quantité du produit a été ajouté au panier')
             return redirect("products")
+<<<<<<< HEAD
+=======
+        else:
+            messages.info(request, 'Le produit a été ajouté au panier')
+            order.products.add(order_product)
+            return redirect("products")
+    else:
+        order = Order.objects.create(user=request.user)
+        order.products.add(order_product)
+        messages.info(request, 'Le produit a été ajouté au panier')
+    return redirect("products")
+
+
+@login_required
+def add_single_item_to_cart(request, slug):
+    product = get_object_or_404(Product, slug=slug)
+    order_product, created = OrderProduct.objects.get_or_create(
+        product=product,
+        user=request.user,
+        ordered=False
+    )
+    order_qs = Order.objects.filter(user=request.user, ordered=False)
+    if order_qs.exists():
+        order = order_qs[0]
+        if order.products.filter(product__slug=product.slug).exists():
+            order_product.quantity += 1
+            order_product.save()
+            messages.info(
+                request, 'La quantité du produit a été ajouté au panier')
+            return redirect("order-summary")
+>>>>>>> 91a892a15854aad245a1b273e76c819036ec1a66
         else:
             messages.info(request, 'Le produit a été ajouté au panier')
             order.products.add(order_product)
@@ -257,6 +288,7 @@ class PaymentView(View):
             # (maybe you changed API keys recently)
             messages.warning(self.request, "Not authenticated")
             return redirect("/")
+<<<<<<< HEAD
 
         except stripe.error.APIConnectionError as e:
             # Network communication with Stripe failed
@@ -288,6 +320,39 @@ def get_coupon(request, code):
 
 class AddCouponView(View):
 
+=======
+
+        except stripe.error.APIConnectionError as e:
+            # Network communication with Stripe failed
+            messages.warning(self.request, "Network error")
+            return redirect("/")
+
+        except stripe.error.StripeError as e:
+            # Display a very generic error to the user, and maybe send
+            # yourself an email
+            messages.warning(
+                self.request, "Something went wrong. You were not charged. Please try again.")
+            return redirect("/")
+
+        except Exception as e:
+            # send an email to ourselves
+            messages.warning(
+                self.request, "A serious error occurred. We have been notifed.")
+            return redirect("/")
+
+
+def get_coupon(request, code):
+    try:
+        coupon = Coupon.objects.get(code=code)
+        return coupon
+    except ObjectDoesNotExist:
+        messages.info(request, "Ce code promo n'existe pas")
+        return redirect('checkout')
+
+
+class AddCouponView(View):
+
+>>>>>>> 91a892a15854aad245a1b273e76c819036ec1a66
     def post(self, *args, **kwargs):
         form = CouponForm(self.request.POST or None)
         if form.is_valid():
