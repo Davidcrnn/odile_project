@@ -14,7 +14,7 @@
         <div class="col-xs-12 col-md-7">
             <div class="product-detail-text">
                 <h2>{{ object.name}}</h2>
-                <p>{{ object.description }} </p>
+                <p>{{ object.description|safe|linebreaks }} </p>
                 <p>{{ object.price }} </p>
                 <a href="{{ object.get_add_to_cart_url }}">Ajouter au panier</a>
                 <a href="{{ object.get_remove_from_cart_url }}">Supprimer du panier</a>

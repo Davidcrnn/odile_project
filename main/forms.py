@@ -1,6 +1,7 @@
 from django import forms
 from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
+from tempus_dominus.widgets import DatePicker, TimePicker, DateTimePicker
 
 PAYMENT_CHOICES = (
     ('S', 'Stripe'),
@@ -41,12 +42,29 @@ class CheckoutForm(forms.Form):
     payment_option = forms.ChoiceField(
         widget=forms.RadioSelect, choices=PAYMENT_CHOICES)
 
+    datetime_field = forms.DateTimeField(
+        widget=DateTimePicker(
+            options={
+                'useCurrent': True,
+                'collapse': False,
 
-class DeliveryForm(forms.Form):
-    date = forms.DateTimeField(
-        input_formats=['%d/%m/%Y %H:%M'],
-        widget=forms.DateTimeInput(attrs={
-            'class': 'form-control datetimepicker-input',
-            'data-target': '#datetimepicker1'
-        })
+            },
+            attrs={
+                'append': 'fa fa-calendar',
+                'icon_toggle': True,
+            }
+        ),
     )
+
+
+class CouponForm(forms.Form):
+    code = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Promo code',
+    }))
+
+
+class RefundForm(forms.Form):
+    ref_code = forms.CharField()
+    email = forms.EmailField()
+    message = forms.CharField(widget=forms.Textarea)
