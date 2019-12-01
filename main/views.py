@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView, ListView, DetailView, View
 from .forms import CheckoutForm, CouponForm, RefundForm
-from .models import Product, OrderProduct, Order, Payment, Coupon, Refund
+from .models import Product, OrderProduct, Order, Payment, Coupon, Refund, Info
 # Create your views here.
 import random
 import string
@@ -16,6 +16,14 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 def create_ref_code():
     return ''.join(random.choices(string.ascii_lowercase + string.digits, k=20))
+
+
+def is_valid_form(values):
+    valid = True
+    for field in values:
+        if field == '':
+            valid = False
+    return valid
 
 
 class HomePageView(TemplateView):
@@ -67,9 +75,7 @@ def add_to_cart(request, slug):
             order_product.save()
             messages.info(
                 request, 'La quantité du produit a été ajouté au panier')
-            return redirect("products")
-<<<<<<< HEAD
-=======
+            return redirect("order-summary")
         else:
             messages.info(request, 'Le produit a été ajouté au panier')
             order.products.add(order_product)
@@ -98,44 +104,15 @@ def add_single_item_to_cart(request, slug):
             messages.info(
                 request, 'La quantité du produit a été ajouté au panier')
             return redirect("order-summary")
->>>>>>> 91a892a15854aad245a1b273e76c819036ec1a66
         else:
             messages.info(request, 'Le produit a été ajouté au panier')
             order.products.add(order_product)
-            return redirect("products")
+            return redirect("order-summary")
     else:
         order = Order.objects.create(user=request.user)
         order.products.add(order_product)
         messages.info(request, 'Le produit a été ajouté au panier')
-    return redirect("products")
-
-
-@login_required
-def add_single_item_to_cart(request, slug):
-    product = get_object_or_404(Product, slug=slug)
-    order_product, created = OrderProduct.objects.get_or_create(
-        product=product,
-        user=request.user,
-        ordered=False
-    )
-    order_qs = Order.objects.filter(user=request.user, ordered=False)
-    if order_qs.exists():
-        order = order_qs[0]
-        if order.products.filter(product__slug=product.slug).exists():
-            order_product.quantity += 1
-            order_product.save()
-            messages.info(
-                request, 'La quantité du produit a été ajouté au panier')
-            return redirect("products")
-        else:
-            messages.info(request, 'Le produit a été ajouté au panier')
-            order.products.add(order_product)
-            return redirect("products")
-    else:
-        order = Order.objects.create(user=request.user)
-        order.products.add(order_product)
-        messages.info(request, 'Le produit a été ajouté au panier')
-    return redirect("products")
+    return redirect("order-summary")
 
 
 @login_required
@@ -206,25 +183,67 @@ class CheckoutView(View):
                 'DISPLAY_COUPON_FORM': True
             }
         except ObjectDoesNotExist:
+            messages.info(self.request, "You do not have an active order")
             return redirect('checkout')
 
         return render(self.request, "checkout.html", context)
 
     def post(self, *args, **kwargs):
         form = CheckoutForm(self.request.POST or None)
-        print(self.request.POST)
-        if form.is_valid():
-            print('Form valid')
-            messages.success(self.request, 'Prochaine étape')
+
+        try:
+            order = Order.objects.get(
+                user=self.request.user, ordered=False)
+            if form.is_valid():
+                print('Form valid')
+                name = form.cleaned_data.get('name')
+                prenom = form.cleaned_data.get('prenom')
+                phone = form.cleaned_data.get('phone')
+                adresse = form.cleaned_data.get('adresse')
+                code_postal = form.cleaned_data.get('code_postal')
+                email = form.cleaned_data.get('email')
+                pays = form.cleaned_data.get('pays')
+
+                if is_valid_form([name, prenom, adresse]):
+                    adresse_info = Info(
+                        user=self.request.user,
+                        name=name,
+                        prenom=prenom,
+                        pays=pays,
+                        adresse=adresse,
+                        code_postal=code_postal,
+                        phone=phone,
+                        email=email
+                    )
+                    adresse_info.save()
+
+                    order.information = adresse_info
+                    order.save()
+            # information = Info()
+            # information.name = name
+            # information.prenom = prenom
+            # information.email = email
+            # information.phone = phone
+            # information.code_postal = code_postal
+            # information.adresse = adresse
+            # information.pays = pays
+            # information.save()
+            # print(information)
+            messages.info(
+                self.request, 'les informations ont bien été prises en compte')
             return redirect('payment')
-        messages.warning(self.request, "Failed checkout")
-        return redirect("order-summary")
+
+        except ObjectDoesNotExist:
+            messages.info(self.request, 'This order does not exist.')
+            return redirect('request-refund')
 
 
 class PaymentView(View):
     def get(self, *args, **kwargs):
         order = Order.objects.get(user=self.request.user, ordered=False)
+        print(order.information)
         if order.information:
+
             context = {
                 'order': order,
                 'DISPLAY_COUPON_FORM': False
@@ -244,7 +263,8 @@ class PaymentView(View):
             charge = stripe.Charge.create(
                 amount=int(amount * 100),
                 currency='eur',
-                source='tok_visa',  # replace by token in prod
+                # replace by token in prod 'tok_visa'
+                source=self.request.POST.get('stripeToken'),
             )
 
             payment = Payment()
@@ -262,6 +282,7 @@ class PaymentView(View):
             order.payment = payment
             order.ref_code = create_ref_code()
             order.save()
+            r = order.products.remove()
 
             messages.success(self.request, "Your order was successful!")
             return redirect("/")
@@ -288,7 +309,6 @@ class PaymentView(View):
             # (maybe you changed API keys recently)
             messages.warning(self.request, "Not authenticated")
             return redirect("/")
-<<<<<<< HEAD
 
         except stripe.error.APIConnectionError as e:
             # Network communication with Stripe failed
@@ -320,39 +340,6 @@ def get_coupon(request, code):
 
 class AddCouponView(View):
 
-=======
-
-        except stripe.error.APIConnectionError as e:
-            # Network communication with Stripe failed
-            messages.warning(self.request, "Network error")
-            return redirect("/")
-
-        except stripe.error.StripeError as e:
-            # Display a very generic error to the user, and maybe send
-            # yourself an email
-            messages.warning(
-                self.request, "Something went wrong. You were not charged. Please try again.")
-            return redirect("/")
-
-        except Exception as e:
-            # send an email to ourselves
-            messages.warning(
-                self.request, "A serious error occurred. We have been notifed.")
-            return redirect("/")
-
-
-def get_coupon(request, code):
-    try:
-        coupon = Coupon.objects.get(code=code)
-        return coupon
-    except ObjectDoesNotExist:
-        messages.info(request, "Ce code promo n'existe pas")
-        return redirect('checkout')
-
-
-class AddCouponView(View):
-
->>>>>>> 91a892a15854aad245a1b273e76c819036ec1a66
     def post(self, *args, **kwargs):
         form = CouponForm(self.request.POST or None)
         if form.is_valid():
