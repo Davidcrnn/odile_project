@@ -13,97 +13,83 @@
                         <h3>Informations personnelles</h3>
 
 
-                        <<<<<<< HEAD <div class="md-form mb-5">
-                            =======
-                            <div class="md-form mb-2">
-                                >>>>>>> 91a892a15854aad245a1b273e76c819036ec1a66
-                                <!-- <input type='text' placeholder='1234 Main St' id='shipping_address' name='shipping_address'
+                        <div class="md-form mb-2">
+                            <!-- <input type='text' placeholder='1234 Main St' id='shipping_address' name='shipping_address'
                                     class='form-control' /> -->
-                                <label for="shipping_address" class="">Nom</label>
-                                {{ form.name }}
-                            </div>
+                            <label for="shipping_address" class="">Nom</label>
+                            {{ form.name }}
+                        </div>
 
-                            <<<<<<< HEAD <div class="md-form mb-5">
-                                =======
-                                <div class="md-form mb-2">
-                                    >>>>>>> 91a892a15854aad245a1b273e76c819036ec1a66
-                                    <!-- <input type='text' placeholder='1234 Main St' id='shipping_address' name='shipping_address'
+                        <div class="md-form mb-2">
+                            <!-- <input type='text' placeholder='1234 Main St' id='shipping_address' name='shipping_address'
                                     class='form-control' /> -->
-                                    <label for="shipping_address" class="">Prénom</label>
+                            <label for="shipping_address" class="">Prénom</label>
 
-                                    {{ form.prenom }}
-                                </div>
+                            {{ form.prenom }}
+                        </div>
 
-                                <<<<<<< HEAD <div class="md-form mb-5">
-                                    =======
-                                    <div class="md-form mb-2">
-                                        >>>>>>> 91a892a15854aad245a1b273e76c819036ec1a66
-                                        <!-- <input type='text' placeholder='1234 Main St' id='shipping_address' name='shipping_address'
+                        <div class="md-form mb-2">
+                            <!-- <input type='text' placeholder='1234 Main St' id='shipping_address' name='shipping_address'
                                     class='form-control' /> -->
-                                        <label for="shipping_address" class="">Email</label>
+                            <label for="shipping_address" class="">Email</label>
 
-                                        {{ form.email }}
-                                    </div>
+                            {{ form.email }}
+                        </div>
 
-                                    <div class="md-form mb-2">
-                                        <!-- <input type='text' placeholder='1234 Main St' id='shipping_address' name='shipping_address'
+                        <div class="md-form mb-2">
+                            <!-- <input type='text' placeholder='1234 Main St' id='shipping_address' name='shipping_address'
                                 class='form-control' /> -->
-                                        <label for="shipping_address" class="">Téléphone</label>
-                                        {{ form.phone }}
-                                    </div>
+                            <label for="shipping_address" class="">Téléphone</label>
+                            {{ form.phone }}
+                        </div>
 
-                                    <div class="md-form mb-2">
-                                        <!-- <input type='text' placeholder='Apartment or suite' id='shipping_address2'
+                        <div class="md-form mb-2">
+                            <!-- <input type='text' placeholder='Apartment or suite' id='shipping_address2'
                                 name='shipping_address2' class='form-control' /> -->
-                                        <label for="shipping_address2" class="">Adresse</label>
-                                        {{ form.adresse }}
-                                    </div>
+                            <label for="shipping_address2" class="">Adresse</label>
+                            {{ form.adresse }}
+                        </div>
 
-                                    <div class="md-form mb-2">
-                                        <!-- <input type='text' placeholder='Apartment or suite' id='shipping_address2'
+                        <div class="md-form mb-2">
+                            <!-- <input type='text' placeholder='Apartment or suite' id='shipping_address2'
                                     name='shipping_address2' class='form-control' /> -->
-                                        <label for="shipping_address2" class="">Code postal</label>
-                                        {{ form.code_postal }}
-                                    </div>
+                            <label for="shipping_address2" class="">Code postal</label>
+                            {{ form.code_postal }}
+                        </div>
 
-                                    <div class="md-form mb-2">
-                                        <!-- <input type='text' placeholder='Apartment or suite' id='shipping_address2'
+                        <div class="md-form mb-2">
+                            <!-- <input type='text' placeholder='Apartment or suite' id='shipping_address2'
                                         name='shipping_address2' class='form-control' /> -->
-                                        <label for="shipping_address2" class="">Pays</label>
-                                        {{ form.pays }}
-                                    </div>
-                                    <hr>
+                            <label for="shipping_address2" class="">Pays</label>
+                            {{ form.pays }}
+                        </div>
+                        <hr>
 
-                                    <h3>Payment option</h3>
+                        <h3>Payment option</h3>
 
-                                    <div class="d-block my-3">
-                                        {% for value, name in form.fields.payment_option.choices %}
-                                        <div class="custom-control custom-radio">
-                                            <input id="{{ name }}" name="payment_option" value="{{ value }}"
-                                                type="radio" class="custom-control-input" required>
-                                            <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
-                                        </div>
-                                        {% endfor %}
-                                    </div>
+                        <div class="d-block my-3">
+                            {% for value, name in form.fields.payment_option.choices %}
+                            <div class="custom-control custom-radio">
+                                <input id="{{ name }}" name="payment_option" value="{{ value }}" type="radio"
+                                    class="custom-control-input" required>
+                                <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
+                            </div>
+                            {% endfor %}
+                        </div>
 
-                                    <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                                        {{ form.datetime_field }}
-                                        <div class="input-group-append" data-target="#datetimepicker1"
-                                            data-toggle="datetimepicker">
-                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                            <h3>MOdalités de livraison</h3>
-                                            <div class="row">
-                                                <div class="col">
+                        <h3>MOdalités de livraison</h3>
+                        <div class="row">
+                            <div class="col">
 
-                                                    {{ form.datetime_field }}
+                                {{ form.datetime_field }}
 
 
-                                                </div>
-                                            </div>
+                            </div>
+                        </div>
 
-                                            <hr class="mb-4">
-                                            <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to
-                                                checkout</button>
+                        <hr class="mb-4">
+                        <button class="btn btn-primary btn-lg btn-block"
+                            type="submit"><strong>{{ order.get_total }}€</strong>Continue to checkout</button>
 
                     </form>
 
@@ -122,11 +108,5 @@
 {% endblock content %}
 
 {% block extra_scripts %}
-<script>
-    $(document).ready(function () {
-        $("#datetimepicker1").datepicker({
-            format: 'DD/MM/YYYY HH:mm',
-        });
-    });
-</script>
+
 {% endblock extra_scripts %}
