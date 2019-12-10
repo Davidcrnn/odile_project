@@ -2,16 +2,16 @@
 
 {% block content  %}
 <div class="container">
-    <h1>Order Summary</h1>
-    <div class="table-responsive">
+    <div class="table-responsive panier-cart">
+        <h1 class="text-center">Votre panier repas </h1>
         <table class="table">
-            <thead>
+            <thead class="cart-row-1">
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Product Name</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Total item price</th>
+                    <th scope="col">Repas</th>
+                    <th scope="col">Prix</th>
+                    <th scope="col">Quantité</th>
+                    <th scope="col">Prix Total</th>
 
                 </tr>
             </thead>
@@ -22,13 +22,15 @@
                     <td>{{ order_product.product.name }} </td>
                     <td>{{ order_product.product.price }} </td>
                     <td>
-                        <a href="{% url 'remove-single-product-from-cart' order_product.product.slug %}">
+                        <a style='color: #165361;'
+                            href="{% url 'remove-single-product-from-cart' order_product.product.slug %}">
                             <i class="fas fa-minus mr-2"></i></a>
                         {{ order_product.quantity }}
-                        <a href="{% url 'add-single-item-to-cart' order_product.product.slug %}"><i
+                        <a style='color: #165361;'
+                            href="{% url 'add-single-item-to-cart' order_product.product.slug %}"><i
                                 class="fas fa-plus ml-2"></i></a>
                     </td>
-                    <td>{{ order_product.get_total_product_price}}€ <a style='color: red;'
+                    <td>{{ order_product.get_total_product_price}}€ <a style='color: #165361;'
                             href="{% url 'remove-from-cart' order_product.product.slug %}">
                             <i class="fas fa-trash float-right"></i>
                         </a></td>
@@ -41,7 +43,7 @@
                 </tr>
                 <tr>
                     <td colspan="5">
-                        <a class='btn btn-primary float-right' href="{% url 'products'%}">Continue shopping</a>
+                        <a class='btn-annuler float-right' href="{% url 'products'%}">Continue shopping</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -63,8 +65,8 @@
 
                 <tr>
                     <td colspan="5">
-                        <a class='btn btn-warning float-right ml-2' href='/checkout/'>Proceed to checkout</a>
-                        <a class='btn btn-primary float-right' href="{% url 'products'%}">Continue shopping</a>
+                        <a class='btn-valider float-right ml-2' href='/checkout/'>Proceed to checkout</a>
+                        <a class='btn-annuler float-right' href="{% url 'products'%}">Continue shopping</a>
                     </td>
                 </tr>
                 {% endif %}

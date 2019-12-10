@@ -13,6 +13,28 @@ SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+if DEBUG:
+    INTERNAL_IPS = ('127.0.0.1', 'localhost',)
+
+    DEBUG_TOOLBAR_PANELS = [
+        'debug_toolbar.panels.versions.VersionsPanel',
+        'debug_toolbar.panels.timer.TimerPanel',
+        'debug_toolbar.panels.settings.SettingsPanel',
+        'debug_toolbar.panels.headers.HeadersPanel',
+        'debug_toolbar.panels.request.RequestPanel',
+        'debug_toolbar.panels.sql.SQLPanel',
+        'debug_toolbar.panels.staticfiles.StaticFilesPanel',
+        'debug_toolbar.panels.templates.TemplatesPanel',
+        'debug_toolbar.panels.cache.CachePanel',
+        'debug_toolbar.panels.signals.SignalsPanel',
+        'debug_toolbar.panels.logging.LoggingPanel',
+        'debug_toolbar.panels.redirects.RedirectsPanel',
+    ]
+
+    DEBUG_TOOLBAR_CONFIG = {
+        'INTERCEPT_REDIRECTS': False,
+    }
+
 
 ALLOWED_HOSTS = []
 
@@ -35,6 +57,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'crispy_forms',
     'django_countries',
+    'debug_toolbar',
     'tempus_dominus'
 ]
 
@@ -51,6 +74,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'odile_project.urls'
@@ -149,7 +173,7 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 
-# ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_LOGOUT_ON_GET = True
 # ACCOUNT_EMAIL_REQUIRED = True
 # ACCOUNT_AUTHENTICATION_METHOD = "email"
 # ACCOUNT_USERNAME_REQUIRED = False
@@ -160,3 +184,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 STRIPE_PUBLIC_KEY = config('STRIPE_LIVE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = config('STRIPE_LIVE_SECRET_KEY')
+
+# ACCOUNT_FORMS = {
+#     'signup': 'odile_project.forms.CustomSignupForm',
+# }
