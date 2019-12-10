@@ -1,0 +1,56 @@
+<div class="col-xs-12 col-md-6 mb-3">
+    <a class="btn-product-description" data-toggle="modal" data-target="#exampleModal{{ product.id}}">
+        <div class="carte all {{ product.category}}">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="product-card-text">
+                        <h5>{{ product.name }} </h5>
+                        <p> {{ product.description|truncatewords:6 }}</p>
+                        <span class="price">{{ product.price }}€</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="product-card">
+                        <div class="product-card-image" style="background-image: url('{{ product.image.url }}');">
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </a>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal{{ product.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content product-card-modal">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{ product.name|upper}} </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body product-card-text-modal">
+                <div class="product-card-image-modal" style="background-image: url('{{ product.image.url }}');">
+
+                </div>
+                <p>{{ product.description|safe }}</p>
+                <span>{{ product.price }}€</span>
+
+            </div>
+            <div class="modal-footer modal-btn">
+                <a class='btn-annuler' data-dismiss="modal">
+                    Annuler
+                </a>
+                <a class='btn-valider' href="{{ product.get_add_to_cart_url }}">Ajouter au panier
+                    <span>(+{{ product.price }}€)</span></a>
+
+            </div>
+        </div>
+    </div>
+</div>

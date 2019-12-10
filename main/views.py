@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils import timezone
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView, ListView, DetailView, View
 from .forms import CheckoutForm, CouponForm, RefundForm
@@ -34,6 +35,21 @@ class ProductListView(ListView):
     template_name = 'product-list.html'
     model = Product
     context_object_name = 'products'
+
+    # def get(self, *args, **kwargs):
+    #     if self.request.user:
+    #         order = Order.objects.get_or_create(
+    #             user=self.request.user, ordered=False)
+    #         print(order)
+    #         if order:
+    #             products = Product.objects.all()
+    #             context = {
+    #                 'order': order,
+    #                 'products': products,
+    #                 'couponform': CouponForm(),
+    #                 'DISPLAY_COUPON_FORM': True
+    #             }
+    #             return render(self.request, 'product-list.html', context)
 
 
 class ProductDetailView(DetailView):
@@ -81,7 +97,9 @@ def add_to_cart(request, slug):
             order.products.add(order_product)
             return redirect("products")
     else:
-        order = Order.objects.create(user=request.user)
+        ordered_date = timezone.now()
+        order = Order.objects.create(
+            user=request.user)
         order.products.add(order_product)
         messages.info(request, 'Le produit a été ajouté au panier')
     return redirect("products")
@@ -219,16 +237,7 @@ class CheckoutView(View):
 
                     order.information = adresse_info
                     order.save()
-            # information = Info()
-            # information.name = name
-            # information.prenom = prenom
-            # information.email = email
-            # information.phone = phone
-            # information.code_postal = code_postal
-            # information.adresse = adresse
-            # information.pays = pays
-            # information.save()
-            # print(information)
+
             messages.info(
                 self.request, 'les informations ont bien été prises en compte')
             return redirect('payment')
@@ -257,6 +266,7 @@ class PaymentView(View):
     def post(self, *args, **kwargs):
         order = Order.objects.get(user=self.request.user, ordered=False)
         token = self.request.POST.get('stripeToken')
+        print(token)
         amount = int(order.get_total())
 
         try:
@@ -264,7 +274,7 @@ class PaymentView(View):
                 amount=int(amount * 100),
                 currency='eur',
                 # replace by token in prod 'tok_visa'
-                source=self.request.POST.get('stripeToken'),
+                source='tok_visa',
             )
 
             payment = Payment()
@@ -282,7 +292,6 @@ class PaymentView(View):
             order.payment = payment
             order.ref_code = create_ref_code()
             order.save()
-            r = order.products.remove()
 
             messages.success(self.request, "Your order was successful!")
             return redirect("/")

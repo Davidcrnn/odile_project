@@ -4,12 +4,22 @@ from django.urls import reverse
 from django_countries.fields import CountryField
 
 
+PRODUCT_CATEGORIES = (
+    ('Entrées', 'Entrées'),
+    ('Boissons', 'Boissons'),
+    ('Plats', 'Plats'),
+    ('Desserts', 'Desserts'),
+)
+
+
 class Product(models.Model):
     name = models.CharField(max_length=50)
     price = models.FloatField(verbose_name='Prix')
     image = models.ImageField(blank=True, null=True)
     description = models.TextField()
     slug = models.SlugField()
+    category = models.CharField(
+        max_length=32, choices=PRODUCT_CATEGORIES, default='Plats')
 
     def __str__(self):
         return self.name
