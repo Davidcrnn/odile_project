@@ -18,6 +18,7 @@
                 <li><a href="#3" class="js-anchor-link filter-plats">Plats</a></li>
                 <li><a href="#4" class="js-anchor-link filter-desserts">Desserts</a></li>
                 <li><a href="#5" class="js-anchor-link filter-boissons">Boissons</a></li>
+                <li><a href="#6" class="js-anchor-link filter-accessoires">Accessoires</a></li>
             </ul>
         </div>
     </div>
@@ -63,6 +64,16 @@
                 <div class="row">
                     {% for product in products %}
                     {% if product.category == 'Boissons' %}
+                    {% include 'product-modal.html' %}
+                    {% endif %}
+
+                    {% endfor %}
+                </div>
+                <h1 id="6" class="js-anchor-link">Accessoires <img src="{% static '../static/images/boisson.svg' %}"
+                        alt="" style='height: 30px;'></h1>
+                <div class="row">
+                    {% for product in products %}
+                    {% if product.category == 'Accessoires' %}
                     {% include 'product-modal.html' %}
                     {% endif %}
 

@@ -41,6 +41,18 @@
                 </div>
                 <p>{{ product.description|safe }}</p>
                 <span>{{ product.price }}€</span>
+                <!-- <div class="modal-accessoires">
+                    <div class="row">
+                        {% for product in products %}
+                        {% if product.category == 'Accessoires' %}
+                        <div class="product-card-image"
+                            style="background-image: url('{{ product.image.url }}'); width: 50px"></div>
+                        <p>{{ product.name }}</p>
+                        {% endif %}
+                        {% endfor %}
+
+                    </div>
+                </div> -->
 
             </div>
             <div class="modal-footer modal-btn">

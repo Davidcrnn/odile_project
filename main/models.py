@@ -9,6 +9,7 @@ PRODUCT_CATEGORIES = (
     ('Boissons', 'Boissons'),
     ('Plats', 'Plats'),
     ('Desserts', 'Desserts'),
+    ('Accessoires', 'Accessoires'),
 )
 
 
