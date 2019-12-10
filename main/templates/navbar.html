@@ -1,25 +1,41 @@
 {% load cart_template_tags %}
 {% load static %}
-<div class="nav-container">
+<div class="nav-container" id="nav">
+    <div class="hamburger-navbar d-block d-sm-none">
+        <ul>
+            <li class="button_container" id="toggle">
+                <span class="top"></span>
+                <span class="middle"></span>
+                <span class="bottom"></span>
+            </li>
+        </ul>
+
+    </div>
     <div class="nav-logo">
         <a href="{% url 'home' %}">
             <img src="{% static '../static/images/logo-dej.svg' %}" alt="" style='height: 50px;'>
         </a>
     </div>
-    <div class="nav-link">
+    <div class="nav-link d-none d-md-block">
         <ul>
 
             <li><a href="">CONCEPT </a></li>
-            <li><a href="">NOS PRODUITS </a></li>
-            <li><a href="">VOTRE AVIS</a></li>
-            <li><a href="{% url 'products' %}">COMMANDE</a> </li>
+            <li><a href="{% url 'products' %}">COMMANDER</a> </li>
             <li><a href="">LIVRAISON </a></li>
-            <li><a href="">CONTACT </a></li>
+            <li class="dropdown">
+                <a href="" class="dropbtn">CONTACT <i class="fa fa-caret-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="#">Un avis ?</a>
+                    <a href="#">Un problème ?</a>
 
-            <li><a href="{% url 'order-summary' %}">MON PANIER
-
-                </a><span><img src="{% static '../static/images/panier.svg' %}" alt="" style='height: 20px;'> </span>
+                </div>
             </li>
+            <li><a href="{% url 'order-summary' %}">MON PANIER
+                </a><span><img src="{% static '../static/images/panier.svg' %}" alt="" style='height: 20px;'>
+                </span>
+            </li>
+
+
             <!-- <b class='count-cart'>{{ request.user|cart_product_count }}</b> -->
         </ul>
     </div>
@@ -33,3 +49,51 @@
         {% endif %}
     </div>
 </div>
+
+
+<div class="overlay" id="overlay">
+    <nav class="overlay-menu">
+        <ul>
+            <li>
+                <a href="">ACCUEIL</a>
+            </li>
+            <li>
+                <a href="">SERIES</a>
+            </li>
+            <li class="">
+                <a href="">CREATIONS
+                </a>
+            </li>
+            <li class="">
+                <a href="">BIOGRAPHIE</a>
+            </li>
+            <li class="">
+                <a href="">CONTACT</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+
+
+
+{% block extra_scripts %}
+
+<script>
+    $('#toggle').click(function () {
+        $(this).toggleClass('active');
+        $('#overlay').toggleClass('open');
+    });
+</script>
+
+<script>
+    $(window).on('scroll', function () {
+        if ($(window).scrollTop()) {
+            $('#nav').addClass('black');
+        } else {
+            $('#nav').removeClass('black');
+        }
+    })
+</script>
+
+{% endblock extra_scripts %}
