@@ -6,8 +6,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView, ListView, DetailView, View
-from .forms import CheckoutForm, CouponForm, RefundForm
-from .models import Product, OrderProduct, Order, Payment, Coupon, Refund, Info
+from .forms import CheckoutForm, CouponForm, RefundForm, NewsletterForm
+from .models import Product, OrderProduct, Order, Payment, Coupon, Refund, Info, Newsletter
 # Create your views here.
 import random
 import string
@@ -398,3 +398,17 @@ class RequestRefundView(View):
             except ObjectDoesNotExist:
                 messages.info(self.request, 'This order does not exist.')
                 return redirect('request-refund')
+
+
+def newsletter(request):
+    if request.method == 'POST':
+        form = NewsletterForm(request.POST)
+        if form.is_valid:
+            form.save()
+            print('Votre email est ajouté à la liste !')
+            return redirect('home')
+    else:
+        form = NewsletterForm()
+        context = {'form': form}
+        template = 'newsletter-snippet.html'
+        return render(request, template, context)

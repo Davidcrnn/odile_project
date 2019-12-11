@@ -2,6 +2,7 @@ from django import forms
 from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
 from tempus_dominus.widgets import DatePicker, TimePicker, DateTimePicker
+from .models import Newsletter
 # from allauth.account.forms import SignupForm
 
 PAYMENT_CHOICES = (
@@ -91,3 +92,9 @@ class RefundForm(forms.Form):
 #     }))
 
 #     password2 = forms.CharField(widget=forms.PasswordInput)
+
+class NewsletterForm(forms.ModelForm):
+
+    class Meta:
+        model = Newsletter
+        fields = ['email']

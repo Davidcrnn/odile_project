@@ -13,7 +13,9 @@ from .views import (
     PaymentView,
     AddCouponView,
     RequestRefundView,
-    add_single_item_to_cart
+    add_single_item_to_cart,
+    newsletter,
+
 )
 
 urlpatterns = [
@@ -32,6 +34,7 @@ urlpatterns = [
     path('payment/', PaymentView.as_view(), name='payment'),
     path('add-coupon/', AddCouponView.as_view(), name='add-coupon'),
     path('request-refund/', RequestRefundView.as_view(), name='request-refund'),
+    path('newsletter/', newsletter, name='newsletter')
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
