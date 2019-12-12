@@ -12,6 +12,24 @@ PRODUCT_CATEGORIES = (
     ('Accessoires', 'Accessoires'),
 )
 
+PRODUCT_ALLERGENES = (
+    ('Gluten', 'Gluten'),
+    ('Crustaces', 'Crustaces'),
+    ('Oeufs', 'Oeufs'),
+    ('Poissons', 'Poissons'),
+    ('Arachides', 'Arachides'),
+    ('Soja', 'Entrées'),
+    ('Lait', 'Lait'),
+    ('Fruits a coques', 'Fruits a coques'),
+    ('Celeri', 'Celeri'),
+    ('Moutarde', 'Moutarde'),
+    ('Graines de sesame', 'Graines de sesame'),
+    ('Sulfites', 'Sulfites'),
+    ('Lupin', 'Lupin'),
+    ('Mollusques', 'Mollusques'),
+
+)
+
 
 class Product(models.Model):
     name = models.CharField(max_length=50)
@@ -21,6 +39,10 @@ class Product(models.Model):
     slug = models.SlugField()
     category = models.CharField(
         max_length=32, choices=PRODUCT_CATEGORIES, default='Plats')
+    allergene = models.CharField(
+        max_length=32, choices=PRODUCT_ALLERGENES, blank=True, null=True)
+
+    quantité = models.IntegerField(default=1)
 
     def __str__(self):
         return self.name
@@ -33,6 +55,9 @@ class Product(models.Model):
 
     def get_remove_from_cart_url(self):
         return reverse('remove-from-cart', kwargs={'slug': self.slug})
+
+    # class Meta:
+    #     verbose_name = 'Produit'
 
 
 class OrderProduct(models.Model):
@@ -47,6 +72,9 @@ class OrderProduct(models.Model):
 
     def get_total_product_price(self):
         return self.quantity * self.product.price
+
+    # class Meta:
+    #     verbose_name = 'Commande - Produit'
 
 
 class Order(models.Model):
@@ -77,6 +105,9 @@ class Order(models.Model):
             total -= self.coupon.amount
         return total
 
+    # class Meta:
+    #     verbose_name = 'Commande'
+
 
 class Payment(models.Model):
     stripe_charge_id = models.CharField(max_length=50)
@@ -87,6 +118,9 @@ class Payment(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    # class Meta:
+    #     verbose_name = 'Paiement'
 
 
 class Coupon(models.Model):
@@ -128,8 +162,8 @@ class Newsletter(models.Model):
     email = models.EmailField()
     date_ajout = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        verbose_name = 'NewsLetter'
+    def __str__(self):
+        return self.email
 
-        def __str__(self):
-            return self.email
+    # class Meta:
+    #     verbose_name = 'NewsLetter'

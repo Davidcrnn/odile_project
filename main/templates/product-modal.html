@@ -39,29 +39,27 @@
                 <div class="product-card-image-modal" style="background-image: url('{{ product.image.url }}');">
 
                 </div>
+                <h4>Ingrédients : </h4>
                 <p>{{ product.description|safe }}</p>
-                <span>{{ product.price }}€</span>
-                <!-- <div class="modal-accessoires">
-                    <div class="row">
-                        {% for product in products %}
-                        {% if product.category == 'Accessoires' %}
-                        <div class="product-card-image"
-                            style="background-image: url('{{ product.image.url }}'); width: 50px"></div>
-                        <p>{{ product.name }}</p>
-                        {% endif %}
-                        {% endfor %}
+                <p>{{ product.price }}€</p>
+                {% if product.allergene is not None %}
+                <p>{{ product.allergene }}</p>
+                {% else %}
+                <p>Ce produit ne contient pas d'allergènes alimentaire</p>
+                {% endif %}
 
-                    </div>
-                </div> -->
 
             </div>
             <div class="modal-footer modal-btn">
                 <a class='btn-annuler' data-dismiss="modal">
                     Annuler
                 </a>
+                {% if request.user.is_authenticated %}
                 <a class='btn-valider' href="{{ product.get_add_to_cart_url }}">Ajouter au panier
                     <span>(+{{ product.price }}€)</span></a>
-
+                {% else %}
+                <a class='btn-connexion' href="{% url 'account_login' %} ">Connexion</a>
+                {% endif %}
             </div>
         </div>
     </div>

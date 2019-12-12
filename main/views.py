@@ -36,20 +36,25 @@ class ProductListView(ListView):
     model = Product
     context_object_name = 'products'
 
-    # def get(self, *args, **kwargs):
-    #     if self.request.user:
-    #         order = Order.objects.get_or_create(
-    #             user=self.request.user, ordered=False)
-    #         print(order)
-    #         if order:
-    #             products = Product.objects.all()
-    #             context = {
-    #                 'order': order,
-    #                 'products': products,
-    #                 'couponform': CouponForm(),
-    #                 'DISPLAY_COUPON_FORM': True
-    #             }
-    #             return render(self.request, 'product-list.html', context)
+    def get(self, *args, **kwargs):
+        products = Product.objects.all()
+
+        if self.request.user.is_authenticated:
+            order = Order.objects.get(
+                user=self.request.user, ordered=False)
+            print(order)
+            context = {
+                'order': order,
+                'products': products,
+                'couponform': CouponForm(),
+                'DISPLAY_COUPON_FORM': True
+            }
+            return render(self.request, 'product-list.html', context)
+        else:
+            context = {
+                'products': products
+            }
+            return render(self.request, 'product-list.html', context)
 
 
 class ProductDetailView(DetailView):
@@ -61,7 +66,6 @@ class ProductDetailView(DetailView):
 
 
 class OrderSummaryView(LoginRequiredMixin, View):
-    template_name = 'order-summary.html'
 
     def get(self, *args, **kwargs):
         try:
@@ -412,3 +416,9 @@ def newsletter(request):
         context = {'form': form}
         template = 'newsletter-snippet.html'
         return render(request, template, context)
+
+
+class OrderDash(ListView):
+    model = Order
+    context_object_name = 'orders'
+    template_name = 'order-list.html'
