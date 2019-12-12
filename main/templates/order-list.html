@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+
+    <h1>Toutes les commandes</h1>
+
+    <div class="row">
+        {% for order in orders %}
+        <div class="col-xs-12 col-md-6 border">
+            <p>{{ order.ref_code }}</p>
+            <p>{{ order.user }}</p>
+            <p>{{ order.payment.amount }}</p>
+            {% for orderitem in order.products.all  %}
+            <p>{{ orderitem }}</p>
+            {% endfor %}
+
+            {% for price in order.payment.all  %}
+            <p>{{ price.amount }}</p>
+            {% endfor %}
+
+
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}
