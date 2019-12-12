@@ -1,6 +1,33 @@
 {% extends "base.html" %}
 
+
+
 {% block content %}
+<style>
+    .swiper-container {
+        width: 100%;
+        height: 100%;
+    }
+
+    .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+    }
+</style>
 <div class="container">
 
     <h1>Toutes les commandes</h1>
@@ -21,7 +48,37 @@
 
 
         </div>
+
+
+
         {% endfor %}
+    </div>
+    <!-- Swiper -->
+    <div class="container-swipper" style='height: 150px'>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="https://picsum.photos/200/300" alt=""></div>
+                <div class="swiper-slide"><img src="https://picsum.photos/200/300" alt=""></div>
+                <div class="swiper-slide"><img src="https://picsum.photos/200/300" alt=""></div>
+                <div class="swiper-slide"><img src="https://picsum.photos/200/300" alt=""></div>
+                <div class="swiper-slide">Slide 5</div>
+
+            </div>
+            <!-- Add Scrollbar -->
+            <div class="swiper-scrollbar"></div>
+        </div>
+
     </div>
 </div>
 {% endblock content %}
+
+{% block extra_scripts %}
+<script>
+    var swiper = new Swiper('.swiper-container', {
+        slidesPerView: 3,
+        spaceBetween: 20,
+        freeMode: true,
+
+    });
+</script>
+{% endblock extra_scripts %}
