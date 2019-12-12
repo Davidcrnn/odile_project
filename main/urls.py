@@ -15,7 +15,9 @@ from .views import (
     RequestRefundView,
     add_single_item_to_cart,
     newsletter,
-    OrderDash
+    OrderDash,
+
+
 
 )
 
@@ -36,7 +38,8 @@ urlpatterns = [
     path('add-coupon/', AddCouponView.as_view(), name='add-coupon'),
     path('request-refund/', RequestRefundView.as_view(), name='request-refund'),
     path('newsletter/', newsletter, name='newsletter'),
-    path('order/', OrderDash.as_view(), name='order')
+    path('order/', OrderDash.as_view(), name='order'),
+
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

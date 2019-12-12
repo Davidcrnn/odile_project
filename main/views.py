@@ -8,6 +8,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView, ListView, DetailView, View
 from .forms import CheckoutForm, CouponForm, RefundForm, NewsletterForm
 from .models import Product, OrderProduct, Order, Payment, Coupon, Refund, Info, Newsletter
+from django.http import JsonResponse
+
 # Create your views here.
 import random
 import string
