@@ -39,14 +39,17 @@
                 <div class="product-card-image-modal" style="background-image: url('{{ product.image.url }}');">
 
                 </div>
-                <h4>Ingrédients : </h4>
-                <p>{{ product.description|safe }}</p>
-                <p>{{ product.price }}€</p>
-                {% if product.allergene is not None %}
-                <p>{{ product.allergene }}</p>
-                {% else %}
-                <p>Ce produit ne contient pas d'allergènes alimentaire</p>
-                {% endif %}
+                <div class="product-card-info-modal">
+
+                    <h4>Ingrédients : </h4>
+                    <h6>{{ product.description|safe }}</h6>
+                    {% if product.allergene is not None %}
+                    <p>Allergène : {{ product.allergene }}</p>
+                    {% else %}
+                    <p>Ce produit ne contient pas d'allergène alimentaire.</p>
+                    {% endif %}
+                    <b class="price-modal">{{ product.price }}€</b>
+                </div>
 
 
             </div>

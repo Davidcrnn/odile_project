@@ -1,4 +1,11 @@
+{% load static %}
 <div class="footer-container">
+    <div class="footer-logo">
+
+
+        <img src="{% static '../static/images/logo-dej.svg' %} " alt="" style='height: 100px;'>
+        <p>Livraison de panier repas </p>
+    </div>
     <div class="footer-nav">
         <h3>Navigation</h3>
         <p>Products</p>
@@ -11,8 +18,8 @@
         <p>Conditions générales de vente</p>
         <p>Admin</p>
     </div>
-
-    {% include 'newsletter-snippet.html' %}
+    <!-- 
+    {% include 'newsletter-snippet.html' %} -->
 </div>
 
 <!-- <div class="footer-credit">

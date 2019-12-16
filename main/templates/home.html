@@ -4,7 +4,9 @@
 
 {% block content %}
 <div class="home-banner">
+
     <div class="home-banner-text">
+
         <h1>Déjeuner sur l'eau</h1>
         <h5>Vous partez en mer pour la journée ? On s'occupe de vous livrer votre repas</h5>
         <a class="text-center mt-2" href="{% url 'products' %}"> <span><img
@@ -18,8 +20,8 @@
 <div class="container">
 
 
-    <div class="home-container home-container-concept">
-        <h1 data-aos="fade-left" data-aos-offset="0" data-aos-delay="5000" data-aos-duration="2000"
+    <div class=" js-anchor-link home-container home-container-concept">
+        <h1 id="concept" data-aos="fade-left" data-aos-offset="0" data-aos-delay="5000" data-aos-duration="2000"
             data-aos-easing="ease-in-out" data-aos-once="true" class="text-center">Notre Concept</h1>
         <div class="row">
             <div class="col-xs-12 col-md-5 ">
@@ -41,7 +43,7 @@
             </div>
         </div>
     </div>
-    <div class="home-container home-container-livraison">
+    <div id="livraison" class="js-anchor-link home-container home-container-livraison">
         <h1 data-aos="fade-right" data-aos-offset="0" data-aos-delay="5000" data-aos-duration="2000"
             data-aos-easing="ease-in-out" data-aos-once="true" class="text-center">Livraison</h1>
         <div class="row">
@@ -95,6 +97,19 @@
     </div>
 </div>
 
+
+<script>
+    $(function () {
+        $("#slider2").responsiveSlides({
+            auto: true,
+            pager: false,
+            nav: false,
+            speed: 2000,
+            timeout: 5000,
+            namespace: "transparent-btns"
+        });
+    });
+</script>
 <script>
     AOS.init();
 </script>
