@@ -1,6 +1,8 @@
-<div id='stickycart' class="col-md-12 mb-4 ">
+{% load static %}
+
+<div id='stickycart' class="col-md-12 mb-4 mt-5 ">
     <h4 class="d-flex justify-content-between align-items-center mb-3">
-        <span class="text-muted">Votre panier</span>
+        <span class="text-muted cart-header">Votre panier</span>
         <span class="badge badge-secondary badge-pill">{{ order.products.count }}</span>
     </h4>
     <ul class="list-group mb-3 z-depth-1">
@@ -28,9 +30,13 @@
 
         {% endif %}
         <li class="list-group-item d-flex justify-content-between">
-            <span>Total (USD)</span>
+            <span>Total (EUR)</span>
             <strong>{{ order.get_total }}€</strong>
         </li>
+        <a class='btn-valider float-right mt-2' href="{% url 'checkout' %}"><img
+                src="{% static '../static/images/valider.svg' %}" style="height: 20px; margin-bottom: 3px;"></img>
+            Valider la
+            commande</a>
     </ul>
 
     {% if DISPLAY_COUPON_FORM %}

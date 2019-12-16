@@ -19,11 +19,13 @@
     <div class="nav-link d-none d-md-block">
         <ul>
 
-            <li><a href="">CONCEPT </a></li>
+            <li><a href="home#concept" class="js-anchor-link filter-entrées">CONCEPT </a></li>
             <li><a href="{% url 'products' %}">COMMANDER</a> </li>
-            <li><a href="">LIVRAISON </a></li>
+            <li><a href="home/#livraison" class="js-anchor-link filter-entrées">LIVRAISON </a></li>
             <li class="dropdown">
-                <a href="" class="dropbtn">CONTACT <i class="fa fa-caret-down"></i></a>
+                <a href="" class="dropbtn"><span><img src="{% static '../static/images/phone.svg' %}"
+                            style="height: 20px; margin-bottom: 3px;"></img></span> CONTACT <i
+                        class="fa fa-caret-down"></i></a>
                 <div class="dropdown-content">
                     <a href="#">Un avis ?</a>
                     <a href="#">Un problème ?</a>
@@ -93,6 +95,20 @@
         } else {
             $('#nav').removeClass('black');
         }
+    })
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('.js-anchor-link').click(function (e) {
+            e.preventDefault();
+            var target = $($(this).attr('href'));
+            if (target.length) {
+                var scrollTo = target.offset().top;
+                $('body, html').animate({ scrollTop: scrollTo + 'px' }, 1000);
+            }
+        });
+
     })
 </script>
 

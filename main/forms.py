@@ -94,6 +94,7 @@ class RefundForm(forms.Form):
 #     password2 = forms.CharField(widget=forms.PasswordInput)
 
 class NewsletterForm(forms.ModelForm):
+    email = forms.EmailField()
 
     class Meta:
         model = Newsletter

@@ -42,7 +42,7 @@ class ProductListView(ListView):
         products = Product.objects.all()
 
         if self.request.user.is_authenticated:
-            order = Order.objects.get(
+            order, created = Order.objects.get_or_create(
                 user=self.request.user, ordered=False)
             print(order)
             context = {
