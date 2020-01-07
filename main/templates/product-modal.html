@@ -11,9 +11,14 @@
                 </div>
                 <div class="col-md-4">
                     <div class="product-card">
+
+                        {% if product.image %}
                         <div class="product-card-image" style="background-image: url('{{ product.image.url }}');">
 
                         </div>
+                        {% endif %}
+
+
                     </div>
                 </div>
 
@@ -36,9 +41,13 @@
                 </button>
             </div>
             <div class="modal-body product-card-text-modal">
+                {% if product.image %}
                 <div class="product-card-image-modal" style="background-image: url('{{ product.image.url }}');">
 
                 </div>
+
+                {% endif %}
+
                 <div class="product-card-info-modal">
 
                     <h4>Ingrédients : </h4>

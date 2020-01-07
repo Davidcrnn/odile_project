@@ -10,6 +10,13 @@ PAYMENT_CHOICES = (
     ('P', 'Paypal'),
 )
 
+OBJET_CHOICES = (
+    ('livraison', 'Livraison'),
+    ('qualité du service', 'Qualité du service'),
+    ('produits', 'Produits'),
+    ('autre', 'Autre'),
+)
+
 
 class CheckoutForm(forms.Form):
     name = forms.CharField(widget=forms.TextInput(attrs={
@@ -99,3 +106,18 @@ class NewsletterForm(forms.ModelForm):
     class Meta:
         model = Newsletter
         fields = ['email']
+
+
+class AvisForm(forms.Form):
+
+    email = forms.EmailField(widget=forms.TextInput(attrs={
+        'placeholder': 'Alan@turing.com',
+        'class': 'form-control '
+    }))
+    objet = forms.ChoiceField(choices=OBJET_CHOICES,
+                              widget=forms.RadioSelect(attrs={
+                                  'class': 'inline-check radio-display'
+                              }))
+    message = forms.CharField(widget=forms.Textarea(attrs={
+        'placeholder': '75000',
+        'class': 'form-control '}))
