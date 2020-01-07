@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<style>
+    .inline-check {
+        display: flex;
+        justify-content: flex-start;
+    }
+</style>
+<main class="checkout-bg">
+    <div class="container">
+
+        <div class=" my-5 header-avis">
+            <h1 class="text-center">Votre avis !</h1>
+        </div>
+        <div class="row">
+            <div class="col-8 offset-2">
+                <form action="" method='POST'>
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            <label for="">Email</label>
+                            {{ form.email }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="">Objet</label>
+                            <div class=" ">
+                                {{ form.objet }}
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 mb-5">
+
+                            <label for="">Message</label>
+                            {{ form.message }}
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 mb-4">
+                            <button href="" type="submit" class="btn-valider" style="width: 30%;"> Envoyé</button>
+                        </div>
+                    </div>
+                    <!-- {{ form|crispy }} -->
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</main>
+{% endblock content %}

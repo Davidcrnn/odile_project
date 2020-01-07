@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView, ListView, DetailView, View
-from .forms import CheckoutForm, CouponForm, RefundForm, NewsletterForm
+from .forms import CheckoutForm, CouponForm, RefundForm, NewsletterForm, AvisForm
 from .models import Product, OrderProduct, Order, Payment, Coupon, Refund, Info, Newsletter
 from django.http import JsonResponse
 
@@ -424,3 +424,36 @@ class OrderDash(ListView):
     model = Order
     context_object_name = 'orders'
     template_name = 'order-list.html'
+
+
+class AvisView(View):
+    def get(self, *args, **kwargs):
+        form = AvisForm()
+        context = {
+            'form': form
+        }
+        return render(self.request, "votreavis.html", context)
+
+    # def post(self, *args, **kwargs):
+    #     form = RefundForm(self.request.POST)
+    #     if form.is_valid():
+    #         ref_code = form.cleaned_data.get('ref_code')
+    #         message = form.cleaned_data.get('message')
+    #         email = form.cleaned_data.get('email')
+    #         try:
+    #             order = Order.objects.get(ref_code=ref_code)
+    #             order.refund_requested = True
+    #             order.save()
+
+    #             refund = Refund()
+    #             refund.order = order
+    #             refund.reason = message
+    #             refund.email = email
+    #             refund.save()
+
+    #             messages.info(self.request, 'Your request was received')
+    #             return redirect('request-refund')
+
+    #         except ObjectDoesNotExist:
+    #             messages.info(self.request, 'This order does not exist.')
+    #             return redirect('request-refund')
