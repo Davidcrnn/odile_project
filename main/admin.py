@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, OrderProduct, Order, Payment, Coupon, Refund, Info, Newsletter
+from .models import Product, OrderProduct, Order, Payment, Coupon, Refund, Info
 # Register your models here.
 
 
@@ -8,10 +8,6 @@ def make_refund_accepted(modeladmin, request, queryset):
 
 
 make_refund_accepted.short_description = 'Update orders to refund granted'
-
-
-class NewsletterAdmin(admin.ModelAdmin):
-    list_display = ['email', 'date_ajout']
 
 
 class OrderAdmin(admin.ModelAdmin):
@@ -69,7 +65,7 @@ admin.site.register(Order, OrderAdmin)
 admin.site.register(Payment, PaymentAdmin)
 admin.site.register(Coupon)
 admin.site.register(Info, InfoAdmin)
-admin.site.register(Newsletter, NewsletterAdmin)
+
 
 admin.site.index_title = "Tableau de bord"
 admin.site.site_header = "Dejeuner sur l'eau"

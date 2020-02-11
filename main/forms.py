@@ -2,7 +2,7 @@ from django import forms
 from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
 from tempus_dominus.widgets import DatePicker, TimePicker, DateTimePicker
-from .models import Newsletter
+
 # from allauth.account.forms import SignupForm
 
 PAYMENT_CHOICES = (
@@ -100,24 +100,17 @@ class RefundForm(forms.Form):
 
 #     password2 = forms.CharField(widget=forms.PasswordInput)
 
-class NewsletterForm(forms.ModelForm):
-    email = forms.EmailField()
 
-    class Meta:
-        model = Newsletter
-        fields = ['email']
+# class AvisForm(forms.Form):
 
-
-class AvisForm(forms.Form):
-
-    email = forms.EmailField(widget=forms.TextInput(attrs={
-        'placeholder': 'Alan@turing.com',
-        'class': 'form-control '
-    }))
-    objet = forms.ChoiceField(choices=OBJET_CHOICES,
-                              widget=forms.RadioSelect(attrs={
-                                  'class': 'inline-check radio-display'
-                              }))
-    message = forms.CharField(widget=forms.Textarea(attrs={
-        'placeholder': '75000',
-        'class': 'form-control '}))
+#     email = forms.EmailField(widget=forms.TextInput(attrs={
+#         'placeholder': 'Alan@turing.com',
+#         'class': 'form-control '
+#     }))
+#     objet = forms.ChoiceField(choices=OBJET_CHOICES,
+#                               widget=forms.RadioSelect(attrs={
+#                                   'class': 'inline-check radio-display'
+#                               }))
+#     message = forms.CharField(widget=forms.Textarea(attrs={
+#         'placeholder': '75000',
+#         'class': 'form-control '}))
