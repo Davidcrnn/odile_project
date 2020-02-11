@@ -156,14 +156,3 @@ class Info(models.Model):
 
     def __str__(self):
         return self.user.username
-
-
-class Newsletter(models.Model):
-    email = models.EmailField()
-    date_ajout = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.email
-
-    # class Meta:
-    #     verbose_name = 'NewsLetter'

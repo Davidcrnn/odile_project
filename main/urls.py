@@ -14,9 +14,8 @@ from .views import (
     AddCouponView,
     RequestRefundView,
     add_single_item_to_cart,
-    newsletter,
     OrderDash,
-    AvisView
+
 
 
 
@@ -38,9 +37,8 @@ urlpatterns = [
     path('payment/', PaymentView.as_view(), name='payment'),
     path('add-coupon/', AddCouponView.as_view(), name='add-coupon'),
     path('request-refund/', RequestRefundView.as_view(), name='request-refund'),
-    path('newsletter/', newsletter, name='newsletter'),
     path('order/', OrderDash.as_view(), name='order'),
-    path('votre-avis/', AvisView.as_view(), name='avis')
+
 
 ]
 

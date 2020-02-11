@@ -6,8 +6,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView, ListView, DetailView, View
-from .forms import CheckoutForm, CouponForm, RefundForm, NewsletterForm, AvisForm
-from .models import Product, OrderProduct, Order, Payment, Coupon, Refund, Info, Newsletter
+from .forms import CheckoutForm, CouponForm, RefundForm
+from .models import Product, OrderProduct, Order, Payment, Coupon, Refund, Info
 from django.http import JsonResponse
 
 # Create your views here.
@@ -406,18 +406,18 @@ class RequestRefundView(View):
                 return redirect('request-refund')
 
 
-def newsletter(request):
-    if request.method == 'POST':
-        form = NewsletterForm(request.POST)
-        if form.is_valid:
-            form.save()
-            print('Votre email est ajouté à la liste !')
-            return redirect('home')
-    else:
-        form = NewsletterForm()
-        context = {'form': form}
-        template = 'newsletter-snippet.html'
-        return render(request, template, context)
+# def newsletter(request):
+#     if request.method == 'POST':
+#         form = NewsletterForm(request.POST)
+#         if form.is_valid:
+#             form.save()
+#             print('Votre email est ajouté à la liste !')
+#             return redirect('home')
+#     else:
+#         form = NewsletterForm()
+#         context = {'form': form}
+#         template = 'newsletter-snippet.html'
+#         return render(request, template, context)
 
 
 class OrderDash(ListView):
@@ -434,6 +434,12 @@ class AvisView(View):
         }
         return render(self.request, "votreavis.html", context)
 
+    # def post(self, *args, **kwargs):
+    #     form = AvisForm(self.request.POST)
+    #     if form.is_valid():
+    #         email = form.cleaned_data.get('email')
+    #         objet = form.cleaned_data.get('objet')
+    #         message = form.cleaned_data.get('message')
     # def post(self, *args, **kwargs):
     #     form = RefundForm(self.request.POST)
     #     if form.is_valid():
