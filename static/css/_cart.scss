@@ -1,0 +1,25 @@
+// Cart page
+
+.panier-cart {
+    margin: 40px 0;
+    h1 {
+        font-family: 'Gotham-bold';
+        font-size: 73px;
+        color: #ccac54;
+        letter-spacing: 6.4px;
+        margin-bottom: 40px;
+        
+    }
+}
+
+.cart-row-1 {
+    background-color: #165361;
+    color: white;
+    border-bottom: none;
+}
+
+.table td, .table th {
+    border-top: 1px solid rgba(0, 0, 0, 0.274) !important;
+    color: #b5a277;
+}
+

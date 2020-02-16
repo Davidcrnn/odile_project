@@ -13,7 +13,7 @@
     </div>
     <div class="nav-logo">
         <a href="{% url 'home' %}">
-            <img src="{% static '../static/images/logo-dej.svg' %}" alt="" style='height: 50px;'>
+            <img src="{% static '../static/images/logo-bateau.svg' %}" alt="" style='height: 80px;'>
         </a>
     </div>
     <div class="nav-link d-none d-md-block">
@@ -27,14 +27,12 @@
                             style="height: 20px; margin-bottom: 3px;"></img></span> CONTACT <i
                         class="fa fa-caret-down"></i></a>
                 <div class="dropdown-content">
-                    <a href="{% url 'avis' %}">Un avis ?</a>
+                    <a href="">Un avis ?</a>
                     <a href="#">Un problème ?</a>
 
                 </div>
-            </li>
-            <li><a href="{% url 'order-summary' %}">MON PANIER
-                </a><span><img src="{% static '../static/images/panier.svg' %}" alt="" style='height: 20px;'>
-                </span>
+
+
             </li>
 
 
@@ -42,13 +40,28 @@
         </ul>
     </div>
     <div class="nav-log">
+        <a href="{% url 'order-summary' %}">
+            <img src="{% static '../static/images/cart.svg' %}" alt="" style='height: 30px;'></a>
         {% if request.user.is_authenticated %}
 
-        <a class='btn-inscription' href="{% url 'account_logout' %}">Déconnexion</a>
+        <a href=""><img src="{% static '../static/images/user.svg' %}" alt="" style='height: 30px;'></a>
         {% else %}
-        <a class='btn-connexion' href="{% url 'account_login' %} ">Connexion</a>
-        <a class='btn-inscription' href="{% url 'account_signup' %}">Inscription</a>
+
+        <a href="{% url 'account_login' %}"><img src="{% static '../static/images/user.svg' %}" alt=""
+                style='height: 30px;'></a>
+
+        <a href="{% url 'account_signup' %}"><img src="{% static '../static/images/user-up.svg' %}" alt=""
+                style=' height: 30px;'></a>
         {% endif %}
+
+
+
+
+
+
+
+
+
     </div>
 </div>
 
@@ -88,7 +101,7 @@
     });
 </script>
 
-<script>
+<!-- <script>
     $(window).on('scroll', function () {
         if ($(window).scrollTop()) {
             $('#nav').addClass('black');
@@ -96,7 +109,7 @@
             $('#nav').removeClass('black');
         }
     })
-</script>
+</script> -->
 
 <script>
     $(document).ready(function () {

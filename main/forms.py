@@ -1,13 +1,15 @@
 from django import forms
 from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
-from tempus_dominus.widgets import DatePicker, TimePicker, DateTimePicker
+# from tempus_dominus.widgets import DatePicker, TimePicker, DateTimePicker
+from flatpickr import DatePickerInput, TimePickerInput, DateTimePickerInput
 
 # from allauth.account.forms import SignupForm
 
-PAYMENT_CHOICES = (
-    ('S', 'Stripe'),
-    ('P', 'Paypal'),
+LIVRAISON_CHOICES = (
+    ('1', 'Point fixe 1'),
+    ('2', 'Point fixe - Loueur de bateau'),
+    ('3', 'Livraison sur bateau')
 )
 
 OBJET_CHOICES = (
@@ -19,51 +21,55 @@ OBJET_CHOICES = (
 
 
 class CheckoutForm(forms.Form):
-    name = forms.CharField(widget=forms.TextInput(attrs={
+    name = forms.CharField(required=False, widget=forms.TextInput(attrs={
         'placeholder': 'Turing',
         'class': 'form-control checkout-input'
     }))
-    prenom = forms.CharField(widget=forms.TextInput(attrs={
+    prenom = forms.CharField(required=False, widget=forms.TextInput(attrs={
         'placeholder': 'Alan',
         'class': 'form-control checkout-input'
     }))
-    phone = forms.CharField(max_length=10, widget=forms.TextInput(attrs={
+    phone = forms.CharField(max_length=13, required=False, widget=forms.TextInput(attrs={
         'placeholder': '0145444646',
         'class': 'form-control checkout-input'
     }))
-    email = forms.EmailField(widget=forms.TextInput(attrs={
+    email = forms.EmailField(required=False, widget=forms.TextInput(attrs={
         'placeholder': 'Alan@turing.com',
         'class': 'form-control checkout-input'
     }))
-    adresse = forms.CharField(widget=forms.TextInput(attrs={
-        'placeholder': '12 rue de sèvres',
-        'class': 'form-control checkout-input'
-    }))
-    code_postal = forms.CharField(max_length=13, widget=forms.TextInput(attrs={
+
+    code_postal = forms.CharField(max_length=13, required=False, widget=forms.TextInput(attrs={
         'placeholder': '75000',
-        'class': 'form-control checkout-input'
+        'class': 'form-control checkout-input',
+
     }))
     pays = CountryField(blank_label='(Pays)').formfield(
-        required=False,
-        widget=CountrySelectWidget(attrs={
+
+        required=False, widget=CountrySelectWidget(attrs={
             'class': 'custom-select d-block w-100 checkout-input',
         }))
-    payment_option = forms.ChoiceField(
-        widget=forms.RadioSelect, choices=PAYMENT_CHOICES)
+    delivery_option = forms.ChoiceField(
+        widget=forms.RadioSelect, choices=LIVRAISON_CHOICES)
 
-    datetime_field = forms.DateTimeField(
-        widget=DateTimePicker(
-            options={
-                'useCurrent': True,
-                'collapse': False,
+    date_delivery = forms.CharField(max_length=100, widget=DateTimePickerInput(
+        attrs={    # input element attributes
+            "class": "my-custom-class",
+            "placeholder": 'Choisir une date de livraison',
+        },
+        options={  # flatpickr options
+            "dateFormat": "d/m/Y H:i",
+            'minTime': '10:00',
+            'maxTime': '12:30',
+            'enableTime': 'true',
+            'time_24hr': 'true',
+            'minDate': "today",
+            'minuteIncrement': '10',
+            "locale": "fr",
+        }
+    ))
 
-            },
-            attrs={
-                'append': 'fa fa-calendar',
-                'icon_toggle': True,
-            }
-        ),
-    )
+    address_default = forms.BooleanField(
+        required=False, widget=forms.CheckboxInput())
 
 
 class CouponForm(forms.Form):
@@ -81,6 +87,11 @@ class RefundForm(forms.Form):
     def __str__(self):
         return f"{self.pk}"
 
+
+class PaymentForm(forms.Form):
+    stripeToken = forms.CharField(required=False)
+    save = forms.BooleanField(required=False)
+    use_default = forms.BooleanField(required=False)
 
 # class CustomSignupForm(SignupForm):
 #     username = forms.CharField(max_length=30, widget=forms.TextInput(attrs={

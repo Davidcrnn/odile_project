@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="product-image-banner">
+        <div class="product-text-banner">
+            <h1>À LA CARTE</h1>
+            <p>Menu apéro</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-md-2">
+            <div class="filter-product">
+                <ul>
+                    <li>Filtrer par :</li>
+                    <li><a href="#2" class="js-anchor-link filter-entrées">Grignotage</a></li>
+                    <li><a href="#6" class="js-anchor-link filter-accessoires">Accessoires</a></li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="col-xs-12 col-md-7">
+            <div class="product-item-container">
+
+
+                <h1 id="2" class="js-anchor-link">Entrées
+                </h1>
+                <div class="row">
+                    {% for product in products %}
+                    {% if product.category == 'Entrées' %}
+                    {% include 'product-modal.html' %}
+                    {% endif %}
+
+                    {% endfor %}
+                </div>
+
+                <h1 id="6" class="js-anchor-link">Accessoires</h1>
+                <div class="row">
+                    {% for product in products %}
+                    {% if product.category == 'Accessoires' %}
+                    {% include 'product-modal.html' %}
+                    {% endif %}
+
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-3">
+
+            {% include 'order-snippet.html' %}
+            <a class='btn-valider float-right mt-2' href="{% url 'order-summary' %}">
+                Voir le panier</a>
+
+
+        </div>
+
+    </div>
+</div>
+{% endblock content %}

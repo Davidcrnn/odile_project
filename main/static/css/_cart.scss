@@ -1,0 +1,52 @@
+// Cart page
+
+.panier-cart {
+    margin: 0px 0 40px;
+    h1 {
+        font-family: 'Gotham-bold';
+        color: $yel-color;
+        letter-spacing: 6.4px;
+        font-size: 70px;
+        text-decoration: underline;
+        padding-top:20px ;
+        
+    }
+}
+
+.cart-row-1 {
+   
+    color: white;
+   
+}
+
+.table td img {
+    height: 100px;
+} 
+
+.table th {
+    border-top: 1px solid rgba(0, 0, 0, 0.274) !important;
+    color: $vertc;
+}
+
+.table tr {
+    border: none !important;
+}
+span.cart-header {
+    color: white !important;
+}
+
+tbody tr {
+    margin: 20Px;
+}
+
+#stickycart {
+    position: sticky;
+    top: 100px;
+    background: $vertc;
+    padding: 20px;
+    border-radius: 9px;
+    li {
+        margin-bottom: 10px;
+        border-radius: 9px;
+    }
+}
