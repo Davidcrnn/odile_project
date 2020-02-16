@@ -1,0 +1,43 @@
+// Home Page Style
+
+// Banner Section
+
+.home-banner {
+    height: 80vh;
+    background-image: url(../images/banner-bateau.jpg);
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    margin-top: 20px;
+    opacity: 0.8;
+}
+
+.home-banner-title {
+    height: 80vh;
+    box-shadow: 0px 0px 10px $gris;
+    padding: 31px;
+    margin-top: 20px;
+
+}
+
+// Home Section Concept Livraison Produits
+
+.concept-container {
+    height: 400px;
+    padding: 30px;
+    box-shadow: 0 0 10px $gris;
+    margin-top: 20px;
+}
+
+
+// Section Concept
+
+.livraison-container {
+    height: 400px;
+    padding: 30px;
+    box-shadow: 0 0 10px $gris;
+    margin: 20px 0;
+}
+
+/// Banner slider
+

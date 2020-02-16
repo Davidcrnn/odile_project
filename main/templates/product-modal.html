@@ -30,12 +30,12 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal{{ product.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+<div class="modal fade modal-bg-white" id="exampleModal{{ product.id}}" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content product-card-modal">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{ product.name|upper}} </h5>
+            <div class="text-center modal-titre">
+                <h5 class="modal-title " id="exampleModalLabel">{{ product.name|upper}} </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -57,9 +57,10 @@
                     {% else %}
                     <p>Ce produit ne contient pas d'allergène alimentaire.</p>
                     {% endif %}
-                    <b class="price-modal">{{ product.price }}€</b>
-                    <p>{{ product.quantite }}</p>
+
+
                 </div>
+
 
 
             </div>

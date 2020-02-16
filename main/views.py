@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView, ListView, DetailView, View
-from .forms import CheckoutForm, CouponForm, RefundForm
+from .forms import CheckoutForm, CouponForm, RefundForm, PaymentForm
 from .models import Product, OrderProduct, Order, Payment, Coupon, Refund, Info
 from django.http import JsonResponse
 
@@ -40,8 +40,8 @@ class ProductListView(ListView):
 
     def get(self, *args, **kwargs):
         products = Product.objects.all()
-
-        if self.request.user.is_authenticated:
+        user = self.request.user
+        if user.is_authenticated:
             order, created = Order.objects.get_or_create(
                 user=self.request.user, ordered=False)
             print(order)
@@ -57,6 +57,32 @@ class ProductListView(ListView):
                 'products': products
             }
             return render(self.request, 'product-list.html', context)
+
+
+class ProductAperoView(ListView):
+    template_name = 'product-apero.html'
+    model = Product
+    context_object_name = 'products'
+
+    def get(self, *args, **kwargs):
+        products = Product.objects.exclude(menu='Dejeuner')
+
+        if self.request.user.is_authenticated:
+            order, created = Order.objects.get_or_create(
+                user=self.request.user, ordered=False)
+            print(order)
+            context = {
+                'order': order,
+                'products': products,
+                'couponform': CouponForm(),
+                'DISPLAY_COUPON_FORM': True
+            }
+            return render(self.request, 'product-apero.html', context)
+        else:
+            context = {
+                'products': products
+            }
+            return render(self.request, 'product-apero.html', context)
 
 
 class ProductDetailView(DetailView):
@@ -153,7 +179,7 @@ def remove_from_cart(request, slug):
             )[0]
             order.products.remove(order_product)
             messages.info(request, 'Le produit a été supprimé du panier')
-            return redirect("products")
+            return redirect("order-summary")
         else:
             messages.info(request, "Le produit n'est pas dans votre panier")
             return redirect('products')
@@ -206,6 +232,14 @@ class CheckoutView(View):
                 'couponform': CouponForm(),
                 'DISPLAY_COUPON_FORM': True
             }
+            address_qs = Info.objects.filter(
+                user=self.request.user,
+                default=True
+            )
+            if address_qs.exists():
+                context.update(
+                    {'default_address': address_qs[0]})
+
         except ObjectDoesNotExist:
             messages.info(self.request, "You do not have an active order")
             return redirect('checkout')
@@ -219,34 +253,59 @@ class CheckoutView(View):
             order = Order.objects.get(
                 user=self.request.user, ordered=False)
             if form.is_valid():
-                print('Form valid')
-                name = form.cleaned_data.get('name')
-                prenom = form.cleaned_data.get('prenom')
-                phone = form.cleaned_data.get('phone')
-                adresse = form.cleaned_data.get('adresse')
-                code_postal = form.cleaned_data.get('code_postal')
-                email = form.cleaned_data.get('email')
-                pays = form.cleaned_data.get('pays')
 
-                if is_valid_form([name, prenom, adresse]):
-                    adresse_info = Info(
+                default_address = form.cleaned_data.get('default_address')
+
+                if default_address:
+                    address_qs = Info.objects.filter(
                         user=self.request.user,
-                        name=name,
-                        prenom=prenom,
-                        pays=pays,
-                        adresse=adresse,
-                        code_postal=code_postal,
-                        phone=phone,
-                        email=email
+                        default=True,
                     )
-                    adresse_info.save()
+                    if address_qs.exists():
+                        shipping_address = address_qs[0]
+                        order.information = shipping_address
 
-                    order.information = adresse_info
-                    order.save()
+                        order.save()
+                    else:
+                        messages.info(
+                            self.request, "Pas de profil enregistré")
+                        return redirect('checkout')
+                else:
+                    name = form.cleaned_data.get('name')
+                    prenom = form.cleaned_data.get('prenom')
+                    phone = form.cleaned_data.get('phone')
+                    email = form.cleaned_data.get('email')
+                    code_postal = form.cleaned_data.get('code_postal')
+                    pays = form.cleaned_data.get('pays')
+                    date_delivery = form.cleaned_data.get('date_delivery')
+                    delivery_option = form.cleaned_data.get('delivery_option')
 
-            messages.info(
-                self.request, 'les informations ont bien été prises en compte')
-            return redirect('payment')
+                    if is_valid_form([name, prenom, pays, code_postal, phone, email]):
+                        adresse_info = Info(
+                            user=self.request.user,
+                            name=name,
+                            prenom=prenom,
+                            pays=pays,
+                            code_postal=code_postal,
+                            phone=phone,
+                            email=email,
+                        )
+                        adresse_info.save()
+
+                        order.information = adresse_info
+                        order.date_delivery = date_delivery
+                        order.delivery_option = delivery_option
+                        order.save()
+
+                        address_default = form.cleaned_data.get(
+                            'address_default')
+                        if address_default:
+                            adresse_info.default = True
+                            adresse_info.save()
+
+                    messages.info(
+                        self.request, 'Les informations ont bien été prises en compte')
+                    return redirect('payment')
 
         except ObjectDoesNotExist:
             messages.info(self.request, 'This order does not exist.')
@@ -271,10 +330,9 @@ class PaymentView(View):
 
     def post(self, *args, **kwargs):
         order = Order.objects.get(user=self.request.user, ordered=False)
-        token = self.request.POST.get('stripeToken')
-        print(token)
+        form = PaymentForm(self.request.POST)
+        token   = self.request.POST.get('stripeToken')
         amount = int(order.get_total())
-
         try:
             charge = stripe.Charge.create(
                 amount=int(amount * 100),

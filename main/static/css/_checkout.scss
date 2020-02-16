@@ -1,0 +1,65 @@
+// Checkout page style
+
+
+// Checkout bg
+
+
+// header
+
+.header-checkout {
+    font-family: 'Gotham-bold';
+    color: $yel-color;
+    letter-spacing: 6.4px;
+    font-size: 70px;
+    text-decoration: underline;
+    padding-top:20px ;
+}
+
+
+// test
+
+.checkout-input {
+    border: 1Px solid lightslategray;
+    // border-radius: 8px;
+    height: 50px;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-radius: 0px;
+    
+}
+.checkout-input[type='text'] {
+    font-size: 14px;
+
+}
+.checkout-input:focus {
+
+    background-color: #f5f3f0;
+    opacity: 0.5;
+    border-color: transparent;
+    outline: 0;
+    box-shadow: none;
+}
+
+.card-body label {
+    color: lightslategray;
+    font-size: 20px;
+    select {
+        height: 50px;
+    }
+
+}
+
+.card {
+    
+    border: none;
+    box-shadow: 0 0 10px $gris;
+    h3 {
+    color: $vertf;
+    font-size: 25px;
+}
+}
+
+.bottom {
+    padding: 20px;
+}

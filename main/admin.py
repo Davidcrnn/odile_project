@@ -37,7 +37,7 @@ class OrderAdmin(admin.ModelAdmin):
     ]
 
     search_fields = [
-        'user__username',
+        'user__email',
         'ref_code'
     ]
 
@@ -51,7 +51,6 @@ class PaymentAdmin(admin.ModelAdmin):
 class InfoAdmin(admin.ModelAdmin):
     list_display = [
         'user',
-        'adresse',
         'code_postal',
         'pays',
         'phone',

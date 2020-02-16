@@ -1,0 +1,30 @@
+// Footer Style
+
+// Footer container top
+
+.footer-container {
+    background-color: $vertc;
+    min-height: 250px ;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 30px 0;
+}
+
+.footer-nav  {
+    color: white;
+}
+
+.footer-information {
+    color: white;
+}
+
+
+// Footer container bottom
+
+.footer-credit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+

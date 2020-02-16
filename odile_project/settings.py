@@ -58,7 +58,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_countries',
     'debug_toolbar',
-    'tempus_dominus'
+    'flatpickr',
 ]
 
 # DatePicker
@@ -141,11 +141,11 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
 
 USE_TZ = True
 
-
+DATETIME_INPUT_FORMATS = '%d/%m/%Y %H:%M'
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
@@ -188,3 +188,13 @@ STRIPE_SECRET_KEY = config('STRIPE_LIVE_SECRET_KEY')
 # ACCOUNT_FORMS = {
 #     'signup': 'odile_project.forms.CustomSignupForm',
 # }
+
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_UNIQUE_EMAIL = True
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.urls import reverse
 from django_countries.fields import CountryField
+import datetime
 
 
 PRODUCT_CATEGORIES = (
@@ -30,9 +31,21 @@ PRODUCT_ALLERGENES = (
 
 )
 
+LIVRAISON_CHOICES = (
+    ('1', 'Point fixe 1'),
+    ('2', 'Point fixe - Loueur de bateau'),
+    ('3', 'Livraison sur bateau')
+)
+
+MENU = (
+    ('Les deux', 'Les deux'),
+    ('Apero', 'Apero'),
+    ('Dejeuner', 'Dejeuner')
+)
+
 
 class Product(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=200)
     price = models.FloatField(verbose_name='Prix')
     image = models.ImageField(blank=True, null=True)
     description = models.TextField()
@@ -41,7 +54,7 @@ class Product(models.Model):
         max_length=32, choices=PRODUCT_CATEGORIES, default='Plats')
     allergene = models.CharField(
         max_length=32, choices=PRODUCT_ALLERGENES, blank=True, null=True)
-
+    menu = models.CharField(max_length=30, choices=MENU, default='Les deux')
     quantité = models.IntegerField(default=1)
 
     def __str__(self):
@@ -87,6 +100,9 @@ class Order(models.Model):
     information = models.ForeignKey(
         'Info', on_delete=models.SET_NULL, blank=True, null=True)
     ordered = models.BooleanField(default=False)
+    date_delivery = models.CharField(max_length=100)
+    delivery_option = models.CharField(
+        max_length=100, choices=LIVRAISON_CHOICES)
     coupon = models.ForeignKey(
         'Coupon', on_delete=models.SET_NULL, blank=True, null=True)
     is_delivered = models.BooleanField(default=False)
@@ -95,7 +111,7 @@ class Order(models.Model):
     refund_granted = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.user.username
+        return self.user.email
 
     def get_total(self):
         total = 0
@@ -105,6 +121,11 @@ class Order(models.Model):
             total -= self.coupon.amount
         return total
 
+    def get_quantity(self):
+        total = 0
+        for order_product in self.products.all():
+            total += order_product.quantity
+        return total
     # class Meta:
     #     verbose_name = 'Commande'
 
@@ -117,7 +138,7 @@ class Payment(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.user.username
+        return self.user.email
 
     # class Meta:
     #     verbose_name = 'Paiement'
@@ -146,13 +167,11 @@ class Info(models.Model):
                              on_delete=models.CASCADE)
     name = models.CharField(max_length=30)
     prenom = models.CharField(max_length=30)
-    phone = models.IntegerField()
+    phone = models.CharField(max_length=100)
     email = models.EmailField()
-    adresse = models.CharField(max_length=60)
     code_postal = models.IntegerField()
     pays = CountryField(multiple=False)
-    # TODO
-    # datetime_field
+    default = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.user.username
+        return self.user.email

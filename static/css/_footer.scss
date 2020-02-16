@@ -1,0 +1,20 @@
+// Footer Style
+
+// Footer container top
+
+.footer-container {
+    background-color: #165361;
+    min-height: 250px ;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+
+// Footer container bottom
+
+.footer-credit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

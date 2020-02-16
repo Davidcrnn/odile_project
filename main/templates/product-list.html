@@ -4,31 +4,33 @@
 
 {% block content %}
 
-<div class="product-image-banner">
-    <div class="product-text-banner">
-        <h1>À LA CARTE!</h1>
-    </div>
-</div>
 <div class="container">
-    <div class="row">
-        <div class="filter-product">
-            <ul>
-
-                <li><a href="#2" class="js-anchor-link filter-entrées">Entrées</a></li>
-                <li><a href="#3" class="js-anchor-link filter-plats">Plats</a></li>
-                <li><a href="#4" class="js-anchor-link filter-desserts">Desserts</a></li>
-                <li><a href="#5" class="js-anchor-link filter-boissons">Boissons</a></li>
-                <li><a href="#6" class="js-anchor-link filter-accessoires">Accessoires</a></li>
-            </ul>
+    <div class="product-image-banner">
+        <div class="product-text-banner">
+            <h1>À LA CARTE</h1>
+            <p>Menu déjeuner</p>
         </div>
     </div>
+
     <div class="row">
-        <div class="col-xs-12 col-md-8">
+        <div class="col-xs-12 col-md-2">
+            <div class="filter-product">
+                <ul>
+                    <li>Filtrer par :</li>
+                    <li><a href="#2" class="js-anchor-link filter-entrées">Entrées</a></li>
+                    <li><a href="#3" class="js-anchor-link filter-plats">Plats</a></li>
+                    <li><a href="#4" class="js-anchor-link filter-desserts">Desserts</a></li>
+                    <li><a href="#5" class="js-anchor-link filter-boissons">Boissons</a></li>
+                    <li><a href="#6" class="js-anchor-link filter-accessoires">Accessoires</a></li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="col-xs-12 col-md-7">
             <div class="product-item-container">
 
 
-                <h1 id="2" class="js-anchor-link">Entrées <img src="{% static '../static/images/salade.svg' %}" alt=""
-                        style='height: 30px;'>
+                <h1 id="2" class="js-anchor-link">Entrées
                 </h1>
                 <div class="row">
                     {% for product in products %}
@@ -38,8 +40,7 @@
 
                     {% endfor %}
                 </div>
-                <h1 id="3" class="js-anchor-link">Plats <img src="{% static '../static/images/plat.svg' %}" alt=""
-                        style='height: 30px;'></h1>
+                <h1 id="3" class="js-anchor-link">Plats</h1>
                 <div class="row">
                     {% for product in products %}
                     {% if product.category == 'Plats' %}
@@ -48,8 +49,7 @@
 
                     {% endfor %}
                 </div>
-                <h1 id="4" class="js-anchor-link">Desserts <img src="{% static '../static/images/dessert.svg' %}" alt=""
-                        style='height: 30px;'>
+                <h1 id="4" class="js-anchor-link">Desserts
                 </h1>
                 <div class="row">
                     {% for product in products %}
@@ -59,8 +59,7 @@
 
                     {% endfor %}
                 </div>
-                <h1 id="5" class="js-anchor-link">Boissons <img src="{% static '../static/images/boisson.svg' %}" alt=""
-                        style='height: 30px;'></h1>
+                <h1 id="5" class="js-anchor-link">Boissons</h1>
                 <div class="row">
                     {% for product in products %}
                     {% if product.category == 'Boissons' %}
@@ -69,8 +68,7 @@
 
                     {% endfor %}
                 </div>
-                <h1 id="6" class="js-anchor-link">Accessoires <img src="{% static '../static/images/boisson.svg' %}"
-                        alt="" style='height: 30px;'></h1>
+                <h1 id="6" class="js-anchor-link">Accessoires</h1>
                 <div class="row">
                     {% for product in products %}
                     {% if product.category == 'Accessoires' %}
@@ -81,11 +79,12 @@
                 </div>
             </div>
         </div>
-        <div class="col-xs-12 col-md-4">
-
-            {% include 'order-snippet.html' %}
-
-
+        <div class="col-xs-12 col-md-3">
+            <div id='stickycart' class="col-md-12 mb-4 mt-5 ">
+                {% include 'order-snippet.html' %}
+                <a class='btn-valider float-right mt-2' href="{% url 'order-summary' %}">
+                    Voir le panier</a>
+            </div>
         </div>
 
     </div>

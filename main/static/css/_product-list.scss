@@ -1,0 +1,218 @@
+// Product List Page Style
+
+// Product Card img
+
+.product-card-image {
+    height: 100px;
+    object-fit: cover;
+    background-position: center;
+    background-size: cover;
+    border-radius: 3px;
+    
+}
+
+// Product banner
+
+.product-image-banner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 250px;
+    text-align: center;
+}
+
+.product-text-banner h1 {
+        font-size: 60px;
+        color: $vertf;
+        letter-spacing: 6.4px;
+        
+}
+
+
+// product item container 
+
+.carte {
+    height: 170px;
+    background: white;
+    padding: 20px;
+    box-shadow: 0px 0px 10px $gris;
+}
+
+.carte:hover {
+    opacity: 0.6;
+}
+
+.product-item-container {
+    margin: 20px 0;
+    h1 {
+        
+        margin-bottom: 30px;
+        letter-spacing: 2px;
+        color: $vertf;
+        font-size: 25px;
+        
+    }
+}
+
+.display-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-item-row{
+    border: 2px solid gray;
+
+}
+
+.product-card-text {
+    
+    p {
+        font-family: 'Gotham-book';
+        color: rgba(128, 128, 128, 0.664);
+        font-size: 15px;
+    } h5 {
+        color: #000000b5;
+        border-bottom: 2px solid #000000b5;
+    }
+}
+
+.price {
+    font-size: 15Px;
+}
+// product btn
+
+a.btn-product-description{
+    padding: 5px 10spx;
+    border-radius: 3px;
+    cursor: pointer;
+
+}
+
+// Filter tab product
+
+.filter-product {
+    width: 100%;
+    position: sticky;
+    top: 100px;
+    margin-top: 20px;
+    ul {
+    
+    margin-top: 30px;
+    } li {
+        list-style: none;
+        margin-bottom: 20px;
+    } a {
+        color: $noir;
+        
+        
+    } a:hover {
+        text-decoration: none;
+        cursor: pointer;
+        opacity: 0.6;
+    }
+}
+
+// modal 
+
+.close {
+    color: $vertf !important;
+    opacity: 1 !important;
+    font-size: 30px;
+    position: absolute;
+    top: 10px;
+    right: 20Px;
+}
+.btn-valider {
+    padding: 10px 15px;
+    background-color: $vertf;
+    border-radius: 3px;
+    color: white;
+    text-align: center;
+    &:hover {
+        text-decoration: none;
+        color: white;
+        box-shadow: 0px 22px 24px 0px rgba(46,51,51,0.07);
+    }
+
+}
+
+.btn-annuler {
+    padding: 10px 15px;
+    border: 1px solid #165361 ;
+    
+    border-radius: 3px;
+    color: #165361 !important;
+    &:hover {
+        text-decoration: none;
+        color: white;
+        box-shadow: 0px 22px 24px 0px rgba(46,51,51,0.07);
+    }
+
+}
+
+.product-card-image-modal {
+    height: 300px;
+    object-fit: cover;
+    background-position: center;
+    background-size: cover;
+    border-radius: 3px;
+    box-shadow: 0 0 10px $gris;
+    
+}
+
+.product-card-modal {
+    border-radius: 9px;
+    border: none !important;
+    box-shadow: 0 0 10px $gris;
+}
+.product-card-text-modal{
+    padding: 0 40px 40px;
+
+} p {
+    margin: 20px 0;
+    color: $gris;
+    font-size: 12px;
+    
+    
+}
+
+.product-card-text-modal h4 {
+    
+    color: $vertf;
+    font-size: 20px;
+    font-weight: regular;
+}
+.modal-btn {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.product-card-info-modal {
+    position: relative;
+    margin-top: 20px;
+    box-shadow: 0 0 10px $gris;
+    padding: 20px;
+
+}
+
+
+
+.modal-titre {
+    border: none !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    position: relative;
+    h5 {
+        font-size: 16px;
+        text-align: center;
+    }
+}
+
+.modal-bg-white {
+    background-color: rgba(255, 255, 255, 0.9);
+}

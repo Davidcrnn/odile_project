@@ -3,102 +3,102 @@
 {% block title %}HomePage{% endblock title %}
 
 {% block content %}
-<div class="home-banner">
-
-    <div class="home-banner-text">
-
-        <h1>Déjeuner sur l'eau</h1>
-        <h5>Vous partez en mer pour la journée ? On s'occupe de vous livrer votre repas</h5>
-        <a class="text-center mt-2" href="{% url 'products' %}"> <span><img
-                    src="{% static '../static/images/menu-icon.svg' %}" alt=""
-                    style='height: 30px; color: white;'></span> VOIR LA
-            CARTE</a>
-
-
-    </div>
-</div>
 <div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-4">
+            <div class="home-banner-title">
+                <h1>Déjeuner sur l'eau</h1>
+                <h4>Vous partez en mer pour la journée? On s'occupe de vous livrer un panier repas</h4>
 
 
-    <div class=" js-anchor-link home-container home-container-concept">
-        <h1 id="concept" data-aos="fade-left" data-aos-offset="0" data-aos-delay="5000" data-aos-duration="2000"
-            data-aos-easing="ease-in-out" data-aos-once="true" class="text-center">Notre Concept</h1>
-        <div class="row">
-            <div class="col-xs-12 col-md-5 ">
-                <div class="concept-img-container">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                    Launch demo modal
+                </button>
 
-                </div>
-            </div>
-            <div class="col-xs-12 col-md-7 dotted" data-aos="fade-up" data-aos-offset="0" data-aos-delay="5000"
-                data-aos-duration="2000" data-aos-easing="ease-in-out" data-aos-once="true">
-                <div class=" ">
-                    <p>Plusieurs variations de Lorem Ipsum peuvent être trouvées ici ou là, mais la majeure partie
-                        d'entre elles a été altérée par l'addition d'humour ou de mots aléatoires qui ne ressemblent pas
-                        une seconde à du texte standard. Si vous voulez utiliser un passage du Lorem Ipsum, vous devez
-                        être sûr qu'il n'y a rien d'embarrassant caché dans le texte. Tous les générateurs de Lorem
-                        Ipsum sur Internet tendent à reproduire le même extrait sans fin, ce qui fait de lipsum.com le
-                        seul vrai générateur de Lorem Ipsum. Iil utilise un dictionnaire de plus de 200 mots latins, en
-                        combinaison d</p>
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Choississez le moment de la journée
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <a href="{% url 'products' %}">Voir le menu</a>
+                                <a href=" {% url 'products-apero' %}">Menu apero</a>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <div class="col-xs-12 col-md-8">
+            <div class="home-banner">
+
+            </div>
+        </div>
     </div>
-    <div id="livraison" class="js-anchor-link home-container home-container-livraison">
-        <h1 data-aos="fade-right" data-aos-offset="0" data-aos-delay="5000" data-aos-duration="2000"
-            data-aos-easing="ease-in-out" data-aos-once="true" class="text-center">Livraison</h1>
+
+    <div class="concept-container">
         <div class="row">
-            <div class="col-xs-12 col-md-6 dotted-right" data-aos="fade-up" data-aos-offset="0" data-aos-delay="5000"
-                data-aos-duration="2000" data-aos-easing="ease-in-out" data-aos-once="true">
-                <div class="livraison-text">
-                    <p>Plusieurs variations de Lorem Ipsum peuvent être trouvées ici ou là, mais la majeure partie
-                        d'entre elles a été altérée par l'addition d'humour ou de mots aléatoires qui ne ressemblent pas
-                        une seconde à du texte standard. Si vous voulez utiliser un passage du Lorem Ipsum, vous devez
-                        être sûr qu'il n'y a rien d'embarrassant caché dans le texte. Tous les générateurs de Lorem
-                        Ipsum sur Internet tendent à reproduire le même extrait sans fin, ce qui fait de lipsum.com le
-                        seul vrai générateur de Lorem Ipsum. Iil utilise un dictionnaire de plus de 200 mots latins, en
-                        combinaison de plusieurs structures de phrases, pour générer un Lorem Ipsum irréprochable. Le
-                        Lorem Ipsum ainsi obtenu ne contient aucune répétition, ni ne contient des mots farfelus, ou des
-                        touches d'humour.</p>
-                </div>
+            <div class="col-xs-12 col-md-6">
+                <h1>01 - Concept</h1>
+
+                <p>Service de livraison de panier repas au Cap-ferret. Service
+                    destiné aux plaisanciers partant pour une journée en
+                    mer.</p>
+                <p>Vous souhaitez partir en mer pour la journée, on se charge de vous
+                    livrer votre panier repas avant votre départ ou directement sur
+                    votre bateau.
+                </p>
             </div>
             <div class="col-xs-12 col-md-6">
-                <div class="concept-img-container">
-
-                </div>
+                <p>Choississez votre menu parmi notre choix de produits frais</p>
+                <p>Déterminez vos préférences de livraisons. On se charge du reste</p>
             </div>
         </div>
     </div>
 
-
-    <div class="home-container home-container-produits">
-        <h1 data-aos="fade-left" data-aos-offset="0" data-aos-delay="5000" data-aos-duration="2000"
-            data-aos-easing="ease-in-out" data-aos-once="true" class="text-center">Nos Produits</h1>
+    <div class="livraison-container">
         <div class="row">
-            <div class="col-xs-12 col-md-5">
-                <div class="produits-img-container">
-
-                </div>
+            <div class="col-xs-12 col-md-8">
+                <div id='map' style='width: 400px; height: 300px;'></div>
             </div>
-            <div class="col-xs-12 col-md-7 dotted " data-aos="fade-up" data-aos-offset="0" data-aos-delay="5000"
-                data-aos-duration="2000" data-aos-easing="ease-in-out" data-aos-once="true">
-                <div class="produit-text">
-                    <p>Plusieurs variations de Lorem Ipsum peuvent être trouvées ici ou là, mais la majeure partie
-                        d'entre elles a été altérée par l'addition d'humour ou de mots aléatoires qui ne ressemblent pas
-                        une seconde à du texte standard. Si vous voulez utiliser un passage du Lorem Ipsum, vous devez
-                        être sûr qu'il n'y a rien d'embarrassant caché dans le texte. Tous les générateurs de Lorem
-                        Ipsum sur Internet tendent à reproduire le même extrait sans fin, ce qui fait de lipsum.com le
-                        seul vrai générateur de Lorem Ipsum. Iil utilise un dictionnaire de plus de 200 mots latins, en
-                        combinaison de plusieurs structures de phrases, pour générer un Lorem Ipsum irréprochable. Le
-                        Lorem Ipsum ainsi obtenu ne contient aucune répétition, ni ne contient des mots farfelus, ou des
-                        touches d'humour.</p>
-                </div>
+
+            <div class="col-xs-12 col-md-4">
+                <h1>02 - Livraison</h1>
+
+                <p>Service du midi :
+
+                    2 points fixes : Loueurs de bateau
+                    et point fixe école de voile
+                    10H- 12H
+
+                    Livraison sur bateau: Zone 4 à 7
+                    heure de livraison
+                    10H - 12h</p>
+
+                <hr>
+                <p>Service apéro :
+
+                    Corps mort : Point fixe
+                    17h-18H</p>
             </div>
         </div>
     </div>
+
+
 </div>
 
 
-<script>
+<!-- <script>
     $(function () {
         $("#slider2").responsiveSlides({
             auto: true,
@@ -109,8 +109,12 @@
             namespace: "transparent-btns"
         });
     });
-</script>
+</script> -->
 <script>
-    AOS.init();
+    mapboxgl.accessToken = 'pk.eyJ1Ijoib2RpbGVsZWNsZXJjc2l0ZSIsImEiOiJjazZjMDJtNGEwZ3F2M2tvdnNncnkxNXRxIn0.c7i8XUNby5CQwhdrsG3r0A';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11'
+    });
 </script>
 {% endblock content %}
