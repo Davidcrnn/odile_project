@@ -179,3 +179,20 @@ class Info(models.Model):
 
     def __str__(self):
         return self.user.email
+
+
+class Avis(models.Model):
+
+    OBJET = (
+        ('Produits', 'Produits'),
+        ('Livraison', 'Livraisons'),
+        ('Horaires de livraison', 'Horaires de livraison'),
+        ('Autre', 'Autre'),
+    )
+
+    email = models.EmailField()
+    objet = models.CharField(max_length=50, choices=OBJET)
+    message = models.TextField()
+
+    def __str__(self):
+        return self.objet

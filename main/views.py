@@ -5,10 +5,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import TemplateView, ListView, DetailView, View
-from .forms import CheckoutForm, CouponForm, RefundForm, PaymentForm, CgvForm
-from .models import Product, OrderProduct, Order, Payment, Coupon, Refund, Info
+from django.views.generic import TemplateView, ListView, DetailView, View, CreateView
+from .forms import CheckoutForm, CouponForm, RefundForm, PaymentForm, CgvForm, AvisForm
+from .models import Product, OrderProduct, Order, Payment, Coupon, Refund, Info, Avis
 from django.http import JsonResponse
+from django.urls import reverse
 
 # Create your views here.
 import random
@@ -100,15 +101,13 @@ class OrderSummaryView(LoginRequiredMixin, View):
             order = Order.objects.get(user=self.request.user, ordered=False)
             form = CgvForm()
             context = {
-                'object': order, 
+                'object': order,
                 'form': form,
             }
             return render(self.request, 'order-summary.html', context)
         except ObjectDoesNotExist:
             messages.warning(self.request, "You do not have an active order")
             return redirect("/")
-    
-    
 
 
 @login_required
@@ -527,3 +526,33 @@ class mentionsLegales(TemplateView):
 
 class ConditionsGenerales(TemplateView):
     template_name = 'cgv.html'
+
+
+class AvisCreate(View):
+    def get(self, *args, **kwargs):
+        form = AvisForm()
+
+        context = {
+            'form': form,
+
+        }
+        return render(self.request, "avis.html", context)
+
+    def post(self, *args):
+        args = {}
+        avis = Avis.objects.create()
+        form = AvisForm(self.request.POST or None)
+        if form.is_valid():
+            email = form.cleaned_data.get('email')
+            objet = form.cleaned_data.get('objet')
+            message = form.cleaned_data.get('message')
+            avis.email = email
+            avis.objet = objet
+            avis.message = message
+            avis.save()
+            messages.info(self.request, 'Votre avis a bien été enregistré')
+            return redirect('home')
+        else:
+            args['form'] = form
+            messages.info(self.request, 'Le formulaire nest pas valide')
+            return render(self.request, 'avis.html', args)

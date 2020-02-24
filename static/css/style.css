@@ -573,6 +573,29 @@ tbody tr {
   .cgv-contenu p {
     margin: 0; }
 
+.avis-form-container {
+  margin-bottom: 20px; }
+
+.avis-objet {
+  list-style: none; }
+  .avis-objet ul {
+    margin: 0;
+    padding: 0;
+    display: flex; }
+  .avis-objet li {
+    list-style: none;
+    padding-right: 20px; }
+
+.avis-form {
+  padding: 20px;
+  box-shadow: 0 0 10px #8080805c; }
+  .avis-form h2 {
+    font-size: 20px;
+    color: #4A898B; }
+
+input[type="radio"] {
+  color: red; }
+
 body {
   font-family: 'Montserrat', sans-serif;
   font-weight: medium; }
