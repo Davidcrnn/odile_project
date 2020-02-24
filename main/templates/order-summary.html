@@ -73,6 +73,12 @@
                 </tr>
 
                 <tr>
+                    <form action="" method='POST'>
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        Je déclare avoir pris connaissance des conditions générales de vente applicables et les avoir
+                        accepté sans restrictions
+                    </form>
                     <td colspan="5">
 
 

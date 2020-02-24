@@ -17,6 +17,7 @@ from .views import (
     add_single_item_to_cart,
     OrderDash,
     mentionsLegales,
+    ConditionsGenerales,
 
 
 
@@ -42,6 +43,7 @@ urlpatterns = [
     path('request-refund/', RequestRefundView.as_view(), name='request-refund'),
     path('order/', OrderDash.as_view(), name='order'),
     path('mentions-legales/', mentionsLegales.as_view(), name='mentions'),
+    path('conditions-generales/', ConditionsGenerales.as_view(), name='cgv'),
 
 
 ]
