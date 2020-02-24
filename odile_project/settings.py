@@ -36,7 +36,7 @@ if DEBUG:
     }
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -63,7 +63,7 @@ INSTALLED_APPS = [
 
 # DatePicker
 
-TEMPUS_DOMINUS_LOCALIZE = True
+# TEMPUS_DOMINUS_LOCALIZE = True
 
 
 MIDDLEWARE = [
@@ -197,8 +197,19 @@ ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_UNIQUE_EMAIL = True
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 COUNTRIES_FIRST = ['FR']
 COUNTRIES_FIRST_SORT = True
+
+
+EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+SENDGRID_SANDBOX_MODE_IN_DEBUG = False
+SENDGRID_API_KEY = config('SENGDRID_API_KEY')
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = config('SENGDRID_API_KEY')
+EMAIL_USE_TLS = True

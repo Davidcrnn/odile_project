@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="product-image-banner">
+        <div class="product-text-banner">
+            <h1>CONTACTEZ-NOUS</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-md-4">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti sit dicta ipsa aliquam error, reiciendis,
+            eaque magni maiores dolor, voluptatem fugit ducimus molestias velit amet. Hic ipsum dignissimos repellendus
+            perferendis?
+        </div>
+        <div class="col-xs-12 col-md-8">
+            <form method='POST' class='avis-form-container'>
+                {% csrf_token %}
+                <div class="contact-container">
+                    <h3 class="text-center">Formulaire de contact</h3>
+                    <label for="">Email</label>
+                    <br>
+                    {{ form.from_email }}
+                    <br>
+                    <label for="">Objet du message</label>
+                    <br>{{ form.subject }}
+                    <br>
+                    <label for="">Message</label><br>
+                    {{ form.message }} <br>
+
+                    <input type="submit" name="Envoyer" class="btn-valider">
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock content %}

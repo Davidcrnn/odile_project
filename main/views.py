@@ -6,10 +6,11 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView, ListView, DetailView, View, CreateView
-from .forms import CheckoutForm, CouponForm, RefundForm, PaymentForm, CgvForm, AvisForm
+from .forms import CheckoutForm, CouponForm, RefundForm, PaymentForm, CgvForm, AvisForm, ContactForm
 from .models import Product, OrderProduct, Order, Payment, Coupon, Refund, Info, Avis
 from django.http import JsonResponse
 from django.urls import reverse
+from django.core.mail import send_mail
 
 # Create your views here.
 import random
@@ -556,3 +557,29 @@ class AvisCreate(View):
             args['form'] = form
             messages.info(self.request, 'Le formulaire nest pas valide')
             return render(self.request, 'avis.html', args)
+
+
+class ContactView(View):
+    def get(self, request):
+        form = ContactForm()
+        context = {
+            'form': form
+        }
+        return render(request, 'contact.html', context)
+
+
+    def post(self,request):
+        form = ContactForm(self.request.POST or None)
+        args= {}
+        if form.is_valid():
+            subject = form.cleaned_data['subject']
+            from_email = form.cleaned_data['from_email']
+            message = form.cleaned_data['message']
+            send_mail(subject, message, from_email, ['david.crenin@gmail.com'], fail_silently=False)
+            messages.warning(
+                request, 'Votre message a été envoyé !')
+            return redirect('home')
+        else:
+            form= ContactForm(self.request.POST or None)
+            args['form'] = form
+            return render(self.request, 'contact.html', args)
