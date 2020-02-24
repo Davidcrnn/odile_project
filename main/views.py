@@ -516,32 +516,6 @@ class AvisView(View):
         }
         return render(self.request, "votreavis.html", context)
 
-    # def post(self, *args, **kwargs):
-    #     form = AvisForm(self.request.POST)
-    #     if form.is_valid():
-    #         email = form.cleaned_data.get('email')
-    #         objet = form.cleaned_data.get('objet')
-    #         message = form.cleaned_data.get('message')
-    # def post(self, *args, **kwargs):
-    #     form = RefundForm(self.request.POST)
-    #     if form.is_valid():
-    #         ref_code = form.cleaned_data.get('ref_code')
-    #         message = form.cleaned_data.get('message')
-    #         email = form.cleaned_data.get('email')
-    #         try:
-    #             order = Order.objects.get(ref_code=ref_code)
-    #             order.refund_requested = True
-    #             order.save()
 
-    #             refund = Refund()
-    #             refund.order = order
-    #             refund.reason = message
-    #             refund.email = email
-    #             refund.save()
-
-    #             messages.info(self.request, 'Your request was received')
-    #             return redirect('request-refund')
-
-    #         except ObjectDoesNotExist:
-    #             messages.info(self.request, 'This order does not exist.')
-    #             return redirect('request-refund')
+class mentionsLegales(TemplateView):
+    template_name = 'mentions-legales.html'
