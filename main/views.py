@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView, ListView, DetailView, View
-from .forms import CheckoutForm, CouponForm, RefundForm, PaymentForm
+from .forms import CheckoutForm, CouponForm, RefundForm, PaymentForm, CgvForm
 from .models import Product, OrderProduct, Order, Payment, Coupon, Refund, Info
 from django.http import JsonResponse
 
@@ -98,13 +98,17 @@ class OrderSummaryView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
+            form = CgvForm()
             context = {
-                'object': order
+                'object': order, 
+                'form': form,
             }
             return render(self.request, 'order-summary.html', context)
         except ObjectDoesNotExist:
             messages.warning(self.request, "You do not have an active order")
             return redirect("/")
+    
+    
 
 
 @login_required
@@ -519,3 +523,7 @@ class AvisView(View):
 
 class mentionsLegales(TemplateView):
     template_name = 'mentions-legales.html'
+
+
+class ConditionsGenerales(TemplateView):
+    template_name = 'cgv.html'

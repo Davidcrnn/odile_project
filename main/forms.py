@@ -129,6 +129,11 @@ class PaymentForm(forms.Form):
     save = forms.BooleanField(required=False)
     use_default = forms.BooleanField(required=False)
 
+
+class CgvForm(forms.Form):
+    cgv = forms.BooleanField(required=True)
+
+
 # class CustomSignupForm(SignupForm):
 #     username = forms.CharField(max_length=30, widget=forms.TextInput(attrs={
 #         'placeholder': 'Alan@turing.com',

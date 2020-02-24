@@ -565,6 +565,14 @@ tbody tr {
   .mentions-contenu p {
     margin: 0; }
 
+.cgv-contenu {
+  margin-bottom: 20px; }
+  .cgv-contenu h1 {
+    color: #4A898B;
+    font-size: 25px; }
+  .cgv-contenu p {
+    margin: 0; }
+
 body {
   font-family: 'Montserrat', sans-serif;
   font-weight: medium; }
