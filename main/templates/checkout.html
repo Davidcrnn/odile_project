@@ -12,23 +12,29 @@
         <div class="row">
             <div class="col-md-8 mb-4">
                 <div class="card">
-                    <form method="POST" class="card-body">
+                    <form method="POST" class="card-body" novalidate>
                         {% csrf_token %}
                         <h3>Informations personnelles</h3>
+                        {{ form.non_field_errors }}
 
+                        <!-- {% if default_address %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="user-save" style="padding: 25px">
+                                    <input type="checkbox" class="custom-control-input" name="use_default_shipping"
+                                        id="use_default_shipping">
+                                    <label class="custom-control-label" for="use_default_shipping">Utiliser vos
+                                        informations
+                                        personnelles:
 
-                        {% if default_address %}
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="use_default_shipping"
-                                id="use_default_shipping">
-                            <label class="custom-control-label" for="use_default_shipping">Utiliser vos informations
-                                personnelles:
-                                {{ default_address.prenom }}
-                                {{ default_address.name }} - {{ default_address.email }} - {{ default_address.phone }} -
-                                {{ default_address.pays }} - {{ default_address.code_postal  }}
-                            </label>
+                                    </label>
+
+                                </div>
+
+                            </div>
                         </div>
-                        {% endif %}
+
+                        {% endif %} -->
 
 
 
@@ -37,13 +43,20 @@
                             <div class="row mb-4">
                                 <div class="col-xs-12 col-md-6">
                                     <div class="md-form mb-2">
-                                        <label class="">Prénom</label>
+                                        {{ form.prenom.label_tag }}
+                                        {{ form.prenom.errors }}
                                         {{ form.prenom }}
+                                        {{ form.help_text }}
+
+
+
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-md-6">
                                     <div class="md-form mb-2 ">
-                                        <label class="">Nom</label>
+
+                                        {{ form.name.label_tag }}
+                                        {{ form.name.errors }}
                                         {{ form.name }}
                                     </div>
                                 </div>
@@ -51,34 +64,41 @@
                             <div class="row mb-4">
                                 <div class="col-xs-12 col-md-6">
                                     <div class="md-form mb-2">
-                                        <label class="">Email</label>
+                                        {{ form.email.label_tag }}
+                                        {{ form.email.errors }}
                                         {{ form.email }}
+                                        {{ form.help_text }}
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-md-6">
                                     <div class="md-form mb-2">
-                                        <label class="">Téléphone</label>
+
+                                        {{ form.phone.label_tag }}
+                                        {{ form.name.errors }}
                                         {{ form.phone }}
+                                        {{ form.help_text }}
                                     </div>
                                 </div>
                             </div>
                             <div class="row mb-4">
                                 <div class="col-xs-12 col-md-6">
                                     <div class="md-form mb-2">
-                                        <label for="" class="">Code postal</label>
+                                        {{ form.code_postal.label_tag }}
                                         {{ form.code_postal }}
+                                        {{ form.name.errors }}
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-md-6">
                                     <div class="md-form mb-2">
-                                        <label for="" class="">Pays</label>
+                                        {{ form.pays.label_tag }}
                                         {{ form.pays }}
+                                        {{ form.name.errors }}
                                     </div>
                                 </div>
                                 <div class="col-xs-12">
-                                    <div class="md-form mb-2">
+                                    <div class="md-form mb-2 ml-3">
                                         <div>
-                                            {{ form.address_default }}
+                                            {{ form.save_address }}
                                             <label for="" class="">Sauvegarder ces informations pour une prochaine
                                                 commande</label>
 
@@ -93,17 +113,15 @@
                         <div class="row">
                             <div class="col">
 
+                                {{ form.date_delivery.label_tag }}
+                                {{ form.date_delivery }}
+                                {{ form.date_delivery.errors }}
+                                {{ form.date_delivery.help_text }}
 
-                                <div class="input-group date datetimepicker1" id="datetimepicker1"
-                                    data-target-input="nearest">
-                                    {{ form.date_delivery}}
-                                    <!-- <div class="input-group-append" data-target="#datetimepicker1"
-                                        data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                    </div> -->
-                                </div>
+
 
                             </div>
+
                         </div>
                         <hr>
                         <h3>Modalités de livraison</h3>
@@ -116,14 +134,14 @@
                             </div>
                             {% endfor %}
                         </div>
-
-
                         <hr class="mb-4">
                         <button class="btn-valider btn-lg btn-block" type="submit">Valider la commande</button>
 
                     </form>
-
                 </div>
+
+
+
 
             </div>
             <div class="col-md-4 mb-4">
@@ -135,6 +153,8 @@
             </div>
 
         </div>
+
+    </div>
 
     </div>
 </main>
@@ -159,12 +179,34 @@
 
     use_default_shipping.addEventListener('change', function () {
         if (this.checked) {
+            // $("#id_prenom").val('{{ default_address.prenom }}');
+            // $("#id_name").val('{{ default_address.name }}');
+            // $("#id_email").val('{{ default_address.email }}');
+            // $("#id_phone").val('{{ default_address.phone }}');
+            // $("#id_code_postal").val('{{ default_address.code_postal }}');
+            // $("#id_pays").val('{{ default_address.pays }}');
+
             hideable_shipping_form.hide();
+            // $("#id_prenom").prop('required', false);
+            // $("#id_name").prop('required', false);
+            // $("#id_email").prop('required', false);
+            // $("#id_phone").prop('required', false);
+            // $("#id_code_postal").prop('required', false);
+            // $("#id_pays").prop('required', false);
         } else {
+            $("#id_prenom").prop('required', true);
+            $("#id_name").prop('required', true);
+            $("#id_email").prop('required', true);
+            $("#id_phone").prop('required', true);
+            $("#id_code_postal").prop('required', true);
+            $("#id_pays").prop('required', true);
+
             hideable_shipping_form.show();
         }
     })
 
 
 </script>
+
+
 {% endblock extra_scripts %}

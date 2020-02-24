@@ -3,6 +3,7 @@ from django.conf import settings
 from django.urls import reverse
 from django_countries.fields import CountryField
 import datetime
+from django.utils.timezone import now
 
 
 PRODUCT_CATEGORIES = (
@@ -101,6 +102,7 @@ class Order(models.Model):
         'Info', on_delete=models.SET_NULL, blank=True, null=True)
     ordered = models.BooleanField(default=False)
     date_delivery = models.CharField(max_length=100)
+    # date_publication = models.DateField(auto_now_add=False, blank=True, null=True)
     delivery_option = models.CharField(
         max_length=100, choices=LIVRAISON_CHOICES)
     coupon = models.ForeignKey(
@@ -109,6 +111,7 @@ class Order(models.Model):
     received = models.BooleanField(default=False)
     refund_requested = models.BooleanField(default=False)
     refund_granted = models.BooleanField(default=False)
+    date_de_creation = models.DateTimeField(default=now)
 
     def __str__(self):
         return self.user.email
