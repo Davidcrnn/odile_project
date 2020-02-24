@@ -166,6 +166,19 @@ class AvisForm(forms.Form):
     }))
 
 
+class ContactForm(forms.Form):
+    from_email = forms.EmailField(widget=forms.TextInput(attrs={
+        'placeholder': 'david.crenin@gmail.com',
+        'class': 'form-control checkout-input'}))
+    subject = forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder': "Projet de création d'un site !",
+        'class': 'form-control checkout-input'}))
+    message = forms.CharField(widget=forms.Textarea(attrs={
+        'rows': 5,
+        'placeholder': 'Bonjour, je souhaiterais développer un projet ...',
+        'class': 'form-control checkout-input '}))
+
+
 # class CustomSignupForm(SignupForm):
 #     username = forms.CharField(max_length=30, widget=forms.TextInput(attrs={
 #         'placeholder': 'Alan@turing.com',

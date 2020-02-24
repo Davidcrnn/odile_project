@@ -19,6 +19,7 @@ from .views import (
     mentionsLegales,
     ConditionsGenerales,
     AvisCreate,
+    ContactView
 
 
 
@@ -46,6 +47,7 @@ urlpatterns = [
     path('mentions-legales/', mentionsLegales.as_view(), name='mentions'),
     path('conditions-generales/', ConditionsGenerales.as_view(), name='cgv'),
     path('votre-avis/', AvisCreate.as_view(), name='avis'),
+    path('contact/', ContactView.as_view(), name='contact'),
 
 
 ]
