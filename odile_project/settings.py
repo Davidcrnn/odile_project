@@ -198,3 +198,7 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_UNIQUE_EMAIL = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+COUNTRIES_FIRST = ['FR']
+COUNTRIES_FIRST_SORT = True

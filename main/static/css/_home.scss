@@ -39,5 +39,33 @@
     margin: 20px 0;
 }
 
-/// Banner slider
+/// Banner modal
 
+.menu-choice-modal {
+    border: none;
+    box-shadow: 0 0 10px $gris;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.menu-choices-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 300px;
+
+    a {
+        padding: 20px;
+        background-color: $vertf;
+        color: white;
+        border-radius: 9px;
+    }
+}
+
+.menu-choices-header {
+    border: none;
+}
+
+.no-border {
+    border: none;
+    box-shadow: 0 0 10px $gris;
+}

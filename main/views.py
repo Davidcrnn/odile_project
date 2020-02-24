@@ -44,7 +44,7 @@ class ProductListView(ListView):
         if user.is_authenticated:
             order, created = Order.objects.get_or_create(
                 user=self.request.user, ordered=False)
-            print(order)
+
             context = {
                 'order': order,
                 'products': products,
@@ -139,6 +139,7 @@ def add_to_cart(request, slug):
 
 @login_required
 def add_single_item_to_cart(request, slug):
+
     product = get_object_or_404(Product, slug=slug)
     order_product, created = OrderProduct.objects.get_or_create(
         product=product,
@@ -248,13 +249,14 @@ class CheckoutView(View):
 
     def post(self, *args, **kwargs):
         form = CheckoutForm(self.request.POST or None)
-
+        args = {}
         try:
             order = Order.objects.get(
                 user=self.request.user, ordered=False)
             if form.is_valid():
-
                 default_address = form.cleaned_data.get('default_address')
+                date_delivery = form.cleaned_data.get('date_delivery')
+                delivery_option = form.cleaned_data.get('delivery_option')
 
                 if default_address:
                     address_qs = Info.objects.filter(
@@ -264,7 +266,8 @@ class CheckoutView(View):
                     if address_qs.exists():
                         shipping_address = address_qs[0]
                         order.information = shipping_address
-
+                        order.delivery_option = delivery_option
+                        order.date_delivery = date_delivery
                         order.save()
                     else:
                         messages.info(
@@ -278,7 +281,8 @@ class CheckoutView(View):
                     code_postal = form.cleaned_data.get('code_postal')
                     pays = form.cleaned_data.get('pays')
                     date_delivery = form.cleaned_data.get('date_delivery')
-                    delivery_option = form.cleaned_data.get('delivery_option')
+                    delivery_option = form.cleaned_data.get(
+                        'delivery_option')
 
                     if is_valid_form([name, prenom, pays, code_postal, phone, email]):
                         adresse_info = Info(
@@ -289,6 +293,7 @@ class CheckoutView(View):
                             code_postal=code_postal,
                             phone=phone,
                             email=email,
+
                         )
                         adresse_info.save()
 
@@ -297,19 +302,37 @@ class CheckoutView(View):
                         order.delivery_option = delivery_option
                         order.save()
 
-                        address_default = form.cleaned_data.get(
-                            'address_default')
-                        if address_default:
+                        save_address = form.cleaned_data.get(
+                            'save_address')
+                        if save_address:
                             adresse_info.default = True
                             adresse_info.save()
 
-                    messages.info(
-                        self.request, 'Les informations ont bien été prises en compte')
-                    return redirect('payment')
+                        messages.info(
+                            self.request, 'Il ne vous reste plus que le paiement')
+                        return redirect('payment')
+                    else:
+                        messages.info(
+                            self.request, "Vos informations personnelles ne sont pas complètes")
+                        return redirect("checkout")
 
+                    # date_delivery = form.cleaned_data.get('date_delivery')
+                    # delivery_option = form.cleaned_data.get(
+                    #     'delivery_option')
+                    # if date_delivery == '':
+                    #     return redirect('checkout')
+                    # else:
+                    #     order.date_delivery = date_delivery
+                    #     print(delivery_option)
+                    #     order.delivery_option = delivery_option
+                    #     order.save()
+            else:
+                args['form'] = form
+                messages.info(self.request, 'Le formulaire doit être rempli')
+                return render(self.request, 'checkout.html', args)
         except ObjectDoesNotExist:
             messages.info(self.request, 'This order does not exist.')
-            return redirect('request-refund')
+            return redirect('order-summary')
 
 
 class PaymentView(View):
@@ -322,6 +345,7 @@ class PaymentView(View):
                 'order': order,
                 'DISPLAY_COUPON_FORM': False
             }
+
             return render(self.request, 'payment.html', context)
         else:
             messages.warning(
@@ -330,8 +354,8 @@ class PaymentView(View):
 
     def post(self, *args, **kwargs):
         order = Order.objects.get(user=self.request.user, ordered=False)
-        form = PaymentForm(self.request.POST)
-        token   = self.request.POST.get('stripeToken')
+
+        token = self.request.POST.get('stripeToken')
         amount = int(order.get_total())
         try:
             charge = stripe.Charge.create(

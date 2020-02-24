@@ -8,7 +8,20 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    padding: 30px 0;
+    
+    padding: 50px 0;
+
+    h3 {
+        color: white;
+        margin-bottom: 30px;
+    }
+
+    p, a {
+        color: white;
+        margin: 0;
+        font-size: 16px;
+        margin-bottom: 7px;
+    }
 }
 
 .footer-nav  {
@@ -26,5 +39,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: $vertf;
+    color: white;
+    padding: 15Px 0;
+    h4 {
+        font-size: 13px;
+        margin: 0;
+    }
 }
 

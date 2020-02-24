@@ -1,27 +1,30 @@
 {% load static %}
 <div class="footer-container">
-    <div class="footer-logo">
 
-
-        <img src="{% static '../static/images/logo-dej.svg' %} " alt="" style='height: 100px;'>
-        <p>Livraison de panier repas </p>
-    </div>
     <div class="footer-nav">
         <h3>Navigation</h3>
-        <p>Products</p>
-        <p>Panier</p>
-        <p>About</p>
+        <p>À propos</p>
+        <p>Livraison</p>
+        <p><a href="">Menu déjeuner</a></p>
+        <p><a href="">Menu apéro</a></p>
     </div>
     <div class="footer-information">
         <h3>Informations</h3>
         <p>Mentions légales</p>
         <p>Conditions générales de vente</p>
-        <p>Admin</p>
+        <p><a href="{% url 'admin:index' %}">Admin</a></p>
     </div>
-    <!-- 
-    {% include 'newsletter-snippet.html' %} -->
+    <div class="footer-contact">
+        <h3>Contactez-nous</h3>
+        <p>Déjeuner sur l'eau</p>
+        <p><a href="tel:0145444444">0145454545</a></p>
+        <p><a href="mailto:contact@dejeunersurleau.com ">contact@déjeunersurleau.com</a></p>
+        <p><a href="">Formulaire de contact</a></p>
+
+    </div>
+
 </div>
 
-<!-- <div class="footer-credit">
+<div class="footer-credit">
     <h4> Copyright Dejeuner sur l'eau - Designed & developed by Crnn</h4>
-</div> -->
+</div>

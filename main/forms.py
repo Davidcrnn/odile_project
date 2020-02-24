@@ -1,10 +1,9 @@
 from django import forms
 from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
-# from tempus_dominus.widgets import DatePicker, TimePicker, DateTimePicker
 from flatpickr import DatePickerInput, TimePickerInput, DateTimePickerInput
+from django.utils.timezone import datetime
 
-# from allauth.account.forms import SignupForm
 
 LIVRAISON_CHOICES = (
     ('1', 'Point fixe 1'),
@@ -21,55 +20,92 @@ OBJET_CHOICES = (
 
 
 class CheckoutForm(forms.Form):
-    name = forms.CharField(required=False, widget=forms.TextInput(attrs={
+    name = forms.CharField(required=True, error_messages={'required': "Please Enter your Name"}, widget=forms.TextInput(attrs={
         'placeholder': 'Turing',
-        'class': 'form-control checkout-input'
-    }))
-    prenom = forms.CharField(required=False, widget=forms.TextInput(attrs={
-        'placeholder': 'Alan',
-        'class': 'form-control checkout-input'
-    }))
-    phone = forms.CharField(max_length=13, required=False, widget=forms.TextInput(attrs={
-        'placeholder': '0145444646',
-        'class': 'form-control checkout-input'
-    }))
-    email = forms.EmailField(required=False, widget=forms.TextInput(attrs={
-        'placeholder': 'Alan@turing.com',
-        'class': 'form-control checkout-input'
-    }))
-
-    code_postal = forms.CharField(max_length=13, required=False, widget=forms.TextInput(attrs={
-        'placeholder': '75000',
         'class': 'form-control checkout-input',
-
     }))
+    prenom = forms.CharField(required=True, error_messages={
+        'required': "Please Enter your Name"}, widget=forms.TextInput(attrs={
+            'placeholder': 'Alan',
+            'class': 'form-control checkout-input',
+        }))
+    phone = forms.CharField(max_length=13, help_text='Numéro valide', error_messages={
+        'required': "Please Enter your Name"}, required=True, widget=forms.TextInput(attrs={
+            'placeholder': '0145444646',
+            'class': 'form-control checkout-input',
+        }))
+    email = forms.EmailField(required=True, help_text='Rentrez votre email', error_messages={
+        'required': "Please Enter your Name"}, widget=forms.TextInput(attrs={
+            'placeholder': 'Alan@turing.com',
+            'class': 'form-control checkout-input',
+        }))
+
+    code_postal = forms.CharField(max_length=13, required=True, error_messages={
+        'required': "Please Enter your Name"}, widget=forms.TextInput(attrs={
+            'placeholder': '75000',
+            'class': 'form-control checkout-input',
+
+        }))
     pays = CountryField(blank_label='(Pays)').formfield(
 
-        required=False, widget=CountrySelectWidget(attrs={
+        required=True, widget=CountrySelectWidget(attrs={
             'class': 'custom-select d-block w-100 checkout-input',
         }))
-    delivery_option = forms.ChoiceField(
-        widget=forms.RadioSelect, choices=LIVRAISON_CHOICES)
+    delivery_option = forms.ChoiceField(required=True,
+                                        widget=forms.RadioSelect,
+                                        choices=LIVRAISON_CHOICES,
+                                        help_text='Choississez une date de livraison et son horaire')
 
-    date_delivery = forms.CharField(max_length=100, widget=DateTimePickerInput(
+    date_delivery = forms.CharField(required=True, error_messages={
+        'required': "Please Enter your Name"}, widget=DateTimePickerInput(
         attrs={    # input element attributes
             "class": "my-custom-class",
             "placeholder": 'Choisir une date de livraison',
+
         },
         options={  # flatpickr options
             "dateFormat": "d/m/Y H:i",
+            "altFormat": "d/m/Y H:i",
             'minTime': '10:00',
             'maxTime': '12:30',
             'enableTime': 'true',
             'time_24hr': 'true',
             'minDate': "today",
+            'defaultDate': 'today',
             'minuteIncrement': '10',
             "locale": "fr",
         }
     ))
 
-    address_default = forms.BooleanField(
+    save_address = forms.BooleanField(
         required=False, widget=forms.CheckboxInput())
+
+    # def clean(self):
+    #     cleaned_data = super(CheckoutForm, self).clean()
+    #     name = cleaned_data.get('name')
+    #     email = cleaned_data.get('email')
+    #     phone = cleaned_data.get('phone')
+    #     prenom = cleaned_data.get('prenom')
+    #     code_postal = cleaned_data.get('code_postal')
+    #     pays = cleaned_data.get('pays')
+    #     date_delivery = cleaned_data.get('date_delivery')
+    #     today = datetime.today()
+
+    #     if date_delivery == today.day:
+    #         raise forms.ValidationError(
+    #             'La livraison nest pas possible pour aujourdhui')
+
+    #     if len(phone) > 10:
+    #         raise forms.ValidationError('Ce numéro nest pas valide')
+
+    #     if len(prenom) > 3:
+    #         raise forms.ValidationError('prénom invalide')
+    # def clean_phone(self):
+    #     phone = self.cleaned_data.get('phone')
+    #     if len(phone) < 10:
+    #         return phone
+    #     else:
+    #         raise forms.ValidationError('Votre numéro nest pas correct')
 
 
 class CouponForm(forms.Form):
