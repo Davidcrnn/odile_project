@@ -390,11 +390,10 @@ a.btn-product-description {
 
 .product-card-text-modal {
   padding: 0 40px 40px; }
-
-p {
-  margin: 20px 0;
-  color: #8080805c;
-  font-size: 12px; }
+  .product-card-text-modal p {
+    margin: 20px 0;
+    color: #8080805c;
+    font-size: 12px; }
 
 .product-card-text-modal h4 {
   color: #4A898B;
@@ -556,6 +555,15 @@ tbody tr {
     font-size: 50px;
     letter-spacing: 2px;
     color: #ccac54; }
+
+.mentions-contenu {
+  background: transparent;
+  margin-bottom: 20px; }
+  .mentions-contenu h1 {
+    color: #4A898B;
+    font-size: 25px; }
+  .mentions-contenu p {
+    margin: 0; }
 
 body {
   font-family: 'Montserrat', sans-serif;

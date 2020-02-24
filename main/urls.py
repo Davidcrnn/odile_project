@@ -16,6 +16,7 @@ from .views import (
     RequestRefundView,
     add_single_item_to_cart,
     OrderDash,
+    mentionsLegales,
 
 
 
@@ -40,6 +41,7 @@ urlpatterns = [
     path('add-coupon/', AddCouponView.as_view(), name='add-coupon'),
     path('request-refund/', RequestRefundView.as_view(), name='request-refund'),
     path('order/', OrderDash.as_view(), name='order'),
+    path('mentions-legales/', mentionsLegales.as_view(), name='mentions'),
 
 
 ]
