@@ -18,6 +18,7 @@ from .views import (
     OrderDash,
     mentionsLegales,
     ConditionsGenerales,
+    AvisCreate,
 
 
 
@@ -44,6 +45,7 @@ urlpatterns = [
     path('order/', OrderDash.as_view(), name='order'),
     path('mentions-legales/', mentionsLegales.as_view(), name='mentions'),
     path('conditions-generales/', ConditionsGenerales.as_view(), name='cgv'),
+    path('votre-avis/', AvisCreate.as_view(), name='avis'),
 
 
 ]

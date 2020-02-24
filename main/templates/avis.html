@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="product-image-banner">
+        <div class="product-text-banner">
+            <h1>VOTRE AVIS NOUS INTÉRESSE</h1>
+        </div>
+    </div>
+    <form method='POST' class='avis-form-container'>
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-xs-12 col-md-4">
+                <div class="avis-text">
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nemo autem quos amet, enim, dolorum ullam
+                    accusamus est ipsam sed pariatur eum omnis, natus tempore nostrum vero laudantium. Aliquid,
+                    molestiae velit.
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-8">
+                <div class="avis-form">
+                    <h2>{{ form.email.label }}</h2>
+                    <p>{{ form.email }}</p>
+                    <small>{{ form.email.help_text }}</small>
+
+                    <div class="avis-objet">
+                        <h2>{{ form.objet.label }}</h2>
+                        <p>{{ form.objet }}</p>
+
+                    </div>
+
+                    <h2>{{ form.message.label }}</h2>
+                    <p>{{ form.message }}</p>
+                    <input type="submit" value='Je donne mon avis' class="btn-valider">
+                </div>
+
+            </div>
+        </div>
+
+
+
+    </form>
+</div>
+{% endblock content %}

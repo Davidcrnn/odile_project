@@ -1,8 +1,10 @@
 from django import forms
+from django.forms import ModelForm
 from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
 from flatpickr import DatePickerInput, TimePickerInput, DateTimePickerInput
 from django.utils.timezone import datetime
+from .models import Avis
 
 
 LIVRAISON_CHOICES = (
@@ -132,6 +134,36 @@ class PaymentForm(forms.Form):
 
 class CgvForm(forms.Form):
     cgv = forms.BooleanField(required=True)
+
+
+# class AvisForm(ModelForm):
+#     class Meta:
+#         model = Avis
+#         fields = ['email', 'objet', 'message']
+
+
+class AvisForm(forms.Form):
+
+    OBJET = (
+        ('Produits', 'Produits'),
+        ('Livraison', 'Livraisons'),
+        ('Horaires de livraison', 'Horaires de livraison'),
+        ('Autre', 'Autre'),
+    )
+
+    email = forms.EmailField(widget=forms.TextInput(attrs={
+        'class': 'form-control checkout-input',
+        'placeholder': 'Indiquez votre email'
+    }))
+    objet = forms.ChoiceField(required=True,
+                              widget=forms.RadioSelect,
+                              choices=OBJET,
+                              )
+    message = forms.CharField(widget=forms.Textarea(attrs={
+        'placeholder': 'Ce message nous permettra daméliorer notre service',
+        'class': 'form-control checkout-input',
+        'rows': 4, 'cols': 15
+    }))
 
 
 # class CustomSignupForm(SignupForm):
