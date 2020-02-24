@@ -571,7 +571,8 @@ tbody tr {
     color: #4A898B;
     font-size: 25px; }
   .cgv-contenu p {
-    margin: 0; }
+    margin: 0;
+    background: transparent; }
 
 .avis-form-container {
   margin-bottom: 20px; }
