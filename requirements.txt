@@ -1,6 +1,7 @@
 certifi==2019.9.11
 chardet==3.0.4
 defusedxml==0.6.0
+dj-database-url==0.5.0
 Django==2.2
 django-allauth==0.40.0
 django-appconf==1.0.3
@@ -13,6 +14,7 @@ django-sass-processor==0.7.4
 django-sendgrid-v5==0.8.1
 django-tempus-dominus==5.1.2.9
 future==0.18.2
+gunicorn==20.0.4
 idna==2.8
 libsass==0.19.4
 oauthlib==3.1.0
@@ -31,3 +33,4 @@ six==1.13.0
 sqlparse==0.3.0
 stripe==2.40.0
 urllib3==1.25.7
+whitenoise==5.0.1
