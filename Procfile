@@ -1,0 +1,1 @@
+web: gunicorn odile_project.wsgi --log-file -
