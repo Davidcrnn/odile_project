@@ -13,6 +13,7 @@ make_refund_accepted.short_description = 'Update orders to refund granted'
 class OrderAdmin(admin.ModelAdmin):
     list_display = [
         'user',
+        'type_of_order',
         'ordered',
         'is_delivered',
         'received',

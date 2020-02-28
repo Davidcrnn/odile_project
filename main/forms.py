@@ -22,28 +22,28 @@ OBJET_CHOICES = (
 
 
 class CheckoutForm(forms.Form):
-    name = forms.CharField(required=True, error_messages={'required': "Please Enter your Name"}, widget=forms.TextInput(attrs={
+    name = forms.CharField(required=True, error_messages={'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
         'placeholder': 'Turing',
         'class': 'form-control checkout-input',
     }))
     prenom = forms.CharField(required=True, error_messages={
-        'required': "Please Enter your Name"}, widget=forms.TextInput(attrs={
+        'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
             'placeholder': 'Alan',
             'class': 'form-control checkout-input',
         }))
     phone = forms.CharField(max_length=13, help_text='Numéro valide', error_messages={
-        'required': "Please Enter your Name"}, required=True, widget=forms.TextInput(attrs={
+        'required': "Vous devez renseigner ce champ"}, required=True, widget=forms.TextInput(attrs={
             'placeholder': '0145444646',
             'class': 'form-control checkout-input',
         }))
     email = forms.EmailField(required=True, help_text='Rentrez votre email', error_messages={
-        'required': "Please Enter your Name"}, widget=forms.TextInput(attrs={
+        'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
             'placeholder': 'Alan@turing.com',
             'class': 'form-control checkout-input',
         }))
 
     code_postal = forms.CharField(max_length=13, required=True, error_messages={
-        'required': "Please Enter your Name"}, widget=forms.TextInput(attrs={
+        'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
             'placeholder': '75000',
             'class': 'form-control checkout-input',
 
@@ -59,7 +59,7 @@ class CheckoutForm(forms.Form):
                                         help_text='Choississez une date de livraison et son horaire')
 
     date_delivery = forms.CharField(required=True, error_messages={
-        'required': "Please Enter your Name"}, widget=DateTimePickerInput(
+        'required': "Vous devez renseigner ce champ"}, widget=DateTimePickerInput(
         attrs={    # input element attributes
             "class": "my-custom-class",
             "placeholder": 'Choisir une date de livraison',
@@ -82,37 +82,21 @@ class CheckoutForm(forms.Form):
     save_address = forms.BooleanField(
         required=False, widget=forms.CheckboxInput())
 
-    # def clean(self):
-    #     cleaned_data = super(CheckoutForm, self).clean()
-    #     name = cleaned_data.get('name')
-    #     email = cleaned_data.get('email')
-    #     phone = cleaned_data.get('phone')
-    #     prenom = cleaned_data.get('prenom')
-    #     code_postal = cleaned_data.get('code_postal')
-    #     pays = cleaned_data.get('pays')
-    #     date_delivery = cleaned_data.get('date_delivery')
-    #     today = datetime.today()
 
-    #     if date_delivery == today.day:
-    #         raise forms.ValidationError(
-    #             'La livraison nest pas possible pour aujourdhui')
+class ProductForm(forms.Form):
 
-    #     if len(phone) > 10:
-    #         raise forms.ValidationError('Ce numéro nest pas valide')
-
-    #     if len(prenom) > 3:
-    #         raise forms.ValidationError('prénom invalide')
-    # def clean_phone(self):
-    #     phone = self.cleaned_data.get('phone')
-    #     if len(phone) < 10:
-    #         return phone
-    #     else:
-    #         raise forms.ValidationError('Votre numéro nest pas correct')
+    QUANTITY_PRODUCT = (
+        ('1', 1),
+        ('2', 2),
+        ('3', 3),
+        ('4', 4),
+    )
+    quantity = forms.ChoiceField(choices=QUANTITY_PRODUCT)
 
 
 class CouponForm(forms.Form):
     code = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'form-control',
+        'class': 'form-control checkout-input',
         'placeholder': 'Promo code',
     }))
 
@@ -168,14 +152,14 @@ class AvisForm(forms.Form):
 
 class ContactForm(forms.Form):
     from_email = forms.EmailField(widget=forms.TextInput(attrs={
-        'placeholder': 'david.crenin@gmail.com',
+        'placeholder': 'email@email.com',
         'class': 'form-control checkout-input'}))
     subject = forms.CharField(widget=forms.TextInput(attrs={
-        'placeholder': "Projet de création d'un site !",
+        'placeholder': "Une petite question",
         'class': 'form-control checkout-input'}))
     message = forms.CharField(widget=forms.Textarea(attrs={
         'rows': 5,
-        'placeholder': 'Bonjour, je souhaiterais développer un projet ...',
+        'placeholder': 'Votre message',
         'class': 'form-control checkout-input '}))
 
 

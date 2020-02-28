@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 
-{% block content  %}
+{% block content %}
+
 <div class="container">
     <div class="product-image-banner">
         <div class="product-text-banner">
-            <h1>VOTRE PANIER - DEJEUNER</h1>
+            <h1>VOTRE PANIER- APERO</h1>
 
         </div>
     </div>
@@ -25,7 +26,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for order_product in  object.products.all %}
+                {% for order_product in  order_apero.products.all %}
                 <tr>
                     <th scope="row">{{ forloop.counter }}</th>
                     <td>{{ order_product.product.name }} </td>
@@ -52,38 +53,39 @@
                 </tr>
                 <tr>
                     <td colspan="5">
-                        <a class='btn-annuler float-right' href="{% url 'products'%}">Voir le menu</a>
+                        <a class='btn-annuler float-right' href="{% url 'products-apero'%}">Voir le menu</a>
                     </td>
                 </tr>
                 {% endfor %}
 
-                {% if object.coupon %}
+                {% if order_apero.coupon %}
                 <tr>
                     <td colspan="4">Coupon</td>
                     <td> - {{ object.coupon.amount}}€</td>
                 </tr>
                 {% endif %}
 
-                {% if object.get_total %}
+                {% if order_apero.get_total %}
 
 
                 <tr>
                     <td colspan="4">Total</td>
-                    <td>{{ object.get_total}}€</td>
+                    <td>{{ order_apero.get_total}}€</td>
                 </tr>
 
                 <tr>
                     <!-- <form action="" method='POST'>
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        Je déclare avoir pris connaissance des conditions générales de vente applicables et les avoir
-                        accepté sans restrictions
-                    </form> -->
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                Je déclare avoir pris connaissance des conditions générales de vente applicables et les avoir
+                                accepté sans restrictions
+                            </form> -->
                     <td colspan="5">
 
                         <a class='btn-valider float-right ml-2' href='/checkout/'>Commander</a>
 
-                        <a class='btn-annuler float-right' href="{% url 'products'%}">Ajoutez d'autres produits</a>
+                        <a class='btn-annuler float-right' href="{% url 'products-apero'%}">Ajoutez d'autres
+                            produits</a>
                     </td>
                 </tr>
                 {% endif %}
@@ -93,38 +95,4 @@
 
 
 </div>
-
-
-
-
-<script>
-    /*
-    On focus out on input email,
-    call AJAX get request to check if the email
-    already exists or not.
-    */
-    $("#id_email").focusout(function (e) {
-        e.preventDefault();
-        // get the email
-        var email = $(this).val();
-        // GET AJAX request
-        $.ajax({
-            type: 'GET',
-            url: "{% url 'validate_email' %}",
-            data: { "email": email },
-            success: function (response) {
-                // if not valid user, alert the user
-                if (!response["valid"]) {
-                    alert("You cannot create a friend with same nick name");
-                    var email = $("#id_email");
-                    email.val("")
-                    email.focus()
-                }
-            },
-            error: function (response) {
-                console.log(response)
-            }
-        })
-    })
-</script>
-{% endblock content  %}
+{% endblock content %}

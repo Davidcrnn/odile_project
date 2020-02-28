@@ -392,7 +392,6 @@ a.btn-product-description {
   padding: 0 40px 40px; }
   .product-card-text-modal p {
     margin: 20px 0;
-    color: #8080805c;
     font-size: 12px; }
 
 .product-card-text-modal h4 {
@@ -586,6 +585,8 @@ tbody tr {
   .avis-objet li {
     list-style: none;
     padding-right: 20px; }
+  .avis-objet input:focus {
+    border: 2px solid red; }
 
 .avis-form {
   padding: 20px;
@@ -593,6 +594,9 @@ tbody tr {
   .avis-form h2 {
     font-size: 20px;
     color: #4A898B; }
+
+input[type="radio" i]:focus {
+  background: #4A898B; }
 
 .contact-container {
   box-shadow: 0 0 10px #8080805c;
