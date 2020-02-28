@@ -39,9 +39,13 @@ LIVRAISON_CHOICES = (
 )
 
 MENU = (
-    ('Les deux', 'Les deux'),
     ('Apero', 'Apero'),
     ('Dejeuner', 'Dejeuner')
+)
+
+TYPE_OF_ORDER = (
+    ('Dejeuner', 'Dejeuner'),
+    ('Apero', 'Apero')
 )
 
 
@@ -55,7 +59,7 @@ class Product(models.Model):
         max_length=32, choices=PRODUCT_CATEGORIES, default='Plats')
     allergene = models.CharField(
         max_length=32, choices=PRODUCT_ALLERGENES, blank=True, null=True)
-    menu = models.CharField(max_length=30, choices=MENU, default='Les deux')
+    menu = models.CharField(max_length=30, choices=MENU, default='Dejeuner')
     quantité = models.IntegerField(default=1)
 
     def __str__(self):
@@ -109,6 +113,8 @@ class Order(models.Model):
         'Coupon', on_delete=models.SET_NULL, blank=True, null=True)
     is_delivered = models.BooleanField(default=False)
     cgv = models.BooleanField(default=False)
+    type_of_order = models.CharField(
+        max_length=50, choices=TYPE_OF_ORDER, default='Dejeuner')
     received = models.BooleanField(default=False)
     refund_requested = models.BooleanField(default=False)
     refund_granted = models.BooleanField(default=False)

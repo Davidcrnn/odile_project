@@ -35,11 +35,14 @@
     <form class="card p-2" action="{% url 'add-coupon' %}" method="POST">
         {% csrf_token %}
         <div class="input-group">
+
             {{ couponform.code }}
+
+
 
             <div class="input-group-append">
 
-                <button class=" btn-md waves-effect m-0" type="submit">Valider</button>
+                <button class=" btn-md btn-valider waves-effect m-0" type="submit">Valider</button>
             </div>
         </div>
     </form>
