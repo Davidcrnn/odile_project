@@ -48,10 +48,13 @@
             </div>
         </div>
         <div class="col-xs-12 col-md-3">
-
-            {% include 'order-snippet.html' %}
-            <a class='btn-valider float-right mt-2' href="{% url 'order-summary-apero' %}">
-                Voir le panier</a>
+            <div id='stickycart' class="col-md-12 mb-4 mt-5 ">
+                {% include 'order-snippet.html' %}
+                <a class='btn-valider float-right mt-2' href="{% url 'order-summary-apero' %}">
+                    Voir le panier</a>
+            </div>
+            {% include 'service-client-snippet.html' %}
+            {% include 'paiement-safe-snippet.html' %}
 
 
         </div>

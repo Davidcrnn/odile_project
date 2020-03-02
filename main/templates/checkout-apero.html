@@ -5,7 +5,7 @@
     <div class="container">
         <div class="product-image-banner">
             <div class="product-text-banner">
-                <h1>LIVRAISON</h1>
+                <h1>LIVRAISON - APERO</h1>
                 <p>Informations personnelles</p>
             </div>
         </div>
@@ -15,7 +15,7 @@
                     <form method="POST" class="card-body" novalidate>
                         {% csrf_token %}
                         <h3>Informations personnelles</h3>
-                        {{ form.non_field_errors }}
+                        <!-- {{ form.non_field_errors }} -->
 
                         <!-- {% if default_address %}
                         <div class="row">
@@ -44,9 +44,9 @@
                                 <div class="col-xs-12 col-md-6">
                                     <div class="md-form mb-2">
                                         {{ form.prenom.label_tag }}
-                                        {{ form.prenom.errors }}
                                         {{ form.prenom }}
-                                        {{ form.help_text }}
+                                        {{ form.prenom.errors }}
+
 
 
 
@@ -56,8 +56,8 @@
                                     <div class="md-form mb-2 ">
 
                                         {{ form.name.label_tag }}
-                                        {{ form.name.errors }}
                                         {{ form.name }}
+                                        {{ form.name.errors }}
                                     </div>
                                 </div>
                             </div>
@@ -65,18 +65,18 @@
                                 <div class="col-xs-12 col-md-6">
                                     <div class="md-form mb-2">
                                         {{ form.email.label_tag }}
-                                        {{ form.email.errors }}
                                         {{ form.email }}
-                                        {{ form.help_text }}
+                                        {{ form.email.errors }}
+
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-md-6">
                                     <div class="md-form mb-2">
 
                                         {{ form.phone.label_tag }}
-                                        {{ form.name.errors }}
                                         {{ form.phone }}
-                                        {{ form.help_text }}
+                                        {{ form.phone.errors }}
+
                                     </div>
                                 </div>
                             </div>
@@ -85,14 +85,14 @@
                                     <div class="md-form mb-2">
                                         {{ form.code_postal.label_tag }}
                                         {{ form.code_postal }}
-                                        {{ form.name.errors }}
+                                        {{ form.code_postal.errors }}
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-md-6">
                                     <div class="md-form mb-2">
                                         {{ form.pays.label_tag }}
                                         {{ form.pays }}
-                                        {{ form.name.errors }}
+                                        {{ form.pays.errors }}
                                     </div>
                                 </div>
                                 <div class="col-xs-12">
@@ -125,15 +125,8 @@
                         </div>
                         <hr>
                         <h3>Modalités de livraison</h3>
-                        <div class="d-block my-3">
-                            {% for value, name in form.fields.delivery_option.choices %}
-                            <div class="custom-control custom-radio">
-                                <input id="{{ name }}" name="delivery_option" value="{{ value }}" type="radio"
-                                    class="custom-control-input" required>
-                                <label class="custom-control-label" for="{{ name }}">{{ name }} - {{ value }}</label>
-                            </div>
-                            {% endfor %}
-                        </div>
+                        <p>Le lieu de livraison se situe sur notre corps Morts. Veuillez regarder la carte ci-dessous
+                        </p>
                         <hr class="mb-4">
                         <button class="btn-valider btn-lg btn-block" type="submit">Valider la commande</button>
 
@@ -147,7 +140,7 @@
             <div class="col-md-4 mb-4">
                 <div id='stickycart' class="col-md-12 mb-4 mt-5 ">
                     {% include 'order-snippet.html' %}
-                    <a class='btn-valider float-right mt-2' href="{% url 'order-summary-dejeuner' %}">
+                    <a class='btn-valider float-right mt-2' href="{% url 'order-summary-apero' %}">
                         Modifier votre panier</a>
                 </div>
             </div>

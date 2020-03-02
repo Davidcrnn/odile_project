@@ -18,8 +18,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 250px;
+    height: 200px;
     text-align: center;
+    border-bottom: 2px solid $vertf;
+    margin-bottom: 20px;
 }
 
 .product-text-banner h1 {

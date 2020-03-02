@@ -62,10 +62,6 @@ INSTALLED_APPS = [
     'flatpickr',
 ]
 
-# DatePicker
-
-# TEMPUS_DOMINUS_LOCALIZE = True
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -176,20 +172,13 @@ SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 
 ACCOUNT_LOGOUT_ON_GET = True
-# ACCOUNT_EMAIL_REQUIRED = True
-# ACCOUNT_AUTHENTICATION_METHOD = "email"
-# ACCOUNT_USERNAME_REQUIRED = False
-# CRISPY FORMS
+
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
-STRIPE_PUBLIC_KEY = config('STRIPE_LIVE_PUBLIC_KEY')
-STRIPE_SECRET_KEY = config('STRIPE_LIVE_SECRET_KEY')
-
-# ACCOUNT_FORMS = {
-#     'signup': 'odile_project.forms.CustomSignupForm',
-# }
+STRIPE_TEST_PUBLIC_KEY = config('STRIPE_TEST_PUBLIC_KEY')
+STRIPE_TEST_SECRET_KEY = config('STRIPE_TEST_SECRET_KEY')
 
 
 ACCOUNT_EMAIL_REQUIRED = True
@@ -198,8 +187,6 @@ ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_UNIQUE_EMAIL = True
-
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 COUNTRIES_FIRST = ['FR']
