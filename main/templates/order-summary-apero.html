@@ -33,15 +33,15 @@
                     <td>{{ order_product.product.price }} </td>
                     <td>
                         <a style='color: #165361;'
-                            href="{% url 'remove-single-product-from-cart' order_product.product.slug %}">
+                            href="{% url 'remove-single-product-from-cart-apero' order_product.product.slug %}">
                             <i class="fas fa-minus mr-2"></i></a>
                         {{ order_product.quantity }}
                         <a style='color: #165361;'
-                            href="{% url 'add-single-item-to-cart' order_product.product.slug %}"><i
+                            href="{% url 'add-single-item-to-cart-apero' order_product.product.slug %}"><i
                                 class="fas fa-plus ml-2"></i></a>
                     </td>
                     <td>{{ order_product.get_total_product_price}}€ <a style='color: #165361;'
-                            href="{% url 'remove-from-cart' order_product.product.slug %}">
+                            href="{% url 'remove-from-cart-apero' order_product.product.slug %}">
                             <i class="fas fa-trash float-right"></i>
                         </a></td>
 
@@ -82,7 +82,7 @@
                             </form> -->
                     <td colspan="5">
 
-                        <a class='btn-valider float-right ml-2' href='/checkout/'>Commander</a>
+                        <a class='btn-valider float-right ml-2' href=' {% url "checkout-apero" %}'>Commander</a>
 
                         <a class='btn-annuler float-right' href="{% url 'products-apero'%}">Ajoutez d'autres
                             produits</a>

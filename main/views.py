@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView, ListView, DetailView, View, CreateView
-from .forms import CheckoutForm, CouponForm, RefundForm, PaymentForm, CgvForm, AvisForm, ContactForm, ProductForm
+from .forms import CheckoutForm, CheckoutAperoForm, CouponForm, RefundForm, PaymentForm, CgvForm, AvisForm, ContactForm, ProductForm
 from .models import Product, OrderProduct, Order, Payment, Coupon, Refund, Info, Avis
 from django.http import JsonResponse
 from django.urls import reverse
@@ -16,7 +16,7 @@ from django.core.mail import send_mail
 import random
 import string
 import stripe
-stripe.api_key = settings.STRIPE_SECRET_KEY
+stripe.api_key = settings.STRIPE_TEST_SECRET_KEY
 
 
 def create_ref_code():
@@ -97,7 +97,7 @@ class ProductDetailView(DetailView):
         return get_object_or_404(Product, slug=slug_)
 
 
-class OrderSummaryView(LoginRequiredMixin, View):
+class OrderSummaryDejeunerView(LoginRequiredMixin, View):
 
     def get(self, *args, **kwargs):
         try:
@@ -106,12 +106,12 @@ class OrderSummaryView(LoginRequiredMixin, View):
                 'object': order_dejeuner_qs,
                 
             }
-            return render(self.request, 'order-summary.html', context)
+            return render(self.request, 'order-summary-dejeuner.html', context)
         except ObjectDoesNotExist:
             messages.warning(self.request, "You do not have an active order")
             return redirect("/")
 
-class OrderSummaryViewApero(LoginRequiredMixin, View):
+class OrderSummaryAperoView(LoginRequiredMixin, View):
 
     def get(self, *args, **kwargs):
         try:
@@ -175,36 +175,10 @@ def add_to_cart(request, slug):
             messages.info(request, 'Le produit a été ajouté au panier')
     else: 
         messages.warning(request, 'un problème vient de survenir')
-    return redirect("products")
-
-
-
-
-    # if order_qs.exists():
-    #     order = order_qs[0]
-    #     if order.products.filter(product__slug=product.slug).exists():
-
-    #         order_product.quantity += 1
-    #         order_product.save()
-    #         messages.info(
-    #             request, 'La quantité du produit a été ajouté au panier')
-    #         return redirect("order-summary")
-    #     else:
-    #         messages.info(request, 'Le produit a été ajouté au panier')
-    #         order.products.add(order_product)
-    #         return redirect("products")
-    # else:
-        
-    #     order = Order.objects.create(
-    #         user=request.user)
-    #     order.products.add(order_product)
-    #     messages.info(request, 'Le produit a été ajouté au panier')
-    # return redirect("products")
-
+    return redirect("home")
 
 @login_required
 def add_single_item_to_cart(request, slug):
-
     product = get_object_or_404(Product, slug=slug)
     order_product, created = OrderProduct.objects.get_or_create(
         product=product,
@@ -212,7 +186,6 @@ def add_single_item_to_cart(request, slug):
         ordered=False
     )
     order_dejeuner_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Dejeuner')
-    order_apero_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Apero')
     if order_dejeuner_qs.exists():
         order = order_dejeuner_qs[0]
         if order.products.filter(product__slug=product.slug).exists():
@@ -220,12 +193,27 @@ def add_single_item_to_cart(request, slug):
             order_product.save()
             messages.info(
                 request, 'La quantité du produit a été ajouté au panier')
-            return redirect("order-summary")
+            return redirect("order-summary-dejeuner")
         else:
             messages.info(request, 'Le produit a été ajouté au panier')
             order.products.add(order_product)
-            return redirect("order-summary")
-    elif order_apero_qs.exists():
+            return redirect("order-summary-dejeuner")
+    else:
+        order = Order.objects.create(user=request.user)
+        order.products.add(order_product)
+        messages.info(request, 'Le produit a été ajouté au panier')
+    return redirect("home")
+
+@login_required
+def add_single_item_to_cart_apero(request, slug):
+    product = get_object_or_404(Product, slug=slug)
+    order_product, created = OrderProduct.objects.get_or_create(
+        product=product,
+        user=request.user,
+        ordered=False
+    )        
+    order_apero_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Apero')
+    if order_apero_qs.exists():
         order = order_apero_qs[0]
         if order.products.filter(product__slug=product.slug).exists():
             order_product.quantity += 1
@@ -243,12 +231,10 @@ def add_single_item_to_cart(request, slug):
         messages.info(request, 'Le produit a été ajouté au panier')
     return redirect("home")
 
-
 @login_required
 def remove_from_cart(request, slug):
     product = get_object_or_404(Product, slug=slug)
     order_dejeuner_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Dejeuner')
-    order_apero_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Apero')
     if order_dejeuner_qs.exists():
         order = order_dejeuner_qs[0]
         if order.products.filter(product__slug=product.slug).exists():
@@ -258,12 +244,22 @@ def remove_from_cart(request, slug):
                 ordered=False
             )[0]
             order.products.remove(order_product)
+            order_product.delete()
             messages.info(request, 'Le produit a été supprimé du panier')
-            return redirect("order-summary")
+            return redirect("order-summary-dejeuner")
         else:
             messages.info(request, "Le produit n'est pas dans votre panier-dejeuner")
-            return redirect('products')
-    elif order_apero_qs.exists():
+            return redirect('order-summary-dejeuner')
+    else:
+        messages.info(request, "Vous n'avez pas de commande")
+        return redirect('products')
+    return redirect('home')
+
+@login_required
+def remove_from_cart_apero(request, slug):
+    product = get_object_or_404(Product, slug=slug)
+    order_apero_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Apero')
+    if order_apero_qs.exists():
         order = order_apero_qs[0]
         if order.products.filter(product__slug=product.slug).exists():
             order_product = OrderProduct.objects.filter(
@@ -272,25 +268,19 @@ def remove_from_cart(request, slug):
                 ordered=False
             )[0]
             order.products.remove(order_product)
-            messages.info(request, 'Le produit a été supprimé du panier')
-            return redirect("order-summary")
+            order_product.delete()
+            messages.info(request, 'Le produit a été supprimé de votre panier')
+            return redirect('-dejeuner-apero')
         else:
-            messages.info(request, "Le produit n'est pas dans votre panier")
-            return redirect('products-apero')
+            messages.info(request, "le produit n'est pas dans votre panier")
+            return redirect('order-summary-apero')
     else:
-        messages.info(request, "Vous n'avez pas de commande")
-        return redirect('products')
-    return redirect('home')
-
+        messages.warning(request, 'Votre panier est vide')
+        return redirect('products-apero')
 
 @login_required
 def remove_single_product_from_cart(request, slug):
     product = get_object_or_404(Product, slug=slug)
-    order_apero_qs = Order.objects.filter(
-        user=request.user,
-        ordered=False,
-        type_of_order='Apero'
-    )
     order_dejeuner_qs = Order.objects.filter(
         user=request.user,
         ordered=False,
@@ -311,11 +301,23 @@ def remove_single_product_from_cart(request, slug):
             else:
                 order.products.remove(order_product)
             messages.info(request, "This product quantity was updated.")
-            return redirect("order-summary")
-        # else:
-        #     messages.info(request, "This product was not in your cart")
-        #     return redirect("products")
-    elif order_apero_qs.exists():
+            return redirect("order-summary-dejeuner")
+        else:
+            messages.info(request, "This product was not in your cart")
+            return redirect("products")
+    else:
+        messages.info(request, "You do not have an active order")
+        return redirect("home")
+
+@login_required
+def remove_single_product_from_cart_apero(request, slug):
+    product = get_object_or_404(Product, slug=slug)
+    order_apero_qs = Order.objects.filter(
+        user=request.user,
+        ordered=False,
+        type_of_order='Apero'
+    )
+    if order_apero_qs.exists():
         order = order_apero_qs[0]
         # check if the order item is in the order
         if order.products.filter(product__slug=product.slug).exists():
@@ -339,11 +341,13 @@ def remove_single_product_from_cart(request, slug):
         return redirect("home")
 
 
+
+
 class CheckoutView(View):
 
     def get(self, *args, **kwargs):
         try:
-            order = Order.objects.get(user=self.request.user, ordered=False)
+            order = Order.objects.get(user=self.request.user, ordered=False, type_of_order='Dejeuner')
             form = CheckoutForm()
             context = {
                 'form': form,
@@ -370,7 +374,7 @@ class CheckoutView(View):
         args = {}
         try:
             order = Order.objects.get(
-                user=self.request.user, ordered=False)
+                user=self.request.user, ordered=False, type_of_order='Dejeuner')
             if form.is_valid():
                 default_address = form.cleaned_data.get('default_address')
                 date_delivery = form.cleaned_data.get('date_delivery')
@@ -450,20 +454,119 @@ class CheckoutView(View):
                 return render(self.request, 'checkout.html', args)
         except ObjectDoesNotExist:
             messages.info(self.request, 'This order does not exist.')
+            return redirect('order-summary-dejeuner')
+
+
+class CheckoutViewApero(View):
+
+    def get(self, *args, **kwargs):
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False, type_of_order='Apero')
+            form = CheckoutAperoForm()
+            context = {
+                'form': form,
+                'order': order,
+                'couponform': CouponForm(),
+                'DISPLAY_COUPON_FORM': True
+            }
+            address_qs = Info.objects.filter(
+                user=self.request.user,
+                default=True
+            )
+            if address_qs.exists():
+                context.update(
+                    {'default_address': address_qs[0]})
+
+        except ObjectDoesNotExist:
+            messages.info(self.request, "You do not have an active order")
+            return redirect('checkout-apero')
+
+        return render(self.request, "checkout-apero.html", context)
+
+    def post(self, *args, **kwargs):
+        form = CheckoutAperoForm(self.request.POST or None)
+        args= {}
+        try:
+            order = Order.objects.get(
+                user=self.request.user, ordered=False, type_of_order='Apero')
+            if form.is_valid():
+                default_address = form.cleaned_data.get('default_address')
+                date_delivery = form.cleaned_data.get('date_delivery')
+                
+
+                if default_address:
+                    address_qs = Info.objects.filter(
+                        user=self.request.user,
+                        default=True,
+                    )
+                    if address_qs.exists():
+                        shipping_address = address_qs[0]
+                        order.information = shipping_address
+                        order.date_delivery = date_delivery
+                        order.save()
+                    else:
+                        messages.info(
+                            self.request, "Pas de profil enregistré")
+                        return redirect('checkout')
+                else:
+                    name = form.cleaned_data.get('name')
+                    prenom = form.cleaned_data.get('prenom')
+                    phone = form.cleaned_data.get('phone')
+                    email = form.cleaned_data.get('email')
+                    code_postal = form.cleaned_data.get('code_postal')
+                    pays = form.cleaned_data.get('pays')
+                    date_delivery = form.cleaned_data.get('date_delivery')
+                    
+
+                    if is_valid_form([name, prenom, pays, code_postal, phone, email]):
+                        adresse_info = Info(
+                            user=self.request.user,
+                            name=name,
+                            prenom=prenom,
+                            pays=pays,
+                            code_postal=code_postal,
+                            phone=phone,
+                            email=email,
+
+                        )
+                        adresse_info.save()
+
+                        order.information = adresse_info
+                        order.date_delivery = date_delivery
+                        
+                        order.save()
+
+                        save_address = form.cleaned_data.get(
+                            'save_address')
+                        if save_address:
+                            adresse_info.default = True
+                            adresse_info.save()
+
+                        messages.info(
+                            self.request, 'Il ne vous reste plus que le paiement')
+                        return redirect('payment-apero')
+                    else:
+                        messages.info(
+                            self.request, "Vos informations personnelles ne sont pas complètes")
+                        return redirect("checkout-apero")
+
+            else:
+                args['form'] = form
+                messages.info(self.request, "Le formulaire n'est pas valide")
+                return render(self.request, 'checkout.html', args)
+        except ObjectDoesNotExist:
+            messages.info(self.request, 'This order does not exist.')
             return redirect('order-summary')
 
 
 class PaymentView(View):
     def get(self, *args, **kwargs):
-        order = Order.objects.get(user=self.request.user, ordered=False)
-        print(order.information)
+        order = Order.objects.get(user=self.request.user, ordered=False,type_of_order='Dejeuner')
         if order.information:
-
             context = {
                 'order': order,
                 'DISPLAY_COUPON_FORM': False
             }
-
             return render(self.request, 'payment.html', context)
         else:
             messages.warning(
@@ -471,8 +574,7 @@ class PaymentView(View):
             return redirect("checkout")
 
     def post(self, *args, **kwargs):
-        order = Order.objects.get(user=self.request.user, ordered=False)
-
+        order = Order.objects.get(user=self.request.user, ordered=False, type_of_order='Dejeuner')
         token = self.request.POST.get('stripeToken')
         amount = int(order.get_total())
         try:
@@ -480,7 +582,7 @@ class PaymentView(View):
                 amount=int(amount * 100),
                 currency='eur',
                 # replace by token in prod 'tok_visa'
-                source='tok_visa',
+                source=token,
             )
 
             payment = Payment()
@@ -545,6 +647,22 @@ class PaymentView(View):
             return redirect("/")
 
 
+class PaymentAperoView(View):
+    def get(self, *args, **kwargs):
+        order = Order.objects.get(user=self.request.user, ordered=False, type_of_order='Apero')
+        if order.information:
+
+            context = {
+                'order': order,
+                'DISPLAY_COUPON_FORM': False
+            }
+
+            return render(self.request, 'payment-apero.html', context)
+        else:
+            messages.warning(
+                self.request, "Vous devez remplir le formulaire avant d'accèder au paiement ")
+            return redirect("checkout-apero")
+
 def get_coupon(request, code):
     try:
         coupon = Coupon.objects.get(code=code)
@@ -606,19 +724,6 @@ class RequestRefundView(View):
                 messages.info(self.request, 'This order does not exist.')
                 return redirect('request-refund')
 
-
-# def newsletter(request):
-#     if request.method == 'POST':
-#         form = NewsletterForm(request.POST)
-#         if form.is_valid:
-#             form.save()
-#             print('Votre email est ajouté à la liste !')
-#             return redirect('home')
-#     else:
-#         form = NewsletterForm()
-#         context = {'form': form}
-#         template = 'newsletter-snippet.html'
-#         return render(request, template, context)
 
 
 class OrderDash(ListView):
@@ -700,11 +805,3 @@ class ContactView(View):
             return render(self.request, 'contact.html', args)
 
 
-def checkEmail(request):
-    if request.is_ajax and request.method == "GET":
-        email = request.GET.get("email", None)
-        if User.objects.filter(email=email).exists():
-            return JsonResponse({"valid": False}, status=200)
-        else:
-            return JsonResponse({"valid": True}, status=200)
-    return JsonResponse({}, status=400)

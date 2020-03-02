@@ -83,6 +83,64 @@ class CheckoutForm(forms.Form):
         required=False, widget=forms.CheckboxInput())
 
 
+class CheckoutAperoForm(forms.Form):
+    name = forms.CharField(required=True, error_messages={'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
+        'placeholder': 'Turing',
+        'class': 'form-control checkout-input',
+    }))
+    prenom = forms.CharField(required=True, error_messages={
+        'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
+            'placeholder': 'Alan',
+            'class': 'form-control checkout-input',
+        }))
+    phone = forms.CharField(max_length=13, error_messages={
+        'required': "Vous devez renseigner ce champ"}, required=True, widget=forms.TextInput(attrs={
+            'placeholder': '0145444646',
+            'class': 'form-control checkout-input',
+        }))
+    email = forms.EmailField(required=True, error_messages={
+        'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
+            'placeholder': 'Alan@turing.com',
+            'class': 'form-control checkout-input',
+        }))
+
+    code_postal = forms.CharField(max_length=13, required=True, error_messages={
+        'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
+            'placeholder': '75000',
+            'class': 'form-control checkout-input',
+
+        }))
+    pays = CountryField(blank_label='(Pays)').formfield(
+
+        required=True, widget=CountrySelectWidget(attrs={
+            'class': 'custom-select d-block w-100 checkout-input',
+        }))
+
+    date_delivery = forms.CharField(required=True, error_messages={
+        'required': "Vous devez renseigner ce champ"}, widget=DateTimePickerInput(
+        attrs={    # input element attributes
+            "class": "my-custom-class",
+            "placeholder": 'Choisir une date de livraison',
+
+        },
+        options={  # flatpickr options
+            "dateFormat": "d/m/Y H:i",
+            "altFormat": "d/m/Y H:i",
+            'minTime': '10:00',
+            'maxTime': '12:30',
+            'enableTime': 'false',
+            'time_24hr': 'true',
+            'minDate': "today",
+            'defaultDate': 'today',
+            'minuteIncrement': '10',
+            "locale": "fr",
+        }
+    ))
+
+    save_address = forms.BooleanField(
+        required=False, widget=forms.CheckboxInput())
+
+
 class ProductForm(forms.Form):
 
     QUANTITY_PRODUCT = (
@@ -120,12 +178,6 @@ class CgvForm(forms.Form):
     cgv = forms.BooleanField(required=True)
 
 
-# class AvisForm(ModelForm):
-#     class Meta:
-#         model = Avis
-#         fields = ['email', 'objet', 'message']
-
-
 class AvisForm(forms.Form):
 
     OBJET = (
@@ -161,37 +213,3 @@ class ContactForm(forms.Form):
         'rows': 5,
         'placeholder': 'Votre message',
         'class': 'form-control checkout-input '}))
-
-
-# class CustomSignupForm(SignupForm):
-#     username = forms.CharField(max_length=30, widget=forms.TextInput(attrs={
-#         'placeholder': 'Alan@turing.com',
-#         'class': 'form-control checkout-input'
-#     }))
-#     email = forms.CharField(widget=forms.TextInput(attrs={
-
-#         'placeholder': 'Alan@turing.com',
-#         'class': 'form-control checkout-input'
-#     }))
-
-#     password1 = forms.CharField(widget=forms.TextInput(attrs={
-#         'placeholder': 'Identifiant',
-#         'class': 'form-control checkout-input'
-#     }))
-
-#     password2 = forms.CharField(widget=forms.PasswordInput)
-
-
-# class AvisForm(forms.Form):
-
-#     email = forms.EmailField(widget=forms.TextInput(attrs={
-#         'placeholder': 'Alan@turing.com',
-#         'class': 'form-control '
-#     }))
-#     objet = forms.ChoiceField(choices=OBJET_CHOICES,
-#                               widget=forms.RadioSelect(attrs={
-#                                   'class': 'inline-check radio-display'
-#                               }))
-#     message = forms.CharField(widget=forms.Textarea(attrs={
-#         'placeholder': '75000',
-#         'class': 'form-control '}))

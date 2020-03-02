@@ -63,3 +63,18 @@
 .bottom {
     padding: 20px;
 }
+
+
+// Form Error
+
+ul.errorlist {
+    padding: 0;
+    margin: 0;
+}
+
+.errorlist li {
+    list-style: none;
+    font-size: 13px;
+    color: red;
+}
+
