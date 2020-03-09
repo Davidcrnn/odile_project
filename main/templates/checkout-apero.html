@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load crispy_forms_tags %}
+{% load static %}
 {% block content %}
 <main class='checkout-bg'>
     <div class="container">
@@ -46,15 +46,10 @@
                                         {{ form.prenom.label_tag }}
                                         {{ form.prenom }}
                                         {{ form.prenom.errors }}
-
-
-
-
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-md-6">
                                     <div class="md-form mb-2 ">
-
                                         {{ form.name.label_tag }}
                                         {{ form.name }}
                                         {{ form.name.errors }}
@@ -67,16 +62,13 @@
                                         {{ form.email.label_tag }}
                                         {{ form.email }}
                                         {{ form.email.errors }}
-
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-md-6">
                                     <div class="md-form mb-2">
-
                                         {{ form.phone.label_tag }}
                                         {{ form.phone }}
                                         {{ form.phone.errors }}
-
                                     </div>
                                 </div>
                             </div>
@@ -101,7 +93,6 @@
                                             {{ form.save_address }}
                                             <label for="" class="">Sauvegarder ces informations pour une prochaine
                                                 commande</label>
-
                                         </div>
                                     </div>
                                 </div>
@@ -109,24 +100,23 @@
                         </div>
 
                         <hr>
-                        <h3>Date de livraison</h3>
+                        <h3>Date de livraison</h3> <br>
                         <div class="row">
                             <div class="col">
 
-                                {{ form.date_delivery.label_tag }}
                                 {{ form.date_delivery }}
                                 {{ form.date_delivery.errors }}
-                                {{ form.date_delivery.help_text }}
-
-
-
+                                <div class="help-text-form">
+                                    <span><img src="{% static '../static/images/warning.svg' %}" alt="attention"
+                                            style="height: 30px;"></span>
+                                    <p>Le lieu de livraison se situe sur notre corps Morts. Veuillez regarder la carte
+                                        ci-dessous
+                                    </p>
+                                </div>
+                                <br>
+                                <div id='map-apero' style='width: 100%; height: 340px;'></div>
                             </div>
-
                         </div>
-                        <hr>
-                        <h3>Modalités de livraison</h3>
-                        <p>Le lieu de livraison se situe sur notre corps Morts. Veuillez regarder la carte ci-dessous
-                        </p>
                         <hr class="mb-4">
                         <button class="btn-valider btn-lg btn-block" type="submit">Valider la commande</button>
 
@@ -155,15 +145,35 @@
 {% endblock content %}
 
 {% block extra_scripts %}
-<!-- <script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script> -->
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1Ijoib2RpbGVsZWNsZXJjc2l0ZSIsImEiOiJjazZjMDJtNGEwZ3F2M2tvdnNncnkxNXRxIn0.c7i8XUNby5CQwhdrsG3r0A';
+    var map = new mapboxgl.Map({
+        container: 'map-apero',
+        style: 'mapbox://styles/mapbox/streets-v11'
+    });
+</script>
 <script src="https://npmcdn.com/flatpickr/dist/l10n/fr.js"></script>
 
-<!-- <script>
-    flatpickr('.datetimepicker1', {
-        "locale": "fr",  // locale for this instance only
+<script>
 
+    $(document).ready(function () {
+
+        flatpickr('#datepicker-apero', {
+            // defaultDate: new Date().fp_incr(1),
+            minDate: new Date().fp_incr(1),
+            dateFormat: "d/m/Y H:i",
+            altFormat: "d/m/Y H:i",
+            defaultTime: '17:00',
+            minTime: '17:00',
+            maxTime: '18:00',
+            enableTime: true,
+            time_24hr: true,
+            minuteIncrement: '10',
+            locale: "fr",
+        })
     });
-</script> -->
+
+</script>
 <script>
     var hideable_shipping_form = $('.hideable_shipping_form');
 
@@ -197,8 +207,6 @@
             hideable_shipping_form.show();
         }
     })
-
-
 </script>
 
 
