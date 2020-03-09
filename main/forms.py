@@ -8,9 +8,9 @@ from .models import Avis
 
 
 LIVRAISON_CHOICES = (
-    ('1', 'Point fixe 1'),
-    ('2', 'Point fixe - Loueur de bateau'),
-    ('3', 'Livraison sur bateau')
+    ('1', 'Point-fixe-1'),
+    ('2', 'Loueur-de-bateau'),
+    ('3', 'Livraison-sur-bateau')
 )
 
 OBJET_CHOICES = (
@@ -18,6 +18,14 @@ OBJET_CHOICES = (
     ('qualité du service', 'Qualité du service'),
     ('produits', 'Produits'),
     ('autre', 'Autre'),
+)
+
+ZONE_LIVRAISON_BATEAU = (
+    ('4', 'Zone 4'),
+    ('5a', 'Zone 5a'),
+    ('5b', 'Zone 5b'),
+    ('6', 'Zone 6'),
+    ('7', 'Zone 7'),
 )
 
 
@@ -58,29 +66,40 @@ class CheckoutForm(forms.Form):
                                         choices=LIVRAISON_CHOICES,
                                         help_text='Choississez une date de livraison et son horaire')
 
-    date_delivery = forms.CharField(required=True, error_messages={
+    date_delivery = forms.CharField(help_text="Les commandes pour le déjeuner doivent être prises au plus tard la veuille pour le lendemain ", error_messages={
         'required': "Vous devez renseigner ce champ"}, widget=DateTimePickerInput(
         attrs={    # input element attributes
-            "class": "my-custom-class",
+            "class": "checkout-input",
             "placeholder": 'Choisir une date de livraison',
+            "id": 'datepicker-dejeuner',
 
         },
         options={  # flatpickr options
-            "dateFormat": "d/m/Y H:i",
-            "altFormat": "d/m/Y H:i",
-            'minTime': '10:00',
-            'maxTime': '12:30',
-            'enableTime': 'true',
-            'time_24hr': 'true',
-            'minDate': "today",
-            'defaultDate': 'today',
-            'minuteIncrement': '10',
-            "locale": "fr",
+            # "dateFormat": "d/m/Y H:i",
+            # "altFormat": "d/m/Y H:i",
+            # 'minTime': '10:00',
+            # 'maxTime': '12:30',
+            # 'enableTime': 'true',
+            # 'time_24hr': 'true',
+            # 'minuteIncrement': '10',
+            # "locale": "fr",
         }
     ))
 
     save_address = forms.BooleanField(
         required=False, widget=forms.CheckboxInput())
+
+    zone_delivery = forms.ChoiceField(
+        required=False, widget=forms.Select, choices=ZONE_LIVRAISON_BATEAU)
+
+    rang_delivery = forms.CharField(required=False, error_messages={'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
+        'placeholder': 'Turing',
+        'class': 'form-control checkout-input',
+    }))
+    numero_delivery = forms.CharField(required=False, error_messages={'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
+        'placeholder': 'Turing',
+        'class': 'form-control checkout-input',
+    }))
 
 
 class CheckoutAperoForm(forms.Form):
@@ -124,16 +143,16 @@ class CheckoutAperoForm(forms.Form):
 
         },
         options={  # flatpickr options
-            "dateFormat": "d/m/Y H:i",
-            "altFormat": "d/m/Y H:i",
-            'minTime': '10:00',
-            'maxTime': '12:30',
-            'enableTime': 'false',
-            'time_24hr': 'true',
-            'minDate': "today",
-            'defaultDate': 'today',
-            'minuteIncrement': '10',
-            "locale": "fr",
+            # "dateFormat": "d/m/Y H:i",
+            # "altFormat": "d/m/Y H:i",
+            # 'minTime': '10:00',
+            # 'maxTime': '12:30',
+            # 'enableTime': 'false',
+            # 'time_24hr': 'true',
+            # 'minDate': "today",
+            # 'defaultDate': 'today',
+            # 'minuteIncrement': '10',
+            # "locale": "fr",
         }
     ))
 

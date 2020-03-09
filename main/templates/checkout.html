@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block content %}
 <main class='checkout-bg'>
     <div class="container">
@@ -12,7 +13,7 @@
         <div class="row">
             <div class="col-md-8 mb-4">
                 <div class="card">
-                    <form method="POST" class="card-body" novalidate>
+                    <form method="POST" class="card-body">
                         {% csrf_token %}
                         <h3>Informations personnelles</h3>
                         {{ form.non_field_errors }}
@@ -109,34 +110,56 @@
                         </div>
 
                         <hr>
-                        <h3>Date de livraison</h3>
-                        <div class="row">
-                            <div class="col">
-
-                                {{ form.date_delivery.label_tag }}
-                                {{ form.date_delivery }}
-                                {{ form.date_delivery.errors }}
-                                {{ form.date_delivery.help_text }}
-
-
-
-                            </div>
-
-                        </div>
                         <hr>
                         <h3>Modalités de livraison</h3>
                         <div class="d-block my-3">
+
+
                             {% for value, name in form.fields.delivery_option.choices %}
                             <div class="custom-control custom-radio">
                                 <input id="{{ name }}" name="delivery_option" value="{{ value }}" type="radio"
                                     class="custom-control-input" required>
-                                <label class="custom-control-label" for="{{ name }}">{{ name }} - {{ value }}</label>
+                                <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
+
                             </div>
                             {% endfor %}
+
+
+                        </div>
+                        <div class="option-bateau" id='emplacement-bateau'>
+                            <h3>Option Livraison sur Bateau</h3>
+                            <div class="row">
+                                <div class="col">
+                                    {{ form.zone_delivery.label_tag }}
+                                    {{ form.zone_delivery }}
+                                    {{ form.zone_delivery.errors }}
+                                </div>
+                                <div class="col">
+                                    {{ form.rang_delivery.label_tag }}
+                                    {{ form.rang_delivery }}
+                                    {{ form.zone_delivery.errors }}
+                                </div>
+                                <div class="col">
+                                    {{ form.numero_delivery.label_tag }}
+                                    {{ form.numero_delivery }}
+                                    {{ form.zone_delivery.errors }}
+                                </div>
+                            </div>
+
+                        </div>
+                        <h3>Date de livraison</h3>
+                        <div class="row">
+                            <div class="col">
+                                {{ form.date_delivery }}
+                                {{ form.date_delivery.errors }}
+                                <div class="help-text-form">
+                                    <span><img src="{% static '../static/images/warning.svg' %}" alt="attention"
+                                            style="height: 30px;"></span> {{ form.date_delivery.help_text }}
+                                </div>
+                            </div>
                         </div>
                         <hr class="mb-4">
                         <button class="btn-valider btn-lg btn-block" type="submit">Valider la commande</button>
-
                     </form>
                 </div>
 
@@ -162,15 +185,29 @@
 {% endblock content %}
 
 {% block extra_scripts %}
-<!-- <script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script> -->
 <script src="https://npmcdn.com/flatpickr/dist/l10n/fr.js"></script>
 
-<!-- <script>
-    flatpickr('.datetimepicker1', {
-        "locale": "fr",  // locale for this instance only
+<script>
 
+    $(document).ready(function () {
+
+        flatpickr('#datepicker-dejeuner', {
+            // defaultDate: new Date().fp_incr(1),
+            minDate: new Date().fp_incr(1),
+            dateFormat: "d/m/Y H:i",
+            altFormat: "d/m/Y H:i",
+            defaultTime: '12:00',
+            minTime: '10:00',
+            maxTime: '12:30',
+            enableTime: true,
+            time_24hr: true,
+            minuteIncrement: '10',
+            locale: "fr",
+        })
     });
-</script> -->
+
+</script>
+
 <script>
     var hideable_shipping_form = $('.hideable_shipping_form');
 
@@ -207,6 +244,37 @@
 
 
 </script>
+
+<script>
+    $(document).ready(function () {
+        $('#emplacement-bateau').hide();
+        $("#Livraison-sur-bateau").click(function () {
+            $('#emplacement-bateau').show();
+            $("#id_zone_delivery").prop('required', true);
+            $("#id_rang_delivery").prop('required', true);
+            $("#id_numero_delivery").prop('required', true);
+        })
+        $("#Point-fixe-1").click(function () {
+            $('#emplacement-bateau').hide();
+            $("#id_zone_delivery").prop('required', false);
+            $("#id_rang_delivery").prop('required', false);
+            $("#id_numero_delivery").prop('required', false);
+        })
+        $("#Loueur-de-bateau").click(function () {
+            $('#emplacement-bateau').hide();
+            $("#id_zone_delivery").prop('required', false);
+            $("#id_rang_delivery").prop('required', false);
+            $("#id_numero_delivery").prop('required', false);
+        })
+
+    })
+
+
+</script>
+
+
+
+
 
 
 {% endblock extra_scripts %}
