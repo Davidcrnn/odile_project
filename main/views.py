@@ -11,6 +11,8 @@ from .models import Product, OrderProduct, Order, Payment, Coupon, Refund, Info,
 from django.http import JsonResponse
 from django.urls import reverse
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 # Create your views here.
 import random
@@ -618,6 +620,12 @@ class PaymentView(View):
             order.payment = payment
             order.ref_code = create_ref_code()
             order.save()
+            subject = "Déjeuner sur l'eau: Votre commande a bien été prise en compte !"
+            html_message = render_to_string('email-order-confirmation.html')
+            text_message = strip_tags(html_message)
+            from_email = self.request.user.email
+            send_mail(subject, text_message, from_email, [
+                      'david.crenin@gmail.com'], html_message=html_message, fail_silently=False)
 
             messages.success(
                 self.request, "Votre commande a été bien été prise en compte")
@@ -631,24 +639,24 @@ class PaymentView(View):
 
         except stripe.error.RateLimitError as e:
             # Too many requests made to the API too quickly
-            messages.warning(self.request, "Rate limit error")
+            messages.warning(self.request, "Veuillez réessayer un peu plus tard ! Le service est saturé pour le moment")
             return redirect("/")
 
         except stripe.error.InvalidRequestError as e:
             # Invalid parameters were supplied to Stripe's API
             print(e)
-            messages.warning(self.request, "Invalid parameters")
-            return redirect("/")
+            messages.warning(self.request, "Les données ne sont pas corrects")
+            return redirect("payment")
 
         except stripe.error.AuthenticationError as e:
             # Authentication with Stripe's API failed
             # (maybe you changed API keys recently)
-            messages.warning(self.request, "Not authenticated")
+            messages.warning(self.request, "Un problème technique est survenu !")
             return redirect("/")
 
         except stripe.error.APIConnectionError as e:
             # Network communication with Stripe failed
-            messages.warning(self.request, "Network error")
+            messages.warning(self.request, "Problème de réseau")
             return redirect("/")
 
         except stripe.error.StripeError as e:
