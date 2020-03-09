@@ -35,7 +35,7 @@ PRODUCT_ALLERGENES = (
 LIVRAISON_CHOICES = (
     ('1', 'Point fixe 1'),
     ('2', 'Point fixe - Loueur de bateau'),
-    ('3', 'Livraison sur bateau')
+    ('3', 'Livraison-sur-bateau')
 )
 
 MENU = (
@@ -182,6 +182,9 @@ class Info(models.Model):
     code_postal = models.IntegerField()
     pays = CountryField(multiple=False)
     default = models.BooleanField(default=False)
+    zone_delivery = models.CharField(max_length=30)
+    rang_delivery = models.CharField(max_length=20)
+    numero_delivery = models.CharField(max_length=30)
 
     def __str__(self):
         return self.user.email

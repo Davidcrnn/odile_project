@@ -406,6 +406,10 @@ class CheckoutView(View):
                     delivery_option = form.cleaned_data.get(
                         'delivery_option')
 
+                    zone_delivery = form.cleaned_data.get('zone_delivery')
+                    rang_delivery = form.cleaned_data.get('rang_delivery')
+                    numero_delivery = form.cleaned_data.get('numero_delivery')
+
                     if is_valid_form([name, prenom, pays, code_postal, phone, email]):
                         adresse_info = Info(
                             user=self.request.user,
@@ -415,6 +419,9 @@ class CheckoutView(View):
                             code_postal=code_postal,
                             phone=phone,
                             email=email,
+                            zone_delivery=zone_delivery,
+                            rang_delivery=rang_delivery,
+                            numero_delivery=numero_delivery
 
                         )
                         adresse_info.save()
@@ -423,6 +430,16 @@ class CheckoutView(View):
                         order.date_delivery = date_delivery
                         order.delivery_option = delivery_option
                         order.save()
+
+                        # zone_delivery = form.cleaned_data.get('zone_delivery')
+                        # rang_delivery = form.cleaned_data.get('rang_delivery')
+                        # numero_delivery = form.cleaned_data.get('numero_delivery')
+
+                        # if order.delivery_option == 'Livraison-sur-bateau':
+                        #     adresse_info.zone_delivery = zone_delivery
+                        #     adresse_info.rang_delivery = rang_delivery
+                        #     adresse_info.numero_delivery = numero_delivery
+                        #     adresse_info.save()
 
                         save_address = form.cleaned_data.get(
                             'save_address')
@@ -450,6 +467,7 @@ class CheckoutView(View):
                     #     order.save()
             else:
                 args['form'] = form
+                print(form)
                 messages.info(self.request, 'Le formulaire doit être rempli')
                 return render(self.request, 'checkout.html', args)
         except ObjectDoesNotExist:

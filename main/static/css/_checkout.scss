@@ -27,10 +27,20 @@
     border-top: none;
     border-radius: 0px;
     
+    
+}
+
+input#datepicker-dejeuner {
+    width: 100%;
 }
 .checkout-input[type='text'] {
-    font-size: 14px;
+    font-size: 12px;
+    color: black;
 
+}
+
+ .form-control[readonly] {
+     background-color: transparent;
 }
 .checkout-input:focus {
 
@@ -78,3 +88,16 @@ ul.errorlist {
     color: red;
 }
 
+
+// Form help text
+
+.help-text-form {
+
+    font-size: 14px;
+    font-style: italic;
+    padding: 10px 10px 10px;
+    margin-top: 10px;
+    border-radius: 9px;
+    background: $vertalert;
+
+}
