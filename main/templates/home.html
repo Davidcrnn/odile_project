@@ -3,6 +3,7 @@
 {% block title %}HomePage{% endblock title %}
 
 {% block content %}
+
 <div class="container">
     <div class="row">
         <div class="col-xs-12 col-md-4">
@@ -102,8 +103,51 @@
     var map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v11',
-        center: [-1.2239, 44.638],
-        zoom: 12,
+        center: [-1.249550, 44.651470], //longitude, latitude
+        zoom: 11,
+    });
+
+
+    var geojson = {
+        type: 'FeatureCollection',
+        features: [{
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: [-1.249812, 44.6308885]
+            },
+            properties: {
+                title: 'Point fixe',
+                description: 'Ecole de voile'
+            }
+        },
+        {
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: [-1.2488579750061035, 44.64594650268555]
+            },
+            properties: {
+                title: 'Loueur de bateau',
+                description: 'Prise des commandes au port'
+            }
+        }]
+    };
+
+
+    // add markers to map
+    geojson.features.forEach(function (marker) {
+
+        // create a HTML element for each feature
+        var el = document.createElement('div');
+        el.className = 'marker';
+
+        // make a marker for each feature and add to the map
+        new mapboxgl.Marker(el)
+            .setLngLat(marker.geometry.coordinates)
+            .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+                .setHTML('<h3>' + marker.properties.title + '</h3><p>' + marker.properties.description + '</p>'))
+            .addTo(map);
     });
 </script>
 {% endblock content %}

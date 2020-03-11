@@ -44,7 +44,7 @@ class ProductListView(ListView):
 
     def get(self, *args, **kwargs):
         products = Product.objects.filter(menu='Dejeuner')
-
+        form = ProductForm()
         user = self.request.user
         if user.is_authenticated:
             order, created = Order.objects.get_or_create(
@@ -54,7 +54,8 @@ class ProductListView(ListView):
                 'order': order,
                 'products': products,
                 'couponform': CouponForm(),
-                'DISPLAY_COUPON_FORM': True
+                'DISPLAY_COUPON_FORM': True,
+                'form': form,
             }
             return render(self.request, 'product-list.html', context)
         else:
@@ -136,11 +137,11 @@ def add_to_cart(request, slug):
     )
     order_dejeuner_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Dejeuner')
     order_apero_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Apero')
+  
     if product.menu == 'Dejeuner':
         if order_dejeuner_qs.exists():
             order = order_dejeuner_qs[0]
             if order.products.filter(product__slug=product.slug).exists():
-
                 order_product.quantity += 1
                 order_product.save()
                 messages.info(
@@ -620,6 +621,7 @@ class PaymentView(View):
             order.payment = payment
             order.ref_code = create_ref_code()
             order.save()
+            
             subject = "Déjeuner sur l'eau: Votre commande a bien été prise en compte !"
             html_message = render_to_string('email-order-confirmation.html')
             text_message = strip_tags(html_message)
@@ -829,5 +831,9 @@ class ContactView(View):
             form = ContactForm(self.request.POST or None)
             args['form'] = form
             return render(self.request, 'contact.html', args)
+
+
+
+
 
 

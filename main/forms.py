@@ -90,17 +90,14 @@ class CheckoutForm(forms.Form):
         required=False, widget=forms.CheckboxInput())
 
     zone_delivery = forms.ChoiceField(
-        required=False, widget=forms.Select(attrs={
-            'placeholder': 'Rang du bateau',
-            'class': 'form-control checkout-input',
-        }), choices=ZONE_LIVRAISON_BATEAU,)
+        required=False, widget=forms.Select, choices=ZONE_LIVRAISON_BATEAU)
 
     rang_delivery = forms.CharField(required=False, error_messages={'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
-        'placeholder': 'Rang du bateau',
+        'placeholder': 'Turing',
         'class': 'form-control checkout-input',
     }))
     numero_delivery = forms.CharField(required=False, error_messages={'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
-        'placeholder': 'Numéro du bateau',
+        'placeholder': 'Turing',
         'class': 'form-control checkout-input',
     }))
 
@@ -141,9 +138,9 @@ class CheckoutAperoForm(forms.Form):
     date_delivery = forms.CharField(required=True, error_messages={
         'required': "Vous devez renseigner ce champ"}, widget=DateTimePickerInput(
         attrs={    # input element attributes
-            "class": "form-control checkout-input",
+            "class": "my-custom-class",
             "placeholder": 'Choisir une date de livraison',
-            "id": 'datepicker-apero',
+
         },
         options={  # flatpickr options
             # "dateFormat": "d/m/Y H:i",
@@ -171,7 +168,8 @@ class ProductForm(forms.Form):
         ('3', 3),
         ('4', 4),
     )
-    quantity = forms.ChoiceField(choices=QUANTITY_PRODUCT)
+    quantity = forms.ChoiceField(
+        widget=forms.Select, choices=QUANTITY_PRODUCT, label='Choisissez la quantité:')
 
 
 class CouponForm(forms.Form):

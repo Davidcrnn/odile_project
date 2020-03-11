@@ -60,7 +60,7 @@ class Product(models.Model):
     allergene = models.CharField(
         max_length=32, choices=PRODUCT_ALLERGENES, blank=True, null=True)
     menu = models.CharField(max_length=30, choices=MENU, default='Dejeuner')
-    quantité = models.IntegerField(default=1)
+    quantite = models.IntegerField(default=1)
 
     def __str__(self):
         return self.name
