@@ -58,10 +58,10 @@
                     <p>Ce produit ne contient pas d'allergène alimentaire.</p>
                     {% endif %}
                 </div>
-                <form action="" method="POST">
+                <form method="POST" action="{{ product.get_add_to_cart_url }}">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <input type="submit">
+                    <input type="submit" value='Add to cart'>
                 </form>
 
 

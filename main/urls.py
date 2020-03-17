@@ -26,11 +26,7 @@ from .views import (
     ConditionsGenerales,
     AvisCreate,
     ContactView,
-
-
-
-
-
+    ProfileView,
 
 
 )
@@ -67,9 +63,7 @@ urlpatterns = [
     path('conditions-generales/', ConditionsGenerales.as_view(), name='cgv'),
     path('votre-avis/', AvisCreate.as_view(), name='avis'),
     path('contact/', ContactView.as_view(), name='contact'),
-
-
-
+    path('profil/', ProfileView.as_view(), name='profil'),
 
 
 ]

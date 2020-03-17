@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-6">
+            <div class="profil-informations">
+                <h4>Informations personnelles</h4>
+                <p>{{ user }}</p>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6">
+            <div class="profil-orders">
+                <h4>Historique des commandes</h4>
+                {% for o in order  %}
+                <div class="col-xs-12">
+                    <div class="order-card">
+                        <p>Réf:{{ o.ref_code }} </p>
+                        <p>Date de la commande: {{ o.date_de_creation }}</p>
+                        <p>Commande:</p>
+                        {% for order_item in o.products.all  %}
+                        <p> {{ order_item }}</p>
+                        {% endfor %}
+
+                        <p>Prix: {{ o.payment.amount }}€ </p>
+
+                    </div>
+                </div>
+
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+    <style>
+        .order-card {
+            border: 1px solid gray;
+            padding: 20Px;
+        }
+    </style>
+
+    <!-- <h1>User Profile</h1>
+    <div class="row">
+        <div class="col-md-3">
+            <p>Commandes</p>
+            <p>Vos informations</p>
+        </div>
+        <div class="col-md-4">
+            {% for o in order  %}
+            <div class="card-order-profil">
+                <p>Réf:{{ o.ref_code }} </p>
+                <p>Date de la commande: {{ o.date_de_creation }}</p>
+                <p>Prix: {{ o.payment.amount }}€ </p>
+            </div>
+        </div>
+
+        {% endfor %}
+    </div> -->
+</div>
+{% endblock content %}
