@@ -53,32 +53,6 @@
 
         {% endfor %}
     </div>
-    <!-- Swiper -->
-    <div class="container-swipper" style='height: 150px'>
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="https://picsum.photos/200/300" alt=""></div>
-                <div class="swiper-slide"><img src="https://picsum.photos/200/300" alt=""></div>
-                <div class="swiper-slide"><img src="https://picsum.photos/200/300" alt=""></div>
-                <div class="swiper-slide"><img src="https://picsum.photos/200/300" alt=""></div>
-                <div class="swiper-slide">Slide 5</div>
 
-            </div>
-            <!-- Add Scrollbar -->
-            <div class="swiper-scrollbar"></div>
-        </div>
-
-    </div>
 </div>
 {% endblock content %}
-
-{% block extra_scripts %}
-<script>
-    var swiper = new Swiper('.swiper-container', {
-        slidesPerView: 3,
-        spaceBetween: 20,
-        freeMode: true,
-
-    });
-</script>
-{% endblock extra_scripts %}

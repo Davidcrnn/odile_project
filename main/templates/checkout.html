@@ -27,7 +27,6 @@
                                     <label class="custom-control-label" for="use_default_shipping">Utiliser vos
                                         informations
                                         personnelles:
-                                        {{ default_address.name }}
 
                                     </label>
 
@@ -97,6 +96,7 @@
                                         {{ form.name.errors }}
                                     </div>
                                 </div>
+                                {% if not default_address %}
                                 <div class="col-xs-12">
                                     <div class="md-form mb-2 ml-3">
                                         <div>
@@ -107,11 +107,12 @@
                                         </div>
                                     </div>
                                 </div>
+                                {% endif %}
                             </div>
                         </div>
 
-                        <hr>
 
+                        <hr>
                         <h3>Modalités de livraison</h3>
                         <div class="d-block my-3">
 
@@ -124,18 +125,14 @@
 
                             </div>
                             {% endfor %}
-                            <div class="col">
-                                <div id='map-dejeuner' style='width: 100%; height: 340px;'></div>
-
-                            </div>
-
+                            <div id='map-dejeuner' style='width: 100%; height: 340px;'></div>
 
                         </div>
                         <div class="option-bateau" id='emplacement-bateau'>
                             <h3>Option Livraison sur Bateau</h3>
                             <div class="row">
                                 <div class="col">
-                                    {{ form.zone_delivery.label_tag }} <br>
+                                    {{ form.zone_delivery.label_tag }}
                                     {{ form.zone_delivery }}
                                     {{ form.zone_delivery.errors }}
                                 </div>
@@ -149,7 +146,6 @@
                                     {{ form.numero_delivery }}
                                     {{ form.zone_delivery.errors }}
                                 </div>
-
                             </div>
 
                         </div>
@@ -191,13 +187,6 @@
 {% endblock content %}
 
 {% block extra_scripts %}
-<script>
-    mapboxgl.accessToken = 'pk.eyJ1Ijoib2RpbGVsZWNsZXJjc2l0ZSIsImEiOiJjazZjMDJtNGEwZ3F2M2tvdnNncnkxNXRxIn0.c7i8XUNby5CQwhdrsG3r0A';
-    var map = new mapboxgl.Map({
-        container: 'map-dejeuner',
-        style: 'mapbox://styles/mapbox/streets-v11'
-    });
-</script>
 <script src="https://npmcdn.com/flatpickr/dist/l10n/fr.js"></script>
 
 <script>
@@ -222,48 +211,38 @@
 </script>
 
 <script>
-    $(document).ready(function () {
-        var hideable_shipping_form = $('.hideable_shipping_form');
-        var use_default_shipping = document.querySelector("input[name=use_default_shipping]");
-        $(use_default_shipping).click(function () {
-            $("#id_prenom").val('{{ default_address.prenom }}');
-            $("#id_name").val('{{ default_address.name }}');
-            $("#id_email").val('{{ default_address.email }}');
-            $("#id_phone").val('{{ default_address.phone }}');
-            $("#id_code_postal").val('{{ default_address.code_postal }}');
-            $("#id_pays").val('{{ default_address.pays }}');
-            $('.hideable_shipping_form').hide();
-        })
+    var hideable_shipping_form = $('.hideable_shipping_form');
 
+
+    var use_default_shipping = document.querySelector("input[name=use_default_shipping]");
+
+    use_default_shipping.addEventListener('change', function () {
+        if (this.checked) {
+            // $("#id_prenom").val('{{ default_address.prenom }}');
+            // $("#id_name").val('{{ default_address.name }}');
+            // $("#id_email").val('{{ default_address.email }}');
+            // $("#id_phone").val('{{ default_address.phone }}');
+            // $("#id_code_postal").val('{{ default_address.code_postal }}');
+            // $("#id_pays").val('{{ default_address.pays }}');
+
+            hideable_shipping_form.hide();
+            // $("#id_prenom").prop('required', false);
+            // $("#id_name").prop('required', false);
+            // $("#id_email").prop('required', false);
+            // $("#id_phone").prop('required', false);
+            // $("#id_code_postal").prop('required', false);
+            // $("#id_pays").prop('required', false);
+        } else {
+            $("#id_prenom").prop('required', true);
+            $("#id_name").prop('required', true);
+            $("#id_email").prop('required', true);
+            $("#id_phone").prop('required', true);
+            $("#id_code_postal").prop('required', true);
+            $("#id_pays").prop('required', true);
+
+            hideable_shipping_form.show();
+        }
     })
-
-    // use_default_shipping.addEventListener('change', function () {
-    //     if (this.checked) {
-    //         $("#id_prenom").val('{{ default_address.prenom }}');
-    //         $("#id_name").val('{{ default_address.name }}');
-    //         $("#id_email").val('{{ default_address.email }}');
-    //         $("#id_phone").val('{{ default_address.phone }}');
-    //         $("#id_code_postal").val('{{ default_address.code_postal }}');
-    //         $("#id_pays").val('{{ default_address.pays }}');
-
-    //         hideable_shipping_form.hide();
-    //         // $("#id_prenom").prop('required', false);
-    //         // $("#id_name").prop('required', false);
-    //         // $("#id_email").prop('required', false);
-    //         // $("#id_phone").prop('required', false);
-    //         // $("#id_code_postal").prop('required', false);
-    //         // $("#id_pays").prop('required', false);
-    //     } else {
-    //         $("#id_prenom").prop('required', true);
-    //         $("#id_name").prop('required', true);
-    //         $("#id_email").prop('required', true);
-    //         $("#id_phone").prop('required', true);
-    //         $("#id_code_postal").prop('required', true);
-    //         $("#id_pays").prop('required', true);
-
-    //         hideable_shipping_form.show();
-    //     }
-    // })
 
 
 </script>
@@ -295,7 +274,58 @@
 
 </script>
 
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1Ijoib2RpbGVsZWNsZXJjc2l0ZSIsImEiOiJjazZjMDJtNGEwZ3F2M2tvdnNncnkxNXRxIn0.c7i8XUNby5CQwhdrsG3r0A';
+    var map = new mapboxgl.Map({
+        container: 'map-dejeuner',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [-1.249550, 44.651470], //longitude, latitude
+        zoom: 11,
+    });
 
+
+    var geojson = {
+        type: 'FeatureCollection',
+        features: [{
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: [-1.249812, 44.6308885]
+            },
+            properties: {
+                title: 'Point fixe',
+                description: 'Ecole de voile'
+            }
+        },
+        {
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: [-1.2488579750061035, 44.64594650268555]
+            },
+            properties: {
+                title: 'Loueur de bateau',
+                description: 'Prise des commandes au port'
+            }
+        }]
+    };
+
+
+    // add markers to map
+    geojson.features.forEach(function (marker) {
+
+        // create a HTML element for each feature
+        var el = document.createElement('div');
+        el.className = 'marker';
+
+        // make a marker for each feature and add to the map
+        new mapboxgl.Marker(el)
+            .setLngLat(marker.geometry.coordinates)
+            .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+                .setHTML('<h3>' + marker.properties.title + '</h3><p>' + marker.properties.description + '</p>'))
+            .addTo(map);
+    });
+</script>
 
 
 

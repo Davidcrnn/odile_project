@@ -86,7 +86,7 @@ class OrderProduct(models.Model):
     quantity = models.IntegerField(default=1)
 
     def __str__(self):
-        return f"{self.quantity} of {self.product.name}"
+        return f"{self.quantity} x {self.product.name}"
 
     def get_total_product_price(self):
         return self.quantity * self.product.price
@@ -136,8 +136,9 @@ class Order(models.Model):
         for order_product in self.products.all():
             total += order_product.quantity
         return total
-    # class Meta:
-    #     verbose_name = 'Commande'
+
+    class Meta:
+        ordering = ('-date_de_creation',)
 
 
 class Payment(models.Model):

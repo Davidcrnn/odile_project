@@ -14,6 +14,7 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
+
 # Create your views here.
 import random
 import string
@@ -137,7 +138,7 @@ def add_to_cart(request, slug):
     )
     order_dejeuner_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Dejeuner')
     order_apero_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Apero')
-  
+    form = ProductForm(request.POST)
     if product.menu == 'Dejeuner':
         if order_dejeuner_qs.exists():
             order = order_dejeuner_qs[0]
@@ -148,8 +149,14 @@ def add_to_cart(request, slug):
                     request, 'La quantité du produit a été ajouté au panier')
                 return redirect("products")
             else:
+                if form.is_valid():
+                    quantity = form.cleaned_data.get('quantity')
+                    print(quantity)
+                    order_product.quantity = quantity
+                    order_product.save()
+                    order.products.add(order_product)
+                    return redirect('products')
                 messages.info(request, 'Le produit a été ajouté au panier')
-                order.products.add(order_product)
                 return redirect("products")
         else:
             order = Order.objects.create(
@@ -832,8 +839,17 @@ class ContactView(View):
             args['form'] = form
             return render(self.request, 'contact.html', args)
 
+# @login_required
+class ProfileView(View):
+    def get(self, request):
+        user = self.request.user
+        order = Order.objects.filter(user=user, ordered=True)
+        context = {
+            'user': user,
+            'order': order,
+        }
 
-
+        return render(self.request, 'profile.html', context)
 
 
 
