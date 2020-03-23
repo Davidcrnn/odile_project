@@ -46,7 +46,9 @@ class OrderAdmin(admin.ModelAdmin):
 
 
 class PaymentAdmin(admin.ModelAdmin):
-    list_display = ['user']
+    list_display = [
+        'user',
+        'amount']
 
 
 class InfoAdmin(admin.ModelAdmin):

@@ -82,8 +82,8 @@ class ProductAperoView(ListView):
             context = {
                 'order': order,
                 'products': products,
-                'couponform': CouponForm(),
-                'DISPLAY_COUPON_FORM': True
+                # 'couponform': CouponForm(),
+                # 'DISPLAY_COUPON_FORM': True
             }
             return render(self.request, 'product-apero.html', context)
         else:
@@ -419,6 +419,8 @@ class CheckoutView(View):
                     zone_delivery = form.cleaned_data.get('zone_delivery')
                     rang_delivery = form.cleaned_data.get('rang_delivery')
                     numero_delivery = form.cleaned_data.get('numero_delivery')
+                    creneau_delivery = form.cleaned_data.get('creneau_delivery')
+                    couvert = form.cleaned_data.get('couvert')
 
                     if is_valid_form([name, prenom, pays, code_postal, phone, email]):
                         adresse_info = Info(
@@ -431,25 +433,17 @@ class CheckoutView(View):
                             email=email,
                             zone_delivery=zone_delivery,
                             rang_delivery=rang_delivery,
-                            numero_delivery=numero_delivery
+                            numero_delivery=numero_delivery,
+                            creneau_delivery=creneau_delivery,
 
                         )
                         adresse_info.save()
 
                         order.information = adresse_info
+                        order.couvert= couvert
                         order.date_delivery = date_delivery
                         order.delivery_option = delivery_option
                         order.save()
-
-                        # zone_delivery = form.cleaned_data.get('zone_delivery')
-                        # rang_delivery = form.cleaned_data.get('rang_delivery')
-                        # numero_delivery = form.cleaned_data.get('numero_delivery')
-
-                        # if order.delivery_option == 'Livraison-sur-bateau':
-                        #     adresse_info.zone_delivery = zone_delivery
-                        #     adresse_info.rang_delivery = rang_delivery
-                        #     adresse_info.numero_delivery = numero_delivery
-                        #     adresse_info.save()
 
                         save_address = form.cleaned_data.get(
                             'save_address')
@@ -464,19 +458,9 @@ class CheckoutView(View):
                         messages.info(
                             self.request, "Vos informations personnelles ne sont pas complètes")
                         return redirect("checkout")
-
-                    # date_delivery = form.cleaned_data.get('date_delivery')
-                    # delivery_option = form.cleaned_data.get(
-                    #     'delivery_option')
-                    # if date_delivery == '':
-                    #     return redirect('checkout')
-                    # else:
-                    #     order.date_delivery = date_delivery
-                    #     print(delivery_option)
-                    #     order.delivery_option = delivery_option
-                    #     order.save()
             else:
                 args['form'] = form
+                args['order'] = order
                 print(form)
                 messages.info(self.request, 'Le formulaire doit être rempli')
                 return render(self.request, 'checkout.html', args)

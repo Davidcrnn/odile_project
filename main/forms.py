@@ -21,15 +21,67 @@ OBJET_CHOICES = (
 )
 
 ZONE_LIVRAISON_BATEAU = (
-    ('4', 'Zone 4'),
-    ('5a', 'Zone 5a'),
-    ('5b', 'Zone 5b'),
-    ('6', 'Zone 6'),
-    ('7', 'Zone 7'),
+    ('-- Choisissez une zone --',
+     (
+         ('4', 'Zone 4'),
+         ('5a', 'Zone 5a'),
+         ('5b', 'Zone 5b'),
+         ('6', 'Zone 6'),
+         ('7', 'Zone 7'),
+
+     )
+     ),
+)
+CRENEAU_DELIVERY = (
+    ('-- Zone 4 et Zone 5b --',
+        (
+            ('10:30', '10:30'),
+            ('10:40', '10:40'),
+            ('10:50', '10:50'),
+            ('11:30', '11:30'),
+            ('11:40', '11:40'),
+            ('11:50', '11:50'),
+        )
+     ),
+
+    ('-- Zone 5a Zone 6 et 7 --',
+        (
+            ('10:00', '10:00'),
+            ('10:10', '10:10'),
+            ('10:20', '10:20'),
+            ('11:00', '11:00'),
+            ('11:10', '11:10'),
+            ('11:20', '11:20'),
+        )
+     ),
+)
+
+COUVERT_CHOICES = (
+    ('-- Nombre de couverts --',
+        (
+            ('Pas besoin', 'Pas besoin'),
+            ('1', '1'),
+            ('2', '2'),
+            ('3', '3'),
+            ('4', '4'),
+            ('5', '5'),
+            ('6', '6'),
+            ('7', '7'),
+            ('8', '8'),
+            ('9', '9'),
+            ('10', '10'),
+
+        )
+     ),
+
 )
 
 
 class CheckoutForm(forms.Form):
+
+    couvert = forms.ChoiceField(
+        required=True, widget=forms.Select, choices=COUVERT_CHOICES)
+
     name = forms.CharField(required=True, error_messages={'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
         'placeholder': 'Turing',
         'class': 'form-control checkout-input',
@@ -66,7 +118,7 @@ class CheckoutForm(forms.Form):
                                         choices=LIVRAISON_CHOICES,
                                         help_text='Choississez une date de livraison et son horaire')
 
-    date_delivery = forms.CharField(help_text="Les commandes pour le déjeuner doivent être prises au plus tard la veuille pour le lendemain ", error_messages={
+    date_delivery = forms.CharField(required=True, help_text="Les commandes pour le déjeuner doivent être prises au plus tard la veuille pour le lendemain ", error_messages={
         'required': "Vous devez renseigner ce champ"}, widget=DateTimePickerInput(
         attrs={    # input element attributes
             "class": "checkout-input",
@@ -100,6 +152,12 @@ class CheckoutForm(forms.Form):
         'placeholder': 'Turing',
         'class': 'form-control checkout-input',
     }))
+
+    creneau_delivery = forms.ChoiceField(
+        widget=forms.Select(attrs={
+            'id': 'select-time',
+
+        }), choices=CRENEAU_DELIVERY)
 
 
 class CheckoutAperoForm(forms.Form):

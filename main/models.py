@@ -115,6 +115,7 @@ class Order(models.Model):
     cgv = models.BooleanField(default=False)
     type_of_order = models.CharField(
         max_length=50, choices=TYPE_OF_ORDER, default='Dejeuner')
+    couvert = models.CharField(max_length=32, default='1')
     received = models.BooleanField(default=False)
     refund_requested = models.BooleanField(default=False)
     refund_granted = models.BooleanField(default=False)
@@ -186,6 +187,7 @@ class Info(models.Model):
     zone_delivery = models.CharField(max_length=30)
     rang_delivery = models.CharField(max_length=20)
     numero_delivery = models.CharField(max_length=30)
+    creneau_delivery = models.CharField(max_length=30, default='10')
 
     def __str__(self):
         return self.user.email

@@ -60,8 +60,13 @@
         crossorigin="anonymous"></script>
     <!-- <script src="https://unpkg.com/flatpickr"></script> -->
 
+    <!-- Tooltip library -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
 
-
+    <script>
+        $('.alert').delay(3000).fadeOut(300);
+    </script>
     {% block extra_scripts %}
 
     {% endblock extra_scripts %}
