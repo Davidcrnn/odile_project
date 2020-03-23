@@ -15,23 +15,51 @@
                 <div class="card">
                     <form method="POST" class="card-body">
                         {% csrf_token %}
-                        <h3>Informations personnelles</h3>
-                        {{ form.non_field_errors }}
+                        <h3>Des couverts ? <span id="informations-tooltip"> <img
+                                    src="{% static '../static/images/tooltip.svg' %}" alt=""
+                                    style='height: 15px;'></span></h3>
+                        <div class="row">
+                            <div class="col-xs-12 col-md-12">
+                                <div class="md-form mb-2 ">
 
+                                    {{ form.couvert.label_tag }} <br>
+                                    {{ form.couvert.errors }}
+                                    {{ form.couvert }}
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <h3>Informations personnelles <span id="informations-tooltip"> <img
+                                    src="{% static '../static/images/tooltip.svg' %}" alt=""
+                                    style='height: 15px;'></span></h3>
+                        {{ form.non_field_errors }}
+                        <br>
                         {% if default_address %}
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="user-save" style="padding: 25px">
+
                                     <input type="checkbox" class="custom-control-input" name="use_default_shipping"
                                         id="use_default_shipping">
+
                                     <label class="custom-control-label" for="use_default_shipping">Utiliser vos
                                         informations
                                         personnelles:
+                                        <ul>
+                                            <li>{{ default_address.prenom }}</li>
+                                            <li>{{ default_address.name }}</li>
+                                            <li>{{ default_address.email }}</li>
+                                            <li>{{ default_address.phone }}</li>
+                                        </ul>
 
                                     </label>
 
-                                </div>
 
+
+                                </div>
+                                <hr class='not-show'>
                             </div>
                         </div>
 
@@ -113,7 +141,10 @@
 
 
                         <hr>
-                        <h3>Modalités de livraison</h3>
+                        <h3>Modalités de livraison <span id="delivery-tooltip"> <img
+                                    src="{% static '../static/images/tooltip.svg' %}" alt=""
+                                    style='height: 15px;'></span></h3>
+                        <br>
                         <div class="d-block my-3">
 
 
@@ -125,11 +156,12 @@
 
                             </div>
                             {% endfor %}
-                            <div id='map-dejeuner' style='width: 100%; height: 340px;'></div>
 
                         </div>
                         <div class="option-bateau" id='emplacement-bateau'>
-                            <h3>Option Livraison sur Bateau</h3>
+                            <h3>Option Livraison sur Bateau <span id="delivery-option-tooltip"> <img
+                                        src="{% static '../static/images/tooltip.svg' %}" alt=""
+                                        style='height: 15px;'></span></h3>
                             <div class="row">
                                 <div class="col">
                                     {{ form.zone_delivery.label_tag }}
@@ -139,17 +171,28 @@
                                 <div class="col">
                                     {{ form.rang_delivery.label_tag }}
                                     {{ form.rang_delivery }}
-                                    {{ form.zone_delivery.errors }}
+                                    {{ form.rang_delivery.errors }}
                                 </div>
                                 <div class="col">
                                     {{ form.numero_delivery.label_tag }}
                                     {{ form.numero_delivery }}
-                                    {{ form.zone_delivery.errors }}
+                                    {{ form.numero_delivery.errors }}
+                                </div>
+                                <div id="creneau-show" class="col">
+                                    {{ form.creneau_delivery.label_tag }}
+                                    {{ form.creneau_delivery }}
+                                    {{ form.creneau_delivery.errors }}
                                 </div>
                             </div>
 
                         </div>
-                        <h3>Date de livraison</h3>
+                        <div id='map-dejeuner' style='width: 100%; height: 340px;'></div>
+                        <br>
+                        <h3>Date de livraison<span id="date-tooltip"> <img
+                                    src="{% static '../static/images/tooltip.svg' %}" alt=""
+                                    style='height: 15px;'></span></h3>
+                        <br>
+
                         <div class="row">
                             <div class="col">
                                 {{ form.date_delivery }}
@@ -161,7 +204,8 @@
                             </div>
                         </div>
                         <hr class="mb-4">
-                        <button class="btn-valider btn-lg btn-block" type="submit">Valider la commande</button>
+                        <button class="btn-valider btn-lg btn-block" type="submit" id='submit-checkout'>Valider la
+                            commande</button>
                     </form>
                 </div>
 
@@ -189,49 +233,99 @@
 {% block extra_scripts %}
 <script src="https://npmcdn.com/flatpickr/dist/l10n/fr.js"></script>
 
+
+<script>
+    $(document).ready(function () {
+        tippy('#date-tooltip', {
+            arrow: true,
+            content: 'Vous devez sélectionner un moyen de livraison'
+        });
+        tippy('#delivery-tooltip', {
+            arrow: true,
+            content: 'Vous devez sélectionner une date de livraison'
+        });
+        tippy('#delivery-option-tooltip', {
+            arrow: true,
+            content: 'Ces informations sont nécessaire pour situer votre bateau'
+        });
+        tippy('#informations-tooltip', {
+            arrow: true,
+            content: 'Ces informations personnelles sont nécessaires pour la livraison et la facturation'
+        });
+    });
+
+</script>
+
 <script>
 
     $(document).ready(function () {
+        var delivery_one = document.getElementById('Point-fixe-1'),
+            delivery_two = document.getElementById('Loueur-de-bateau'),
+            delivery_bateau = document.getElementById('Livraison-sur-bateau');
 
-        flatpickr('#datepicker-dejeuner', {
-            // defaultDate: new Date().fp_incr(1),
-            minDate: new Date().fp_incr(1),
-            dateFormat: "d/m/Y H:i",
-            altFormat: "d/m/Y H:i",
-            defaultTime: '12:00',
-            minTime: '10:00',
-            maxTime: '12:30',
-            enableTime: true,
-            time_24hr: true,
-            minuteIncrement: '10',
-            locale: "fr",
-        })
+        delivery_one.addEventListener('click', function () {
+            flatpickr('#datepicker-dejeuner', {
+                // defaultDate: new Date().fp_incr(1),
+                minDate: new Date().fp_incr(1),
+                dateFormat: "d/m/Y H:i",
+                altFormat: "d/m/Y H:i",
+                defaultTime: '10:30',
+                minTime: '10:30',
+                maxTime: '11:00',
+                enableTime: true,
+                time_24hr: true,
+                minuteIncrement: '10',
+                locale: "fr",
+            });
+
+        });
+
+        delivery_two.addEventListener('click', function () {
+            flatpickr('#datepicker-dejeuner', {
+                // defaultDate: new Date().fp_incr(1),
+                minDate: new Date().fp_incr(1),
+                dateFormat: "d/m/Y H:i",
+                altFormat: "d/m/Y H:i",
+                defaultTime: '10:00',
+                minTime: '10:00',
+                maxTime: '12:00',
+                enableTime: true,
+                time_24hr: true,
+                minuteIncrement: '10',
+                locale: "fr",
+            });
+
+        });
+
+        delivery_bateau.addEventListener('click', function () {
+
+            flatpickr('#datepicker-dejeuner', {
+                minDate: new Date().fp_incr(1),
+                dateFormat: "d/m/Y",
+                altFormat: "d/m/Y",
+                enableTime: false,
+                locale: "fr",
+            });
+        });
+
     });
 
 </script>
 
 <script>
     var hideable_shipping_form = $('.hideable_shipping_form');
-
-
     var use_default_shipping = document.querySelector("input[name=use_default_shipping]");
-
+    var not_show = $('.not-show');
     use_default_shipping.addEventListener('change', function () {
         if (this.checked) {
-            // $("#id_prenom").val('{{ default_address.prenom }}');
-            // $("#id_name").val('{{ default_address.name }}');
-            // $("#id_email").val('{{ default_address.email }}');
-            // $("#id_phone").val('{{ default_address.phone }}');
-            // $("#id_code_postal").val('{{ default_address.code_postal }}');
-            // $("#id_pays").val('{{ default_address.pays }}');
-
+            $("#id_prenom").val('{{ default_address.prenom }}');
+            $("#id_name").val('{{ default_address.name }}');
+            $("#id_email").val('{{ default_address.email }}');
+            $("#id_phone").val('{{ default_address.phone }}');
+            $("#id_code_postal").val('{{ default_address.code_postal }}');
+            $("#id_pays").val('{{ default_address.pays }}');
             hideable_shipping_form.hide();
-            // $("#id_prenom").prop('required', false);
-            // $("#id_name").prop('required', false);
-            // $("#id_email").prop('required', false);
-            // $("#id_phone").prop('required', false);
-            // $("#id_code_postal").prop('required', false);
-            // $("#id_pays").prop('required', false);
+            not_show.hide();
         } else {
             $("#id_prenom").prop('required', true);
             $("#id_name").prop('required', true);
@@ -240,12 +334,41 @@
             $("#id_code_postal").prop('required', true);
             $("#id_pays").prop('required', true);
 
+            $("#id_prenom").val('');
+            $("#id_name").val('');
+            $("#id_email").val('');
+            $("#id_phone").val('');
+            $("#id_code_postal").val('');
+            $("#id_pays").val('');
             hideable_shipping_form.show();
         }
-    })
-
+    });
 
 </script>
+
+<!-- <script>
+
+    $(document).ready(function () {
+        var zone_delivery = $('#id_zone_delivery'),
+            rang_delivery = $('#id_rang_delivery'),
+            numero_delivery = $('#id_numero_delivery'),
+            myCreneau = $('#creneau-show');
+
+        $("#Livraison-sur-bateau").change(function () {
+
+            rang_delivery.val('{{ default_address.rang_delivery}}');
+            zone_delivery.val('{{ default_address.zone_delivery}}');
+            numero_delivery.val('{{ default_address.numero_delivery}}');
+            myCreneau.show();
+
+        });
+
+    });
+
+
+
+
+</script> -->
 
 <script>
     $(document).ready(function () {
@@ -328,6 +451,48 @@
 </script>
 
 
+<script>
+
+    $(document).ready(function () {
+
+        var firstOption = $('#select-time'),
+            firstOpt = firstOption.children(':first-child'),
+            secondOpt = firstOption.children().last(),
+            myCreneau = $('#creneau-show'),
+            zone_delivery_value = $('#id_zone_delivery');
+
+        myCreneau.hide();
+        zone_delivery_value.change(function () {
+            myCreneau.show();
+            if (zone_delivery_value.val() == '4' || zone_delivery_value.val() == '5b') {
+
+                secondOpt.children().attr('disabled', true);
+                firstOpt.children().attr('disabled', false);
+
+            } else {
+                firstOpt.children().attr('disabled', true);
+                secondOpt.children().attr('disabled', false);
+
+            }
+
+        });
+
+
+    })
+</script>
+
+<script>
+    $(document).ready(function () {
+        var submitForm = $('#submit-checkout');
+        submitForm.submit(function (e) {
+            alert('It works');
+            e.preventDefault();
+
+        })
+    })
+
+
+</script>
 
 
 {% endblock extra_scripts %}
