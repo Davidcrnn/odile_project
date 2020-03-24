@@ -39,7 +39,7 @@ class HomePageView(TemplateView):
 
 
 class ProductListView(ListView):
-    template_name = 'product-list.html'
+    template_name = 'product-dejeuner.html'
     model = Product
     context_object_name = 'products'
 
@@ -54,17 +54,17 @@ class ProductListView(ListView):
             context = {
                 'order': order,
                 'products': products,
-                'couponform': CouponForm(),
-                'DISPLAY_COUPON_FORM': True,
                 'form': form,
+                # 'couponform': CouponForm(),
+                # 'DISPLAY_COUPON_FORM': True,
             }
-            return render(self.request, 'product-list.html', context)
+            return render(self.request, 'product-dejeuner.html', context)
         else:
             context = {
                 'products': products,
                 
             }
-            return render(self.request, 'product-list.html', context)
+            return render(self.request, 'product-dejeuner.html', context)
 
 
 class ProductAperoView(ListView):
@@ -74,16 +74,18 @@ class ProductAperoView(ListView):
 
     def get(self, *args, **kwargs):
         products = Product.objects.filter(menu='Apero')
-
-        if self.request.user.is_authenticated:
+        form = ProductForm()
+        user = self.request.user
+        if user.is_authenticated:
             order, created = Order.objects.get_or_create(
                 user=self.request.user, ordered=False, type_of_order='Apero')
             
             context = {
                 'order': order,
                 'products': products,
-                # 'couponform': CouponForm(),
-                # 'DISPLAY_COUPON_FORM': True
+                'form': form,
+                # # 'couponform': CouponForm(),
+                # 'DISPLAY_COUPON_FORM': False,
             }
             return render(self.request, 'product-apero.html', context)
         else:
@@ -93,12 +95,12 @@ class ProductAperoView(ListView):
             return render(self.request, 'product-apero.html', context)
 
 
-class ProductDetailView(DetailView):
-    template_name = 'product-detail.html'
+# class ProductDetailView(DetailView):
+#     template_name = 'product-detail.html'
 
-    def get_object(self):
-        slug_ = self.kwargs.get("slug")
-        return get_object_or_404(Product, slug=slug_)
+#     def get_object(self):
+#         slug_ = self.kwargs.get("slug")
+#         return get_object_or_404(Product, slug=slug_)
 
 
 class OrderSummaryDejeunerView(LoginRequiredMixin, View):
@@ -107,12 +109,13 @@ class OrderSummaryDejeunerView(LoginRequiredMixin, View):
         try:
             order_dejeuner_qs = Order.objects.get(user=self.request.user, ordered=False,type_of_order='Dejeuner')
             context = {
-                'object': order_dejeuner_qs,
-                
+                'order_dejeuner': order_dejeuner_qs,
+                # 'couponform': CouponForm(),
+                # 'DISPLAY_COUPON_FORM': True,
             }
             return render(self.request, 'order-summary-dejeuner.html', context)
         except ObjectDoesNotExist:
-            messages.warning(self.request, "You do not have an active order")
+            messages.warning(self.request, "Vous n'avez rien dans votre panier")
             return redirect("/")
 
 class OrderSummaryAperoView(LoginRequiredMixin, View):
@@ -122,10 +125,12 @@ class OrderSummaryAperoView(LoginRequiredMixin, View):
             order_apero_qs = Order.objects.get(user=self.request.user, ordered=False, type_of_order='Apero')
             context = {
                 'order_apero': order_apero_qs,
+                # 'couponform': CouponForm(),
+                # 'DISPLAY_COUPON_FORM': True,
             }
             return render(self.request, 'order-summary-apero.html', context)
         except ObjectDoesNotExist:
-            messages.warning(self.request, "You do not have an active order")
+            messages.warning(self.request, "Vous n'avez rien dans votre panier")
             return redirect("/")
 
 @login_required
@@ -139,52 +144,57 @@ def add_to_cart(request, slug):
     order_dejeuner_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Dejeuner')
     order_apero_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Apero')
     form = ProductForm(request.POST)
-    if product.menu == 'Dejeuner':
-        if order_dejeuner_qs.exists():
-            order = order_dejeuner_qs[0]
-            if order.products.filter(product__slug=product.slug).exists():
-                order_product.quantity += 1
-                order_product.save()
-                messages.info(
-                    request, 'La quantité du produit a été ajouté au panier')
-                return redirect("products")
-            else:
-                if form.is_valid():
-                    quantity = form.cleaned_data.get('quantity')
-                    print(quantity)
+
+    if form.is_valid():
+        quantity = int(form.cleaned_data.get('quantity'))
+
+        if product.menu == 'Dejeuner':
+            if order_dejeuner_qs.exists():
+                order = order_dejeuner_qs[0]
+                if order.products.filter(product__slug=product.slug).exists():
+                    order_product.quantity += quantity
+                    order_product.save()
+                    messages.info(
+                        request, 'La quantité du produit a été ajouté au panier')
+                    return redirect("products")
+                else:    
                     order_product.quantity = quantity
                     order_product.save()
                     order.products.add(order_product)
-                    return redirect('products')
-                messages.info(request, 'Le produit a été ajouté au panier')
-                return redirect("products")
-        else:
-            order = Order.objects.create(
-                user=request.user, type_of_order='Dejeuner')
-            order.products.add(order_product)
-            messages.info(request, 'Le produit a été ajouté au panier')
-        return redirect("products")
-    elif product.menu == 'Apero':
-        if order_apero_qs.exists():
-            order = order_apero_qs[0]
-            if order.products.filter(product__slug=product.slug).exists():
-
-                order_product.quantity += 1
-                order_product.save()
-                messages.info(
-                    request, 'La quantité du produit a été ajouté au panier')
-                return redirect("products-apero")
+                    messages.info(request, 'Le produit a été ajouté au panier')
+                    return redirect("products")
             else:
-                messages.info(request, 'Le produit a été ajouté au panier')
+                order = Order.objects.create(
+                    user=request.user, type_of_order='Dejeuner')
+                order_product.quantity = quantity
+                order_product.save()
                 order.products.add(order_product)
-                return redirect("products-apero")
-        else:
-            order = Order.objects.create(
-                user=request.user, type_of_order='Apero')
-            order.products.add(order_product)
-            messages.info(request, 'Le produit a été ajouté au panier')
-    else: 
-        messages.warning(request, 'un problème vient de survenir')
+                messages.info(request, 'Le produit a été ajouté au panier')
+            return redirect("products")
+        elif product.menu == 'Apero':
+            if order_apero_qs.exists():
+                order = order_apero_qs[0]
+                if order.products.filter(product__slug=product.slug).exists():
+                    order_product.quantity += quantity
+                    order_product.save()
+                    messages.info(
+                        request, 'La quantité du produit a été ajouté au panier')
+                    return redirect("products-apero")
+                else:
+                    order_product.quantity = quantity
+                    order_product.save()
+                    order.products.add(order_product)
+                    messages.info(request, 'Le produit a été ajouté au panier')
+                    return redirect("products-apero")
+            else:
+                order = Order.objects.create(
+                    user=request.user, type_of_order='Apero')
+                order_product.quantity = quantity
+                order_product.save()
+                order.products.add(order_product)
+                messages.info(request, 'Le produit a été ajouté au panier')
+        else: 
+            messages.warning(request, 'un problème vient de survenir')
     return redirect("home")
 
 @login_required
@@ -196,97 +206,90 @@ def add_single_item_to_cart(request, slug):
         ordered=False
     )
     order_dejeuner_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Dejeuner')
-    if order_dejeuner_qs.exists():
-        order = order_dejeuner_qs[0]
-        if order.products.filter(product__slug=product.slug).exists():
-            order_product.quantity += 1
-            order_product.save()
-            messages.info(
-                request, 'La quantité du produit a été ajouté au panier')
-            return redirect("order-summary-dejeuner")
+    order_apero_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Apero')
+    if product.menu == 'Dejeuner':
+        if order_dejeuner_qs.exists():
+            order = order_dejeuner_qs[0]
+            if order.products.filter(product__slug=product.slug).exists():
+                order_product.quantity += 1
+                order_product.save()
+                messages.info(
+                    request, 'La quantité du produit a été ajouté au panier')
+                return redirect("order-summary-dejeuner")
+            else:
+                messages.info(request, 'Le produit a été ajouté au panier')
+                order.products.add(order_product)
+                return redirect("order-summary-dejeuner")
         else:
-            messages.info(request, 'Le produit a été ajouté au panier')
+            order = Order.objects.create(user=request.user)
             order.products.add(order_product)
-            return redirect("order-summary-dejeuner")
-    else:
-        order = Order.objects.create(user=request.user)
-        order.products.add(order_product)
-        messages.info(request, 'Le produit a été ajouté au panier')
+            messages.info(request, 'Le produit a été ajouté au panier')
+    elif product.menu == 'Apero':
+        if order_apero_qs.exists():
+            order = order_apero_qs[0]
+            if order.products.filter(product__slug=product.slug).exists():
+                order_product.quantity += 1
+                order_product.save()
+                messages.info(
+                    request, 'La quantité du produit a été ajouté au panier')
+                return redirect("order-summary-apero")
+            else:
+                messages.info(request, 'Le produit a été ajouté au panier')
+                order.products.add(order_product)
+                return redirect("order-summary-apero")
+        else:
+            order = Order.objects.create(user=request.user)
+            order.products.add(order_product)
+            messages.info(request, 'Le produit a été ajouté au panier')
+    else: 
+        messages.warning(request, 'un problème vient de survenir')
     return redirect("home")
 
-@login_required
-def add_single_item_to_cart_apero(request, slug):
-    product = get_object_or_404(Product, slug=slug)
-    order_product, created = OrderProduct.objects.get_or_create(
-        product=product,
-        user=request.user,
-        ordered=False
-    )        
-    order_apero_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Apero')
-    if order_apero_qs.exists():
-        order = order_apero_qs[0]
-        if order.products.filter(product__slug=product.slug).exists():
-            order_product.quantity += 1
-            order_product.save()
-            messages.info(
-                request, 'La quantité du produit a été ajouté au panier')
-            return redirect("order-summary-apero")
-        else:
-            messages.info(request, 'Le produit a été ajouté au panier')
-            order.products.add(order_product)
-            return redirect("order-summary-apero")
-    else:
-        order = Order.objects.create(user=request.user)
-        order.products.add(order_product)
-        messages.info(request, 'Le produit a été ajouté au panier')
-    return redirect("home")
+
 
 @login_required
 def remove_from_cart(request, slug):
     product = get_object_or_404(Product, slug=slug)
     order_dejeuner_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Dejeuner')
-    if order_dejeuner_qs.exists():
-        order = order_dejeuner_qs[0]
-        if order.products.filter(product__slug=product.slug).exists():
-            order_product = OrderProduct.objects.filter(
-                product=product,
-                user=request.user,
-                ordered=False
-            )[0]
-            order.products.remove(order_product)
-            order_product.delete()
-            messages.info(request, 'Le produit a été supprimé du panier')
-            return redirect("order-summary-dejeuner")
-        else:
-            messages.info(request, "Le produit n'est pas dans votre panier-dejeuner")
-            return redirect('order-summary-dejeuner')
-    else:
-        messages.info(request, "Vous n'avez pas de commande")
-        return redirect('products')
-    return redirect('home')
-
-@login_required
-def remove_from_cart_apero(request, slug):
-    product = get_object_or_404(Product, slug=slug)
     order_apero_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Apero')
-    if order_apero_qs.exists():
-        order = order_apero_qs[0]
-        if order.products.filter(product__slug=product.slug).exists():
-            order_product = OrderProduct.objects.filter(
-                product=product,
-                user=request.user,
-                ordered=False
-            )[0]
-            order.products.remove(order_product)
-            order_product.delete()
-            messages.info(request, 'Le produit a été supprimé de votre panier')
-            return redirect('-dejeuner-apero')
+    if product.menu == 'Dejeuner':
+        if order_dejeuner_qs.exists():
+            order = order_dejeuner_qs[0]
+            if order.products.filter(product__slug=product.slug).exists():
+                order_product = OrderProduct.objects.filter(
+                    product=product,
+                    user=request.user,
+                    ordered=False
+                )[0]
+                order.products.remove(order_product)
+                order_product.delete()
+                messages.info(request, 'Le produit a été supprimé du panier')
+                return redirect("order-summary-dejeuner")
+            else:
+                messages.info(request, "Le produit n'est pas dans votre panier-dejeuner")
+                return redirect('order-summary-dejeuner')
         else:
-            messages.info(request, "le produit n'est pas dans votre panier")
-            return redirect('order-summary-apero')
-    else:
-        messages.warning(request, 'Votre panier est vide')
-        return redirect('products-apero')
+            messages.info(request, "Vous n'avez pas de commande")
+            return redirect('products')
+    elif product.menu == 'Apero':
+        if order_apero_qs.exists():
+            order = order_apero_qs[0]
+            if order.products.filter(product__slug=product.slug).exists():
+                order_product = OrderProduct.objects.filter(
+                    product=product,
+                    user=request.user,
+                    ordered=False
+                )[0]
+                order.products.remove(order_product)
+                order_product.delete()
+                messages.info(request, 'Le produit a été supprimé de votre panier')
+                return redirect('order-summary-apero')
+            else:
+                messages.info(request, "le produit n'est pas dans votre panier")
+                return redirect('order-summary-apero')
+        else:
+            messages.warning(request, 'Votre panier est vide')
+    return redirect('home')
 
 @login_required
 def remove_single_product_from_cart(request, slug):
@@ -296,59 +299,62 @@ def remove_single_product_from_cart(request, slug):
         ordered=False,
         type_of_order='Dejeuner'
     )
-    if order_dejeuner_qs.exists():
-        order = order_dejeuner_qs[0]
-        # check if the order item is in the order
-        if order.products.filter(product__slug=product.slug).exists():
-            order_product = OrderProduct.objects.filter(
-                product=product,
-                user=request.user,
-                ordered=False
-            )[0]
-            if order_product.quantity > 1:
-                order_product.quantity -= 1
-                order_product.save()
-            else:
-                order.products.remove(order_product)
-            messages.info(request, "This product quantity was updated.")
-            return redirect("order-summary-dejeuner")
-        else:
-            messages.info(request, "This product was not in your cart")
-            return redirect("products")
-    else:
-        messages.info(request, "You do not have an active order")
-        return redirect("home")
-
-@login_required
-def remove_single_product_from_cart_apero(request, slug):
-    product = get_object_or_404(Product, slug=slug)
     order_apero_qs = Order.objects.filter(
         user=request.user,
         ordered=False,
         type_of_order='Apero'
     )
-    if order_apero_qs.exists():
-        order = order_apero_qs[0]
-        # check if the order item is in the order
-        if order.products.filter(product__slug=product.slug).exists():
-            order_product = OrderProduct.objects.filter(
-                product=product,
-                user=request.user,
-                ordered=False
-            )[0]
-            if order_product.quantity > 1:
-                order_product.quantity -= 1
-                order_product.save()
+    if product.menu == 'Dejeuner':
+        if order_dejeuner_qs.exists():
+            order = order_dejeuner_qs[0]
+            # check if the order item is in the order
+            if order.products.filter(product__slug=product.slug).exists():
+                order_product = OrderProduct.objects.filter(
+                    product=product,
+                    user=request.user,
+                    ordered=False
+                )[0]
+                if order_product.quantity > 1:
+                    order_product.quantity -= 1
+                    order_product.save()
+                else:
+                    order.products.remove(order_product)
+                messages.info(request, "This product quantity was updated.")
+                return redirect("order-summary-dejeuner")
             else:
-                order.products.remove(order_product)
-            messages.info(request, "This product quantity was updated.")
-            return redirect("order-summary-apero")
+                messages.info(request, "This product was not in your cart")
+                return redirect("products")
         else:
-            messages.info(request, "This product was not in your cart")
-            return redirect("products-apero")
-    else:
-        messages.info(request, "You do not have an active order")
-        return redirect("home")
+            messages.info(request, "You do not have an active order")
+            return redirect("home")
+    elif product.menu == 'Apero':
+        if order_apero_qs.exists():
+            order = order_apero_qs[0]
+            # check if the order item is in the order
+            if order.products.filter(product__slug=product.slug).exists():
+                order_product = OrderProduct.objects.filter(
+                    product=product,
+                    user=request.user,
+                    ordered=False
+                )[0]
+                if order_product.quantity > 1:
+                    order_product.quantity -= 1
+                    order_product.save()
+                else:
+                    order.products.remove(order_product)
+                messages.info(request, "This product quantity was updated.")
+                return redirect("order-summary-apero")
+            else:
+                messages.info(request, "This product was not in your cart")
+                return redirect("products-apero")
+        else:
+            messages.info(request, "You do not have an active order")
+            return redirect("home")
+    else: 
+        messages.warning(request, 'un problème vient de survenir')
+    return redirect('home')
+
+
 
 
 
@@ -362,8 +368,8 @@ class CheckoutView(View):
             context = {
                 'form': form,
                 'order': order,
-                'couponform': CouponForm(),
-                'DISPLAY_COUPON_FORM': True
+                # 'couponform': CouponForm(),
+                # 'DISPLAY_COUPON_FORM': True
             }
             address_qs = Info.objects.filter(
                 user=self.request.user,
@@ -478,8 +484,8 @@ class CheckoutViewApero(View):
             context = {
                 'form': form,
                 'order': order,
-                'couponform': CouponForm(),
-                'DISPLAY_COUPON_FORM': True
+                # 'couponform': CouponForm(),
+                # 'DISPLAY_COUPON_FORM': True
             }
             address_qs = Info.objects.filter(
                 user=self.request.user,
@@ -577,9 +583,9 @@ class PaymentView(View):
         if order.information:
             context = {
                 'order': order,
-                'DISPLAY_COUPON_FORM': False
+                # 'DISPLAY_COUPON_FORM': False
             }
-            return render(self.request, 'payment.html', context)
+            return render(self.request, 'payment-dejeuner.html', context)
         else:
             messages.warning(
                 self.request, "Vous devez remplir le formulaire avant d'accèder au paiement ")
@@ -613,8 +619,13 @@ class PaymentView(View):
             order.ref_code = create_ref_code()
             order.save()
             
+            context = {
+                'user': self.request.user,
+                'ref': order.ref_code,
+                'total': order.payment.amount
+            }
             subject = "Déjeuner sur l'eau: Votre commande a bien été prise en compte !"
-            html_message = render_to_string('email-order-confirmation.html')
+            html_message = render_to_string('email-order-confirmation.html', context)
             text_message = strip_tags(html_message)
             from_email = self.request.user.email
             send_mail(subject, text_message, from_email, [
@@ -628,12 +639,12 @@ class PaymentView(View):
             body = e.json_body
             err = body.get('error', {})
             messages.warning(self.request, f"{err.get('message')}")
-            return redirect("/")
+            return redirect("payment-dejeuner")
 
         except stripe.error.RateLimitError as e:
             # Too many requests made to the API too quickly
             messages.warning(self.request, "Veuillez réessayer un peu plus tard ! Le service est saturé pour le moment")
-            return redirect("/")
+            return redirect("payment-dejeuner")
 
         except stripe.error.InvalidRequestError as e:
             # Invalid parameters were supplied to Stripe's API
@@ -645,25 +656,25 @@ class PaymentView(View):
             # Authentication with Stripe's API failed
             # (maybe you changed API keys recently)
             messages.warning(self.request, "Un problème technique est survenu !")
-            return redirect("/")
+            return redirect("payment-dejeuner")
 
         except stripe.error.APIConnectionError as e:
             # Network communication with Stripe failed
             messages.warning(self.request, "Problème de réseau")
-            return redirect("/")
+            return redirect("payment-dejeuner")
 
         except stripe.error.StripeError as e:
             # Display a very generic error to the user, and maybe send
             # yourself an email
             messages.warning(
                 self.request, "Something went wrong. You were not charged. Please try again.")
-            return redirect("/")
+            return redirect("payment-dejeuner")
 
         except Exception as e:
             # send an email to ourselves
             messages.warning(
                 self.request, "A serious error occurred. We have been notifed.")
-            return redirect("/")
+            return redirect("payment-dejeuner")
 
 
 class PaymentAperoView(View):
@@ -673,7 +684,7 @@ class PaymentAperoView(View):
 
             context = {
                 'order': order,
-                'DISPLAY_COUPON_FORM': False
+                # 'DISPLAY_COUPON_FORM': False
             }
 
             return render(self.request, 'payment-apero.html', context)
@@ -682,34 +693,90 @@ class PaymentAperoView(View):
                 self.request, "Vous devez remplir le formulaire avant d'accèder au paiement ")
             return redirect("checkout-apero")
 
-def get_coupon(request, code):
-    try:
-        coupon = Coupon.objects.get(code=code)
-        return coupon
-    except ObjectDoesNotExist:
-        messages.info(request, "Ce code promo n'existe pas")
-        return redirect('checkout')
-
-
-class AddCouponView(View):
-
     def post(self, *args, **kwargs):
-        form = CouponForm(self.request.POST or None)
-        if form.is_valid():
-            try:
-                code = form.cleaned_data.get('code')
-                order = Order.objects.get(
-                    user=self.request.user,
-                    ordered=False
-                )
-                order.coupon = get_coupon(self.request, code)
-                order.save()
-                messages.success(self.request, 'Le code coupon est accepté')
-                return redirect('checkout')
-            except ObjectDoesNotExist:
-                messages.info(self.request, "You do not have an active order")
-                return redirect('checkout')
+        order = Order.objects.get(user=self.request.user, ordered=False, type_of_order='Apero')
+        token = self.request.POST.get('stripeToken')
+        amount = int(order.get_total())
+        try:
+            charge = stripe.Charge.create(
+                amount=int(amount * 100),
+                currency='eur',
+                # replace by token in prod 'tok_visa'
+                source=token,
+            )
 
+            payment = Payment()
+            payment.stripe_charge_id = charge['id']
+            payment.user = self.request.user
+            payment.amount = amount
+            payment.save()
+
+            order_items = order.products.all()
+            order_items.update(ordered=True)
+            for item in order_items:
+                item.save()
+
+            order.ordered = True
+            order.payment = payment
+            order.ref_code = create_ref_code()
+            order.save()
+            
+            context = {
+                'user': self.request.user,
+                'ref': order.ref_code,
+                'total': order.payment.amount
+            }
+            subject = "Déjeuner sur l'eau: Votre commande a bien été prise en compte !"
+            html_message = render_to_string('email-order-confirmation.html', context)
+            text_message = strip_tags(html_message)
+            from_email = self.request.user.email
+            send_mail(subject, text_message, from_email, [
+                      'david.crenin@gmail.com'], html_message=html_message, fail_silently=False)
+
+            messages.success(
+                self.request, "Votre commande a été bien été prise en compte")
+            return redirect("/")
+
+        except stripe.error.CardError as e:
+            body = e.json_body
+            err = body.get('error', {})
+            messages.warning(self.request, f"{err.get('message')}")
+            return redirect("payment-apero")
+
+        except stripe.error.RateLimitError as e:
+            # Too many requests made to the API too quickly
+            messages.warning(self.request, "Veuillez réessayer un peu plus tard ! Le service est saturé pour le moment")
+            return redirect("payment-apero")
+
+        except stripe.error.InvalidRequestError as e:
+            # Invalid parameters were supplied to Stripe's API
+            print(e)
+            messages.warning(self.request, "Les données ne sont pas corrects")
+            return redirect("payment-apero")
+
+        except stripe.error.AuthenticationError as e:
+            # Authentication with Stripe's API failed
+            # (maybe you changed API keys recently)
+            messages.warning(self.request, "Un problème technique est survenu !")
+            return redirect("payment-apero")
+
+        except stripe.error.APIConnectionError as e:
+            # Network communication with Stripe failed
+            messages.warning(self.request, "Problème de réseau")
+            return redirect("payment-apero")
+
+        except stripe.error.StripeError as e:
+            # Display a very generic error to the user, and maybe send
+            # yourself an email
+            messages.warning(
+                self.request, "Something went wrong. You were not charged. Please try again.")
+            return redirect("payment-apero")
+
+        except Exception as e:
+            # send an email to ourselves
+            messages.warning(
+                self.request, "A serious error occurred. We have been notifed.")
+            return redirect("payment-apero")
 
 class RequestRefundView(View):
     def get(self, *args, **kwargs):
@@ -835,5 +902,30 @@ class ProfileView(View):
 
         return render(self.request, 'profile.html', context)
 
+# def get_coupon(request, code):
+#     try:
+#         coupon = Coupon.objects.get(code=code)
+#         return coupon
+#     except ObjectDoesNotExist:
+#         messages.info(request, "Ce code promo n'existe pas")
+#         return redirect('checkout')
 
 
+# class AddCouponView(View):
+
+#     def post(self, *args, **kwargs):
+#         form = CouponForm(self.request.POST or None)
+#         if form.is_valid():
+#             try:
+#                 code = form.cleaned_data.get('code')
+#                 order = Order.objects.get(
+#                     user=self.request.user,
+#                     ordered=False
+#                 )
+#                 order.coupon = get_coupon(self.request, code)
+#                 order.save()
+#                 messages.success(self.request, 'Le code coupon est accepté')
+#                 return redirect('checkout')
+#             except ObjectDoesNotExist:
+#                 messages.info(self.request, "You do not have an active order")
+#                 return redirect('checkout')

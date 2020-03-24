@@ -1,12 +1,7 @@
-<div class="container">
+<div class="container" style="border: 1px solid black">
+    <h1 style='color: red;'>Salut {{ user }}</h1>
     <h1>Votre commande a bien été enregistrée !</h1>
 
-    <p>{{order.ref_code}}: Ceci est le numéro de votre commande</p>
+    <p>{{ref}}: Ceci est le numéro de votre commande</p>
+    <p>Vous avez payé {{ total }}</p>
 </div>
-
-
-<style>
-    .container h1 {
-        color: red;
-    }
-</style>

@@ -16,6 +16,8 @@
                     accusamus est ipsam sed pariatur eum omnis, natus tempore nostrum vero laudantium. Aliquid,
                     molestiae velit.
                 </div>
+
+                <div id="search_result"></div>
             </div>
             <div class="col-xs-12 col-md-8">
                 <div class="avis-form">
@@ -41,4 +43,29 @@
 
     </form>
 </div>
+
 {% endblock content %}
+
+{% block extra_scripts %}
+<script>
+    var delayTimer;
+    $('#id_email').keyup(function () {
+        $('#search_result').text('Loading ...');
+        clearTimeout(delayTimer);
+        delayTimer = setTimeout(function () {
+            $.ajax({
+                url: '/votre-avis/ajax',
+                data: {
+                    'search_term': 'Hello'
+                },
+                dataType: 'json',
+                success: function (data) {
+                    $('#search_result').text('Ajax works');
+                    $('body').css('background-color', 'red');
+                }
+            });
+        }, 500);
+    });
+
+</script>
+{% endblock extra_scripts %}
