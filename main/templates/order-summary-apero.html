@@ -33,15 +33,15 @@
                     <td>{{ order_product.product.price }} </td>
                     <td>
                         <a style='color: #165361;'
-                            href="{% url 'remove-single-product-from-cart-apero' order_product.product.slug %}">
+                            href="{% url 'remove-single-product-from-cart' order_product.product.slug %}">
                             <i class="fas fa-minus mr-2"></i></a>
                         {{ order_product.quantity }}
                         <a style='color: #165361;'
-                            href="{% url 'add-single-item-to-cart-apero' order_product.product.slug %}"><i
+                            href="{% url 'add-single-item-to-cart' order_product.product.slug %}"><i
                                 class="fas fa-plus ml-2"></i></a>
                     </td>
                     <td>{{ order_product.get_total_product_price}}€ <a style='color: #165361;'
-                            href="{% url 'remove-from-cart-apero' order_product.product.slug %}">
+                            href="{% url 'remove-from-cart' order_product.product.slug %}">
                             <i class="fas fa-trash float-right"></i>
                         </a></td>
 
@@ -58,12 +58,12 @@
                 </tr>
                 {% endfor %}
 
-                {% if order_apero.coupon %}
+                <!-- {% if order_apero.coupon %}
                 <tr>
                     <td colspan="4">Coupon</td>
                     <td> - {{ object.coupon.amount}}€</td>
                 </tr>
-                {% endif %}
+                {% endif %} -->
 
                 {% if order_apero.get_total %}
 
@@ -74,12 +74,7 @@
                 </tr>
 
                 <tr>
-                    <!-- <form action="" method='POST'>
-                                {% csrf_token %}
-                                {{ form.as_p }}
-                                Je déclare avoir pris connaissance des conditions générales de vente applicables et les avoir
-                                accepté sans restrictions
-                            </form> -->
+
                     <td colspan="5">
 
                         <a class='btn-valider float-right ml-2' href=' {% url "checkout-apero" %}'>Commander</a>
@@ -89,8 +84,26 @@
                     </td>
                 </tr>
                 {% endif %}
+
+
             </tbody>
         </table>
+        <!-- {% if DISPLAY_COUPON_FORM %}
+        <form class="card p-2" action="{% url 'add-coupon' %}" method="POST">
+            {% csrf_token %}
+            <div class="input-group">
+
+                {{ couponform.code }}
+
+
+
+                <div class="input-group-append">
+
+                    <button class=" btn-md btn-valider waves-effect m-0" type="submit">Valider</button>
+                </div>
+            </div>
+        </form>
+        {% endif %} -->
     </div>
 
 

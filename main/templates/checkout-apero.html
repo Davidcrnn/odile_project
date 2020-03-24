@@ -15,30 +15,40 @@
                     <form method="POST" class="card-body" novalidate>
                         {% csrf_token %}
                         <h3>Informations personnelles</h3>
-                        <!-- {{ form.non_field_errors }} -->
+                        {{ form.non_field_errors }}
 
-                        <!-- {% if default_address %}
+                        {% if default_address %}
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="user-save" style="padding: 25px">
-                                    <input type="checkbox" class="custom-control-input" name="use_default_shipping"
-                                        id="use_default_shipping">
-                                    <label class="custom-control-label" for="use_default_shipping">Utiliser vos
+
+                                    <input type="checkbox" class="custom-control-input"
+                                        name="use_default_shipping_apero" id="use_default_shipping_apero">
+
+                                    <label class="custom-control-label" for="use_default_shipping_apero">Utiliser vos
                                         informations
                                         personnelles:
+                                        <ul>
+                                            <li>{{ default_address.prenom }}</li>
+                                            <li>{{ default_address.name }}</li>
+                                            <li>{{ default_address.email }}</li>
+                                            <li>{{ default_address.phone }}</li>
+                                        </ul>
 
                                     </label>
 
-                                </div>
 
+
+                                </div>
+                                <hr class='not-show'>
                             </div>
                         </div>
 
-                        {% endif %} -->
+                        {% endif %}
 
 
 
-                        <div class='hideable_shipping_form'>
+                        <div class='hide_form'>
 
                             <div class="row mb-4">
                                 <div class="col-xs-12 col-md-6">
@@ -145,7 +155,39 @@
 {% endblock content %}
 
 {% block extra_scripts %}
+<script>
+    var hide_form = $('.hide_form');
+    var use_default_shipping_apero = document.querySelector("input[name=use_default_shipping_apero]");
+    var not_show = $('.not-show');
+    use_default_shipping_apero.addEventListener('change', function () {
+        if (this.checked) {
+            $("#id_prenom").val('{{ default_address.prenom }}');
+            $("#id_name").val('{{ default_address.name }}');
+            $("#id_email").val('{{ default_address.email }}');
+            $("#id_phone").val('{{ default_address.phone }}');
+            $("#id_code_postal").val('{{ default_address.code_postal }}');
+            $("#id_pays").val('{{ default_address.pays }}');
+            hide_form.hide();
+            not_show.hide();
+        } else {
+            $("#id_prenom").prop('required', true);
+            $("#id_name").prop('required', true);
+            $("#id_email").prop('required', true);
+            $("#id_phone").prop('required', true);
+            $("#id_code_postal").prop('required', true);
+            $("#id_pays").prop('required', true);
 
+            $("#id_prenom").val('');
+            $("#id_name").val('');
+            $("#id_email").val('');
+            $("#id_phone").val('');
+            $("#id_code_postal").val('');
+            $("#id_pays").val('');
+            hide_form.show();
+        }
+    });
+
+</script>
 <script>
     mapboxgl.accessToken = 'pk.eyJ1Ijoib2RpbGVsZWNsZXJjc2l0ZSIsImEiOiJjazZjMDJtNGEwZ3F2M2tvdnNncnkxNXRxIn0.c7i8XUNby5CQwhdrsG3r0A';
     var map = new mapboxgl.Map({
@@ -211,40 +253,7 @@
     });
 
 </script>
-<script>
-    var hideable_shipping_form = $('.hideable_shipping_form');
 
-
-    var use_default_shipping = document.querySelector("input[name=use_default_shipping]");
-
-    use_default_shipping.addEventListener('change', function () {
-        if (this.checked) {
-            // $("#id_prenom").val('{{ default_address.prenom }}');
-            // $("#id_name").val('{{ default_address.name }}');
-            // $("#id_email").val('{{ default_address.email }}');
-            // $("#id_phone").val('{{ default_address.phone }}');
-            // $("#id_code_postal").val('{{ default_address.code_postal }}');
-            // $("#id_pays").val('{{ default_address.pays }}');
-
-            hideable_shipping_form.hide();
-            // $("#id_prenom").prop('required', false);
-            // $("#id_name").prop('required', false);
-            // $("#id_email").prop('required', false);
-            // $("#id_phone").prop('required', false);
-            // $("#id_code_postal").prop('required', false);
-            // $("#id_pays").prop('required', false);
-        } else {
-            $("#id_prenom").prop('required', true);
-            $("#id_name").prop('required', true);
-            $("#id_email").prop('required', true);
-            $("#id_phone").prop('required', true);
-            $("#id_code_postal").prop('required', true);
-            $("#id_pays").prop('required', true);
-
-            hideable_shipping_form.show();
-        }
-    })
-</script>
 
 
 {% endblock extra_scripts %}

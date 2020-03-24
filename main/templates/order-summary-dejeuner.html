@@ -25,7 +25,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for order_product in  object.products.all %}
+                {% for order_product in  order_dejeuner.products.all %}
                 <tr>
                     <th scope="row">{{ forloop.counter }}</th>
                     <td>{{ order_product.product.name }} </td>
@@ -40,7 +40,7 @@
                                 class="fas fa-plus ml-2"></i></a>
                     </td>
                     <td>{{ order_product.get_total_product_price}}€ <a style='color: #165361;'
-                            href="{% url 'remove-from-cart' order_product.product.slug %}">
+                            href="{% url 'remove-from-cart' order_product.product.slug %}" id="removeItem">
                             <i class="fas fa-trash float-right"></i>
                         </a></td>
 
@@ -57,19 +57,19 @@
                 </tr>
                 {% endfor %}
 
-                {% if object.coupon %}
+                {% if order_dejeuner.coupon %}
                 <tr>
                     <td colspan="4">Coupon</td>
-                    <td> - {{ object.coupon.amount}}€</td>
+                    <td> - {{ order_dejeuner.coupon.amount}}€</td>
                 </tr>
                 {% endif %}
 
-                {% if object.get_total %}
+                {% if order_dejeuner.get_total %}
 
 
                 <tr>
                     <td colspan="4">Total</td>
-                    <td>{{ object.get_total}}€</td>
+                    <td>{{ order_dejeuner.get_total}}€</td>
                 </tr>
 
                 <tr>
