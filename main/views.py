@@ -108,8 +108,12 @@ class OrderSummaryDejeunerView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         try:
             order_dejeuner_qs = Order.objects.get(user=self.request.user, ordered=False,type_of_order='Dejeuner')
+            accessoire_product = Product.objects.filter(category='Accessoires')
+            form = ProductForm()
             context = {
                 'order_dejeuner': order_dejeuner_qs,
+                'products': accessoire_product,
+                'form': form,
                 # 'couponform': CouponForm(),
                 # 'DISPLAY_COUPON_FORM': True,
             }
@@ -144,57 +148,66 @@ def add_to_cart(request, slug):
     order_dejeuner_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Dejeuner')
     order_apero_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Apero')
     form = ProductForm(request.POST)
-
-    if form.is_valid():
+    response_data={}
+    response ={}
+    if form.is_valid() and request.method == 'POST':
         quantity = int(form.cleaned_data.get('quantity'))
-
         if product.menu == 'Dejeuner':
             if order_dejeuner_qs.exists():
                 order = order_dejeuner_qs[0]
                 if order.products.filter(product__slug=product.slug).exists():
                     order_product.quantity += quantity
+                    response_data['quantity'] = order_product.quantity
+                    response_data['item'] = product.price
                     order_product.save()
-                    messages.info(
-                        request, 'La quantité du produit a été ajouté au panier')
-                    return redirect("products")
+                    return JsonResponse(response_data)
                 else:    
+                    
                     order_product.quantity = quantity
                     order_product.save()
+                    response_data['quantity'] = order_product.quantity
                     order.products.add(order_product)
                     messages.info(request, 'Le produit a été ajouté au panier')
-                    return redirect("products")
+                    
+                    return JsonResponse(response_data)
             else:
                 order = Order.objects.create(
                     user=request.user, type_of_order='Dejeuner')
                 order_product.quantity = quantity
+                response_data['quantity'] = order_product.quantity
                 order_product.save()
                 order.products.add(order_product)
                 messages.info(request, 'Le produit a été ajouté au panier')
-            return redirect("products")
+            return JsonResponse(response_data)
         elif product.menu == 'Apero':
             if order_apero_qs.exists():
                 order = order_apero_qs[0]
                 if order.products.filter(product__slug=product.slug).exists():
                     order_product.quantity += quantity
+                    response['quantity'] = order_product.quantity
                     order_product.save()
-                    messages.info(
-                        request, 'La quantité du produit a été ajouté au panier')
-                    return redirect("products-apero")
+                    # messages.info(
+                    #     request, 'La quantité du produit a été ajouté au panier')
+                    # return redirect("products-apero")
+                    return JsonResponse(response)
                 else:
                     order_product.quantity = quantity
+                    response['quantity'] = order_product.quantity
                     order_product.save()
                     order.products.add(order_product)
-                    messages.info(request, 'Le produit a été ajouté au panier')
-                    return redirect("products-apero")
+                    # messages.info(request, 'Le produit a été ajouté au panier')
+                    # return redirect("products-apero")
+                    return JsonResponse(response)
             else:
                 order = Order.objects.create(
                     user=request.user, type_of_order='Apero')
                 order_product.quantity = quantity
                 order_product.save()
+                response['quantity'] = order_product.quantity
                 order.products.add(order_product)
-                messages.info(request, 'Le produit a été ajouté au panier')
+                return JsonResponse(response)
         else: 
-            messages.warning(request, 'un problème vient de survenir')
+            messages.warning(request, 'Un problème vient de survenir')
     return redirect("home")
 
 @login_required
@@ -427,6 +440,7 @@ class CheckoutView(View):
                     numero_delivery = form.cleaned_data.get('numero_delivery')
                     creneau_delivery = form.cleaned_data.get('creneau_delivery')
                     couvert = form.cleaned_data.get('couvert')
+                    cgv = form.cleaned_data.get('cgv')
 
                     if is_valid_form([name, prenom, pays, code_postal, phone, email]):
                         adresse_info = Info(
@@ -440,7 +454,7 @@ class CheckoutView(View):
                             zone_delivery=zone_delivery,
                             rang_delivery=rang_delivery,
                             numero_delivery=numero_delivery,
-                            creneau_delivery=creneau_delivery,
+                            
 
                         )
                         adresse_info.save()
@@ -449,6 +463,8 @@ class CheckoutView(View):
                         order.couvert= couvert
                         order.date_delivery = date_delivery
                         order.delivery_option = delivery_option
+                        order.creneau_delivery= creneau_delivery
+                        order.cgv = cgv
                         order.save()
 
                         save_address = form.cleaned_data.get(
@@ -459,7 +475,7 @@ class CheckoutView(View):
 
                         messages.info(
                             self.request, 'Il ne vous reste plus que le paiement')
-                        return redirect('payment')
+                        return redirect('payment-dejeuner')
                     else:
                         messages.info(
                             self.request, "Vos informations personnelles ne sont pas complètes")
@@ -846,7 +862,7 @@ class AvisCreate(View):
         return render(self.request, "avis.html", context)
 
     def post(self, *args):
-        args = {}
+        
         avis = Avis.objects.create()
         form = AvisForm(self.request.POST or None)
         if form.is_valid():
@@ -859,6 +875,7 @@ class AvisCreate(View):
             avis.save()
             messages.info(self.request, 'Votre avis a bien été enregistré')
             return redirect('home')
+            
         else:
             args['form'] = form
             messages.info(self.request, 'Le formulaire nest pas valide')

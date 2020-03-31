@@ -96,30 +96,31 @@ class OrderProduct(models.Model):
 
 
 class Order(models.Model):
+    ordered = models.BooleanField(default=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
+    type_of_order = models.CharField(
+        max_length=50, choices=TYPE_OF_ORDER, default='Dejeuner')
     products = models.ManyToManyField(OrderProduct)
     ref_code = models.CharField(max_length=20)
     payment = models.ForeignKey(
         'Payment', on_delete=models.SET_NULL, blank=True, null=True)
     information = models.ForeignKey(
         'Info', on_delete=models.SET_NULL, blank=True, null=True)
-    ordered = models.BooleanField(default=False)
+    date_de_creation = models.DateTimeField(default=now)
     date_delivery = models.CharField(max_length=100)
+    creneau_delivery = models.CharField(max_length=30, default='10')
     # date_publication = models.DateField(auto_now_add=False, blank=True, null=True)
     delivery_option = models.CharField(
         max_length=100, choices=LIVRAISON_CHOICES)
+    couvert = models.CharField(max_length=32, default='1')
+    cgv = models.BooleanField(default=False)
     coupon = models.ForeignKey(
         'Coupon', on_delete=models.SET_NULL, blank=True, null=True)
-    is_delivered = models.BooleanField(default=False)
-    cgv = models.BooleanField(default=False)
-    type_of_order = models.CharField(
-        max_length=50, choices=TYPE_OF_ORDER, default='Dejeuner')
-    couvert = models.CharField(max_length=32, default='1')
     received = models.BooleanField(default=False)
     refund_requested = models.BooleanField(default=False)
     refund_granted = models.BooleanField(default=False)
-    date_de_creation = models.DateTimeField(default=now)
+    is_delivered = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.email
@@ -187,7 +188,6 @@ class Info(models.Model):
     zone_delivery = models.CharField(max_length=30)
     rang_delivery = models.CharField(max_length=20)
     numero_delivery = models.CharField(max_length=30)
-    creneau_delivery = models.CharField(max_length=30, default='10')
 
     def __str__(self):
         return self.user.email

@@ -134,13 +134,13 @@ class CheckoutForm(forms.Form):
         required=False, widget=forms.CheckboxInput())
 
     zone_delivery = forms.ChoiceField(
-        required=True, widget=forms.Select, choices=ZONE_LIVRAISON_BATEAU)
+        required=False, widget=forms.Select, choices=ZONE_LIVRAISON_BATEAU)
 
-    rang_delivery = forms.CharField(required=True, error_messages={'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
+    rang_delivery = forms.CharField(required=False, error_messages={'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
         'placeholder': 'Turing',
         'class': 'form-control checkout-input',
     }))
-    numero_delivery = forms.CharField(required=True, error_messages={'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
+    numero_delivery = forms.CharField(required=False, error_messages={'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
         'placeholder': 'Turing',
         'class': 'form-control checkout-input',
     }))
@@ -150,6 +150,8 @@ class CheckoutForm(forms.Form):
             'id': 'select-time',
 
         }), choices=CRENEAU_DELIVERY)
+
+    cgv = forms.BooleanField(required=True)
 
 
 class CheckoutAperoForm(forms.Form):
@@ -197,6 +199,8 @@ class CheckoutAperoForm(forms.Form):
     save_address = forms.BooleanField(
         required=False, widget=forms.CheckboxInput())
 
+    cgv = forms.BooleanField(required=True)
+
 
 class ProductForm(forms.Form):
 
@@ -207,7 +211,9 @@ class ProductForm(forms.Form):
         ('4', 4),
     )
     quantity = forms.ChoiceField(
-        widget=forms.Select, choices=QUANTITY_PRODUCT, label='Choisissez la quantité:')
+        widget=forms.Select(attrs={
+            "class": "quantity",
+        }), choices=QUANTITY_PRODUCT, label='Choisissez la quantité:')
 
 
 class CouponForm(forms.Form):
