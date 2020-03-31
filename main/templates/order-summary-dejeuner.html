@@ -40,7 +40,7 @@
                                 class="fas fa-plus ml-2"></i></a>
                     </td>
                     <td>{{ order_product.get_total_product_price}}€ <a style='color: #165361;'
-                            href="{% url 'remove-from-cart' order_product.product.slug %}" id="removeItem">
+                            href="{% url 'remove-from-cart' order_product.product.slug %}" class="removeItem">
                             <i class="fas fa-trash float-right"></i>
                         </a></td>
 
@@ -68,17 +68,29 @@
 
 
                 <tr>
-                    <td colspan="4">Total</td>
+                    <th scope='row'></th>
+                    <td></td>
+                    <td></td>
+                    <td colspan="" class="">Sous-total</td>
+                    <td>{{ order_dejeuner.get_total}}€</td>
+                </tr>
+                <tr>
+                    <th scope='row'></th>
+                    <td></td>
+                    <td></td>
+                    <td colspan="" class="">Frais de livraison</td>
+                    <td>Gratuit</td>
+                </tr>
+                <tr>
+                    <th scope='row'></th>
+                    <td></td>
+                    <td></td>
+                    <td colspan="" class="">Total</td>
                     <td>{{ order_dejeuner.get_total}}€</td>
                 </tr>
 
                 <tr>
-                    <!-- <form action="" method='POST'>
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        Je déclare avoir pris connaissance des conditions générales de vente applicables et les avoir
-                        accepté sans restrictions
-                    </form> -->
+
                     <td colspan="5">
 
                         <a class='btn-valider float-right ml-2' href='/checkout/'>Commander</a>
@@ -89,12 +101,103 @@
                 {% endif %}
             </tbody>
         </table>
+
     </div>
 
+    <h3>Recommandation pour votre départ en mer</h3>
+    <div class="row">
+        {% for object in products  %}
+
+        <div class="col-xs-6 col-md-3 mb-3">
+            <a class="btn-product-description" data-toggle="modal" data-target="#Modal{{object.id}}">
+                <div class="carte all {{ object.category}}">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="product-card-text">
+                                <h5>{{ object.name }} </h5>
+                                <p> {{ object.description|truncatewords:6 }}</p>
+                                <span class="price">{{ object.price }}€</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="product-card">
+
+                                {% if object.image %}
+                                <div class="product-card-image"
+                                    style="background-image: url('{{ object.image.url }}');">
+
+                                </div>
+                                {% endif %}
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade modal-bg-white" id="Modal{{ object.id}}" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content product-card-modal">
+                    <div class="text-center modal-titre">
+                        <h5 class="modal-title " id="exampleModalLabel">{{ object.name|upper}} </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body product-card-text-modal">
+                        {% if object.image %}
+                        <div class="product-card-image-modal" style="background-image: url('{{ object.image.url }}');">
+
+                        </div>
+
+                        {% endif %}
+
+                        <div class="product-card-info-modal">
+
+                            <h4>Ingrédients : </h4>
+                            <h6>{{ object.description|safe }}</h6>
+                            {% if object.allergene is not None %}
+                            <p>Allergène : {{ object.allergene }}</p>
+                            {% else %}
+                            <p>Ce produit ne contient pas d'allergène alimentaire.</p>
+                            {% endif %}
+                        </div>
+                        <form method="POST" action="{{ object.get_add_to_cart_url }}">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+
+
+
+
+                    </div>
+                    <div class="modal-footer modal-btn">
+                        <a class='btn-annuler' data-dismiss="modal">
+                            Annuler
+                        </a>
+                        {% if request.user.is_authenticated %}
+                        <!-- <a class='btn-valider' type='submit' href="{{ object.get_add_to_cart_url }}">Ajouter au panier
+                            <span>(+{{ object.price }}€)</span></a> -->
+                        <input type="submit" value='Add to cart' class='btn-valider'>
+                        {% else %}
+                        <a class='btn-connexion' href="{% url 'account_login' %} ">Connexion</a>
+                        {% endif %}
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 
 </div>
 
 
+{% block extra_scripts %}
 
+{% endblock extra_scripts %}
 
 {% endblock content  %}

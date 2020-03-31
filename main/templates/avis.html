@@ -7,7 +7,7 @@
             <h1>VOTRE AVIS NOUS INTÉRESSE</h1>
         </div>
     </div>
-    <form method='POST' class='avis-form-container'>
+    <form method='POST' class='avis-form-container' id='create-form'>
         {% csrf_token %}
         <div class="row">
             <div class="col-xs-12 col-md-4">
@@ -48,24 +48,26 @@
 
 {% block extra_scripts %}
 <script>
-    var delayTimer;
-    $('#id_email').keyup(function () {
-        $('#search_result').text('Loading ...');
-        clearTimeout(delayTimer);
-        delayTimer = setTimeout(function () {
-            $.ajax({
-                url: '/votre-avis/ajax',
-                data: {
-                    'search_term': 'Hello'
-                },
-                dataType: 'json',
-                success: function (data) {
-                    $('#search_result').text('Ajax works');
-                    $('body').css('background-color', 'red');
-                }
-            });
-        }, 500);
+    $(document).on('submit', '#create-form', function (e) {
+        $.ajax({
+            type: 'POST',
+            url: '{% url "avis" %}',
+            data: {
+                email: $('#id_email').val(),
+                objet: $('#id_objet:checked').val(),
+                message: $('#id_message').val(),
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                action: 'post'
+            },
+            success: function (json) {
+                document.getElementById("create-form").reset();
+                alert('Ajax works');
+                window.location = "{% url 'home'%}";
+            },
+            error: function (xhr, errmsg, err) {
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });
     });
-
 </script>
 {% endblock extra_scripts %}

@@ -35,10 +35,9 @@
                         <a style='color: #165361;'
                             href="{% url 'remove-single-product-from-cart' order_product.product.slug %}">
                             <i class="fas fa-minus mr-2"></i></a>
-                        {{ order_product.quantity }}
-                        <a style='color: #165361;'
-                            href="{% url 'add-single-item-to-cart' order_product.product.slug %}"><i
-                                class="fas fa-plus ml-2"></i></a>
+                        <span id="order-apero-quantity">{{ order_product.quantity }}</span>
+                        <a style='color: #165361;' href="{% url 'add-single-item-to-cart' order_product.product.slug %}"
+                            id='addItemToCart'><i class="fas fa-plus ml-2"></i></a>
                     </td>
                     <td>{{ order_product.get_total_product_price}}€ <a style='color: #165361;'
                             href="{% url 'remove-from-cart' order_product.product.slug %}">
@@ -108,4 +107,5 @@
 
 
 </div>
+
 {% endblock content %}

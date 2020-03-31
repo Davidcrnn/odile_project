@@ -96,11 +96,43 @@
     <script src="https://js.stripe.com/v3/"></script>
     <div class="container wow fadeIn">
 
-        <h2 class="my-5 h2 text-center">Payment</h2>
+        <div class="product-image-banner">
+            <div class="product-text-banner">
+                <h1>PAIEMENT</h1>
+
+            </div>
+        </div>
 
         <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <div class="recap-info mb-2">
+                    <h5>Informations personnelles</h5>
+                    <p>{{ order.information.prenom }}</p>
+                    <p>{{ order.information.name }}</p>
+                    <p>{{ order.information.email }}</p>
+                    <p>{{ order.information.phone }}</p>
+                </div>
+                <div class="recap-info mb-2">
+                    <h5>Date et lieu de livraison</h5>
+                    <p>Date de livraison: {{ order.date_delivery }}</p>
+                    <p>Moyen de livraison : {{ order.delivery_option }}</p>
 
-            <div class="col-md-12 mb-4">
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-md-6">
+                <div id="stickycart">
+                    {% include 'order-snippet.html' %}
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-6 mb-4 mt-4">
+                {% include 'paiement-safe-snippet.html' %}
+            </div>
+            <div class="col-xs-12 col-md-6 mb-4 mt-4">
                 <div class="card">
 
                     {% if card %}
@@ -130,7 +162,7 @@
                             {% csrf_token %}
                             <div class="stripe-form-row" id="creditCard">
                                 <label for="card-element" id="stripeBtnLabel">
-                                    Credit or debit card
+                                    Informations
                                 </label>
                                 <div id="card-element" class="StripeElement StripeElement--empty">
                                     <div class="__PrivateStripeElement"
@@ -147,13 +179,13 @@
                                 </div>
                             </div>
                             <div class="stripe-form-row">
-                                <button id="stripeBtn">Submit Payment</button>
+                                <button id="stripeBtn">PAYER</button>
                             </div>
                             <div class="stripe-form-row">
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" name="save" id="save_card_info">
-                                    <label class="custom-control-label" for="save_card_info">Save for future
-                                        purchases</label>
+                                    <label class="custom-control-label" for="save_card_info">Sauvegarder pour une
+                                        prochaine commande</label>
                                 </div>
                             </div>
                             <div id="card-errors" role="alert"></div>
@@ -163,9 +195,10 @@
                 </div>
 
             </div>
+
+
         </div>
 
-        {% include 'order-snippet.html' %}
 
 
 

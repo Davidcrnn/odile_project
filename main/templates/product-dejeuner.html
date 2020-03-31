@@ -89,10 +89,11 @@
                     {% for order_item in order.products.all %}
                     <li class="list-group-item d-flex justify-content-between lh-condensed">
                         <div>
-                            <h6 class="my-0">{{ order_item.quantity }} x {{ order_item.product.name}}</h6>
+                            <h6 class="my-0"><span id="oder">{{ order_item.quantity }}</span> x
+                                {{ order_item.product.name}}</h6>
                             <!-- <small class="text-muted">{{ order_item.product.description|truncatewords:2|safe}}</small> -->
                         </div>
-                        <span class="text-muted">{{ order_item.get_total_product_price }}€</span>
+                        <span class="text-muted" id='gth'>{{ order_item.get_total_product_price }}€</span>
                     </li>
                     {% endfor %}
 
@@ -149,7 +150,7 @@
     $(document).ready(function () {
         $('.js-anchor-link').click(function (e) {
             e.preventDefault();
-            var target = $($(this).attr('href'));
+            var target = event.target.id
             if (target.length) {
                 var scrollTo = target.offset().top;
                 $('body, html').animate({ scrollTop: scrollTo + 'px' }, 1000);
@@ -157,5 +158,46 @@
         });
 
     })
+</script>
+
+<script>
+    $('body').on("submit", 'form', function (e) {
+        e.preventDefault();
+        var target = $(this).attr('id');
+        var quantity = $(this).find('select').val();
+        console.log(quantity);
+        var urlAjax = $(this).attr('action');
+        $.ajax({
+            type: 'POST',
+            url: urlAjax,
+            data: {
+                quantity: quantity,
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                action: 'post',
+
+            },
+            success: function (json) {
+                // $(this).attr('id').reset();
+                alert(json.quantity)
+                alert(json.item)
+                $('.modal').modal('hide');
+                // var r = json.quantity;
+                // var t = (json.quantity * json.item) + '€'
+                // console.log(json.item);
+                // // console.log(json.quantity);
+                // console.log(t);
+
+                // $('#oder').text(r);
+                // $('#gth').text(t);
+
+
+
+
+            },
+            error: function (xhr, errmsg, err) {
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });
+    });
 </script>
 {% endblock extra_scripts %}

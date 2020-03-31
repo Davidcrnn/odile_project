@@ -58,26 +58,22 @@
                     <p>Ce produit ne contient pas d'allergène alimentaire.</p>
                     {% endif %}
                 </div>
-                <form method="POST" action="{{ product.get_add_to_cart_url }}">
+                <form method="POST" action="{{ product.get_add_to_cart_url }}" id='{{ product.slug}}'>
                     {% csrf_token %}
-                    {{ form.as_p }}
-                    <input type="submit" value='Add to cart'>
-                </form>
-
-
-
+                    {{ form.quantity }}
             </div>
             <div class="modal-footer modal-btn">
                 <a class='btn-annuler' data-dismiss="modal">
                     Annuler
                 </a>
                 {% if request.user.is_authenticated %}
-                <a class='btn-valider' type='submit' href="{{ product.get_add_to_cart_url }}">Ajouter au panier
-                    <span>(+{{ product.price }}€)</span></a>
+                <input type="submit" value='Add to cart' class='btn-valider'>
                 {% else %}
-                <a class='btn-connexion' href="{% url 'account_login' %} ">Connexion</a>
+                <a class=' btn-connexion' href="{% url 'account_login' %} ">Connexion</a>
                 {% endif %}
             </div>
+
+            </form>
         </div>
     </div>
 </div>
