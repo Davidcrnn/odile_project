@@ -26,21 +26,29 @@
             </thead>
             <tbody>
                 {% for order_product in  order_dejeuner.products.all %}
-                <tr>
+                <tr data-x='{{order_product.product.slug}}'>
                     <th scope="row">{{ forloop.counter }}</th>
                     <td>{{ order_product.product.name }} </td>
                     <td>{{ order_product.product.price }} </td>
                     <td>
+
+
                         <a style='color: #165361;'
-                            href="{% url 'remove-single-product-from-cart' order_product.product.slug %}">
+                            href="{% url 'remove-single-product-from-cart' order_product.product.slug %}"
+                            id={{order_product.product.slug}}>
                             <i class="fas fa-minus mr-2"></i></a>
-                        {{ order_product.quantity }}
-                        <a style='color: #165361;'
-                            href="{% url 'add-single-item-to-cart' order_product.product.slug %}"><i
-                                class="fas fa-plus ml-2"></i></a>
+
+
+
+                        <span data-id="{{ order_product.product.slug}}">{{ order_product.quantity }}</span>
+                        <a style='color: #165361;' href="{% url 'add-single-item-to-cart' order_product.product.slug %}"
+                            id={{order_product.product.slug}}>
+                            <i class="fas fa-plus ml-2"></i></a>
                     </td>
-                    <td>{{ order_product.get_total_product_price}}€ <a style='color: #165361;'
-                            href="{% url 'remove-from-cart' order_product.product.slug %}" class="removeItem">
+                    <td><span
+                            data-total={{order_product.product.slug}}>{{ order_product.get_total_product_price}}</span>€
+                        <a style='color: #165361;' href="{% url 'remove-from-cart' order_product.product.slug %}"
+                            class="removeItem" id={{order_product.product.slug}}>
                             <i class="fas fa-trash float-right"></i>
                         </a></td>
 
@@ -72,7 +80,7 @@
                     <td></td>
                     <td></td>
                     <td colspan="" class="">Sous-total</td>
-                    <td>{{ order_dejeuner.get_total}}€</td>
+                    <td class='js-get-total'>{{ order_dejeuner.get_total}}€</td>
                 </tr>
                 <tr>
                     <th scope='row'></th>
@@ -86,22 +94,22 @@
                     <td></td>
                     <td></td>
                     <td colspan="" class="">Total</td>
-                    <td>{{ order_dejeuner.get_total}}€</td>
+                    <td class='js-get-total'>{{ order_dejeuner.get_total}}€</td>
                 </tr>
 
-                <tr>
 
-                    <td colspan="5">
 
-                        <a class='btn-valider float-right ml-2' href='/checkout/'>Commander</a>
 
-                        <a class='btn-annuler float-right' href="{% url 'products'%}">Ajoutez d'autres produits</a>
-                    </td>
-                </tr>
+
+
+
                 {% endif %}
             </tbody>
         </table>
 
+        <a class='btn-valider float-right ml-2' href='/checkout/'>Commander</a>
+
+        <a class='btn-annuler float-right' href="{% url 'products'%}">Ajoutez d'autres produits</a>
     </div>
 
     <h3>Recommandation pour votre départ en mer</h3>
@@ -195,9 +203,38 @@
 
 </div>
 
-
 {% block extra_scripts %}
+<script>
+    $('td').on("click", 'a', function (e) {
+        e.preventDefault();
+        var target = $(this).attr('id');
+        // alert(target);
+        var urlAjax = $(this).attr('href');
 
+
+        $.ajax({
+            type: 'POST',
+            url: urlAjax,
+            data: {
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                action: 'post',
+
+            },
+            success: function (json) {
+                console.log(json.quantity);
+                $('[data-id=' + target + ']').text(json.quantity);
+                console.log($('[data-total=' + target + ']').text(json.total));
+                $('.js-get-total').text(json.get_total + '€');
+
+                if (parseInt($('[data-total=' + target + ']').text()) == 0) {
+                    $('tr[data-x=' + target + ']').remove();
+                }
+            },
+            error: function (xhr, errmsg, err) {
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });
+    });
+</script>
 {% endblock extra_scripts %}
-
 {% endblock content  %}

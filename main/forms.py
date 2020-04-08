@@ -210,8 +210,10 @@ class ProductForm(forms.Form):
         ('3', 3),
         ('4', 4),
     )
+
     quantity = forms.ChoiceField(
         widget=forms.Select(attrs={
+
             "class": "quantity",
         }), choices=QUANTITY_PRODUCT, label='Choisissez la quantité:')
 
