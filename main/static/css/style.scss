@@ -18,10 +18,14 @@
 body {
     font-family: 'Montserrat', sans-serif;
     font-weight: medium;
+    color: $noir;
 }
 
 .alert {
     margin-bottom: 0;
 }
 
+p {
+    color: $noir;
+}
 

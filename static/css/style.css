@@ -1,7 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:500,700&display=swap");
 .home-banner {
   height: 80vh;
-  background-image: url(../images/banner-bateau.jpg);
   background-position: center;
   background-size: cover;
   position: relative;
@@ -13,12 +12,30 @@
   box-shadow: 0px 0px 10px #8080805c;
   padding: 31px;
   margin-top: 20px; }
+  .home-banner-title h4 {
+    font-size: 17px;
+    margin-bottom: 40px;
+    color: #4DBDC0; }
+  .home-banner-title h1 {
+    border-bottom: 2px solid #4A898B;
+    margin-bottom: 40px;
+    color: #4A898B; }
 
 .concept-container {
   height: 400px;
   padding: 30px;
   box-shadow: 0 0 10px #8080805c;
   margin-top: 20px; }
+  .concept-container h1 {
+    color: #4dbdc047;
+    padding-bottom: 20px; }
+  .concept-container p {
+    font-size: 14px; }
+
+.centered-content {
+  display: flex;
+  align-items: center;
+  justify-content: center; }
 
 .livraison-container {
   height: 400px;
@@ -57,12 +74,48 @@
   border-radius: 50%;
   cursor: pointer; }
 
+.marker-apero {
+  background-image: url("../images/marker-apero.svg");
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer; }
+
 .mapboxgl-popup {
   max-width: 200px; }
 
 .mapboxgl-popup-content {
   text-align: center;
   font-family: 'Open Sans', sans-serif; }
+
+.rslides {
+  position: relative;
+  list-style: none;
+  overflow: hidden;
+  width: 100%;
+  padding: 0;
+  margin: 0; }
+
+.rslides li {
+  -webkit-backface-visibility: hidden;
+  position: absolute;
+  display: none;
+  width: 100%;
+  left: 0;
+  top: 0; }
+
+.rslides li:first-child {
+  position: relative;
+  display: block;
+  float: left; }
+
+.rslides img {
+  display: block;
+  height: 80vh;
+  float: left;
+  width: 100%;
+  border: 0; }
 
 .nav-container {
   height: 80px;
@@ -78,6 +131,9 @@
   transition: .5s;
   background-color: white; }
 
+.mapboxgl-popup-content {
+  font-family: 'Montserrat', sans-serif !important; }
+
 .black {
   background-color: #426E86; }
 
@@ -92,9 +148,13 @@
     margin: 0; }
   .nav-link li {
     padding: 0 20px; }
-  .nav-link li > a {
+  .nav-link li > a:first-child {
     color: #4A898B;
-    font-size: 13px; }
+    font-size: 13px;
+    transition: 0.5s ease-in-out; }
+  .nav-link a:first-child:hover {
+    font-size: 17px;
+    text-decoration: none; }
 
 .count-cart {
   position: absolute;
@@ -104,6 +164,9 @@
 
 .nav-logo h1 {
   margin: 0; }
+
+.nav-log img {
+  cursor: pointer; }
 
 a.btn-connexion {
   padding: 10px 10px;
@@ -272,6 +335,12 @@ a.btn-inscription {
     opacity: 1;
     left: 0; } }
 
+.drop-content {
+  border: 1px solid #4A898B; }
+  .drop-content a {
+    font-size: 13px;
+    color: #4A898B; }
+
 @media screen and (max-width: 650px) {
   .nav-container {
     height: 60px;
@@ -376,7 +445,8 @@ a.btn-product-description {
   background-color: #4A898B;
   border-radius: 3px;
   color: white;
-  text-align: center; }
+  text-align: center;
+  width: 100%; }
   .btn-valider:hover {
     text-decoration: none;
     color: white;
@@ -479,6 +549,29 @@ a.btn-product-description {
   .footer-credit h4 {
     font-size: 13px;
     margin: 0; }
+
+.bandereau-qualite-container {
+  height: auto;
+  background-color: #f5f5f5;
+  margin-top: 20px; }
+
+.bandereau-card {
+  text-align: center;
+  margin-top: 20px;
+  height: 160Px; }
+  .bandereau-card img {
+    padding-bottom: 20px; }
+  .bandereau-card p {
+    margin: 0; }
+  .bandereau-card small {
+    color: #454545; }
+  .bandereau-card a {
+    color: #454545; }
+
+.justify-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-around; }
 
 .panier-cart {
   margin: 0px 0 40px; }
@@ -669,9 +762,13 @@ input[type="radio" i]:focus {
 
 body {
   font-family: 'Montserrat', sans-serif;
-  font-weight: medium; }
+  font-weight: medium;
+  color: #454545; }
 
 .alert {
   margin-bottom: 0; }
+
+p {
+  color: #454545; }
 
 /*# sourceMappingURL=style.css.map */

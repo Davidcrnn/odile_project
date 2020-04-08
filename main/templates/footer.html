@@ -1,4 +1,25 @@
 {% load static %}
+<div class="bandereau-qualite-container justify-content">
+
+    <div class="bandereau-card">
+        <img src="{% static '../static/images/boatdelivery.svg' %} " alt="" style='height:70px'>
+        <p>Livraison gratuite</p>
+        <small>Livraison gratuite en toute circonstance</small>
+    </div>
+    <div class="bandereau-card">
+        <img src="{% static '../static/images/safe.svg' %} " alt="" style='height:70px'>
+        <p>Paiement sécurisé</p>
+        <small>Paiement 100% sécurisé</small>
+        <small>Visa, Mastercard</small>
+    </div>
+    <div class="bandereau-card">
+        <img src="{% static '../static/images/servicleclient.svg' %} " alt="" style='height:70px'>
+        <p>Service client</p>
+        <small>Une question ? Besoin d'un conseil ?</small> <br>
+
+        <small><a href="tel:0145454545">0145454545</a> ou par <a href="{% url 'contact' %}">mail</a></small>
+    </div>
+</div>
 <div class="footer-container">
 
     <div class="footer-nav">

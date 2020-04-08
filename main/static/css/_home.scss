@@ -4,7 +4,7 @@
 
 .home-banner {
     height: 80vh;
-    background-image: url(../images/banner-bateau.jpg);
+    // background-image: url(../images/banner-bateau.jpg);
     background-position: center;
     background-size: cover;
     position: relative;
@@ -17,7 +17,15 @@
     box-shadow: 0px 0px 10px $gris;
     padding: 31px;
     margin-top: 20px;
-
+    h4 {
+        font-size: 17px;
+        margin-bottom: 40px;
+        color: $vertc;
+    } h1 {
+        border-bottom: 2px solid $vertf;
+        margin-bottom: 40px;
+        color: $vertf;
+    }
 }
 
 // Home Section Concept Livraison Produits
@@ -27,9 +35,19 @@
     padding: 30px;
     box-shadow: 0 0 10px $gris;
     margin-top: 20px;
+    h1 {
+       color: #4dbdc047;
+       padding-bottom: 20px;
+    } p {
+        font-size: 14px;
+    }
 }
 
-
+.centered-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 // Section Concept
 
 .livraison-container {
@@ -82,6 +100,16 @@
     cursor: pointer;
 }
 
+.marker-apero {
+    background-image: url('../images/marker-apero.svg');
+    background-size: cover;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+
 .mapboxgl-popup {
     max-width: 200px;
   }
@@ -90,3 +118,38 @@
     text-align: center;
     font-family: 'Open Sans', sans-serif;
   }
+
+
+// SLider
+
+.rslides {
+    position: relative;
+    list-style: none;
+    overflow: hidden;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    }
+  
+  .rslides li {
+    -webkit-backface-visibility: hidden;
+    position: absolute;
+    display: none;
+    width: 100%;
+    left: 0;
+    top: 0;
+    }
+  
+  .rslides li:first-child {
+    position: relative;
+    display: block;
+    float: left;
+    }
+  
+  .rslides img {
+    display: block;
+    height: 80vh;
+    float: left;
+    width: 100%;
+    border: 0;
+    }
