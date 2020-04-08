@@ -8,13 +8,14 @@
     <div class="row">
         <div class="col-xs-12 col-md-4">
             <div class="home-banner-title">
-                <h1>Déjeuner sur l'eau</h1>
-                <h4>Vous partez en mer pour la journée? On s'occupe de vous livrer un panier repas</h4>
+                <h1>DÉJEUNER SUR L'EAU</h1>
+                <h4>Vous partez en mer pour la journée? <br>
+                    On s'occupe de vous livrer un panier repas</h4>
 
 
                 <!-- Button trigger modal -->
                 <button type="button" class="btn-valider" data-toggle="modal" data-target="#exampleModalCenter">
-                    COMMANDER
+                    VOIR LE MENU
                 </button>
 
                 <!-- Modal -->
@@ -42,32 +43,40 @@
 
         <div class="col-xs-12 col-md-8">
             <div class="home-banner">
-
+                <ul class="rslides">
+                    <li><img src="../static/images/banner-bateau.jpg" alt=""></li>
+                    <li><img src="../static/images/banner-bateau-2.jpg" alt=""></li>
+                    <li><img src="../static/images/banner-bateau-3.jpg" alt=""></li>
+                </ul>
             </div>
         </div>
     </div>
 
     <div class="concept-container" id='concept'>
+        <h1>01 - Concept</h1>
         <div class="row">
-            <div class="col-xs-12 col-md-6">
-                <h1>01 - Concept</h1>
+            <div class="col-xs-12 col-md-6 centered-content">
 
-                <p>Service de livraison de panier repas au Cap-ferret. Service
-                    destiné aux plaisanciers partant pour une journée en
-                    mer.</p>
-                <p>Vous souhaitez partir en mer pour la journée, on se charge de vous
-                    livrer votre panier repas avant votre départ ou directement sur
-                    votre bateau.
+                <p>Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant
+                    impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500,
+                    quand
+                    un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de
+                    polices de texte. Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la
+                    bureautique informatique, sans que son contenu n'en soit modifié. Il a été popularisé dans les
+                    années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum, et,
+                    plus
+                    récemment, par son inclusion dans des applications de mise en page de texte, comme Aldus
+                    PageMaker.
                 </p>
+
             </div>
-            <div class="col-xs-12 col-md-6">
-                <p>Choississez votre menu parmi notre choix de produits frais</p>
-                <p>Déterminez vos préférences de livraisons. On se charge du reste</p>
+            <div class="col-xs-12 col-md-6 centered-content">
+                <img src="{% static '../static/images/logo-bateau.svg' %}" alt="" style='height: 280px;'>
             </div>
         </div>
     </div>
 
-    <div class="livraison-container">
+    <div class="concept-container">
         <div class="row">
             <div class="col-xs-12 col-md-8">
                 <div id='map' style='width: 100%; height: 340px;'></div>
@@ -76,27 +85,24 @@
             <div class="col-xs-12 col-md-4">
                 <h1>02 - Livraison</h1>
 
-                <p>Service du midi :
-
-                    2 points fixes : Loueurs de bateau
-                    et point fixe école de voile
-                    10H- 12H
-
-                    Livraison sur bateau: Zone 4 à 7
-                    heure de livraison
-                    10H - 12h</p>
-
+                <p><img src=" {% static '../static/images/marker.svg' %} " alt="" style='height: 30px'>MENU DEJEUNER
+                    :</p>
+                <p>Tous les jours de 10h à 12H</p>
                 <hr>
-                <p>Service apéro :
-
-                    Corps mort : Point fixe
-                    17h-18H</p>
+                <p><img src=" {% static '../static/images/marker-apero.svg' %} " alt="" style='height: 30px'>MENU APERO
+                </p>
+                <p>Tous les jours de 17h30 à 18H00
+                </p>
             </div>
         </div>
     </div>
     {% include 'bandereau-qualite-snippet.html' %}
 
 </div>
+
+{% endblock content %}
+
+{% block extra_scripts %}
 
 <script>
     mapboxgl.accessToken = 'pk.eyJ1Ijoib2RpbGVsZWNsZXJjc2l0ZSIsImEiOiJjazZjMDJtNGEwZ3F2M2tvdnNncnkxNXRxIn0.c7i8XUNby5CQwhdrsG3r0A';
@@ -134,6 +140,21 @@
         }]
     };
 
+    var geojson_apero = {
+        type: 'FeatureCollection',
+        features: [{
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: [-1.259812, 44.6308885]
+            },
+            properties: {
+                title: 'Apero',
+                description: 'Corps mort 34'
+            }
+        }]
+    };
+
 
     // add markers to map
     geojson.features.forEach(function (marker) {
@@ -149,5 +170,29 @@
                 .setHTML('<h3>' + marker.properties.title + '</h3><p>' + marker.properties.description + '</p>'))
             .addTo(map);
     });
+    geojson_apero.features.forEach(function (marker) {
+
+        // create a HTML element for each feature
+        var el = document.createElement('div');
+        el.className = 'marker-apero';
+
+        // make a marker for each feature and add to the map
+        new mapboxgl.Marker(el)
+            .setLngLat(marker.geometry.coordinates)
+            .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+                .setHTML('<h3>' + marker.properties.title + '</h3><p>' + marker.properties.description + '</p>'))
+            .addTo(map);
+    });
 </script>
-{% endblock content %}
+
+<script>
+    $(function () {
+        $(".rslides").responsiveSlides({
+            pager: false,
+            timeout: 3000,
+            speed: 800
+        }
+        );
+    });
+</script>
+{% endblock extra_scripts %}

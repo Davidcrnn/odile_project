@@ -41,12 +41,19 @@
     <div class="nav-log">
 
         {% if request.user.is_authenticated %}
-        <a href="{% url 'profil' %}">PROFIL</a>
-        <a href="{% url 'account_logout' %}"><img src="{% static '../static/images/user.svg' %}" alt=""
-                style='height: 30px;'></a>
+
+
+        <img src="{% static '../static/images/profil.svg' %}" alt="" style='height: 30px;' class="dropdown-toggle"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+        <div class="dropdown-menu dropdown-menu-right drop-content">
+            <a href="{% url 'profil' %}" class="dropdown-item">Tableau de bord</a>
+            <a href="{% url 'account_logout' %}" class="dropdown-item">Se déconnecter</a>
+        </div>
+
         {% else %}
 
-        <a href="{% url 'account_login' %}"><img src="{% static '../static/images/user.svg' %}" alt=""
+        <a href="{% url 'account_login' %}"><img src="{% static '../static/images/profil.svg' %}" alt=""
                 style='height: 30px;'></a>
 
         <a href="{% url 'account_signup' %}"><img src="{% static '../static/images/user-up.svg' %}" alt=""

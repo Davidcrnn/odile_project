@@ -48,3 +48,31 @@
     }
 }
 
+// BANDEREAU  QUALITE 
+
+.bandereau-qualite-container {
+    height: auto;
+    background-color: #f5f5f5;
+    margin-top: 20px;
+}
+
+.bandereau-card {
+    text-align: center;
+    margin-top: 20px;
+    height: 160Px;
+    img {
+        padding-bottom: 20px;
+    } p {
+        margin: 0;
+    } small {
+        color: $noir;
+    } a {
+        color: $noir;
+    }
+}
+
+.justify-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
