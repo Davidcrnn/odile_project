@@ -45,7 +45,7 @@ class ProductListView(ListView):
 
     def get(self, *args, **kwargs):
         products = Product.objects.filter(menu='Dejeuner')
-        form = ProductForm()
+        form = ProductForm(auto_id=False)
         user = self.request.user
         if user.is_authenticated:
             order, created = Order.objects.get_or_create(
@@ -157,9 +157,15 @@ def add_to_cart(request, slug):
                 order = order_dejeuner_qs[0]
                 if order.products.filter(product__slug=product.slug).exists():
                     order_product.quantity += quantity
-                    response_data['quantity'] = order_product.quantity
-                    response_data['item'] = product.price
                     order_product.save()
+                    response_data = {
+                        'quantity': order_product.quantity,
+                        'total': order.get_total(),
+                        'name': product.name,
+                        'product_total': order_product.get_total_product_price(),
+                        'cart_quantity': order.get_quantity(),
+                        'product_name': order_product.product.name,
+                    }
                     return JsonResponse(response_data)
                 else:    
                     
@@ -220,15 +226,22 @@ def add_single_item_to_cart(request, slug):
     )
     order_dejeuner_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Dejeuner')
     order_apero_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Apero')
+    response_data = {}
     if product.menu == 'Dejeuner':
         if order_dejeuner_qs.exists():
             order = order_dejeuner_qs[0]
             if order.products.filter(product__slug=product.slug).exists():
                 order_product.quantity += 1
                 order_product.save()
-                messages.info(
-                    request, 'La quantité du produit a été ajouté au panier')
-                return redirect("order-summary-dejeuner")
+                response_data = {
+                    'quantity': order_product.quantity,
+                    'total': order_product.get_total_product_price(),
+                    'get_total': order.get_total(),
+                }
+                # messages.info(
+                #     request, 'La quantité du produit a été ajouté au panier')
+                # return redirect("order-summary-dejeuner")
+                return JsonResponse(response_data)
             else:
                 messages.info(request, 'Le produit a été ajouté au panier')
                 order.products.add(order_product)
@@ -276,8 +289,14 @@ def remove_from_cart(request, slug):
                 )[0]
                 order.products.remove(order_product)
                 order_product.delete()
-                messages.info(request, 'Le produit a été supprimé du panier')
-                return redirect("order-summary-dejeuner")
+                response_data = {
+                    'quantity': order_product.quantity,
+                    'total': order_product.get_total_product_price(),
+                    'get_total': order.get_total(),
+                }
+                return JsonResponse(response_data)
+                # messages.info(request, 'Le produit a été supprimé du panier')
+                # return redirect("order-summary-dejeuner")
             else:
                 messages.info(request, "Le produit n'est pas dans votre panier-dejeuner")
                 return redirect('order-summary-dejeuner')
@@ -332,8 +351,14 @@ def remove_single_product_from_cart(request, slug):
                     order_product.save()
                 else:
                     order.products.remove(order_product)
-                messages.info(request, "This product quantity was updated.")
-                return redirect("order-summary-dejeuner")
+                response_data = {
+                    'quantity': order_product.quantity,
+                    'total': order_product.get_total_product_price(),
+                    'get_total': order.get_total(),
+                }
+                return JsonResponse(response_data)
+                # messages.info(request, "This product quantity was updated.")
+                # return redirect("order-summary-dejeuner")
             else:
                 messages.info(request, "This product was not in your cart")
                 return redirect("products")
