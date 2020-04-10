@@ -35,20 +35,20 @@
 
                         <a style='color: #165361;'
                             href="{% url 'remove-single-product-from-cart' order_product.product.slug %}"
-                            id={{order_product.product.slug}}>
+                            id={{order_product.product.slug}} class="ajax" data-y={{order_product.product.slug}}>
                             <i class="fas fa-minus mr-2"></i></a>
 
 
 
                         <span data-id="{{ order_product.product.slug}}">{{ order_product.quantity }}</span>
                         <a style='color: #165361;' href="{% url 'add-single-item-to-cart' order_product.product.slug %}"
-                            id={{order_product.product.slug}}>
+                            id={{order_product.product.slug}} class='ajax'>
                             <i class="fas fa-plus ml-2"></i></a>
                     </td>
                     <td><span
-                            data-total={{order_product.product.slug}}>{{ order_product.get_total_product_price}}</span>€
+                            data-total={{order_product.product.slug}}>{{ order_product.get_total_product_price|floatformat}}</span>€
                         <a style='color: #165361;' href="{% url 'remove-from-cart' order_product.product.slug %}"
-                            class="removeItem" id={{order_product.product.slug}}>
+                            class="removeItem ajax-remove" id={{order_product.product.slug}}>
                             <i class="fas fa-trash float-right"></i>
                         </a></td>
 
@@ -60,7 +60,8 @@
                 </tr>
                 <tr>
                     <td colspan="5">
-                        <a class='btn-annuler float-right' href="{% url 'products'%}">Voir le menu</a>
+                        <a class='btn-annuler float-right' style="width:30%" href="{% url 'products'%}">Voir le
+                            menu</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -74,42 +75,45 @@
 
                 {% if order_dejeuner.get_total %}
 
+                <div id="total-cart">
+                    <tr>
+                        <th scope='row'></th>
+                        <td></td>
+                        <td></td>
+                        <td class="">Sous-total</td>
+                        <td class='js-get-total'>{{ order_dejeuner.get_total|floatformat}}€</td>
+                    </tr>
+                    <tr>
+                        <th scope='row'></th>
+                        <td></td>
+                        <td></td>
+                        <td class="">Frais de livraison</td>
+                        <td>Gratuit</td>
+                    </tr>
+                    <tr>
+                        <th scope='row'></th>
+                        <td></td>
+                        <td></td>
+                        <td class="">Total</td>
+                        <td id='cart-total' class='js-get-total'>{{ order_dejeuner.get_total|floatformat}}€</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <a class='btn-valider float-right ml-2' href='/checkout/'>Commander</a>
 
-                <tr>
-                    <th scope='row'></th>
-                    <td></td>
-                    <td></td>
-                    <td colspan="" class="">Sous-total</td>
-                    <td class='js-get-total'>{{ order_dejeuner.get_total}}€</td>
-                </tr>
-                <tr>
-                    <th scope='row'></th>
-                    <td></td>
-                    <td></td>
-                    <td colspan="" class="">Frais de livraison</td>
-                    <td>Gratuit</td>
-                </tr>
-                <tr>
-                    <th scope='row'></th>
-                    <td></td>
-                    <td></td>
-                    <td colspan="" class="">Total</td>
-                    <td class='js-get-total'>{{ order_dejeuner.get_total}}€</td>
-                </tr>
+                            <a class='btn-annuler float-right mt-4' href="{% url 'products'%}">Ajoutez d'autres
+                                produits</a>
 
+                        </td>
 
-
-
-
-
+                    </tr>
+                </div>
 
                 {% endif %}
+
             </tbody>
         </table>
 
-        <a class='btn-valider float-right ml-2' href='/checkout/'>Commander</a>
-
-        <a class='btn-annuler float-right' href="{% url 'products'%}">Ajoutez d'autres produits</a>
     </div>
 
     <h3>Recommandation pour votre départ en mer</h3>
@@ -203,13 +207,28 @@
 
 </div>
 
+{% endblock content  %}
 {% block extra_scripts %}
 <script>
-    $('td').on("click", 'a', function (e) {
+    $(document).ready(function () {
+        var arr = $('span[data-id]');
+        $.each(arr, function (i, val) {
+            if ($(val).text() == '1') {
+                $(val).prev('a').addClass('disabled')
+            }
+        })
+
+    });
+
+</script>
+
+<script>
+    $('td').on("click", 'a.ajax', function (e) {
         e.preventDefault();
         var target = $(this).attr('id');
-        // alert(target);
+
         var urlAjax = $(this).attr('href');
+
 
 
         $.ajax({
@@ -223,12 +242,78 @@
             success: function (json) {
                 console.log(json.quantity);
                 $('[data-id=' + target + ']').text(json.quantity);
-                console.log($('[data-total=' + target + ']').text(json.total));
+                $('[data-total=' + target + ']').text(json.total);
                 $('.js-get-total').text(json.get_total + '€');
+                // 
+                if ($('[data-id=' + target + ']').text() == "1") {
+                    $('a[data-y=' + target + ']').addClass('disabled');
 
-                if (parseInt($('[data-total=' + target + ']').text()) == 0) {
-                    $('tr[data-x=' + target + ']').remove();
+                } else {
+                    $('a[data-y=' + target + ']').removeClass('disabled');
                 }
+
+
+
+
+            },
+            error: function (xhr, errmsg, err) {
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });
+    });
+</script>
+
+<script>
+    $('td').on("click", 'a.ajax-remove', function (e) {
+        e.preventDefault();
+        var target = $(this).attr('id');
+
+        var urlAjax = $(this).attr('href');
+
+
+
+        $.ajax({
+            type: 'POST',
+            url: urlAjax,
+            data: {
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                action: 'post',
+
+            },
+            success: function (json) {
+                console.log(json.quantity);
+                $('[data-id=' + target + ']').text(json.quantity);
+                $('[data-total=' + target + ']').text(json.total);
+                $('.js-get-total').text(json.get_total + '€');
+                // 
+                if ($('[data-id=' + target + ']').text() == "1") {
+                    $('a[data-y=' + target + ']').addClass('disabled');
+                } else {
+                    $('a[data-y=' + target + ']').removeClass('disabled');
+                }
+
+
+                var myvar =
+                    '                    <tr>' +
+                    '                        <td colspan=\'5\'>Votre panier est vide</td>' +
+                    '                    </tr>' +
+                    '                    <tr>' +
+                    '                        <td colspan="5">' +
+                    '                            <a class=\'btn-annuler float-right\' style="width:30%" href="">Voir le' +
+                    '                                menu</a>' +
+                    '                        </td>' +
+                    '                    </tr>';
+
+
+
+
+                $('tr[data-x=' + target + ']').remove();
+                if ($('#cart-total').text() == "0€") {
+                    $('tbody tr').remove();
+                    $("tbody").append(myvar);
+
+                };
+
             },
             error: function (xhr, errmsg, err) {
                 console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
@@ -237,4 +322,3 @@
     });
 </script>
 {% endblock extra_scripts %}
-{% endblock content  %}

@@ -1,0 +1,33 @@
+.avis-form-container {
+    margin-bottom: 20px;
+}
+
+.avis-objet {
+    list-style: none;
+    
+    ul {
+        margin: 0;
+        padding: 0;
+        display: flex;
+    } li {
+        list-style: none;
+        padding-right: 20px;
+    } input:focus {
+        border: 2px solid red;
+    }
+}
+
+.avis-form {
+    // border: 1px solid black;
+    padding: 20px;
+    box-shadow: 0 0 10px $gris;
+
+    h2 {
+        font-size: 20px;
+        color: $vertf
+    }
+}
+
+input[type="radio" i]:focus{
+    background: $vertf;
+}

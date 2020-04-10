@@ -80,7 +80,12 @@ COUVERT_CHOICES = (
 class CheckoutForm(forms.Form):
 
     couvert = forms.ChoiceField(
-        required=True, widget=forms.Select, choices=COUVERT_CHOICES)
+        required=True, widget=forms.Select(
+            attrs={
+                'class': 'selectpicker',
+                'data-size': "5"
+            }
+        ), choices=COUVERT_CHOICES)
 
     name = forms.CharField(required=True, error_messages={'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
         'placeholder': 'Turing',
@@ -112,8 +117,10 @@ class CheckoutForm(forms.Form):
 
     pays = CountryField(blank_label='Pays').formfield(
         required=True, widget=CountrySelectWidget(attrs={
-            'class': 'form-control checkout-input',
-            'placeholder': '75000',
+            'class': 'form-control checkout-input selectpicker',
+            'data-size': "5",
+            'data-live-search': "true",
+
         }))
     delivery_option = forms.ChoiceField(required=True,
                                         widget=forms.RadioSelect,
@@ -134,7 +141,7 @@ class CheckoutForm(forms.Form):
         required=False, widget=forms.CheckboxInput())
 
     zone_delivery = forms.ChoiceField(
-        required=False, widget=forms.Select, choices=ZONE_LIVRAISON_BATEAU)
+        required=False, widget=forms.Select(attrs={'class': 'selectpicker'}), choices=ZONE_LIVRAISON_BATEAU)
 
     rang_delivery = forms.CharField(required=False, error_messages={'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
         'placeholder': 'Turing',
@@ -148,7 +155,8 @@ class CheckoutForm(forms.Form):
     creneau_delivery = forms.ChoiceField(
         widget=forms.Select(attrs={
             'id': 'select-time',
-
+            'class': 'selectpicker',
+            'data-size': "5",
         }), choices=CRENEAU_DELIVERY)
 
     cgv = forms.BooleanField(required=True)
@@ -205,17 +213,22 @@ class CheckoutAperoForm(forms.Form):
 class ProductForm(forms.Form):
 
     QUANTITY_PRODUCT = (
-        ('1', 1),
-        ('2', 2),
-        ('3', 3),
-        ('4', 4),
+        ('-- Choisissez une quantité --',
+         (
+             ('1', 1),
+             ('2', 2),
+             ('3', 3),
+             ('4', 4),
+
+         )
+         ),
     )
 
     quantity = forms.ChoiceField(
         widget=forms.Select(attrs={
 
-            "class": "quantity",
-        }), choices=QUANTITY_PRODUCT, label='Choisissez la quantité:')
+            "class": "selectpicker",
+        }), choices=QUANTITY_PRODUCT, label='Choisissez la quantité:', initial='--Choisissez une quantité --')
 
 
 class CouponForm(forms.Form):
@@ -226,9 +239,18 @@ class CouponForm(forms.Form):
 
 
 class RefundForm(forms.Form):
-    ref_code = forms.CharField()
-    email = forms.EmailField()
-    message = forms.CharField(widget=forms.Textarea)
+    ref_code = forms.CharField(label="Référence de la commande", widget=forms.TextInput(attrs={
+        'class': 'form-control checkout-input',
+        'placeholder': 'Indiquez votre email'
+    }))
+    email = forms.EmailField(label='Email', widget=forms.TextInput(attrs={
+        'class': 'form-control checkout-input',
+        'placeholder': 'Indiquez votre email'
+    }))
+    message = forms.CharField(label="Motifs de votre demande", widget=forms.Textarea(attrs={
+        'class': 'form-control checkout-input',
+
+    }))
 
     def __str__(self):
         return f"{self.pk}"

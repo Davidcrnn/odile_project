@@ -68,6 +68,7 @@ admin.site.register(Payment, PaymentAdmin)
 admin.site.register(Coupon)
 admin.site.register(Avis)
 admin.site.register(Info, InfoAdmin)
+admin.site.register(Refund)
 
 
 admin.site.index_title = "Tableau de bord"

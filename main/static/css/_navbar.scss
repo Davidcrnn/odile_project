@@ -22,7 +22,8 @@
   font-family: 'Montserrat', sans-serif !important;
 }
 .black {
-    background-color: $blue-color;
+    background-color: $grisbg;
+    box-shadow: 0 0 10px #8080805c;
 }
 
 // Navbar link
@@ -50,12 +51,7 @@
     }
 }
 
-.count-cart {
-    position: absolute;
-    padding: 10px;
-    background-color: red;
-    top: 20px;
-}
+
 // Nav Logo
 
 .nav-logo h1 {
@@ -301,6 +297,9 @@ $button-width: 35px;
   a {
     font-size: 13px;
     color: $vertf;
+  } p {
+    @extend a;
+    border-bottom: 0.6px solid $vertf;
   }
 }
 

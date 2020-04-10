@@ -13,3 +13,9 @@ def cart_product_count(user):
             return total
 
     return 0
+
+
+@register.filter
+def username(user):
+    if user.is_authenticated:
+        return user.username

@@ -173,17 +173,32 @@ def add_to_cart(request, slug):
                     order_product.save()
                     response_data['quantity'] = order_product.quantity
                     order.products.add(order_product)
-                    messages.info(request, 'Le produit a été ajouté au panier')
+                    response_data = {
+                        'quantity': order_product.quantity,
+                        'total': order.get_total(),
+                        'name': product.name,
+                        'product_total': order_product.get_total_product_price(),
+                        'cart_quantity': order.get_quantity(),
+                        'product_name': order_product.product.name,
+                    }
+                    # messages.info(request, 'Le produit a été ajouté au panier')
                     
                     return JsonResponse(response_data)
             else:
                 order = Order.objects.create(
                     user=request.user, type_of_order='Dejeuner')
                 order_product.quantity = quantity
-                response_data['quantity'] = order_product.quantity
+                
                 order_product.save()
                 order.products.add(order_product)
-                messages.info(request, 'Le produit a été ajouté au panier')
+                response_data = {
+                        'quantity': order_product.quantity,
+                        'total': order.get_total(),
+                        'name': product.name,
+                        'product_total': order_product.get_total_product_price(),
+                        'cart_quantity': order.get_quantity(),
+                        'product_name': order_product.product.name,
+                    }
             return JsonResponse(response_data)
         elif product.menu == 'Apero':
             if order_apero_qs.exists():
@@ -349,14 +364,20 @@ def remove_single_product_from_cart(request, slug):
                 if order_product.quantity > 1:
                     order_product.quantity -= 1
                     order_product.save()
-                else:
-                    order.products.remove(order_product)
-                response_data = {
+                    response_data = {
                     'quantity': order_product.quantity,
                     'total': order_product.get_total_product_price(),
                     'get_total': order.get_total(),
-                }
-                return JsonResponse(response_data)
+                    }
+                    return JsonResponse(response_data)
+                else:
+                    order.products.remove(order_product)
+                    response_data = {
+                        'quantity': order_product.quantity,
+                        'total': order_product.get_total_product_price(),
+                        'get_total': order.get_total(),
+                    }
+                    return JsonResponse(response_data)
                 # messages.info(request, "This product quantity was updated.")
                 # return redirect("order-summary-dejeuner")
             else:
@@ -844,8 +865,8 @@ class RequestRefundView(View):
                 refund.email = email
                 refund.save()
 
-                messages.info(self.request, 'Your request was received')
-                return redirect('request-refund')
+                messages.info(self.request, 'Votre demande de remboursement a bien été envoyée !')
+                return redirect('home')
 
             except ObjectDoesNotExist:
                 messages.info(self.request, 'This order does not exist.')

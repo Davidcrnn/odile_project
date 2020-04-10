@@ -109,7 +109,8 @@ class Order(models.Model):
         'Info', on_delete=models.SET_NULL, blank=True, null=True)
     date_de_creation = models.DateTimeField(default=now)
     date_delivery = models.CharField(max_length=100)
-    creneau_delivery = models.CharField(max_length=30, default='10')
+    creneau_delivery = models.CharField(
+        max_length=30, default='10', blank=True, null=True)
     # date_publication = models.DateField(auto_now_add=False, blank=True, null=True)
     delivery_option = models.CharField(
         max_length=100, choices=LIVRAISON_CHOICES)
