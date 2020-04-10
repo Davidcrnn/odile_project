@@ -1,18 +1,43 @@
 {% extends "base.html" %}
-{% load crispy_forms_tags %}
+{% load static %}
 
 {% block content %}
-<main>
-    <div class="container">
 
-        <h2>Request Refund</h2>
-        <form method="POST">
-            {% csrf_token %}
-            {{ form|crispy }}
-            <button type='submit' class='btn btn-primary'>Submit</button>
-        </form>
+<div class="container">
+    <div class="product-image-banner">
+        <div class="product-text-banner">
+            <h1>DEMANDE DE REMBOURSEMENT</h1>
 
+        </div>
     </div>
-</main>
+    <div class="row">
+        <div class="col-xs-12 col-md-6 offset-3 form-container-refund">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.ref_code.label_tag}}<span id="ref-tooltip"> <img
+                        src="{% static '../static/images/tooltip.svg' %}" alt="" style='height: 15px;'></span>
+                {{ form.ref_code}}
+                {{ form.email.label_tag}}
+                {{ form.email}}
+                {{ form.message.label_tag}}
+                {{ form.message}}
+                <button type='submit' class='btn-valider'>ENVOYER</button>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
 
 {% endblock content %}
+
+{% block extra_scripts %}
+<script>
+
+    tippy('#ref-tooltip', {
+        arrow: true,
+        content: 'Vous trouverez cette informations dans votre historique des commandes'
+    });
+</script>
+{% endblock extra_scripts %}

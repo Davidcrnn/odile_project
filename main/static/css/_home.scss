@@ -37,7 +37,7 @@
     margin-top: 20px;
     h1 {
        color: #4dbdc047;
-       padding-bottom: 20px;
+       
     } p {
         font-size: 14px;
     }
@@ -55,6 +55,10 @@
     padding: 30px;
     box-shadow: 0 0 10px $gris;
     margin: 20px 0;
+}
+
+.section-description-livraison {
+    padding-top: 30px;
 }
 
 /// Banner modal
@@ -75,7 +79,7 @@
         padding: 20px;
         background-color: $vertf;
         color: white;
-        border-radius: 9px;
+        border-radius: 3px;
     }
 }
 

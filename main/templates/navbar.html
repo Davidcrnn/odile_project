@@ -19,10 +19,10 @@
     <div class="nav-link d-none d-md-block">
         <ul>
 
-            <li><a href="home.html#concept" class="js-anchor-link filter-entrées">CONCEPT </a></li>
+            <li><a href="{% url 'home' %}#concept" class="">CONCEPT </a></li>
             <li><a href="{% url 'products' %}">MENU DEJEUNER</a> </li>
             <li><a href="{% url 'products-apero' %}">MENU APERO</a> </li>
-            <li><a href="home/#livraison" class="js-anchor-link filter-entrées">LIVRAISON </a></li>
+            <li><a href="{% url 'home' %}#livraison" class="">LIVRAISON </a></li>
             <li class="dropdown">
                 <a href="" class="dropbtn"> CONTACT <i class="fa fa-caret-down"></i></a>
                 <div class="dropdown-content">
@@ -47,6 +47,7 @@
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
         <div class="dropdown-menu dropdown-menu-right drop-content">
+            <p class='text-center'>Hello {{request.user|username|capfirst}} !</p>
             <a href="{% url 'profil' %}" class="dropdown-item">Tableau de bord</a>
             <a href="{% url 'account_logout' %}" class="dropdown-item">Se déconnecter</a>
         </div>
@@ -107,7 +108,7 @@
     });
 </script>
 
-<!-- <script>
+<script>
     $(window).on('scroll', function () {
         if ($(window).scrollTop()) {
             $('#nav').addClass('black');
@@ -115,20 +116,20 @@
             $('#nav').removeClass('black');
         }
     })
-</script> -->
+</script>
 
-<script>
+<!-- <script>
     $(document).ready(function () {
         $('.js-anchor-link').click(function (e) {
             e.preventDefault();
             var target = $($(this).attr('href'));
-            if (target.length) {
-                var scrollTo = target.offset().top;
+            if (target.length > 0) {
+                var scrollTo = target.offset().top + 100;
                 $('body, html').animate({ scrollTop: scrollTo + 'px' }, 1000);
             }
         });
 
     })
-</script>
+</script> -->
 
 {% endblock extra_scripts %}

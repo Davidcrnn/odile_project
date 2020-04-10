@@ -71,9 +71,9 @@
 .product-card-text {
     
     p {
-        font-family: 'Gotham-book';
+        
         color: rgba(128, 128, 128, 0.664);
-        font-size: 15px;
+        font-size: 14px;
     } h5 {
         color: #000000b5;
         border-bottom: 2px solid #000000b5;
@@ -99,6 +99,7 @@ a.btn-product-description{
     position: sticky;
     top: 100px;
     margin-top: 20px;
+    border-right: 2px solid $vertf;
     ul {
     
     margin-top: 30px;
@@ -113,6 +114,7 @@ a.btn-product-description{
         text-decoration: none;
         cursor: pointer;
         opacity: 0.6;
+        letter-spacing: 2px;
     }
 }
 
@@ -142,11 +144,13 @@ a.btn-product-description{
 }
 
 .btn-annuler {
+   
     padding: 10px 15px;
     border: 1px solid #165361 ;
-    
+    width: 100%;
     border-radius: 3px;
     color: #165361 !important;
+    text-align: center;
     &:hover {
         text-decoration: none;
         color: white;
@@ -219,4 +223,24 @@ a.btn-product-description{
 
 .modal-bg-white {
     background-color: rgba(255, 255, 255, 0.9);
+}
+
+// Snippet Service client
+
+.service-client-container {
+    border-radius : 3px;
+    background-color: #f5f5f5;
+    border: none;
+    padding: 20px;
+    text-align: center;
+}
+
+// Select modal btn
+
+.dropdown a {
+    padding: 10px 15px;
+}
+
+.dropdown-item.active {
+    background-color: $gris;
 }

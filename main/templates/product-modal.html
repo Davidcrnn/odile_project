@@ -60,7 +60,13 @@
                 </div>
                 <form method="POST" action="{{ product.get_add_to_cart_url }}" id='{{ product.slug}}'>
                     {% csrf_token %}
-                    {{ form.quantity }}
+
+
+                    <p> {{ form.quantity.label_tag}} {{ form.quantity }}</p>
+
+
+
+
             </div>
             <div class="modal-footer modal-btn">
                 <a class='btn-annuler' data-dismiss="modal">

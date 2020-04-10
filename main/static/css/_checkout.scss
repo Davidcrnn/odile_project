@@ -7,8 +7,7 @@
 // header
 
 .header-checkout {
-    font-family: 'Gotham-bold';
-    color: $yel-color;
+    
     letter-spacing: 6.4px;
     font-size: 70px;
     text-decoration: underline;
@@ -21,7 +20,7 @@
 .checkout-input {
     border: 1Px solid lightslategray;
     // border-radius: 8px;
-    height: 50px;
+    height: 40px;
     border-left: none;
     border-right: none;
     border-top: none;
@@ -46,7 +45,7 @@ input#datepicker-dejeuner {
 
     background-color: $gris;
     opacity: 0.5;
-    border-color: transparent;
+    border-color: $vertf;
     outline: 0;
     box-shadow: none;
 }
@@ -61,9 +60,19 @@ input#datepicker-dejeuner {
 }
 
 .card {
-    
+    // box-shadow: 0px 0px 10px $gris;
     border: none;
-    box-shadow: 0 0 10px $gris;
+    
+    h3 {
+    color: $vertf;
+    font-size: 20px;
+}
+}
+
+.card-checkout {
+    box-shadow: 0px 0px 10px $gris;
+    border: none;
+    
     h3 {
     color: $vertf;
     font-size: 20px;
@@ -73,8 +82,19 @@ input#datepicker-dejeuner {
 .bottom {
     padding: 20px;
 }
+.custom-control-label ul {
+    margin: 0;
+    padding: 0;
+} li {
+    list-style: none;
+}
 
 
+.disabled {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.4;
+ }
 // Form Error
 
 ul.errorlist {
@@ -92,14 +112,21 @@ ul.errorlist {
 // Form help text
 
 .help-text-form {
-
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-size: 14px;
     font-style: italic;
     padding: 10px 10px 10px;
     margin-top: 10px;
     border-radius: 9px;
-    background: $vertalert;
-
+    background: $grisbg;
+    span {
+        padding-right: 20px;
+    }
 }
+
+
+// Custom radio button
 
 
