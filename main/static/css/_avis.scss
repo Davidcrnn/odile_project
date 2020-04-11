@@ -14,17 +14,28 @@
         padding-right: 20px;
     } input:focus {
         border: 2px solid red;
+    } label {
+        font-size: 13px;
     }
 }
 
 .avis-form {
     // border: 1px solid black;
-    padding: 20px;
+    padding: 40px;
     box-shadow: 0 0 10px $gris;
+    background-color: $grisbg;
 
     h2 {
-        font-size: 20px;
+        font-size: 17px;
         color: $vertf
+    }
+    label {
+        @extend h2;
+    } input {
+        margin-bottom: 20px;
+    } span > a {
+        color: $noir;
+        font-size: 13px;
     }
 }
 

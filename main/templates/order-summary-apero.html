@@ -27,20 +27,23 @@
             </thead>
             <tbody>
                 {% for order_product in  order_apero.products.all %}
-                <tr>
+                <tr data-x='{{order_product.product.slug}}'>
                     <th scope="row">{{ forloop.counter }}</th>
                     <td>{{ order_product.product.name }} </td>
                     <td>{{ order_product.product.price }} </td>
                     <td>
                         <a style='color: #165361;'
-                            href="{% url 'remove-single-product-from-cart' order_product.product.slug %}">
+                            href="{% url 'remove-single-product-from-cart' order_product.product.slug %}"
+                            id={{order_product.product.slug}} class="ajax" data-y={{order_product.product.slug}}>
                             <i class="fas fa-minus mr-2"></i></a>
-                        <span id="order-apero-quantity">{{ order_product.quantity }}</span>
+                        <span data-id="{{ order_product.product.slug}}">{{ order_product.quantity }}</span>
                         <a style='color: #165361;' href="{% url 'add-single-item-to-cart' order_product.product.slug %}"
-                            id='addItemToCart'><i class="fas fa-plus ml-2"></i></a>
+                            id={{order_product.product.slug}} class='ajax'><i class="fas fa-plus ml-2"></i></a>
                     </td>
-                    <td>{{ order_product.get_total_product_price}}€ <a style='color: #165361;'
-                            href="{% url 'remove-from-cart' order_product.product.slug %}">
+                    <td><span
+                            data-total={{order_product.product.slug}}>{{ order_product.get_total_product_price|floatformat}}</span>€<a
+                            style='color: #165361;' href="{% url 'remove-from-cart' order_product.product.slug %}"
+                            class="removeItem ajax-remove" id={{order_product.product.slug}}>
                             <i class="fas fa-trash float-right"></i>
                         </a></td>
 
@@ -52,7 +55,8 @@
                 </tr>
                 <tr>
                     <td colspan="5">
-                        <a class='btn-annuler float-right' href="{% url 'products-apero'%}">Voir le menu</a>
+                        <a class='btn-annuler float-right' style="width:30%" href="{% url 'products-apero'%}">Voir le
+                            menu</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -66,22 +70,39 @@
 
                 {% if order_apero.get_total %}
 
+                <div id="total-cart">
+                    <tr>
+                        <th scope='row'></th>
+                        <td></td>
+                        <td></td>
+                        <td class="">Sous-total</td>
+                        <td class='js-get-total'>{{ order_apero.get_total|floatformat}}€</td>
+                    </tr>
+                    <tr>
+                        <th scope='row'></th>
+                        <td></td>
+                        <td></td>
+                        <td class="">Frais de livraison</td>
+                        <td>Gratuit</td>
+                    </tr>
+                    <tr>
+                        <th scope='row'></th>
+                        <td></td>
+                        <td></td>
+                        <td class="">Total</td>
+                        <td id='cart-total' class='js-get-total'>{{ order_apero.get_total|floatformat}}€</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <a class='btn-valider float-right ml-2' href='{% url "checkout-apero" %}'>Commander</a>
 
-                <tr>
-                    <td colspan="4">Total</td>
-                    <td>{{ order_apero.get_total}}€</td>
-                </tr>
+                            <a class='btn-annuler float-right mt-4' href="{% url 'products-apero'%}">Ajoutez d'autres
+                                produits</a>
 
-                <tr>
+                        </td>
 
-                    <td colspan="5">
-
-                        <a class='btn-valider float-right ml-2' href=' {% url "checkout-apero" %}'>Commander</a>
-
-                        <a class='btn-annuler float-right' href="{% url 'products-apero'%}">Ajoutez d'autres
-                            produits</a>
-                    </td>
-                </tr>
+                    </tr>
+                </div>
                 {% endif %}
 
 
@@ -109,3 +130,165 @@
 </div>
 
 {% endblock content %}
+
+{% block extra_scripts %}
+<script>
+    $(document).ready(function () {
+        var arr = $('span[data-id]');
+        $.each(arr, function (i, val) {
+            if ($(val).text() == '1') {
+                $(val).prev('a').addClass('disabled')
+            }
+        })
+
+    });
+
+</script>
+
+<script>
+
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie != '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                // Only send the token to relative URLs i.e. locally.
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+        }
+    });
+    $('td').on("click", 'a.ajax', function (e) {
+        e.preventDefault();
+        var target = $(this).attr('id');
+
+        var urlAjax = $(this).attr('href');
+
+
+
+        $.ajax({
+            type: 'POST',
+            url: urlAjax,
+            data: {
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                action: 'post',
+
+            },
+            success: function (json) {
+                console.log(json.quantity);
+                $('[data-id=' + target + ']').text(json.quantity);
+                $('[data-total=' + target + ']').text(json.total);
+                $('.js-get-total').text(json.get_total + '€');
+                // 
+                if ($('[data-id=' + target + ']').text() == "1") {
+                    $('a[data-y=' + target + ']').addClass('disabled');
+
+                } else {
+                    $('a[data-y=' + target + ']').removeClass('disabled');
+                }
+
+
+
+
+            },
+            error: function (xhr, errmsg, err) {
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });
+    });
+</script>
+
+<script>
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie != '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                // Only send the token to relative URLs i.e. locally.
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+        }
+    });
+    $('td').on("click", 'a.ajax-remove', function (e) {
+        e.preventDefault();
+        var target = $(this).attr('id');
+
+        var urlAjax = $(this).attr('href');
+
+
+
+        $.ajax({
+            type: 'POST',
+            url: urlAjax,
+            data: {
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                action: 'post',
+
+            },
+            success: function (json) {
+                console.log(json.quantity);
+                $('[data-id=' + target + ']').text(json.quantity);
+                $('[data-total=' + target + ']').text(json.total);
+                $('.js-get-total').text(json.get_total + '€');
+                // 
+                if ($('[data-id=' + target + ']').text() == "1") {
+                    $('a[data-y=' + target + ']').addClass('disabled');
+                } else {
+                    $('a[data-y=' + target + ']').removeClass('disabled');
+                }
+
+
+                var myvar =
+                    '                    <tr>' +
+                    '                        <td colspan=\'5\'>Votre panier est vide</td>' +
+                    '                    </tr>' +
+                    '                    <tr>' +
+                    '                        <td colspan="5">' +
+                    '                            <a class=\'btn-annuler float-right\' style="width:30%" href="">Voir le' +
+                    '                                menu</a>' +
+                    '                        </td>' +
+                    '                    </tr>';
+
+
+
+
+                $('tr[data-x=' + target + ']').remove();
+                if ($('#cart-total').text() == "0€") {
+                    $('tbody tr').remove();
+                    $("tbody").append(myvar);
+
+                };
+
+            },
+            error: function (xhr, errmsg, err) {
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });
+    });
+</script>
+{% endblock extra_scripts %}

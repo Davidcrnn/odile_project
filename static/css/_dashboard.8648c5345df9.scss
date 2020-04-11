@@ -1,0 +1,31 @@
+// Tableau de bord Utilisation
+
+.section-order-profil{
+    padding: 20px;
+   
+    h4 {
+        color: $vertf;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+}
+
+.order-card {
+    padding:20px;
+    box-shadow: 0 0 10px #b9b9b9;
+    margin-bottom: 20px;
+    position: relative;
+    p, li{
+        margin: 0;
+        font-size: 13px;
+
+    } a {
+        color: $vertc;
+    }
+} 
+
+.total-profil {
+    position: absolute;
+    right: 30px;
+    top:20px;
+}

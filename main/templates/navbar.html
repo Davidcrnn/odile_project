@@ -22,7 +22,7 @@
             <li><a href="{% url 'home' %}#concept" class="">CONCEPT </a></li>
             <li><a href="{% url 'products' %}">MENU DEJEUNER</a> </li>
             <li><a href="{% url 'products-apero' %}">MENU APERO</a> </li>
-            <li><a href="{% url 'home' %}#livraison" class="">LIVRAISON </a></li>
+            <!-- <li><a href="{% url 'home' %}#livraison" class="">LIVRAISON </a></li> -->
             <li class="dropdown">
                 <a href="" class="dropbtn"> CONTACT <i class="fa fa-caret-down"></i></a>
                 <div class="dropdown-content">
@@ -49,6 +49,7 @@
         <div class="dropdown-menu dropdown-menu-right drop-content">
             <p class='text-center'>Hello {{request.user|username|capfirst}} !</p>
             <a href="{% url 'profil' %}" class="dropdown-item">Tableau de bord</a>
+            <a href="{% url 'request-refund' %}" class="dropdown-item">Demande de remboursement</a>
             <a href="{% url 'account_logout' %}" class="dropdown-item">Se déconnecter</a>
         </div>
 
@@ -57,8 +58,6 @@
         <a href="{% url 'account_login' %}"><img src="{% static '../static/images/profil.svg' %}" alt=""
                 style='height: 30px;'></a>
 
-        <a href="{% url 'account_signup' %}"><img src="{% static '../static/images/user-up.svg' %}" alt=""
-                style=' height: 30px;'></a>
         {% endif %}
 
 

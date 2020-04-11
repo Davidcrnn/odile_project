@@ -163,6 +163,15 @@ class CheckoutForm(forms.Form):
 
 
 class CheckoutAperoForm(forms.Form):
+
+    couvert = forms.ChoiceField(
+        required=True, widget=forms.Select(
+            attrs={
+                'class': 'selectpicker',
+                'data-size': "5"
+            }
+        ), choices=COUVERT_CHOICES)
+
     name = forms.CharField(required=True, error_messages={'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
         'placeholder': 'Turing',
         'class': 'form-control checkout-input',
@@ -192,7 +201,9 @@ class CheckoutAperoForm(forms.Form):
     pays = CountryField(blank_label='(Pays)').formfield(
 
         required=True, widget=CountrySelectWidget(attrs={
-            'class': 'custom-select d-block w-100 checkout-input',
+            'class': 'form-control selectpicker',
+            'data-size': "5",
+            'data-live-search': "true",
         }))
 
     date_delivery = forms.CharField(required=True, error_messages={

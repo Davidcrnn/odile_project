@@ -1,7 +1,37 @@
-<div class="container" style="border: 1px solid black">
-    <h1 style='color: red;'>Salut {{ user }}</h1>
-    <h1>Votre commande a bien été enregistrée !</h1>
+<!DOCTYPE html>
+<html>
 
-    <p>{{ref}}: Ceci est le numéro de votre commande</p>
-    <p>Vous avez payé {{ total }}</p>
-</div>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <div class="container"
+        style="background-color: #f5f5f5; box-shadow: 0 0 10 px #8080805c; text-align: center; padding: 20px;">
+        <h1 style='color: #4A898B;'>Hello</h1>
+        <h4>Votre commande a bien été enregistrée !</h4>
+        <div class="row">
+            <div class="col-xs-12-md-6">
+                <small>Référence de votre commande : {{ref}}</small>
+                <p><strong>Nous vous remercions pour votre commande !</strong> </p>
+                <p>Vore commande :</p>
+
+            </div>
+            <div class="col-xs-12-md-6">
+                <ul style='list-style: none;'>
+                    {% for prod in product  %}
+                    <li>{{ prod.quantity }} x {{ prod.product.name }}</li>
+
+                    {% endfor %}
+                </ul>
+                <p>Montant total de la commande {{ total }}€</p>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
