@@ -74,7 +74,7 @@ class ProductAperoView(ListView):
 
     def get(self, *args, **kwargs):
         products = Product.objects.filter(menu='Apero')
-        form = ProductForm()
+        form = ProductForm(auto_id=False)
         user = self.request.user
         if user.is_authenticated:
             order, created = Order.objects.get_or_create(
@@ -207,25 +207,43 @@ def add_to_cart(request, slug):
                     order_product.quantity += quantity
                     response['quantity'] = order_product.quantity
                     order_product.save()
-                    # messages.info(
-                    #     request, 'La quantité du produit a été ajouté au panier')
-                    # return redirect("products-apero")
+                    response = {
+                        'quantity': order_product.quantity,
+                        'total': order.get_total(),
+                        'name': product.name,
+                        'product_total': order_product.get_total_product_price(),
+                        'cart_quantity': order.get_quantity(),
+                        'product_name': order_product.product.name,
+                    }
                     return JsonResponse(response)
                 else:
                     order_product.quantity = quantity
-                    response['quantity'] = order_product.quantity
+                    
                     order_product.save()
                     order.products.add(order_product)
-                    # messages.info(request, 'Le produit a été ajouté au panier')
-                    # return redirect("products-apero")
+                    response = {
+                        'quantity': order_product.quantity,
+                        'total': order.get_total(),
+                        'name': product.name,
+                        'product_total': order_product.get_total_product_price(),
+                        'cart_quantity': order.get_quantity(),
+                        'product_name': order_product.product.name,
+                    }
                     return JsonResponse(response)
             else:
                 order = Order.objects.create(
                     user=request.user, type_of_order='Apero')
                 order_product.quantity = quantity
                 order_product.save()
-                response['quantity'] = order_product.quantity
                 order.products.add(order_product)
+                response = {
+                        'quantity': order_product.quantity,
+                        'total': order.get_total(),
+                        'name': product.name,
+                        'product_total': order_product.get_total_product_price(),
+                        'cart_quantity': order.get_quantity(),
+                        'product_name': order_product.product.name,
+                    }
                 return JsonResponse(response)
         else: 
             messages.warning(request, 'Un problème vient de survenir')
@@ -242,6 +260,7 @@ def add_single_item_to_cart(request, slug):
     order_dejeuner_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Dejeuner')
     order_apero_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Apero')
     response_data = {}
+    response= {}
     if product.menu == 'Dejeuner':
         if order_dejeuner_qs.exists():
             order = order_dejeuner_qs[0]
@@ -271,9 +290,12 @@ def add_single_item_to_cart(request, slug):
             if order.products.filter(product__slug=product.slug).exists():
                 order_product.quantity += 1
                 order_product.save()
-                messages.info(
-                    request, 'La quantité du produit a été ajouté au panier')
-                return redirect("order-summary-apero")
+                response = {
+                    'quantity': order_product.quantity,
+                    'total': order_product.get_total_product_price(),
+                    'get_total': order.get_total(),
+                }
+                return JsonResponse(response)
             else:
                 messages.info(request, 'Le produit a été ajouté au panier')
                 order.products.add(order_product)
@@ -329,8 +351,12 @@ def remove_from_cart(request, slug):
                 )[0]
                 order.products.remove(order_product)
                 order_product.delete()
-                messages.info(request, 'Le produit a été supprimé de votre panier')
-                return redirect('order-summary-apero')
+                response = {
+                    'quantity': order_product.quantity,
+                    'total': order_product.get_total_product_price(),
+                    'get_total': order.get_total(),
+                }
+                return JsonResponse(response)
             else:
                 messages.info(request, "le produit n'est pas dans votre panier")
                 return redirect('order-summary-apero')
@@ -399,10 +425,20 @@ def remove_single_product_from_cart(request, slug):
                 if order_product.quantity > 1:
                     order_product.quantity -= 1
                     order_product.save()
+                    response = {
+                    'quantity': order_product.quantity,
+                    'total': order_product.get_total_product_price(),
+                    'get_total': order.get_total(),
+                    }
+                    return JsonResponse(response)
                 else:
                     order.products.remove(order_product)
-                messages.info(request, "This product quantity was updated.")
-                return redirect("order-summary-apero")
+                    response = {
+                    'quantity': order_product.quantity,
+                    'total': order_product.get_total_product_price(),
+                    'get_total': order.get_total(),
+                    }
+                    return JsonResponse(response)
             else:
                 messages.info(request, "This product was not in your cart")
                 return redirect("products-apero")
@@ -596,6 +632,8 @@ class CheckoutViewApero(View):
                     code_postal = form.cleaned_data.get('code_postal')
                     pays = form.cleaned_data.get('pays')
                     date_delivery = form.cleaned_data.get('date_delivery')
+                    couvert = form.cleaned_data.get('couvert')
+                    cgv = form.cleaned_data.get('cgv')
                     
 
                     if is_valid_form([name, prenom, pays, code_postal, phone, email]):
@@ -613,6 +651,8 @@ class CheckoutViewApero(View):
 
                         order.information = adresse_info
                         order.date_delivery = date_delivery
+                        order.couvert = couvert
+                        order.cgv = cgv
                         
                         order.save()
 
@@ -684,7 +724,9 @@ class PaymentView(View):
             context = {
                 'user': self.request.user,
                 'ref': order.ref_code,
-                'total': order.payment.amount
+                'total': order.payment.amount,
+                'product': order.products.all(),
+                
             }
             subject = "Déjeuner sur l'eau: Votre commande a bien été prise en compte !"
             html_message = render_to_string('email-order-confirmation.html', context)
@@ -712,7 +754,7 @@ class PaymentView(View):
             # Invalid parameters were supplied to Stripe's API
             print(e)
             messages.warning(self.request, "Les données ne sont pas corrects")
-            return redirect("payment")
+            return redirect("payment-dejeuner")
 
         except stripe.error.AuthenticationError as e:
             # Authentication with Stripe's API failed
@@ -957,10 +999,12 @@ class ContactView(View):
 class ProfileView(View):
     def get(self, request):
         user = self.request.user
-        order = Order.objects.filter(user=user, ordered=True)
+        order = Order.objects.filter(user=user, ordered=True).order_by('-date_de_creation')
+        
         context = {
             'user': user,
             'order': order,
+            
         }
 
         return render(self.request, 'profile.html', context)

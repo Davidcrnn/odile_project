@@ -74,8 +74,8 @@ class Product(models.Model):
     def get_remove_from_cart_url(self):
         return reverse('remove-from-cart', kwargs={'slug': self.slug})
 
-    # class Meta:
-    #     verbose_name = 'Produit'
+    class Meta:
+        verbose_name = 'Produit'
 
 
 class OrderProduct(models.Model):
@@ -91,8 +91,9 @@ class OrderProduct(models.Model):
     def get_total_product_price(self):
         return self.quantity * self.product.price
 
-    # class Meta:
-    #     verbose_name = 'Commande - Produit'
+    class Meta:
+        verbose_name = 'Commande - Produit'
+        verbose_name_plural = 'Commande - Produits'
 
 
 class Order(models.Model):
@@ -142,6 +143,7 @@ class Order(models.Model):
 
     class Meta:
         ordering = ('-date_de_creation',)
+        verbose_name = 'Commande'
 
 
 class Payment(models.Model):
@@ -154,8 +156,8 @@ class Payment(models.Model):
     def __str__(self):
         return self.user.email
 
-    # class Meta:
-    #     verbose_name = 'Paiement'
+    class Meta:
+        verbose_name = 'Paiement'
 
 
 class Coupon(models.Model):
@@ -175,6 +177,10 @@ class Refund(models.Model):
     def __str__(self):
         return f"{self.pk}"
 
+    class Meta:
+        verbose_name = 'Demande de remboursement'
+        verbose_name_plural = 'Demandes de remboursement'
+
 
 class Info(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -193,6 +199,10 @@ class Info(models.Model):
     def __str__(self):
         return self.user.email
 
+    class Meta:
+        verbose_name = 'Informations utilisateurs'
+        verbose_name_plural = 'Informations utilisateurs'
+
 
 class Avis(models.Model):
 
@@ -209,3 +219,7 @@ class Avis(models.Model):
 
     def __str__(self):
         return self.objet
+
+    class Meta:
+        verbose_name = 'Recommandation utilisateur'
+        verbose_name_plural = 'Recommadation utilisateur'

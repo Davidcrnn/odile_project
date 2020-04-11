@@ -6,7 +6,7 @@
                     <div class="product-card-text">
                         <h5>{{ product.name }} </h5>
                         <p> {{ product.description|truncatewords:6 }}</p>
-                        <span class="price">{{ product.price }}€</span>
+                        <span class="price">{{ product.price|floatformat }}€</span>
                     </div>
                 </div>
                 <div class="col-md-4">

@@ -15,7 +15,7 @@
             <div class="filter-product">
                 <ul>
                     <li>Filtrer par :</li>
-                    <li><a href="#2" class="js-anchor-link filter-entrées">Grignotage</a></li>
+                    <li><a href="#2" class="js-anchor-link filter-entrées">Entrées</a></li>
                     <li><a href="#6" class="js-anchor-link filter-accessoires">Accessoires</a></li>
                 </ul>
             </div>
@@ -50,58 +50,62 @@
         <div class="col-xs-12 col-md-3">
             <div id='stickycart' class="col-md-12 mb-4 mt-5 ">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-muted cart-header">Panier - {{ order.get_quantity }}</span>
+                    <span class="cart-header" id='cart-quantity'> Panier - {{ order.get_quantity }}</span>
 
                 </h4>
-                <ul class="list-group mb-3 z-depth-1">
+                <ul id="js-cart-append" class="list-group mb-3 z-depth-1">
                     {% for order_item in order.products.all %}
-                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <li class="list-group-item cart-line d-flex justify-content-between lh-condensed">
                         <div>
-                            <h6 class="my-0">{{ order_item.quantity }} x {{ order_item.product.name}}</h6>
-                            <!-- <small class="text-muted">{{ order_item.product.description|truncatewords:2|safe}}</small> -->
+                            <h6 class="my-0"><span
+                                    data-quantity-id="{{order_item.product.slug}}">{{ order_item.quantity }}</span>
+                                x
+                                {{ order_item.product.name}}</h6>
+
                         </div>
-                        <span class="text-muted">{{ order_item.get_total_product_price }}€</span>
+                        <span class="text-muted"
+                            data-total-id='{{order_item.product.slug}}'>{{ order_item.get_total_product_price|floatformat }}€</span>
                     </li>
                     {% endfor %}
 
                     <!-- {% if order.coupon %}
-
-                    <li class="list-group-item d-flex justify-content-between bg-light">
-                        <div class="text-success">
-                            <h6 class="my-0">Coupon</h6>
-                            <small>{{ order.coupon.code }}</small>
-                        </div>
-                        <span class="text-success">-{{ order.coupon.amount }}€</span>
-                    </li>
-
-                    {% endif %} -->
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span>Total (EUR)</span>
-                        <strong>{{ order.get_total }}€</strong>
+        
+                            <li class="list-group-item cart-line d-flex justify-content-between bg-light">
+                                <div class="text-success">
+                                    <h6 class="my-0">Coupon</h6>
+                                    <small>{{ order.coupon.code }}</small>
+                                </div>
+                                <span class="text-success">-{{ order.coupon.amount }}€</span>
+                            </li>
+        
+                            {% endif %} -->
+                    <li class="list-group-item cart-line d-flex justify-content-between">
+                        <span>Total (€)</span>
+                        <strong id="order-snippet-id">{{ order.get_total|floatformat }}€</strong>
                     </li>
                     <!-- {% if DISPLAY_COUPON_FORM %}
-                    <form class="card p-2" action="{% url 'add-coupon' %}" method="POST">
-                        {% csrf_token %}
-                        <div class="input-group">
-
-                            {{ couponform.code }}
-
-
-
-                            <div class="input-group-append">
-
-                                <button class=" btn-md btn-valider waves-effect m-0" type="submit">Valider</button>
-                            </div>
-                        </div>
-                    </form>
-                    {% endif %} -->
+                            <form class="card p-2" action="{% url 'add-coupon' %}" method="POST">
+                                {% csrf_token %}
+                                <div class="input-group">
+        
+                                    {{ couponform.code }}
+        
+        
+        
+                                    <div class="input-group-append">
+        
+                                        <button class=" btn-md btn-valider waves-effect m-0" type="submit">Valider</button>
+                                    </div>
+                                </div>
+                            </form>
+                            {% endif %} -->
                     <a class='btn-valider float-right mt-2' href="{% url 'order-summary-apero' %}">
                         Voir le panier</a>
+                </ul>
             </div>
 
-            </ul>
-            {% include 'service-client-snippet.html' %}
-            {% include 'paiement-safe-snippet.html' %}
+
+
 
 
         </div>
@@ -109,7 +113,70 @@
     </div>
 </div>
 
-{% block extra_scripts %}
-
-{% endblock extra_scripts %}
 {% endblock content %}
+{% block extra_scripts %}
+<script>
+    $('body').on("submit", 'form', function (e) {
+        e.preventDefault();
+        var target = $(this).attr('id');
+        console.log(target);
+        var quantity = $(this).find('select').val();
+        console.log(quantity);
+        var urlAjax = $(this).attr('action');
+        console.log(urlAjax);
+        $.ajax({
+            type: 'POST',
+            url: urlAjax,
+            data: {
+                quantity: quantity,
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                action: 'post',
+
+            },
+            success: function (json) {
+                document.getElementById(target).reset();
+                $('.modal').modal('hide');
+                console.log(json.name)
+                var total = json.total + '€'
+
+
+                $('[data-quantity-id=' + target + ']').text(json.quantity);
+                $('[data-total-id=' + target + ']').text(json.product_total + '€');
+
+                var myvar = '<li class="list-group-item d-flex justify-content-between lh-condensed">' +
+                    '                        <div>' +
+                    '                            <h6 class="my-0"><span' +
+                    '                                    data-quantity-id=' + target + '>' + json.quantity + '</span>' +
+                    '                                x' +
+                    '                                ' + json.product_name + ' </h6>' +
+                    '' +
+                    '                        </div>' +
+                    '                        <span class="text-muted"' +
+                    '                            data-total-id=\'{{order_item.product.slug}}\'>' + json.product_total + '€</span>' +
+                    '                    </li>';
+
+                // $('#js-cart-append li').each(function () {
+                //     console.log($('[data-quantity-id=' + target + ']').val());
+                // })
+
+                if ($('[data-quantity-id=' + target + ']').text() != "") {
+                    $('[data-quantity-id=' + target + ']').text(json.quantity);
+                    $('[data-total-id=' + target + ']').text(json.product_total + '€');
+                    $('#order-snippet-id').text(total);
+                } else {
+                    $('#js-cart-append').prepend(myvar).fadeIn(1000);
+
+                }
+
+                var t = $('#cart-quantity').text('Panier - ' + json.cart_quantity);
+                $('#order-snippet-id').text(total);
+
+
+            },
+            error: function (xhr, errmsg, err) {
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });
+    });
+</script>
+{% endblock extra_scripts %}

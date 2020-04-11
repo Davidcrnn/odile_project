@@ -151,11 +151,11 @@
     margin: 0; }
   .nav-link li {
     padding: 0 20px; }
-  .nav-link li > a:first-child, .nav-link .drop-content li > p:first-child, .drop-content .nav-link li > p:first-child {
+  .nav-link li > a, .nav-link .drop-content li > p, .drop-content .nav-link li > p {
     color: #4A898B;
     font-size: 13px;
-    transition: 0.5s ease-in-out; }
-  .nav-link a:first-child:hover, .nav-link .drop-content p:first-child:hover, .drop-content .nav-link p:first-child:hover {
+    transition: 0.3s ease-in-out; }
+  .nav-link a:hover, .nav-link .drop-content p:hover, .drop-content .nav-link p:hover {
     font-size: 17px;
     text-decoration: none; }
 
@@ -196,7 +196,7 @@ a.btn-inscription, .drop-content p.btn-inscription {
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 10;
-  margin-top: 20px; }
+  margin-top: 3px; }
 
 .dropdown-content a, .dropdown-content .drop-content p, .drop-content .dropdown-content p {
   color: #4A898B;
@@ -333,7 +333,7 @@ a.btn-inscription, .drop-content p.btn-inscription {
     left: 0; } }
 
 .drop-content {
-  border: 1px solid #4A898B; }
+  box-shadow: 0 0 10px #8080805c; }
   .drop-content a, .drop-content p {
     font-size: 13px;
     color: #4A898B; }
@@ -591,8 +591,6 @@ a.btn-product-description, .drop-content p.btn-product-description {
 .panier-cart {
   margin: 0px 0 40px; }
   .panier-cart h1 {
-    font-family: 'Gotham-bold';
-    color: #F9BA32;
     letter-spacing: 6.4px;
     font-size: 70px;
     text-decoration: underline;
@@ -726,6 +724,8 @@ ul.errorlist {
   background: #f5f5f5; }
   .help-text-form span {
     padding-right: 20px; }
+  .help-text-form p {
+    margin: 0; }
 
 .inscription-form {
   margin: 50px 0;
@@ -733,10 +733,20 @@ ul.errorlist {
   padding: 50px;
   box-shadow: 0 0 50px #00000040; }
   .inscription-form h1 {
-    font-family: 'Gotham-bold';
-    font-size: 50px;
+    font-size: 30px;
     letter-spacing: 2px;
-    color: #ccac54; }
+    color: #4A898B; }
+  .inscription-form p {
+    font-size: 14px; }
+  .inscription-form a:first-child, .inscription-form .drop-content p:first-child, .drop-content .inscription-form p:first-child {
+    color: #4A898B;
+    font-size: 16px;
+    border-bottom: 3px solid #4A898B; }
+  .inscription-form a:hover, .inscription-form .drop-content p:hover, .drop-content .inscription-form p:hover {
+    text-decoration: none; }
+  .inscription-form a, .inscription-form .drop-content p, .drop-content .inscription-form p {
+    font-size: 13px;
+    color: #8080805c; }
 
 .mentions-contenu {
   background: transparent;
@@ -770,13 +780,21 @@ ul.errorlist {
     padding-right: 20px; }
   .avis-objet input:focus {
     border: 2px solid red; }
+  .avis-objet label {
+    font-size: 13px; }
 
 .avis-form {
-  padding: 20px;
-  box-shadow: 0 0 10px #8080805c; }
-  .avis-form h2 {
-    font-size: 20px;
+  padding: 40px;
+  box-shadow: 0 0 10px #8080805c;
+  background-color: #f5f5f5; }
+  .avis-form h2, .avis-form label {
+    font-size: 17px;
     color: #4A898B; }
+  .avis-form input {
+    margin-bottom: 20px; }
+  .avis-form span > a, .avis-form .drop-content span > p, .drop-content .avis-form span > p {
+    color: #454545;
+    font-size: 13px; }
 
 input[type="radio" i]:focus {
   background: #4A898B; }
@@ -830,6 +848,29 @@ input[type="radio" i]:focus {
   background: whitesmoke;
   padding: 20px;
   border-radius: 3px; }
+
+.section-order-profil {
+  padding: 20px; }
+  .section-order-profil h4 {
+    color: #4A898B;
+    text-align: center;
+    margin-bottom: 20px; }
+
+.order-card {
+  padding: 20px;
+  box-shadow: 0 0 10px #b9b9b9;
+  margin-bottom: 20px;
+  position: relative; }
+  .order-card p, .order-card li {
+    margin: 0;
+    font-size: 13px; }
+  .order-card a, .order-card .drop-content p, .drop-content .order-card p {
+    color: #4DBDC0; }
+
+.total-profil {
+  position: absolute;
+  right: 30px;
+  top: 20px; }
 
 body {
   font-family: 'Montserrat', sans-serif;

@@ -37,9 +37,6 @@
                             href="{% url 'remove-single-product-from-cart' order_product.product.slug %}"
                             id={{order_product.product.slug}} class="ajax" data-y={{order_product.product.slug}}>
                             <i class="fas fa-minus mr-2"></i></a>
-
-
-
                         <span data-id="{{ order_product.product.slug}}">{{ order_product.quantity }}</span>
                         <a style='color: #165361;' href="{% url 'add-single-item-to-cart' order_product.product.slug %}"
                             id={{order_product.product.slug}} class='ajax'>
@@ -66,12 +63,12 @@
                 </tr>
                 {% endfor %}
 
-                {% if order_dejeuner.coupon %}
+                <!-- {% if order_dejeuner.coupon %}
                 <tr>
                     <td colspan="4">Coupon</td>
                     <td> - {{ order_dejeuner.coupon.amount}}€</td>
                 </tr>
-                {% endif %}
+                {% endif %} -->
 
                 {% if order_dejeuner.get_total %}
 
@@ -149,7 +146,7 @@
                 </div>
             </a>
         </div>
-        <!-- Modal -->
+
         <div class="modal fade modal-bg-white" id="Modal{{ object.id}}" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -191,8 +188,6 @@
                             Annuler
                         </a>
                         {% if request.user.is_authenticated %}
-                        <!-- <a class='btn-valider' type='submit' href="{{ object.get_add_to_cart_url }}">Ajouter au panier
-                            <span>(+{{ object.price }}€)</span></a> -->
                         <input type="submit" value='Add to cart' class='btn-valider'>
                         {% else %}
                         <a class='btn-connexion' href="{% url 'account_login' %} ">Connexion</a>

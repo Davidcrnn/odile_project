@@ -2,7 +2,7 @@
 {% block extra_head %}
 <style>
     #stripeBtnLabel {
-        font-family: "Helvetica Neue", Helvetica, sans-serif;
+
         font-size: 16px;
         font-variant: normal;
         padding: 0;
@@ -18,7 +18,7 @@
         outline: none;
         text-decoration: none;
         color: #fff;
-        background: #32325d;
+        background: #4A898B;
         white-space: nowrap;
         display: inline-block;
         height: 40px;
@@ -104,10 +104,81 @@
         </div>
 
         <div class="row">
+            <div class="col-xs-12 col-md-6 section-left-payment">
+                <div class="recap-info mb-2 mt-4">
+                    <h5>Détail de la commande</h5>
+                    <p>{{ order.information.prenom|capfirst }}</p>
+                    <p>{{ order.information.name|capfirst }}</p>
+                    <p>{{ order.information.email|capfirst }}</p>
+                    <p>{{ order.information.phone|capfirst }}</p>
 
-            <div class="col-md-12 mb-4">
+
+                    <p>Date de livraison: {{ order.date_delivery }}</p>
+
+                </div>
+
+
+                <div id='stickycart'>
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="cart-header" id='cart-quantity'> Panier - {{ order.get_quantity }}</span>
+
+                    </h4>
+                    <ul id="js-cart-append" class="list-group mb-3 z-depth-1">
+                        {% for order_item in order.products.all %}
+                        <li class="list-group-item cart-line d-flex justify-content-between lh-condensed">
+                            <div>
+                                <h6 class="my-0"><span
+                                        data-quantity-id="{{order_item.product.slug}}">{{ order_item.quantity }}</span>
+                                    x
+                                    {{ order_item.product.name}}</h6>
+
+                            </div>
+                            <span class="text-muted"
+                                data-total-id='{{order_item.product.slug}}'>{{ order_item.get_total_product_price }}€</span>
+                        </li>
+                        {% endfor %}
+
+                        <!-- {% if order.coupon %}
+                    
+                                        <li class="list-group-item cart-line d-flex justify-content-between bg-light">
+                                            <div class="text-success">
+                                                <h6 class="my-0">Coupon</h6>
+                                                <small>{{ order.coupon.code }}</small>
+                                            </div>
+                                            <span class="text-success">-{{ order.coupon.amount }}€</span>
+                                        </li>
+                    
+                                        {% endif %} -->
+                        <li class="list-group-item cart-line d-flex justify-content-between">
+                            <span>Total (€)</span>
+                            <strong id="order-snippet-id">{{ order.get_total }}€</strong>
+                        </li>
+                        <!-- {% if DISPLAY_COUPON_FORM %}
+                                        <form class="card p-2" action="{% url 'add-coupon' %}" method="POST">
+                                            {% csrf_token %}
+                                            <div class="input-group">
+                    
+                                                {{ couponform.code }}
+                    
+                    
+                    
+                                                <div class="input-group-append">
+                    
+                                                    <button class=" btn-md btn-valider waves-effect m-0" type="submit">Valider</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        {% endif %} -->
+
+                    </ul>
+                </div>
+
+            </div>
+
+
+            <div class="col-xs-12 col-md-6 section-right-payment">
                 <div class="card">
-
+                    <h4>Montant de la commande : {{order.get_total|floatformat}}€</h4>
                     {% if card %}
                     <div style="padding: 5px 30px;">
                         <div class="custom-control custom-checkbox">
@@ -135,7 +206,7 @@
                             {% csrf_token %}
                             <div class="stripe-form-row" id="creditCard">
                                 <label for="card-element" id="stripeBtnLabel">
-                                    Credit or debit card
+                                    Carte de crédit ou débit
                                 </label>
                                 <div id="card-element" class="StripeElement StripeElement--empty">
                                     <div class="__PrivateStripeElement"
@@ -152,25 +223,25 @@
                                 </div>
                             </div>
                             <div class="stripe-form-row">
-                                <button id="stripeBtn">Submit Payment</button>
+                                <button id="stripeBtn">PAYER</button>
                             </div>
-                            <div class="stripe-form-row">
+                            <!-- <div class="stripe-form-row">
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" name="save" id="save_card_info">
                                     <label class="custom-control-label" for="save_card_info">Save for future
                                         purchases</label>
                                 </div>
-                            </div>
+                            </div> -->
                             <div id="card-errors" role="alert"></div>
                         </form>
                     </div>
 
                 </div>
-
+                {% include 'paiement-safe-snippet.html' %}
             </div>
         </div>
 
-        {% include 'order-snippet.html' %}
+
 
 
 

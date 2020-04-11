@@ -6,9 +6,23 @@
     padding: 50px;
     box-shadow: 0 0 50px #00000040;
     h1 {
-        font-family: 'Gotham-bold';
-        font-size: 50px;
+        font-size: 30px;
         letter-spacing: 2px;
-        color:#ccac54;
+        color:$vertf;
+    }
+    p{
+        font-size: 14px
+    }
+    a:first-child {
+        color:$vertf;
+        font-size: 16px;
+        border-bottom: 3px solid $vertf;
+    }
+    a:hover {
+        text-decoration: none;
+    }
+    a {
+        font-size: 13px;
+        color: $gris;
     }
 }
