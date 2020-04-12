@@ -22,7 +22,7 @@
     color: #4A898B; }
 
 .concept-container {
-  height: 400px;
+  height: auto;
   padding: 30px;
   box-shadow: 0 0 10px #8080805c;
   margin-top: 20px; }
@@ -119,6 +119,27 @@
   width: 100%;
   border: 0; }
 
+#logo-home {
+  height: 280px; }
+
+@media screen and (max-width: 450px) {
+  .home-banner-title {
+    height: auto; }
+    .home-banner-title h1 {
+      font-size: 1.5em; }
+  .home-banner {
+    height: 40vh; }
+  .concept-container {
+    padding: 30px 20px; }
+  .rslides img {
+    height: 40vh; }
+  #map {
+    height: 280px; }
+  #logo-home {
+    height: 200px; }
+  .menu-choices-container a, .menu-choices-container .drop-content p, .drop-content .menu-choices-container p {
+    padding: 8px; } }
+
 .nav-container {
   height: 80px;
   position: sticky;
@@ -159,24 +180,14 @@
     font-size: 17px;
     text-decoration: none; }
 
-.nav-logo h1 {
+.nav-log h1 {
   margin: 0; }
 
 .nav-log img {
   cursor: pointer; }
 
-a.btn-connexion, .drop-content p.btn-connexion {
-  padding: 10px 10px;
-  background-color: white;
-  border: 1px solid white;
-  color: #165361;
-  font-size: 13px; }
-
-a.btn-inscription, .drop-content p.btn-inscription {
-  padding: 10px 10px;
-  border: 1px solid white;
-  color: white;
-  font-size: 13px; }
+.nav-log.hidden {
+  visibility: hidden; }
 
 .dropbtn {
   color: white;
@@ -221,21 +232,21 @@ a.btn-inscription, .drop-content p.btn-inscription {
   z-index: 100;
   transition: opacity .25s ease; }
   .button_container:hover {
-    opacity: .7; }
+    opacity: 1; }
   .button_container.active .top {
     transform: translateY(11px) translateX(0) rotate(45deg);
-    background: #FFF; }
+    background: #4A898B; }
   .button_container.active .middle {
     opacity: 0;
-    background: #FFF; }
+    background: #4A898B; }
   .button_container.active .bottom {
     transform: translateY(-11px) translateX(0) rotate(-45deg);
-    background: #FFF; }
+    background: #4A898B; }
   .button_container span {
-    background: white;
+    background: #4A898B;
     border: none;
-    height: 3px;
-    width: 42px;
+    height: 1.5px;
+    width: 30px;
     position: absolute;
     top: 0;
     left: 0;
@@ -244,7 +255,7 @@ a.btn-inscription, .drop-content p.btn-inscription {
     border-radius: 3px; }
     .button_container span:nth-of-type(2) {
       top: 11px;
-      width: 75%; }
+      width: 65%; }
     .button_container span:nth-of-type(3) {
       top: 22px;
       width: 94%; }
@@ -257,8 +268,8 @@ a.btn-inscription, .drop-content p.btn-inscription {
 
 .overlay {
   position: fixed;
-  background: black;
-  top: 0;
+  background-color: #f5f5f5;
+  top: 60px;
   left: 0;
   width: 100%;
   height: 0%;
@@ -268,9 +279,13 @@ a.btn-inscription, .drop-content p.btn-inscription {
   overflow: hidden;
   z-index: 80; }
   .overlay.open {
-    opacity: .9;
+    opacity: 1;
     visibility: visible;
     height: 100%; }
+    .overlay.open h1 {
+      margin-bottom: 32px;
+      font-size: 30px;
+      color: #4DBDC0; }
     .overlay.open li {
       animation: fadeInRight .5s ease forwards;
       animation-delay: .35s; }
@@ -285,8 +300,7 @@ a.btn-inscription, .drop-content p.btn-inscription {
     height: 70%;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 50px;
-    font-family: 'Varela Round', serif;
+    font-size: 30px;
     font-weight: 400;
     text-align: center; }
   .overlay ul {
@@ -299,18 +313,17 @@ a.btn-inscription, .drop-content p.btn-inscription {
     .overlay ul li {
       display: block;
       height: 25%;
-      height: calc(100% / 4);
-      min-height: 50px;
+      height: calc(100% / 10);
+      min-height: 30px;
       position: relative;
       opacity: 0; }
       .overlay ul li a, .overlay ul li .drop-content p, .drop-content .overlay ul li p {
         display: block;
         position: relative;
-        color: #FFF;
+        color: #4A898B;
         text-decoration: none;
         overflow: hidden;
-        font-size: 30px;
-        font-family: 'Futura'; }
+        font-size: 20px; }
         .overlay ul li a:hover:after, .overlay ul li .drop-content p:hover:after, .drop-content .overlay ul li p:hover:after, .overlay ul li a:focus:after, .overlay ul li .drop-content p:focus:after, .drop-content .overlay ul li p:focus:after, .overlay ul li a:active:after, .overlay ul li .drop-content p:active:after, .drop-content .overlay ul li p:active:after {
           width: 100%; }
         .overlay ul li a:after, .overlay ul li .drop-content p:after, .drop-content .overlay ul li p:after {
@@ -321,7 +334,7 @@ a.btn-inscription, .drop-content p.btn-inscription {
           width: 0%;
           transform: translateX(-50%);
           height: 3px;
-          background: #FFF;
+          background: #4A898B;
           transition: .35s; }
 
 @keyframes fadeInRight {
@@ -345,8 +358,8 @@ a.btn-inscription, .drop-content p.btn-inscription {
     height: 60px;
     padding: 0 10px; }
   .nav-logo a > img, .nav-logo .drop-content p > img, .drop-content .nav-logo p > img {
-    height: 30px;
-    width: 30px; }
+    height: 60px;
+    width: 100%; }
   .button_container {
     left: 10px; } }
 
@@ -438,7 +451,8 @@ a.btn-product-description, .drop-content p.btn-product-description {
   font-size: 30px;
   position: absolute;
   top: 10px;
-  right: 20Px; }
+  right: 20Px;
+  z-index: 10; }
 
 .btn-valider {
   padding: 10px 15px;
@@ -526,6 +540,33 @@ a.btn-product-description, .drop-content p.btn-product-description {
 .dropdown-item.active {
   background-color: #8080805c; }
 
+.relative {
+  position: relative; }
+
+.cart-mobile {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 900; }
+
+.cart-position {
+  position: relative; }
+  .cart-position p {
+    font-size: 12px;
+    color: white;
+    position: absolute;
+    top: -10px;
+    background: #4dbdc0;
+    padding: 3px;
+    right: 2px;
+    border-radius: 50%; }
+
+@media screen and (max-width: 650px) {
+  .carte {
+    height: auto; }
+  .product-item-container h1 {
+    font-size: 20px; } }
+
 .product-detail-image {
   height: 500px;
   width: 100%;
@@ -538,29 +579,27 @@ a.btn-product-description, .drop-content p.btn-product-description {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  padding: 50px 0; }
+  padding: 50px; }
   .footer-container h3 {
     color: white;
-    margin-bottom: 30px; }
+    margin-bottom: 30px;
+    font-size: 20px; }
   .footer-container p, .footer-container a {
     color: white;
     margin: 0;
-    font-size: 16px;
+    font-size: 13px;
     margin-bottom: 7px; }
 
-.footer-nav {
+.footer-col {
   color: white; }
-
-.footer-information {
-  color: white; }
+  .footer-col h3 {
+    color: #f5f5f5; }
 
 .footer-credit {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  text-align: center;
   background-color: #4A898B;
   color: white;
-  padding: 15Px 0; }
+  padding: 20px 10px; }
   .footer-credit h4 {
     font-size: 13px;
     margin: 0; }
@@ -568,12 +607,13 @@ a.btn-product-description, .drop-content p.btn-product-description {
 .bandereau-qualite-container {
   height: auto;
   background-color: #f5f5f5;
-  margin-top: 20px; }
+  margin-top: 20px;
+  padding-bottom: 20px; }
 
 .bandereau-card {
   text-align: center;
   margin-top: 20px;
-  height: 160Px; }
+  height: auto; }
   .bandereau-card img {
     padding-bottom: 20px; }
   .bandereau-card p {
@@ -587,6 +627,17 @@ a.btn-product-description, .drop-content p.btn-product-description {
   display: flex;
   align-items: center;
   justify-content: space-around; }
+
+@media screen and (max-width: 650px) {
+  .footer-container {
+    padding: 30px 20px; }
+    .footer-container h3 {
+      margin: 20px 0;
+      color: #f5f5f5;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #4a898b; }
+  .footer-credit h4 {
+    font-size: 11px; } }
 
 .panier-cart {
   margin: 0px 0 40px; }
@@ -688,9 +739,6 @@ input#datepicker-dejeuner {
     color: #4A898B;
     font-size: 20px; }
 
-.bottom {
-  padding: 20px; }
-
 .custom-control-label ul {
   margin: 0;
   padding: 0; }
@@ -726,6 +774,10 @@ ul.errorlist {
     padding-right: 20px; }
   .help-text-form p {
     margin: 0; }
+
+.modal-backdrop.show {
+  opacity: .5;
+  z-index: 10; }
 
 .inscription-form {
   margin: 50px 0;
@@ -843,6 +895,10 @@ input[type="radio" i]:focus {
     color: #4A898B;
     padding-bottom: 27px;
     border-bottom: 1px solid #f5f5f5; }
+
+@media screen and (max-width: 650px) {
+  .section-right-payment {
+    padding: 20px; } }
 
 .form-container-refund {
   background: whitesmoke;

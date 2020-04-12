@@ -52,32 +52,20 @@
 }
 
 
-// Nav Logo
+// Nav Logo -----------------------------------------------------------
 
-.nav-logo h1 {
-    margin: 0;
+.nav-log {
+    h1 {
+      margin: 0;
+    } img {
+      cursor: pointer;
+    }
 }
 
-.nav-log img {
-  cursor: pointer;
-}
-// Nav Log In log Out
-
-
-a.btn-connexion {
-    padding: 10px 10px;
-    background-color: white;
-    border: 1px solid white;
-    color: #165361;
-    font-size: 13px;
+.nav-log.hidden{
+  visibility: hidden;
 }
 
-a.btn-inscription {
-    padding: 10px 10px;
-    border: 1px solid white;
-    color: white;
-    font-size: 13px;
-}
 
 // Dropdown btn
 
@@ -118,10 +106,10 @@ a.btn-inscription {
   .dropdown:hover .dropdown-content {display: block;}
   
 // overlay 
-$color-background: #F5F5F5;
+$color-background: $vertf;
 $color-main: #1abc9c;
-$color-active: #FFF;
-$color-link: #FFF;
+$color-active: $vertf;
+$color-link: $vertf;
 $button-height: 27px;
 $button-width: 35px;
 
@@ -137,30 +125,33 @@ $button-width: 35px;
     transition: opacity .25s ease;
     
   &:hover {
-    opacity: .7;
+    opacity: 1;
   }
   
   &.active {
     .top {
       transform: translateY(11px) translateX(0) rotate(45deg);
       background: $color-active;
+ 
     }
     .middle {
       opacity: 0;
       background: $color-active;
+ 
     }
     
     .bottom {
       transform: translateY(-11px) translateX(0) rotate(-45deg);
       background: $color-active;
+ 
     }
   }
   
   span {
-  background: white;
+  background: $vertf;
   border: none;
-  height: 3px;
-  width: 42px;
+  height: 1.5px;
+  width: 30px;
   position: absolute;
   top: 0;
   left: 0;
@@ -170,7 +161,7 @@ $button-width: 35px;
     
     &:nth-of-type(2) {
       top: 11px;
-      width: 75%;
+      width: 65%;
     }
     
     &:nth-of-type(3) {
@@ -191,8 +182,8 @@ $button-width: 35px;
 
 .overlay {
   position: fixed;
-  background: black;
-  top: 0;
+  background-color:$grisbg;
+  top: 60px;
   left: 0;
   width: 100%;
   height: 0%;
@@ -203,10 +194,14 @@ $button-width: 35px;
   z-index: 80;
   
   &.open {
-    opacity: .9;
+    opacity: 1;
     visibility: visible;
     height: 100%;
-    
+    h1 {
+      margin-bottom: 32px;
+      font-size: 30px;
+      color: $vertc;
+    }
     li {
       animation: fadeInRight .5s ease forwards;
       animation-delay: .35s;
@@ -227,8 +222,8 @@ $button-width: 35px;
     height: 70%;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 50px;
-    font-family: 'Varela Round', serif;
+    font-size: 30px;
+    
     font-weight: 400;
     text-align: center;
   }
@@ -243,8 +238,8 @@ $button-width: 35px;
     li {
       display: block;
       height: 25%;
-      height: calc(100% / 4);
-      min-height: 50px;
+      height: calc(100% / 10);
+      min-height: 30px;
       position: relative;
       opacity: 0;
       
@@ -254,8 +249,8 @@ $button-width: 35px;
         color: $color-link;
         text-decoration: none;
         overflow: hidden;
-        font-size: 30px;
-        font-family: 'Futura';
+        font-size: 20px;
+        
         
         &:hover:after,
          &:focus:after,
@@ -313,8 +308,8 @@ $button-width: 35px;
     }
 
     .nav-logo a > img {
-        height: 30px;
-        width: 30px;
+      height: 60px;
+      width: 100%;
     }
 
     .button_container {

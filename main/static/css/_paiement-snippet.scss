@@ -48,3 +48,12 @@
     border-bottom: 1px solid $grisbg;
     }
 }
+
+
+// MEDIA QUERIES ----------------------------------
+
+@media screen and (max-width: 650px) {
+    .section-right-payment {
+        padding: 20px;
+    }
+}

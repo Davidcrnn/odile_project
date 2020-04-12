@@ -79,9 +79,9 @@ input#datepicker-dejeuner {
 }
 }
 
-.bottom {
-    padding: 20px;
-}
+// .bottom {
+//     padding: 20px;
+// }
 .custom-control-label ul {
     margin: 0;
     padding: 0;
@@ -130,6 +130,11 @@ ul.errorlist {
 }
 
 
-// Custom radio button
+// MODAL CART OVERRIDE -------------------------------------
+
+.modal-backdrop.show {
+    opacity: .5;
+    z-index: 10;
+}
 
 

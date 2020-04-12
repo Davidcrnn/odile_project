@@ -4,7 +4,7 @@
 <div class="container">
     <div class="product-image-banner">
         <div class="product-text-banner">
-            <h1>VOTRE PANIER - DEJEUNER</h1>
+            <h1>VOTRE PANIER DEJEUNER</h1>
 
         </div>
     </div>
@@ -16,7 +16,7 @@
         <table class="table">
             <thead class="cart-row-1">
                 <tr>
-                    <th scope="col">#</th>
+                    <!-- <th scope="col">#</th> -->
                     <th scope="col">Repas</th>
                     <th scope="col">Prix</th>
                     <th scope="col">Quantité</th>
@@ -27,7 +27,7 @@
             <tbody>
                 {% for order_product in  order_dejeuner.products.all %}
                 <tr data-x='{{order_product.product.slug}}'>
-                    <th scope="row">{{ forloop.counter }}</th>
+                    <!-- <th scope="row">{{ forloop.counter }}</th> -->
                     <td>{{ order_product.product.name }} </td>
                     <td>{{ order_product.product.price }} </td>
                     <td>
@@ -74,21 +74,21 @@
 
                 <div id="total-cart">
                     <tr>
-                        <th scope='row'></th>
+
                         <td></td>
                         <td></td>
                         <td class="">Sous-total</td>
                         <td class='js-get-total'>{{ order_dejeuner.get_total|floatformat}}€</td>
                     </tr>
                     <tr>
-                        <th scope='row'></th>
+
                         <td></td>
                         <td></td>
                         <td class="">Frais de livraison</td>
                         <td>Gratuit</td>
                     </tr>
                     <tr>
-                        <th scope='row'></th>
+
                         <td></td>
                         <td></td>
                         <td class="">Total</td>
@@ -112,7 +112,7 @@
         </table>
 
     </div>
-
+    <!-- 
     <h3>Recommandation pour votre départ en mer</h3>
     <div class="row">
         {% for object in products  %}
@@ -198,7 +198,7 @@
             </div>
         </div>
         {% endfor %}
-    </div>
+    </div> -->
 
 </div>
 
