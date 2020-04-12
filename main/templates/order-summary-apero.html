@@ -17,7 +17,7 @@
         <table class="table">
             <thead class="cart-row-1">
                 <tr>
-                    <th scope="col">#</th>
+
                     <th scope="col">Repas</th>
                     <th scope="col">Prix</th>
                     <th scope="col">Quantité</th>
@@ -28,7 +28,7 @@
             <tbody>
                 {% for order_product in  order_apero.products.all %}
                 <tr data-x='{{order_product.product.slug}}'>
-                    <th scope="row">{{ forloop.counter }}</th>
+
                     <td>{{ order_product.product.name }} </td>
                     <td>{{ order_product.product.price }} </td>
                     <td>
@@ -72,21 +72,21 @@
 
                 <div id="total-cart">
                     <tr>
-                        <th scope='row'></th>
+
                         <td></td>
                         <td></td>
                         <td class="">Sous-total</td>
                         <td class='js-get-total'>{{ order_apero.get_total|floatformat}}€</td>
                     </tr>
                     <tr>
-                        <th scope='row'></th>
+
                         <td></td>
                         <td></td>
                         <td class="">Frais de livraison</td>
                         <td>Gratuit</td>
                     </tr>
                     <tr>
-                        <th scope='row'></th>
+
                         <td></td>
                         <td></td>
                         <td class="">Total</td>
