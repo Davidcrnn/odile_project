@@ -4,7 +4,6 @@
 
 .home-banner {
     height: 80vh;
-    // background-image: url(../images/banner-bateau.jpg);
     background-position: center;
     background-size: cover;
     position: relative;
@@ -31,7 +30,7 @@
 // Home Section Concept Livraison Produits
 
 .concept-container {
-    height: 400px;
+    height: auto;
     padding: 30px;
     box-shadow: 0 0 10px $gris;
     margin-top: 20px;
@@ -157,3 +156,43 @@
     width: 100%;
     border: 0;
     }
+
+    #logo-home {
+        height: 280px;
+    }
+// MEDIA QUERIES ---------------------------
+
+@media screen and (max-width:450px) {
+    .home-banner-title {
+        height: auto;
+        
+        h1 {
+            font-size: 1.5em;
+        }
+    }
+
+    .home-banner {
+        height: 40vh;
+        
+    }
+
+    .concept-container {
+        padding: 30px 20px;
+    }
+
+    .rslides img {
+        height: 40vh;
+    }
+
+    #map {
+        height: 280px;
+    }
+
+    #logo-home {
+        height: 200px;
+    }
+
+    .menu-choices-container a {
+        padding: 8px;
+    }
+}

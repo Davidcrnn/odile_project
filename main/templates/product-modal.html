@@ -9,7 +9,7 @@
                         <span class="price">{{ product.price|floatformat }}€</span>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 d-none d-md-block">
                     <div class="product-card">
 
                         {% if product.image %}
@@ -73,7 +73,7 @@
                     Annuler
                 </a>
                 {% if request.user.is_authenticated %}
-                <input type="submit" value='Add to cart' class='btn-valider'>
+                <input type="submit" value='Ajouter au panier' class='btn-valider'>
                 {% else %}
                 <a class=' btn-connexion' href="{% url 'account_login' %} ">Connexion</a>
                 {% endif %}

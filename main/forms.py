@@ -119,7 +119,6 @@ class CheckoutForm(forms.Form):
         required=True, widget=CountrySelectWidget(attrs={
             'class': 'form-control checkout-input selectpicker',
             'data-size': "5",
-            'data-live-search': "true",
 
         }))
     delivery_option = forms.ChoiceField(required=True,

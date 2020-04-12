@@ -127,6 +127,7 @@ a.btn-product-description{
     position: absolute;
     top: 10px;
     right: 20Px;
+    z-index: 10;
 }
 .btn-valider {
     padding: 10px 15px;
@@ -243,4 +244,44 @@ a.btn-product-description{
 
 .dropdown-item.active {
     background-color: $gris;
+}
+
+// ICON PANIER ONLY ON MOBILE -----------------------------
+
+.relative {
+    position: relative;
+}
+.cart-mobile {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 900;
+}
+
+.cart-position {
+    position: relative;
+    p {
+        font-size: 12px;
+        color: white;
+        position: absolute;
+        top: -10px;
+        background: #4dbdc0;
+        padding: 3px;
+        right: 2px;
+        border-radius: 50%;
+    }
+}
+
+
+// MEDIA QUERIES ------------------------------------
+
+@media screen and (max-width: 650px) {
+
+    .carte {
+        height: auto;
+    }
+
+    .product-item-container h1 {
+        font-size: 20px;
+    }
 }

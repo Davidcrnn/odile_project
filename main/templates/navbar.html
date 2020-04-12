@@ -74,23 +74,15 @@
 
 <div class="overlay" id="overlay">
     <nav class="overlay-menu">
+        <h1>Déjeuner sur l'eau</h1>
+        <hr>
         <ul>
-            <li>
-                <a href="">ACCUEIL</a>
-            </li>
-            <li>
-                <a href="">SERIES</a>
-            </li>
-            <li class="">
-                <a href="">CREATIONS
-                </a>
-            </li>
-            <li class="">
-                <a href="">BIOGRAPHIE</a>
-            </li>
-            <li class="">
-                <a href="">CONTACT</a>
-            </li>
+
+            <li><a href="{% url 'products' %}">MENU DEJEUNER</a> </li>
+            <li><a href="{% url 'products-apero' %}">MENU APERO</a> </li>
+            <li><a href=" {% url 'contact' %}">CONTACTER NOUS</a></li>
+            <li><a href=" {% url 'avis' %}">DONNER VOTRE AVIS</a></li>
+
         </ul>
     </nav>
 </div>
@@ -104,6 +96,7 @@
     $('#toggle').click(function () {
         $(this).toggleClass('active');
         $('#overlay').toggleClass('open');
+        $('.nav-log').toggleClass('hidden');
     });
 </script>
 

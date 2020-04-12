@@ -105,9 +105,9 @@
         </div>
 
         <div class="row">
-            <div class="col-xs-12 col-md-6 section-left-payment">
+            <div class="col-xs-12 col-md-6 order-2 section-left-payment">
                 <div class="recap-info mb-2 mt-4">
-                    <h5>Détail de la commande</h5>
+                    <h5>Détails de la commande</h5>
                     <p>{{ order.information.prenom }}</p>
                     <p>{{ order.information.name }}</p>
                     <p>{{ order.information.email }}</p>
@@ -130,7 +130,7 @@
 
 
 
-            <div class="col-xs-12 col-md-6 section-right-payment">
+            <div class="col-xs-12 col-md-6 order-1 section-right-payment">
                 <div class="card">
                     <h4>Montant de la commande : {{order.get_total|floatformat}}€</h4>
                     {% if card %}
