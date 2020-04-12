@@ -158,7 +158,10 @@
     }
 
     #logo-home {
-        height: 280px;
+        height: 100px;
+    }
+    #logo-home-text {
+        height: 60px;
     }
 // MEDIA QUERIES ---------------------------
 
@@ -188,9 +191,9 @@
         height: 280px;
     }
 
-    #logo-home {
-        height: 200px;
-    }
+    // #logo-home {
+    //     height: 200px;
+    // }
 
     .menu-choices-container a {
         padding: 8px;

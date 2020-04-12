@@ -120,7 +120,10 @@
   border: 0; }
 
 #logo-home {
-  height: 280px; }
+  height: 100px; }
+
+#logo-home-text {
+  height: 60px; }
 
 @media screen and (max-width: 450px) {
   .home-banner-title {
@@ -135,8 +138,6 @@
     height: 40vh; }
   #map {
     height: 280px; }
-  #logo-home {
-    height: 200px; }
   .menu-choices-container a, .menu-choices-container .drop-content p, .drop-content .menu-choices-container p {
     padding: 8px; } }
 
