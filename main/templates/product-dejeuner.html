@@ -165,9 +165,9 @@
     $(document).ready(function () {
         $('.js-anchor-link').click(function (e) {
             e.preventDefault();
-            var target = e.target.id
+            var target = event.target.id
             if (target.length) {
-                var scrollTo = target.offset().top - 100;
+                var scrollTo = target.offset().top;
 
                 $('body, html').animate({ scrollTop: scrollTo + 'px' }, 1000);
             }

@@ -10,7 +10,7 @@
     <form method='POST' class='avis-form-container' id='create-form'>
         {% csrf_token %}
         <div class="row">
-            <div class="col-xs-12 col-md-6">
+            <div class="col-xs-12 col-md-6 mb-3">
                 <div class="avis-text">
                     Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nemo autem quos amet, enim, dolorum ullam
                     accusamus est ipsam sed pariatur eum omnis, natus tempore nostrum vero laudantium. Aliquid,
@@ -25,13 +25,25 @@
                     <p>{{ form.email }}</p>
                     <small>{{ form.email.help_text }}</small>
 
-                    <div class="avis-objet">
+                    <!-- <div class="avis-objet">
+                        <ul>
+
+                        </ul>
                         <h2>{{ form.objet.label }}</h2>
                         <p>{{ form.objet }}</p>
 
-                    </div>
+                    </div> -->
+                    <h2>{{ form.objet.label }}</h2>
+                    {% for value, name in form.fields.objet.choices %}
+                    <div class="custom-control custom-radio">
+                        <input id="{{ name }}" name="delivery_option" value="{{ value }}" type="radio"
+                            class="custom-control-input" required>
+                        <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
 
-                    <h2>{{ form.message.label }}</h2>
+                    </div>
+                    {% endfor %}
+
+                    <h2 class='mt-2'>{{ form.message.label }}</h2>
                     <p>{{ form.message }}</p>
                     <input type="submit" value='Je donne mon avis' class="btn-valider">
                 </div>

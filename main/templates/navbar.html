@@ -13,7 +13,7 @@
     </div>
     <div class="nav-logo">
         <a href="{% url 'home' %}">
-            <img src="{% static '../static/images/logo-bateau.svg' %}" alt="" style='height: 80px;'>
+            <img src="{% static '../static/images/logo-bateau.svg' %}" alt="" style='height: 50px;'>
         </a>
     </div>
     <div class="nav-link d-none d-md-block">
@@ -77,10 +77,10 @@
         <h1>Déjeuner sur l'eau</h1>
         <hr>
         <ul>
-
+            <li><a href="{% url 'home' %}">ACCUEIL</a></li>
             <li><a href="{% url 'products' %}">MENU DEJEUNER</a> </li>
             <li><a href="{% url 'products-apero' %}">MENU APERO</a> </li>
-            <li><a href=" {% url 'contact' %}">CONTACTER NOUS</a></li>
+            <li><a href=" {% url 'contact' %}">CONTACT</a></li>
             <li><a href=" {% url 'avis' %}">DONNER VOTRE AVIS</a></li>
 
         </ul>

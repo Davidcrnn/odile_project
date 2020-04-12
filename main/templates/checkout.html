@@ -2,232 +2,24 @@
 {% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
-<main class='checkout-bg'>
-    <div class="container">
-        <div class="product-image-banner">
-            <div class="product-text-banner">
-                <h1>LIVRAISON</h1>
-                <p>Informations personnelles</p>
-            </div>
+
+<div class="container relative">
+    <div class="cart-mobile d-block d-sm-none">
+        <div class="cart-position">
+            <p>{{ order.get_quantity}}</p>
+            <button type="button" class="" data-toggle="modal" data-target="#cart-checkout-dej">
+                <img src="{% static '../static/images/panier.svg' %}" alt="" style="height: 40px;">
+            </button>
         </div>
-        <div class="row">
-            <div class="col-md-8 mb-4">
-                <div class="card-checkout">
-                    <form method="POST" class="card-body">
-                        {% csrf_token %}
-                        <h3>Des couverts ? <span id="informations-tooltip"> <img
-                                    src="{% static '../static/images/tooltip.svg' %}" alt=""
-                                    style='height: 15px;'></span></h3>
-                        <div class="row">
-                            <div class="col-xs-12 col-md-12">
-                                <div class="md-form mb-2 ">
+    </div>
 
-                                    <p>{{ form.couvert.label_tag }} {{ form.couvert }}</p>
-
-
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                        <h3>Informations personnelles <span id="informations-tooltip"> <img
-                                    src="{% static '../static/images/tooltip.svg' %}" alt=""
-                                    style='height: 15px;'></span></h3>
-                        {{ form.non_field_errors }}
-
-                        {% if default_address %}
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="user-save form-group" style="padding: 25px 25px 0">
-
-                                    <input type="checkbox" class="custom-control-input" name="use_default_shipping"
-                                        id="use_default_shipping">
-
-                                    <label class="custom-control-label" for="use_default_shipping">Utiliser votre profil
-                                        :
-                                        <ul>
-                                            <li>{{ default_address.prenom }} {{ default_address.name }}</li>
-
-                                            <li>{{ default_address.email }}</li>
-                                            <li>{{ default_address.phone }}</li>
-                                        </ul>
-
-                                    </label>
-
-
-
-                                </div>
-                                <hr class='not-show'>
-                            </div>
-                        </div>
-
-                        {% endif %}
-
-
-
-                        <div class='hideable_shipping_form'>
-
-                            <div class="row mb-4">
-                                <div class="col-xs-12 col-md-6">
-                                    <div class="md-form mb-2">
-                                        {{ form.prenom.label_tag }}
-                                        {{ form.prenom.errors }}
-                                        {{ form.prenom }}
-                                        {{ form.help_text }}
-
-
-
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-md-6">
-                                    <div class="md-form mb-2 ">
-
-                                        {{ form.name.label_tag }}
-                                        {{ form.name.errors }}
-                                        {{ form.name }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-4">
-                                <div class="col-xs-12 col-md-6">
-                                    <div class="md-form mb-2">
-                                        {{ form.email.label_tag }}
-                                        {{ form.email.errors }}
-                                        {{ form.email }}
-                                        {{ form.help_text }}
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-md-6">
-                                    <div class="md-form mb-2">
-
-                                        {{ form.phone.label_tag }}
-                                        {{ form.name.errors }}
-                                        {{ form.phone }}
-                                        {{ form.help_text }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-4">
-                                <div class="col-xs-12 col-md-6">
-                                    <div class="md-form mb-2">
-                                        {{ form.code_postal.label_tag }}
-                                        {{ form.code_postal }}
-                                        {{ form.name.errors }}
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-md-6">
-                                    <div class="md-form mb-2">
-                                        {{ form.pays.label_tag }}
-                                        {{ form.pays }}
-                                        {{ form.name.errors }}
-                                    </div>
-                                </div>
-                                {% if not default_address %}
-                                <div class="col-xs-12">
-                                    <div class="md-form mb-2 ml-3">
-                                        <div>
-                                            {{ form.save_address }}
-                                            <label for="" class="">Sauvegarder ces informations pour une prochaine
-                                                commande</label>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endif %}
-                            </div>
-                        </div>
-
-
-                        <hr>
-                        <h3>Modalités de livraison <span id="delivery-tooltip"> <img
-                                    src="{% static '../static/images/tooltip.svg' %}" alt=""
-                                    style='height: 15px;'></span></h3>
-
-                        <div class="d-block my-3">
-
-
-                            {% for value, name in form.fields.delivery_option.choices %}
-                            <div class="custom-control custom-radio">
-                                <input id="{{ name }}" name="delivery_option" value="{{ value }}" type="radio"
-                                    class="custom-control-input" required>
-                                <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
-
-                            </div>
-                            {% endfor %}
-
-                        </div>
-                        <div class="option-bateau" id='emplacement-bateau'>
-                            <h3>Option Livraison sur Bateau <span id="delivery-option-tooltip"> <img
-                                        src="{% static '../static/images/tooltip.svg' %}" alt=""
-                                        style='height: 15px;'></span></h3>
-                            <div class="row mb-3">
-                                <div class="col-xs-12 col-md-6">
-                                    {{ form.zone_delivery.label_tag }}
-                                    {{ form.zone_delivery }}
-                                    {{ form.zone_delivery.errors }}
-                                </div>
-                                <div class="col-xs-12 col-md-6">
-                                    {{ form.rang_delivery.label_tag }}
-                                    {{ form.rang_delivery }}
-                                    {{ form.rang_delivery.errors }}
-                                </div>
-                                <div class="col-xs-12 col-md-6">
-                                    {{ form.numero_delivery.label_tag }}
-                                    {{ form.numero_delivery }}
-                                    {{ form.numero_delivery.errors }}
-                                </div>
-                                <div id="creneau-show" class="col-xs-12 col-md-6">
-                                    {{ form.creneau_delivery.label_tag }}
-                                    {{ form.creneau_delivery }}
-                                    {{ form.creneau_delivery.errors }}
-                                </div>
-                            </div>
-
-                        </div>
-                        <div id='map-dejeuner' style='width: 100%; height: 340px;'></div>
-                        <br>
-                        <h3>Date de livraison<span id="date-tooltip"> <img
-                                    src="{% static '../static/images/tooltip.svg' %}" alt=""
-                                    style='height: 15px;'></span></h3>
-                        <br>
-
-                        <div class="row">
-                            <div class="col">
-                                {{ form.date_delivery }}
-                                {{ form.date_delivery.errors }}
-                                <div class="help-text-form">
-                                    <span><img src="{% static '../static/images/warning.svg' %}" alt="attention"
-                                            style="height: 30px;"></span> {{ form.date_delivery.help_text }}
-                                </div>
-                            </div>
-                        </div>
-                        <hr class="mb-4">
-
-                        <div class="row">
-                            <div class="col">
-                                <p> {{ form.cgv }} <span class='pl-3'> <small>Je déclare avoir pris connaissance des <a
-                                                href="{% url 'cgv' %}">conditions générales de vente</a> et les accepte
-                                            sans
-                                            réserve</small></span></p>
-                                {{ form.cgv.errors }}
-                                <!-- <div class="help-text-form">
-                                        <span><img src="{% static '../static/images/warning.svg' %}" alt="attention"
-                                                style="height: 30px;"></span> {{ form.date_delivery.help_text }}
-                                    </div> -->
-                            </div>
-                        </div>
-                        <hr class="mb-4">
-                        <button class="btn-valider btn-lg btn-block" type="submit" id='submit-checkout'>Valider la
-                            commande</button>
-                    </form>
-                </div>
-
-
-
-
-            </div>
-            <div class="col-md-4">
+    <div class="modal fade" id="cart-checkout-dej" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 <div id='stickycart' class="col-md-12 mb-4">
                     <h4 class="d-flex justify-content-between align-items-center mb-3">
                         <span class="cart-header" id='cart-quantity'> Panier - {{ order.get_quantity }}</span>
@@ -249,6 +41,288 @@
                         {% endfor %}
 
                         <!-- {% if order.coupon %}
+                    
+                                        <li class="list-group-item cart-line d-flex justify-content-between bg-light">
+                                            <div class="text-success">
+                                                <h6 class="my-0">Coupon</h6>
+                                                <small>{{ order.coupon.code }}</small>
+                                            </div>
+                                            <span class="text-success">-{{ order.coupon.amount }}€</span>
+                                        </li>
+                    
+                                        {% endif %} -->
+                        <li class="list-group-item cart-line d-flex justify-content-between">
+                            <span>Total (€)</span>
+                            <strong id="order-snippet-id">{{ order.get_total }}€</strong>
+                        </li>
+                        <!-- {% if DISPLAY_COUPON_FORM %}
+                                        <form class="card p-2" action="{% url 'add-coupon' %}" method="POST">
+                                            {% csrf_token %}
+                                            <div class="input-group">
+                    
+                                                {{ couponform.code }}
+                    
+                    
+                    
+                                                <div class="input-group-append">
+                    
+                                                    <button class=" btn-md btn-valider waves-effect m-0" type="submit">Valider</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        {% endif %} -->
+                        <a class='btn-valider float-right mt-2' href="{% url 'order-summary-dejeuner' %}">
+                            Modifier le panier</a>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="product-image-banner">
+        <div class="product-text-banner">
+            <h1>LIVRAISON</h1>
+            <p>Informations personnelles</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 mb-4">
+            <div class="card-checkout">
+                <form method="POST" class="card-body">
+                    {% csrf_token %}
+                    <h3>Des couverts ? <span id="informations-tooltip"> <img
+                                src="{% static '../static/images/tooltip.svg' %}" alt="" style='height: 15px;'></span>
+                    </h3>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12">
+                            <div class="md-form mb-2 ">
+
+                                <p>{{ form.couvert.label_tag }} {{ form.couvert }}</p>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <h3>Informations personnelles <span id="informations-tooltip"> <img
+                                src="{% static '../static/images/tooltip.svg' %}" alt="" style='height: 15px;'></span>
+                    </h3>
+                    {{ form.non_field_errors }}
+
+                    {% if default_address %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="user-save form-group" style="padding: 25px 25px 0">
+
+                                <input type="checkbox" class="custom-control-input" name="use_default_shipping"
+                                    id="use_default_shipping">
+
+                                <label class="custom-control-label" for="use_default_shipping">Utiliser votre profil
+                                    :
+                                    <ul>
+                                        <li>{{ default_address.prenom }} {{ default_address.name }}</li>
+
+                                        <li>{{ default_address.email }}</li>
+                                        <li>{{ default_address.phone }}</li>
+                                    </ul>
+
+                                </label>
+
+
+
+                            </div>
+                            <hr class='not-show'>
+                        </div>
+                    </div>
+
+                    {% endif %}
+
+
+
+                    <div class='hideable_shipping_form'>
+
+                        <div class="row mb-4">
+                            <div class="col-xs-12 col-md-6">
+                                <div class="md-form mb-2">
+                                    {{ form.prenom.label_tag }}
+                                    {{ form.prenom.errors }}
+                                    {{ form.prenom }}
+                                    {{ form.help_text }}
+
+
+
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                <div class="md-form mb-2 ">
+
+                                    {{ form.name.label_tag }}
+                                    {{ form.name.errors }}
+                                    {{ form.name }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-xs-12 col-md-6">
+                                <div class="md-form mb-2">
+                                    {{ form.email.label_tag }}
+                                    {{ form.email.errors }}
+                                    {{ form.email }}
+                                    {{ form.help_text }}
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                <div class="md-form mb-2">
+
+                                    {{ form.phone.label_tag }}
+                                    {{ form.name.errors }}
+                                    {{ form.phone }}
+                                    {{ form.help_text }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-xs-12 col-md-6">
+                                <div class="md-form mb-2">
+                                    {{ form.code_postal.label_tag }}
+                                    {{ form.code_postal }}
+                                    {{ form.name.errors }}
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                <div class="md-form mb-2">
+                                    {{ form.pays.label_tag }}
+                                    {{ form.pays }}
+                                    {{ form.name.errors }}
+                                </div>
+                            </div>
+                            {% if not default_address %}
+                            <div class="col-xs-12">
+                                <div class="md-form mb-2 ml-3">
+                                    <div>
+                                        {{ form.save_address }}
+                                        <label for="" class="">Sauvegarder ces informations pour une prochaine
+                                            commande</label>
+
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+
+                    <hr>
+                    <h3>Modalités de livraison <span id="delivery-tooltip"> <img
+                                src="{% static '../static/images/tooltip.svg' %}" alt="" style='height: 15px;'></span>
+                    </h3>
+
+                    <div class="d-block my-3">
+
+
+                        {% for value, name in form.fields.delivery_option.choices %}
+                        <div class="custom-control custom-radio">
+                            <input id="{{ name }}" name="delivery_option" value="{{ value }}" type="radio"
+                                class="custom-control-input" required>
+                            <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
+
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                    <div class="option-bateau" id='emplacement-bateau'>
+                        <h3>Option Livraison sur Bateau <span id="delivery-option-tooltip"> <img
+                                    src="{% static '../static/images/tooltip.svg' %}" alt=""
+                                    style='height: 15px;'></span></h3>
+                        <div class="row mb-3">
+                            <div class="col-xs-12 col-md-6">
+                                {{ form.zone_delivery.label_tag }}
+                                {{ form.zone_delivery }}
+                                {{ form.zone_delivery.errors }}
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                {{ form.rang_delivery.label_tag }}
+                                {{ form.rang_delivery }}
+                                {{ form.rang_delivery.errors }}
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                {{ form.numero_delivery.label_tag }}
+                                {{ form.numero_delivery }}
+                                {{ form.numero_delivery.errors }}
+                            </div>
+                            <div id="creneau-show" class="col-xs-12 col-md-6">
+                                {{ form.creneau_delivery.label_tag }}
+                                {{ form.creneau_delivery }}
+                                {{ form.creneau_delivery.errors }}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div id='map-dejeuner' style='width: 100%; height: 340px;'></div>
+                    <br>
+                    <h3>Date de livraison<span id="date-tooltip"> <img src="{% static '../static/images/tooltip.svg' %}"
+                                alt="" style='height: 15px;'></span></h3>
+                    <br>
+
+                    <div class="row">
+                        <div class="col">
+                            {{ form.date_delivery }}
+                            {{ form.date_delivery.errors }}
+                            <div class="help-text-form">
+                                <span><img src="{% static '../static/images/warning.svg' %}" alt="attention"
+                                        style="height: 30px;"></span> {{ form.date_delivery.help_text }}
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="mb-4">
+
+                    <div class="row">
+                        <div class="col">
+                            <p> {{ form.cgv }} <span class='pl-3'> <small>Je déclare avoir pris connaissance des <a
+                                            href="{% url 'cgv' %}">conditions générales de vente</a> et les accepte
+                                        sans
+                                        réserve</small></span></p>
+                            {{ form.cgv.errors }}
+                            <!-- <div class="help-text-form">
+                                        <span><img src="{% static '../static/images/warning.svg' %}" alt="attention"
+                                                style="height: 30px;"></span> {{ form.date_delivery.help_text }}
+                                    </div> -->
+                        </div>
+                    </div>
+                    <hr class="mb-4">
+                    <button class="btn-valider btn-lg btn-block" type="submit" id='submit-checkout'>Valider la
+                        commande</button>
+                </form>
+            </div>
+
+
+
+
+        </div>
+        <div class="col-md-4 d-none d-md-block">
+            <div id='stickycart' class="col-md-12 mb-4">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="cart-header" id='cart-quantity'> Panier - {{ order.get_quantity }}</span>
+
+                </h4>
+                <ul id="js-cart-append" class="list-group mb-3 z-depth-1">
+                    {% for order_item in order.products.all %}
+                    <li class="list-group-item cart-line d-flex justify-content-between lh-condensed">
+                        <div>
+                            <h6 class="my-0"><span
+                                    data-quantity-id="{{order_item.product.slug}}">{{ order_item.quantity }}</span>
+                                x
+                                {{ order_item.product.name}}</h6>
+
+                        </div>
+                        <span class="text-muted"
+                            data-total-id='{{order_item.product.slug}}'>{{ order_item.get_total_product_price }}€</span>
+                    </li>
+                    {% endfor %}
+
+                    <!-- {% if order.coupon %}
             
                                 <li class="list-group-item cart-line d-flex justify-content-between bg-light">
                                     <div class="text-success">
@@ -259,11 +333,11 @@
                                 </li>
             
                                 {% endif %} -->
-                        <li class="list-group-item cart-line d-flex justify-content-between">
-                            <span>Total (€)</span>
-                            <strong id="order-snippet-id">{{ order.get_total }}€</strong>
-                        </li>
-                        <!-- {% if DISPLAY_COUPON_FORM %}
+                    <li class="list-group-item cart-line d-flex justify-content-between">
+                        <span>Total (€)</span>
+                        <strong id="order-snippet-id">{{ order.get_total }}€</strong>
+                    </li>
+                    <!-- {% if DISPLAY_COUPON_FORM %}
                                 <form class="card p-2" action="{% url 'add-coupon' %}" method="POST">
                                     {% csrf_token %}
                                     <div class="input-group">
@@ -279,18 +353,18 @@
                                     </div>
                                 </form>
                                 {% endif %} -->
-                        <a class='btn-valider float-right mt-2' href="{% url 'order-summary-dejeuner' %}">
-                            Modifier le panier</a>
-                    </ul>
-                </div>
+                    <a class='btn-valider float-right mt-2' href="{% url 'order-summary-dejeuner' %}">
+                        Modifier le panier</a>
+                </ul>
             </div>
-
         </div>
 
     </div>
 
-    </div>
-</main>
+</div>
+
+</div>
+
 
 {% endblock content %}
 
