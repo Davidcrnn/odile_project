@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Menu Déjeuner - Produits{% endblock title %}
+{% block head_title %}Menu Déjeuner - Produits{% endblock head_title %}
 {% block content %}
 
 <div class="container relative">
@@ -32,7 +32,7 @@
         </div>
         <div class="col-xs-12 col-md-7">
             <div class="product-item-container">
-                <h1 id="1" class="js-anchor-link">Entrées
+                <h1 id="1">Entrées
                 </h1>
                 <div class="row">
                     {% for product in products %}
@@ -41,7 +41,7 @@
                     {% endif %}
                     {% endfor %}
                 </div>
-                <h1 id="2" class="js-anchor-link">Plats</h1>
+                <h1 id="2">Plats</h1>
                 <div class="row">
                     {% for product in products %}
                     {% if product.category == 'Plats' %}
@@ -49,7 +49,7 @@
                     {% endif %}
                     {% endfor %}
                 </div>
-                <h1 id="3" class="js-anchor-link">Desserts</h1>
+                <h1 id="3">Desserts</h1>
                 <div class="row">
                     {% for product in products %}
                     {% if product.category == 'Desserts' %}
@@ -57,7 +57,7 @@
                     {% endif %}
                     {% endfor %}
                 </div>
-                <h1 id="4" class="js-anchor-link">Boissons</h1>
+                <h1 id="4">Boissons</h1>
                 <div class="row">
                     {% for product in products %}
                     {% if product.category == 'Boissons' %}
@@ -65,7 +65,7 @@
                     {% endif %}
                     {% endfor %}
                 </div>
-                <h1 id="5" class="js-anchor-link">Accessoires</h1>
+                <h1 id="5">Accessoires</h1>
                 <div class="row">
                     {% for product in products %}
                     {% if product.category == 'Accessoires' %}
@@ -172,7 +172,7 @@
 
                 $('.modal').modal('hide');
                 var total = json.total + '€'
-                // $('.cart-position p').text(json.cart_quantity)
+                $('.cart-position p').text(json.cart_quantity)
 
                 // $('[data-quantity-id=' + target + ']').text(json.quantity);
                 // $('[data-total-id=' + target + ']').text(json.product_total + '€');

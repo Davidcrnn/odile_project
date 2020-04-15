@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% load crispy_forms_tags %}
 {% load static %}
+{% block head_title %}Livraison - Déjeuner{% endblock head_title %}
 {% block content %}
 
 <div class="container relative">
@@ -194,12 +194,17 @@
                             {% if not default_address %}
                             <div class="col-xs-12">
                                 <div class="md-form mb-2 ml-3">
-                                    <div>
-                                        {{ form.save_address }}
-                                        <label for="" class="">Sauvegarder ces informations pour une prochaine
-                                            commande</label>
 
-                                    </div>
+                                    <!-- {{ form.save_address }}
+                                        <label for="" class="">Sauvegarder ces informations pour une prochaine
+                                            commande</label> -->
+
+                                    <input type="checkbox" class="custom-control-input" name="save_address">
+
+                                    <label class="custom-control-label" for="save_address">Sauvegarder ces informations
+                                        pour une prochaine
+                                        commande
+                                    </label>
                                 </div>
                             </div>
                             {% endif %}
@@ -276,7 +281,7 @@
                     <button class="btn-valider btn-lg btn-block mb-2" type="submit" id='submit-checkout'>Valider la
                         commande</button>
 
-                    <p style="font-size: 14px; color: #454545">En continuant, vous acceptez nos <a
+                    <p style="font-size: 13px; color: #454545">En continuant, vous acceptez nos <a
                             href="{% url 'cgv' %}" target="_blank" style="color: #4A898B">conditions
                             générales de vente</a>. Nous
                         utilisons vos données personnelles pour vous offrir une expérience personnalisée, ainsi que pour

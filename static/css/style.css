@@ -454,7 +454,7 @@
   color: white;
   text-align: center;
   width: 100%;
-  transition: all 0.3s ease-in-out; }
+  transition: all 0.7s ease-in-out; }
   .btn-valider:hover {
     text-decoration: none;
     color: #4A898B;
@@ -468,7 +468,7 @@
   border-radius: 3px;
   color: #4A898B !important;
   text-align: center;
-  transition: all 0.3s ease-in-out; }
+  transition: all 0.7s ease-in-out; }
   .btn-annuler:hover {
     text-decoration: none;
     color: white;

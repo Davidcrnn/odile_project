@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% block head_title %}Panier - Déjeuner{% endblock head_title %}
 {% block content  %}
 <div class="container">
     <div class="header-section-title-container">
@@ -204,6 +204,7 @@
 {% endblock content  %}
 {% block extra_scripts %}
 <script>
+    // If product quantity = 1, disabled the remove-single-product link
     $(document).ready(function () {
         var arr = $('span[data-id]');
         $.each(arr, function (i, val) {
@@ -211,9 +212,7 @@
                 $(val).prev('a').addClass('disabled')
             }
         })
-
     });
-
 </script>
 
 <script>
@@ -339,7 +338,7 @@
                     '                    </tr>' +
                     '                    <tr>' +
                     '                        <td colspan="5">' +
-                    '                            <a class=\'btn-annuler float-right\' style="width:30%" href="">Voir le' +
+                    '                            <a class=\'btn-annuler float-right\' style="width:30%" href="/menu-dejeuner/">Voir le' +
                     '                                menu</a>' +
                     '                        </td>' +
                     '                    </tr>';

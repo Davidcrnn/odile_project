@@ -218,7 +218,7 @@ class CheckoutAperoForm(forms.Form):
     save_address = forms.BooleanField(
         required=False, widget=forms.CheckboxInput())
 
-    cgv = forms.BooleanField(required=True)
+    # cgv = forms.BooleanField(required=True)
 
 
 class ProductForm(forms.Form):

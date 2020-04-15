@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% block head_title %}Panier - Apéro{% endblock head_title %}
 {% block content %}
 
 <div class="container">
@@ -145,149 +145,154 @@
 </script>
 
 <script>
-
-    $.ajaxSetup({
-        beforeSend: function (xhr, settings) {
-            function getCookie(name) {
-                var cookieValue = null;
-                if (document.cookie && document.cookie != '') {
-                    var cookies = document.cookie.split(';');
-                    for (var i = 0; i < cookies.length; i++) {
-                        var cookie = jQuery.trim(cookies[i]);
-                        // Does this cookie string begin with the name we want?
-                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                            break;
+    $(document).ready(function () {
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                function getCookie(name) {
+                    var cookieValue = null;
+                    if (document.cookie && document.cookie != '') {
+                        var cookies = document.cookie.split(';');
+                        for (var i = 0; i < cookies.length; i++) {
+                            var cookie = jQuery.trim(cookies[i]);
+                            // Does this cookie string begin with the name we want?
+                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
                         }
                     }
+                    return cookieValue;
                 }
-                return cookieValue;
-            }
-            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-                // Only send the token to relative URLs i.e. locally.
-                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-            }
-        }
-    });
-    $('td').on("click", 'a.ajax', function (e) {
-        e.preventDefault();
-        var target = $(this).attr('id');
-
-        var urlAjax = $(this).attr('href');
-
-
-
-        $.ajax({
-            type: 'POST',
-            url: urlAjax,
-            data: {
-                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-                action: 'post',
-
-            },
-            success: function (json) {
-                console.log(json.quantity);
-                $('[data-id=' + target + ']').text(json.quantity);
-                $('[data-total=' + target + ']').text(json.total);
-                $('.js-get-total').text(json.get_total + '€');
-                // 
-                if ($('[data-id=' + target + ']').text() == "1") {
-                    $('a[data-y=' + target + ']').addClass('disabled');
-
-                } else {
-                    $('a[data-y=' + target + ']').removeClass('disabled');
+                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                    // Only send the token to relative URLs i.e. locally.
+                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
                 }
-
-
-
-
-            },
-            error: function (xhr, errmsg, err) {
-                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
             }
         });
+        $('td').on("click", 'a.ajax', function (e) {
+            e.preventDefault();
+            var target = $(this).attr('id');
+
+            var urlAjax = $(this).attr('href');
+
+
+
+            $.ajax({
+                type: 'POST',
+                url: urlAjax,
+                data: {
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                    action: 'post',
+
+                },
+                success: function (json) {
+                    console.log(json.quantity);
+                    $('[data-id=' + target + ']').text(json.quantity);
+                    $('[data-total=' + target + ']').text(json.total);
+                    $('.js-get-total').text(json.get_total + '€');
+                    // 
+                    if ($('[data-id=' + target + ']').text() == "1") {
+                        $('a[data-y=' + target + ']').addClass('disabled');
+
+                    } else {
+                        $('a[data-y=' + target + ']').removeClass('disabled');
+                    }
+
+
+
+
+                },
+                error: function (xhr, errmsg, err) {
+                    console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                }
+            });
+        });
     });
+
 </script>
 
 <script>
-    $.ajaxSetup({
-        beforeSend: function (xhr, settings) {
-            function getCookie(name) {
-                var cookieValue = null;
-                if (document.cookie && document.cookie != '') {
-                    var cookies = document.cookie.split(';');
-                    for (var i = 0; i < cookies.length; i++) {
-                        var cookie = jQuery.trim(cookies[i]);
-                        // Does this cookie string begin with the name we want?
-                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                            break;
+    $(document).ready(function () {
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                function getCookie(name) {
+                    var cookieValue = null;
+                    if (document.cookie && document.cookie != '') {
+                        var cookies = document.cookie.split(';');
+                        for (var i = 0; i < cookies.length; i++) {
+                            var cookie = jQuery.trim(cookies[i]);
+                            // Does this cookie string begin with the name we want?
+                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
                         }
                     }
+                    return cookieValue;
                 }
-                return cookieValue;
-            }
-            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-                // Only send the token to relative URLs i.e. locally.
-                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-            }
-        }
-    });
-    $('td').on("click", 'a.ajax-remove', function (e) {
-        e.preventDefault();
-        var target = $(this).attr('id');
-
-        var urlAjax = $(this).attr('href');
-
-
-
-        $.ajax({
-            type: 'POST',
-            url: urlAjax,
-            data: {
-                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-                action: 'post',
-
-            },
-            success: function (json) {
-                console.log(json.quantity);
-                $('[data-id=' + target + ']').text(json.quantity);
-                $('[data-total=' + target + ']').text(json.total);
-                $('.js-get-total').text(json.get_total + '€');
-                // 
-                if ($('[data-id=' + target + ']').text() == "1") {
-                    $('a[data-y=' + target + ']').addClass('disabled');
-                } else {
-                    $('a[data-y=' + target + ']').removeClass('disabled');
+                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                    // Only send the token to relative URLs i.e. locally.
+                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
                 }
-
-
-                var myvar =
-                    '                    <tr>' +
-                    '                        <td colspan=\'5\'>Votre panier est vide</td>' +
-                    '                    </tr>' +
-                    '                    <tr>' +
-                    '                        <td colspan="5">' +
-                    '                            <a class=\'btn-annuler float-right\' style="width:30%" href="">Voir le' +
-                    '                                menu</a>' +
-                    '                        </td>' +
-                    '                    </tr>';
-
-
-
-
-                $('tr[data-x=' + target + ']').remove();
-                if ($('#cart-total').text() == "0€") {
-                    $('tbody tr').remove();
-                    $("tbody").append(myvar);
-
-                };
-
-            },
-            error: function (xhr, errmsg, err) {
-                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
             }
         });
+        $('td').on("click", 'a.ajax-remove', function (e) {
+            e.preventDefault();
+            var target = $(this).attr('id');
+
+            var urlAjax = $(this).attr('href');
+
+
+
+            $.ajax({
+                type: 'POST',
+                url: urlAjax,
+                data: {
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                    action: 'post',
+
+                },
+                success: function (json) {
+                    console.log(json.quantity);
+                    $('[data-id=' + target + ']').text(json.quantity);
+                    $('[data-total=' + target + ']').text(json.total);
+                    $('.js-get-total').text(json.get_total + '€');
+                    // 
+                    if ($('[data-id=' + target + ']').text() == "1") {
+                        $('a[data-y=' + target + ']').addClass('disabled');
+                    } else {
+                        $('a[data-y=' + target + ']').removeClass('disabled');
+                    }
+
+
+                    var myvar =
+                        '                    <tr>' +
+                        '                        <td colspan=\'5\'>Votre panier est vide</td>' +
+                        '                    </tr>' +
+                        '                    <tr>' +
+                        '                        <td colspan="5">' +
+                        '                            <a class=\'btn-annuler float-right\' style="width:30%" href="/menu-apero/">Voir le' +
+                        '                                menu</a>' +
+                        '                        </td>' +
+                        '                    </tr>';
+
+
+
+
+                    $('tr[data-x=' + target + ']').remove();
+                    if ($('#cart-total').text() == "0€") {
+                        $('tbody tr').remove();
+                        $("tbody").append(myvar);
+
+                    };
+
+                },
+                error: function (xhr, errmsg, err) {
+                    console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                }
+            });
+        });
     });
+
 </script>
 {% endblock extra_scripts %}

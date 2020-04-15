@@ -490,6 +490,7 @@ class CheckoutView(View):
                 default_address = form.cleaned_data.get('default_address')
                 date_delivery = form.cleaned_data.get('date_delivery')
                 delivery_option = form.cleaned_data.get('delivery_option')
+                couvert = form.cleaned_data.get('couvert')
 
                 if default_address:
                     address_qs = Info.objects.filter(
@@ -501,6 +502,7 @@ class CheckoutView(View):
                         order.information = shipping_address
                         order.delivery_option = delivery_option
                         order.date_delivery = date_delivery
+                        order.couvert = couvert
                         order.save()
                     else:
                         messages.info(
@@ -522,7 +524,7 @@ class CheckoutView(View):
                     numero_delivery = form.cleaned_data.get('numero_delivery')
                     creneau_delivery = form.cleaned_data.get('creneau_delivery')
                     couvert = form.cleaned_data.get('couvert')
-                    cgv = form.cleaned_data.get('cgv')
+                    
 
                     if is_valid_form([name, prenom, pays, code_postal, phone, email]):
                         adresse_info = Info(
@@ -546,7 +548,7 @@ class CheckoutView(View):
                         order.date_delivery = date_delivery
                         order.delivery_option = delivery_option
                         order.creneau_delivery= creneau_delivery
-                        order.cgv = cgv
+                        
                         order.save()
 
                         save_address = form.cleaned_data.get(
@@ -608,6 +610,7 @@ class CheckoutViewApero(View):
             if form.is_valid():
                 default_address = form.cleaned_data.get('default_address')
                 date_delivery = form.cleaned_data.get('date_delivery')
+                couvert = form.cleaned_data.get('couvert')
                 
 
                 if default_address:
@@ -619,11 +622,12 @@ class CheckoutViewApero(View):
                         shipping_address = address_qs[0]
                         order.information = shipping_address
                         order.date_delivery = date_delivery
+                        order.couvert = couvert
                         order.save()
                     else:
                         messages.info(
                             self.request, "Pas de profil enregistré")
-                        return redirect('checkout')
+                        return redirect('checkout-apero')
                 else:
                     name = form.cleaned_data.get('name')
                     prenom = form.cleaned_data.get('prenom')
@@ -633,7 +637,7 @@ class CheckoutViewApero(View):
                     pays = form.cleaned_data.get('pays')
                     date_delivery = form.cleaned_data.get('date_delivery')
                     couvert = form.cleaned_data.get('couvert')
-                    cgv = form.cleaned_data.get('cgv')
+                    
                     
 
                     if is_valid_form([name, prenom, pays, code_postal, phone, email]):
@@ -652,7 +656,7 @@ class CheckoutViewApero(View):
                         order.information = adresse_info
                         order.date_delivery = date_delivery
                         order.couvert = couvert
-                        order.cgv = cgv
+                       
                         
                         order.save()
 
@@ -673,10 +677,10 @@ class CheckoutViewApero(View):
             else:
                 args['form'] = form
                 messages.info(self.request, "Le formulaire n'est pas valide")
-                return render(self.request, 'checkout.html', args)
+                return render(self.request, 'checkout-apero.html', args)
         except ObjectDoesNotExist:
-            messages.info(self.request, 'This order does not exist.')
-            return redirect('order-summary')
+            messages.info(self.request, "Vous n'avez pas de commande pour le moment")
+            return redirect('order-summary-apero')
 
 
 class PaymentView(View):
