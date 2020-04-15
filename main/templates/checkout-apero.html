@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% block head_title %}Livraison - Apéro{% endblock head_title %}
 {% block content %}
 
 <div class="container relative">
@@ -89,6 +90,7 @@
             <div class="card-checkout">
                 <form method="POST" class="card-body" novalidate>
                     {% csrf_token %}
+                    {{ form.non_field_errors }}
                     <h3>Des couverts ? <span id="informations-tooltip"> <img
                                 src="{% static '../static/images/tooltip.svg' %}" alt="" style='height: 15px;'></span>
                     </h3>
@@ -105,30 +107,25 @@
                     <h3>Informations personnelles<span id="informations-tooltip"> <img
                                 src="{% static '../static/images/tooltip.svg' %}" alt="" style='height: 15px;'></span>
                     </h3>
-                    {{ form.non_field_errors }}
 
                     {% if default_address %}
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="user-save" style="padding: 25px">
+                            <div class="mb-3">
 
                                 <input type="checkbox" class="custom-control-input" name="use_default_shipping_apero"
                                     id="use_default_shipping_apero">
 
-                                <label class="custom-control-label" for="use_default_shipping_apero">Utiliser vos
-                                    informations
-                                    personnelles:
+                                <label class="custom-control-label" for="use_default_shipping_apero">Utiliser votre
+                                    profil
+                                    :
                                     <ul>
                                         <li>{{ default_address.prenom }} {{ default_address.name }}</li>
 
                                         <li>{{ default_address.email }}</li>
                                         <li>{{ default_address.phone }}</li>
                                     </ul>
-
                                 </label>
-
-
-
                             </div>
                             <hr class='not-show'>
                         </div>
@@ -189,11 +186,17 @@
                             </div>
                             <div class="col-xs-12">
                                 <div class="md-form mb-2 ml-3">
-                                    <div>
-                                        {{ form.save_address }}
+
+                                    <!-- {{ form.save_address }}
                                         <label for="" class="">Sauvegarder ces informations pour une prochaine
-                                            commande</label>
-                                    </div>
+                                            commande</label> -->
+                                    <input type="checkbox" class="custom-control-input" name="save_address">
+
+                                    <label class="custom-control-label" for="save_address">Sauvegarder ces informations
+                                        pour une prochaine
+                                        commande
+                                    </label>
+
                                 </div>
                             </div>
                         </div>
@@ -201,7 +204,7 @@
 
                     <hr>
                     <h3>Date de livraison<span id="date-tooltip"> <img src="{% static '../static/images/tooltip.svg' %}"
-                                alt="" style='height: 15px;'></span></h3> <br>
+                                alt="" style='height: 15px;'></span></h3>
                     <div class="row">
                         <div class="col">
 
@@ -219,20 +222,13 @@
                         </div>
                     </div>
                     <hr class="mb-4">
-                    <div class="row">
-                        <div class="col">
-                            <p> {{ form.cgv }} <span class='pl-3'> <small>Je déclare avoir pris connaissance des <a
-                                            href="{% url 'cgv' %}">conditions générales de vente</a> et les accepte
-                                        sans
-                                        réserve</small></span></p>
-                            {{ form.cgv.errors }}
-                            <!-- <div class="help-text-form">
-                                            <span><img src="{% static '../static/images/warning.svg' %}" alt="attention"
-                                                    style="height: 30px;"></span> {{ form.date_delivery.help_text }}
-                                        </div> -->
-                        </div>
-                    </div>
+
                     <button class="btn-valider btn-lg btn-block" type="submit">Valider la commande</button>
+                    <p style="font-size: 13px; color: #454545">En continuant, vous acceptez nos <a
+                            href="{% url 'cgv' %}" target="_blank" style="color: #4A898B">conditions
+                            générales de vente</a>. Nous
+                        utilisons vos données personnelles pour vous offrir une expérience personnalisée, ainsi que pour
+                        mieux comprendre et améliorer notre service.</p>
 
                 </form>
             </div>
