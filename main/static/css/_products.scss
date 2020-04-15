@@ -1,0 +1,152 @@
+// STYLE PRODUCTS DEJEUNER && APERO------------------------------------------------
+
+// HEADER SECTION ALL PAGES -------------------------------------------------
+
+.header-section-title-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+    text-align: center;
+    border-bottom: 2px solid $vertf;
+    margin-bottom: 20px;
+}
+
+.header-section-title h1 {
+        font-size: 30px;
+        color: $vertf;
+        letter-spacing: 6.4px;      
+}
+
+// CONTAINER CARD PRODUCT -------------------------------------------------
+.product-item-container {
+    margin: 20px 0;
+    h1 {
+        margin-bottom: 30px;
+        letter-spacing: 2px;
+        color: $vertf;
+        font-size: 25px;   
+    }
+}
+
+// PRODUCT CARD --------------------------------------------------------
+.carte {
+    height: 160px;
+    background: white;
+    padding: 20px;
+    box-shadow: 0px 0px 10px $gris;
+    &:hover {
+        opacity: 0.6;
+    }
+}
+
+.product-card-text {
+    p {
+        color: rgba(128, 128, 128, 0.664);
+        font-size: 14px;
+    } h5 {
+        color: $noir;
+        border-bottom: 2px solid $noir;
+    }
+    span {
+        font-size: 15Px;
+        color: $vertf;
+    }
+}
+
+// FILTER CATEGORY PRODUCT ---------------------------------------------------
+
+.filter-product {
+    width: 100%;
+    position: sticky;
+    top: 100px;
+    margin-top: 20px;
+    border-right: 2px solid $vertf;
+    ul {
+        padding: 0;
+        margin-top: 30px;
+    } li {
+        list-style: none;
+        margin-bottom: 20px;
+    } a {
+        color: $noir;
+    } a:hover {
+        text-decoration: none;
+        cursor: pointer;
+        opacity: 0.6;
+        letter-spacing: 2px;
+    }
+}
+
+// BTN STYLE ALL PAGES --------------------------------------------------------------
+.btn-valider {
+    padding: 10px 15px;
+    background-color: $vertf;
+    border-radius: 3px;
+    color: white;
+    text-align: center;
+    width: 100%;
+    transition : all 0.3s ease-in-out;
+    &:hover {
+        text-decoration: none;
+        color: $vertf;
+        background-color: white;
+        border : 1px solid $vertf;
+    }
+}
+
+.btn-annuler {
+    padding: 10px 15px;
+    border: 1px solid $vertf;
+    width: 100%;
+    border-radius: 3px;
+    color: $vertf !important;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    &:hover {
+        text-decoration: none;
+        color: white;
+        letter-spacing: 3px;
+    }
+
+}
+
+// ICON PANIER ONLY ON MOBILE ----------------------------------------------
+
+.relative {
+    position: relative;
+}
+.cart-mobile {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 900;
+}
+
+.cart-position {
+    position: relative;
+    p {
+        font-size: 12px;
+        color: white;
+        position: absolute;
+        top: -10px;
+        background: #4dbdc0;
+        padding: 3px;
+        right: 2px;
+        border-radius: 50%;
+    }
+}
+
+// MEDIA QUERIES --------------------------------------------------------
+
+@media screen and (max-width: 650px) {
+
+    .carte {
+        height: auto;
+    }
+
+    .product-item-container h1 {
+        font-size: 20px;
+    }
+}

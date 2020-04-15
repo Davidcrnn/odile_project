@@ -126,7 +126,7 @@ class CheckoutForm(forms.Form):
                                         choices=LIVRAISON_CHOICES,
                                         help_text='Choississez une date de livraison et son horaire')
 
-    date_delivery = forms.CharField(required=True, help_text="Les commandes pour le déjeuner doivent être prises au plus tard la veuille pour le lendemain ", error_messages={
+    date_delivery = forms.CharField(required=True, help_text="Les commandes pour le déjeuner doivent être prises au plus tard la veille pour le lendemain ", error_messages={
         'required': "Vous devez renseigner ce champ"}, widget=DateTimePickerInput(
         attrs={    # input element attributes
             "class": "checkout-input",
@@ -140,25 +140,26 @@ class CheckoutForm(forms.Form):
         required=False, widget=forms.CheckboxInput())
 
     zone_delivery = forms.ChoiceField(
-        required=False, widget=forms.Select(attrs={'class': 'selectpicker'}), choices=ZONE_LIVRAISON_BATEAU)
+        label='Zone de livraison', required=False, widget=forms.Select(attrs={'class': 'selectpicker'}), choices=ZONE_LIVRAISON_BATEAU)
 
-    rang_delivery = forms.CharField(required=False, error_messages={'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
+    rang_delivery = forms.CharField(label='Rang', required=False, error_messages={'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
         'placeholder': 'Turing',
         'class': 'form-control checkout-input',
     }))
-    numero_delivery = forms.CharField(required=False, error_messages={'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
+    numero_delivery = forms.CharField(label='Numéro', required=False, error_messages={'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
         'placeholder': 'Turing',
         'class': 'form-control checkout-input',
     }))
 
     creneau_delivery = forms.ChoiceField(
+        label='Heure de livraison',
         widget=forms.Select(attrs={
             'id': 'select-time',
             'class': 'selectpicker',
             'data-size': "5",
         }), choices=CRENEAU_DELIVERY)
 
-    cgv = forms.BooleanField(required=True)
+    # cgv = forms.BooleanField(required=True, widget=forms.CheckboxInput())
 
 
 class CheckoutAperoForm(forms.Form):
@@ -251,14 +252,15 @@ class CouponForm(forms.Form):
 class RefundForm(forms.Form):
     ref_code = forms.CharField(label="Référence de la commande", widget=forms.TextInput(attrs={
         'class': 'form-control checkout-input',
-        'placeholder': 'Indiquez votre email'
+        'placeholder': 'Votre référence commande ...'
     }))
     email = forms.EmailField(label='Email', widget=forms.TextInput(attrs={
         'class': 'form-control checkout-input',
-        'placeholder': 'Indiquez votre email'
+        'placeholder': 'Votre email ...'
     }))
     message = forms.CharField(label="Motifs de votre demande", widget=forms.Textarea(attrs={
         'class': 'form-control checkout-input',
+        'placeholder': 'Votre message ...'
 
     }))
 
@@ -272,29 +274,25 @@ class PaymentForm(forms.Form):
     use_default = forms.BooleanField(required=False)
 
 
-class CgvForm(forms.Form):
-    cgv = forms.BooleanField(required=True)
-
-
 class AvisForm(forms.Form):
 
     OBJET = (
         ('Produits', 'Produits'),
-        ('Livraison', 'Livraisons'),
+        ('Livraison', 'Livraison'),
         ('Horaires de livraison', 'Horaires de livraison'),
         ('Autre', 'Autre'),
     )
 
     email = forms.EmailField(widget=forms.TextInput(attrs={
         'class': 'form-control checkout-input',
-        'placeholder': 'Indiquez votre email'
+        'placeholder': 'Votre email ...'
     }))
     objet = forms.ChoiceField(required=True,
                               widget=forms.RadioSelect,
                               choices=OBJET,
                               )
     message = forms.CharField(widget=forms.Textarea(attrs={
-        'placeholder': 'Ce message nous permettra daméliorer notre service',
+        'placeholder': "Votre message nous permettra d'améliorer nos services ...",
         'class': 'form-control checkout-input',
         'rows': 4, 'cols': 15
     }))
@@ -302,12 +300,12 @@ class AvisForm(forms.Form):
 
 class ContactForm(forms.Form):
     from_email = forms.EmailField(widget=forms.TextInput(attrs={
-        'placeholder': 'email@email.com',
+        'placeholder': 'Votre email ...',
         'class': 'form-control checkout-input'}))
     subject = forms.CharField(widget=forms.TextInput(attrs={
-        'placeholder': "Une petite question",
+        'placeholder': "Une petite question ...",
         'class': 'form-control checkout-input'}))
     message = forms.CharField(widget=forms.Textarea(attrs={
         'rows': 5,
-        'placeholder': 'Votre message',
+        'placeholder': 'Votre message ...',
         'class': 'form-control checkout-input '}))

@@ -1,37 +1,33 @@
-// Cart page
+// Order Summary
 
-.panier-cart {
-    margin: 0px 0 40px;
-    h1 {
-        
-        letter-spacing: 6.4px;
-        font-size: 70px;
-        text-decoration: underline;
-        padding-top:20px ;
-        
+#stickycart {
+    position: sticky;
+    top: 100px;
+    background: $grisbg;
+    padding: 20px;
+    border-radius: 3px;
+    li {
+        margin-bottom: 10px;
+        border-radius: 3px;
+        align-items: center;
+        box-shadow: 0px 0px 10px #8080805c;
+        border: none;
     }
 }
 
-.cart-row-1 {
-   
-    color: white;
-   
-}
-
-.table td {
+.table {
+    td {
     font-size: 14px;
+    }
     img {
     height: 100px;
-} 
-}
-
-.table th {
-    
+    }  
+    th {
     color: $vertf;
-}
-
-.table tr {
+    }
+    tr {
     border: none !important;
+    }
 }
 
 .cart-header {
@@ -45,21 +41,6 @@
 
 tbody tr {
     margin: 20Px;
-}
-
-#stickycart {
-    position: sticky;
-    top: 100px;
-    background: $grisbg;
-    padding: 20px;
-    border-radius: 9px;
-    li {
-        margin-bottom: 10px;
-        border-radius: 3px;
-        align-items: center;
-        box-shadow: 0px 0px 10px #8080805c;
-        border: none;
-    }
 }
 
 .cart-line {

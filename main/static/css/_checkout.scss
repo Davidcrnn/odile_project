@@ -1,22 +1,6 @@
 // Checkout page style
 
 
-// Checkout bg
-
-
-// header
-
-.header-checkout {
-    
-    letter-spacing: 6.4px;
-    font-size: 70px;
-    text-decoration: underline;
-    padding-top:20px ;
-}
-
-
-
-
 .checkout-input {
     border: 1Px solid lightslategray;
     // border-radius: 8px;
@@ -32,7 +16,7 @@
 input#datepicker-dejeuner {
     width: 100%;
 }
-.checkout-input[type='text'] {
+.checkout-input[type='text'],  textarea.checkout-input  {
     font-size: 12px;
     color: black;
 
@@ -119,7 +103,7 @@ ul.errorlist {
     font-style: italic;
     padding: 10px 10px 10px;
     margin-top: 10px;
-    border-radius: 9px;
+    border-radius: 3px;
     background: $grisbg;
     span {
         padding-right: 20px;
@@ -138,3 +122,128 @@ ul.errorlist {
 }
 
 
+// example {
+
+    /* HTML5 Boilerplate accessible hidden styles */
+[type="radio"] {
+    border: 0; 
+    clip: rect(0 0 0 0); 
+    height: 1px; margin: -1px; 
+    overflow: hidden; 
+    padding: 0; 
+    position: absolute; 
+    width: 1px;
+  }
+  
+  /* One radio button per line */
+
+  
+  [type="radio"] + span {
+    display: block;
+  }
+  
+  /* the basic, unchecked style */
+  [type="radio"] + span:before {
+    content: '';
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.25em;
+    border-radius: 1em;
+    border: 0.125em solid #fff;
+    box-shadow: 0 0 0 0.15em $vertf;
+    margin-right: 0.75em;
+    transition: 0.5s ease all;
+  }
+  
+  /* the checked style using the :checked pseudo class */
+  [type="radio"]:checked + span:before {
+    background: $vertf;
+    box-shadow: 0 0 0 0.25em $vertf;
+  }
+  
+  /* never forget focus styling */
+  [type="radio"]:focus + span:after {
+    content: '\0020\2190';
+    font-size: 1.5em;
+    line-height: 1;
+    vertical-align: -0.125em;
+  }
+
+  .option-delivery {
+      box-shadow: 0 0 7px $gris;
+      margin-bottom: 5px;
+      padding: 10px 20px;
+      label {
+          margin: 0 !important;
+      }
+  }
+
+
+
+  // STYLE CHECK BOX ---------------------------
+
+  /* Base for label styling */
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+  position: absolute;
+  left: -9999px;
+}
+[type="checkbox"]:not(:checked) + label,
+[type="checkbox"]:checked + label {
+  position: relative;
+  padding-left: 1.95em;
+  cursor: pointer;
+}
+
+/* checkbox aspect */
+[type="checkbox"]:not(:checked) + label:before,
+[type="checkbox"]:checked + label:before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0;
+  width: 1.25em; height: 1.25em;
+  border: 2px solid #4A989B;
+//   background: white;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
+}
+/* checked mark aspect */
+[type="checkbox"]:not(:checked) + label:after,
+[type="checkbox"]:checked + label:after {
+    background: #4A898B;
+    padding: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 1.3em;
+    line-height: 0.8;
+    color: #4A898B;
+    transition: all .2s;
+    // border: 2Px solid;
+    border-radius: 4px;
+    // box-shadow: 0 0 10Px #4a898a;
+}
+
+/* checked mark aspect changes */
+[type="checkbox"]:not(:checked) + label:after {
+  opacity: 0;
+  transform: scale(0);
+}
+[type="checkbox"]:checked + label:after {
+  opacity: 1;
+  transform: scale(1);
+  
+}
+
+/* accessibility */
+[type="checkbox"]:checked:focus + label:before,
+[type="checkbox"]:not(:checked):focus + label:before {
+    border: 2px solid $vertf;
+    box-shadow: none;
+}
+
+/* hover style just for information */
+label:hover:before {
+    border: 2px solid $vertf!important;
+}

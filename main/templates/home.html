@@ -7,35 +7,28 @@
 <div class="container">
     <div class="row">
         <div class="col-xs-12 order-2 col-md-4">
-            <div class="home-banner-title">
+            <div class="section-banner-home-title">
                 <h1>DÉJEUNER SUR L'EAU</h1>
                 <h4>Vous partez en mer pour la journée? <br>
                     On s'occupe de vous livrer un panier repas</h4>
-
-
-                <!-- Button trigger modal -->
-                <button type="button" class="btn-valider" data-toggle="modal" data-target="#exampleModalCenter">
+                <button type="button" class="btn-valider" data-toggle="modal" data-target="#menu-choices">
                     VOIR LE MENU
                 </button>
 
                 <!-- Modal -->
-                <div class="modal fade menu-choice-modal" id="exampleModalCenter" tabindex="-1" role="dialog"
+                <div class="modal fade modal-bg-white" id="menu-choices" tabindex="-1" role="dialog"
                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content no-border">
                             <div class="modal-header menu-choices-header">
-                                <!-- <h5 class="modal-title" id="exampleModalLongTitle">Choississez le moment de la journée
-                                </h5> -->
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <button class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body menu-choices-container">
-
                                 <a href="{% url 'products' %}">MENU DÉJEUNER</a>
                                 <a href=" {% url 'products-apero' %}">MENU APERO</a>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -43,7 +36,7 @@
         </div>
 
         <div class="col-xs-12 order-1 col-md-8">
-            <div class="home-banner">
+            <div class="section-banner-home-img">
                 <ul class="rslides">
                     <li><img src="../static/images/banner-bateau.jpg" alt=""></li>
                     <li><img src="../static/images/banner-bateau-2.jpg" alt=""></li>
@@ -54,19 +47,19 @@
 
     </div>
 
-    <div class="concept-container" id='concept'>
+    <div class="section-presentation-container" id='concept'>
         <h1>01 - Concept</h1>
         <div class="row">
-            <div class="col-xs-12 col-md-6 centered-content">
-
-                <p>Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant
-                    impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500,
-                    quand
-                    un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de
-                    polices de texte. Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la
-                    bureautique informatique, sans que son contenu n'en soit modifié. Il a été popularisé dans les
-
-                </p>
+            <div class="col-xs-12 col-md-6">
+                <div class="section-presentation-concept">
+                    <p>Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant
+                        impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500,
+                        quand
+                        un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de
+                        polices de texte. Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la
+                        bureautique informatique, sans que son contenu n'en soit modifié. Il a été popularisé dans les
+                    </p>
+                </div>
 
             </div>
             <div class="col-xs-12 col-md-6 text-center">
@@ -76,14 +69,14 @@
         </div>
     </div>
 
-    <div class="concept-container" id="livraison">
+    <div class="section-presentation-container" id="livraison">
 
         <div class="row">
-            <div class="col-xs-12 order-2 col-md-8">
+            <div class="col-xs-12 col-md-8">
                 <div id='map' style='width: 100%; height: 340px;'></div>
             </div>
 
-            <div class="col-xs-12 order-1 col-md-4">
+            <div class="col-xs-12 col-md-4">
                 <h1>02 - Livraison</h1>
                 <div class="section-description-livraison">
                     <p><img src=" {% static '../static/images/marker.svg' %} " alt="" style='height: 30px'>MENU DEJEUNER
@@ -100,13 +93,24 @@
             </div>
         </div>
     </div>
-    {% include 'bandereau-qualite-snippet.html' %}
+
 
 </div>
 
 {% endblock content %}
 
 {% block extra_scripts %}
+<script src="../static/js/responsiveslides.js"></script>
+<script>
+    $(function () {
+        $(".rslides").responsiveSlides({
+            pager: false,
+            timeout: 3000,
+            speed: 800
+        }
+        );
+    });
+</script>
 
 <script>
     mapboxgl.accessToken = 'pk.eyJ1Ijoib2RpbGVsZWNsZXJjc2l0ZSIsImEiOiJjazZjMDJtNGEwZ3F2M2tvdnNncnkxNXRxIn0.c7i8XUNby5CQwhdrsG3r0A';
@@ -189,14 +193,5 @@
     });
 </script>
 
-<script>
-    $(function () {
-        $(".rslides").responsiveSlides({
-            pager: false,
-            timeout: 3000,
-            speed: 800
-        }
-        );
-    });
-</script>
+
 {% endblock extra_scripts %}

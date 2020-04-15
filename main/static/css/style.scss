@@ -1,20 +1,18 @@
 @import 'variables';
 @import 'home';
+@import 'modal';
 @import 'navbar';
-@import 'product-list';
-@import 'product-detail';
+@import 'products';
 @import 'footer';
-@import 'fonts';
 @import 'cart';
 @import 'checkout';
 @import 'sign-up';
 @import 'mentions';
 @import 'cgv';
-@import 'avis';
-@import 'contact';
+@import 'form';
 @import 'paiement-snippet';
-@import 'request';
 @import 'dashboard';
+@import 'map';
 @import url('https://fonts.googleapis.com/css?family=Montserrat:500,700&display=swap');
 
 body {
