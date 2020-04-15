@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView, ListView, DetailView, View, CreateView
-from .forms import CheckoutForm, CheckoutAperoForm, CouponForm, RefundForm, PaymentForm, CgvForm, AvisForm, ContactForm, ProductForm
+from .forms import CheckoutForm, CheckoutAperoForm, CouponForm, RefundForm, PaymentForm, AvisForm, ContactForm, ProductForm
 from .models import Product, OrderProduct, Order, Payment, Coupon, Refund, Info, Avis
 from django.http import JsonResponse
 from django.urls import reverse
@@ -907,11 +907,11 @@ class RequestRefundView(View):
                 refund.email = email
                 refund.save()
 
-                messages.info(self.request, 'Votre demande de remboursement a bien été envoyée !')
+                messages.info(self.request, 'Votre demande de remboursement a bien été prise en compte !')
                 return redirect('home')
 
             except ObjectDoesNotExist:
-                messages.info(self.request, 'This order does not exist.')
+                messages.info(self.request, "La référence commande communiquée n'est pas valable")
                 return redirect('request-refund')
 
 
@@ -922,13 +922,7 @@ class OrderDash(ListView):
     template_name = 'order-list.html'
 
 
-class AvisView(View):
-    def get(self, *args, **kwargs):
-        form = AvisForm()
-        context = {
-            'form': form
-        }
-        return render(self.request, "votreavis.html", context)
+
 
 
 class mentionsLegales(TemplateView):
@@ -953,6 +947,7 @@ class AvisCreate(View):
         
         avis = Avis.objects.create()
         form = AvisForm(self.request.POST or None)
+        args = {}
         if form.is_valid():
             email = form.cleaned_data.get('email')
             objet = form.cleaned_data.get('objet')
@@ -963,7 +958,6 @@ class AvisCreate(View):
             avis.save()
             messages.info(self.request, 'Votre avis a bien été enregistré')
             return redirect('home')
-            
         else:
             args['form'] = form
             messages.info(self.request, 'Le formulaire nest pas valide')

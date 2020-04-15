@@ -10,8 +10,8 @@
                     style="height: 40px;"></a>
         </div>
     </div>
-    <div class="product-image-banner">
-        <div class="product-text-banner">
+    <div class="header-section-title-container">
+        <div class="header-section-title">
             <h1>À LA CARTE</h1>
             <p>Menu apéro</p>
         </div>
@@ -123,12 +123,24 @@
 {% endblock content %}
 {% block extra_scripts %}
 <script>
+    // FILTER CATEGORY LINK SCROLL --------------------------------------
+    $(document).ready(function () {
+        $('.js-anchor-link').click(function (e) {
+            e.preventDefault();
+            var target = $($(this).attr('href'));
+            if (target.length) {
+                var scrollTo = target.offset().top - 90;
+                $('body, html').animate({ scrollTop: scrollTo + 'px' }, 1000);
+            }
+        });
+    })
+</script>
+<script>
+    // AJAX CALL TO ADD TO CART ---------------------------------------------
     $('body').on("submit", 'form', function (e) {
         e.preventDefault();
         var target = $(this).attr('id');
-        console.log(target);
         var quantity = $(this).find('select').val();
-        console.log(quantity);
         var urlAjax = $(this).attr('action');
         console.log(urlAjax);
         $.ajax({
@@ -138,18 +150,11 @@
                 quantity: quantity,
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
                 action: 'post',
-
             },
             success: function (json) {
-                document.getElementById(target).reset();
-                $('.modal').modal('hide');
-                console.log(json.name)
+                $('.selectpicker').selectpicker('refresh'); // Reset form select
+                $('.modal').modal('hide'); // Hide modal
                 var total = json.total + '€'
-
-
-                $('[data-quantity-id=' + target + ']').text(json.quantity);
-                $('[data-total-id=' + target + ']').text(json.product_total + '€');
-
                 var myvar = '<li class="list-group-item d-flex justify-content-between lh-condensed">' +
                     '                        <div>' +
                     '                            <h6 class="my-0"><span' +
@@ -162,23 +167,15 @@
                     '                            data-total-id=\'{{order_item.product.slug}}\'>' + json.product_total + '€</span>' +
                     '                    </li>';
 
-                // $('#js-cart-append li').each(function () {
-                //     console.log($('[data-quantity-id=' + target + ']').val());
-                // })
-
+                /* Check if product is in the cartif true then update quantity et total else append to cart*/
                 if ($('[data-quantity-id=' + target + ']').text() != "") {
                     $('[data-quantity-id=' + target + ']').text(json.quantity);
                     $('[data-total-id=' + target + ']').text(json.product_total + '€');
                     $('#order-snippet-id').text(total);
                 } else {
                     $('#js-cart-append').prepend(myvar).fadeIn(1000);
-
                 }
-
-                var t = $('#cart-quantity').text('Panier - ' + json.cart_quantity);
-                $('#order-snippet-id').text(total);
-
-
+                $('#cart-quantity').text('Panier - ' + json.cart_quantity);
             },
             error: function (xhr, errmsg, err) {
                 console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console

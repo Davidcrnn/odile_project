@@ -59,6 +59,10 @@ class Product(models.Model):
         max_length=32, choices=PRODUCT_CATEGORIES, default='Plats')
     allergene = models.CharField(
         max_length=32, choices=PRODUCT_ALLERGENES, blank=True, null=True)
+    allergene2 = models.CharField(
+        max_length=32, choices=PRODUCT_ALLERGENES, blank=True, null=True)
+    allergene3 = models.CharField(
+        max_length=32, choices=PRODUCT_ALLERGENES, blank=True, null=True)
     menu = models.CharField(max_length=30, choices=MENU, default='Dejeuner')
     quantite = models.IntegerField(default=1)
 
@@ -116,7 +120,7 @@ class Order(models.Model):
     delivery_option = models.CharField(
         max_length=100, choices=LIVRAISON_CHOICES)
     couvert = models.CharField(max_length=32, default='1')
-    cgv = models.BooleanField(default=False)
+    # cgv = models.BooleanField(default=False)
     coupon = models.ForeignKey(
         'Coupon', on_delete=models.SET_NULL, blank=True, null=True)
     received = models.BooleanField(default=False)

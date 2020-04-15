@@ -2,29 +2,44 @@
 {% load static %}
 
 {% block content %}
-
 <div class="container">
-    <div class="product-image-banner">
-        <div class="product-text-banner">
+    <div class="header-section-title-container">
+        <div class="header-section-title">
             <h1>DEMANDE DE REMBOURSEMENT</h1>
-
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-12 col-md-6 offset-md-3 avis-form">
-            <form method="POST">
-                {% csrf_token %}
-                {{ form.ref_code.label_tag}}<span id="ref-tooltip"> <img
-                        src="{% static '../static/images/tooltip.svg' %}" alt="" style='height: 15px;'></span> <span><a
-                        href="{% url 'profil' %}">Trouver la référence</a></span>
-                {{ form.ref_code}}
-                {{ form.email.label_tag}}
-                {{ form.email}}
-                {{ form.message.label_tag}}
-                {{ form.message}}
-                <button type='submit' class='btn-valider'>ENVOYER</button>
-            </form>
+        <div class="col-xs-12 col-md-6 mb-3 section-left-container">
+            <div class="section-left-text">
+                <p>
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nemo autem quos amet, enim, dolorum ullam
+                    accusamus est ipsam sed pariatur eum omnis, natus tempore nostrum vero laudantium. Aliquid,
+                    molestiae velit.
+                </p>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6 mb-3 section-right-container">
+            <div class="section-form">
+                <h3 class="text-center">Demande de remboursement</h3>
+                <form method="POST">
+                    {% csrf_token %}
+                    <label for="ref_code">Référence commande</label><span id="ref-tooltip"> <img
+                            src="{% static '../static/images/tooltip.svg' %}" alt="" style='height: 15px;'></span>
+                    <span><a href="{% url 'profil' %}" style='color: #454545; font-size: 14px;'>Trouver la
+                            référence</a></span>
+                    <p>{{ form.ref_code }}</p>
+                    <small>{{ form.ref_code.errors }}</small>
 
+                    <label for="email">Email</label>
+                    <p>{{ form.email}}</p>
+                    <small>{{ form.email.errors }}</small>
+                    <label for="message">Message</label>
+                    <p>{{ form.message}}</p>
+                    <small>{{ form.message.errors }}</small>
+
+                    <input type='submit' class='btn-valider' value='ENVOYER'>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -35,10 +50,11 @@
 
 {% block extra_scripts %}
 <script>
-
-    tippy('#ref-tooltip', {
-        arrow: true,
-        content: 'Vous trouverez cette informations dans votre historique des commandes'
+    $(document).ready(function () {
+        tippy('#ref-tooltip', {
+            arrow: true,
+            content: 'Vous trouverez cette information dans votre historique des commandes'
+        });
     });
 </script>
 {% endblock extra_scripts %}

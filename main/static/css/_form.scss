@@ -1,0 +1,35 @@
+// STYLE PAGE CONTACT - AVIS - DEMANDE DE REMBOURSEMENT
+
+// SECTION TEXT CONTACT ---------------------------------------
+
+.section-left-container {
+    padding: 20px;
+    background-color: $grisbg;
+    padding: 0;
+}
+
+.section-left-text {
+    padding: 20px;
+}
+
+// SECTION FORM CONTACT------------------------------------------
+
+.section-right-container {
+    padding: 0;
+}
+
+.section-form {
+    box-shadow: 0 0 10px $gris;
+    padding: 20px;
+    label {
+        color: $vertf;
+        margin-bottom: 10Px;
+    } h3 {
+        margin-bottom: 20px;
+        color: $vertf;
+    } a {
+        color: $noir;
+    }
+}
+
+

@@ -1,39 +1,26 @@
+<!-- PRODUCT CARD  -->
+
 <div class="col-xs-12 col-md-6 mb-3">
-    <a class="btn-product-description" data-toggle="modal" data-target="#exampleModal{{ product.id}}">
+    <a class="" data-toggle="modal" data-target="#Modal{{ product.id}}">
         <div class="carte all {{ product.category}}">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <div class="product-card-text">
                         <h5>{{ product.name }} </h5>
                         <p> {{ product.description|truncatewords:6 }}</p>
-                        <span class="price">{{ product.price|floatformat }}€</span>
+                        <span>{{ product.price|floatformat }}€</span>
                     </div>
                 </div>
-                <div class="col-md-4 d-none d-md-block">
-                    <div class="product-card">
-
-                        {% if product.image %}
-                        <div class="product-card-image" style="background-image: url('{{ product.image.url }}');">
-
-                        </div>
-                        {% endif %}
-
-
-                    </div>
-                </div>
-
             </div>
         </div>
     </a>
 </div>
 
-
-
 <!-- Modal -->
-<div class="modal fade modal-bg-white" id="exampleModal{{ product.id}}" tabindex="-1" role="dialog"
+<div class="modal fade modal-bg-white" id="Modal{{ product.id}}" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content product-card-modal">
+        <div class="modal-content no-border">
             <div class="text-center modal-titre">
                 <h5 class="modal-title " id="exampleModalLabel">{{ product.name|upper}} </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -43,42 +30,32 @@
             <div class="modal-body product-card-text-modal">
                 {% if product.image %}
                 <div class="product-card-image-modal" style="background-image: url('{{ product.image.url }}');">
-
                 </div>
-
                 {% endif %}
-
                 <div class="product-card-info-modal">
-
                     <h4>Ingrédients : </h4>
                     <h6>{{ product.description|safe }}</h6>
                     {% if product.allergene is not None %}
-                    <p>Allergène : {{ product.allergene }}</p>
+                    <p>Allergène : {{ product.allergene }} {% if product.allergene2 %} {{ product.allergene2 }}
+                        {% endif %} {% if product.allergene3 %} {{ product.allergene3 }} {% endif %}</p>
                     {% else %}
                     <p>Ce produit ne contient pas d'allergène alimentaire.</p>
                     {% endif %}
                 </div>
                 <form method="POST" action="{{ product.get_add_to_cart_url }}" id='{{ product.slug}}'>
                     {% csrf_token %}
-
-
                     <p> {{ form.quantity.label_tag}} {{ form.quantity }}</p>
-
-
-
-
             </div>
             <div class="modal-footer modal-btn">
                 <a class='btn-annuler' data-dismiss="modal">
-                    Annuler
+                    Retour
                 </a>
                 {% if request.user.is_authenticated %}
                 <input type="submit" value='Ajouter au panier' class='btn-valider'>
                 {% else %}
-                <a class=' btn-connexion' href="{% url 'account_login' %} ">Connexion</a>
+                <a class=' btn-valider' href="{% url 'account_login' %} ">Connexion</a>
                 {% endif %}
             </div>
-
             </form>
         </div>
     </div>

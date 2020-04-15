@@ -2,38 +2,40 @@
 
 {% block content %}
 <div class="container">
-    <div class="product-image-banner">
-        <div class="product-text-banner">
+    <div class="header-section-title-container">
+        <div class="header-section-title">
             <h1>CONTACTEZ-NOUS</h1>
         </div>
     </div>
-
     <div class="row">
-        <div class="col-xs-12 col-md-4 mb-3">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti sit dicta ipsa aliquam error, reiciendis,
-            eaque magni maiores dolor, voluptatem fugit ducimus molestias velit amet. Hic ipsum dignissimos repellendus
-            perferendis?
+        <div class="col-xs-12 col-md-6 mb-3 section-left-container">
+            <div class="section-left-text">
+                <p>
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti sit dicta ipsa aliquam error,
+                    reiciendis,
+                    eaque magni maiores dolor, voluptatem fugit ducimus molestias velit amet. Hic ipsum dignissimos
+                    repellendus
+                    perferendis?
+                </p>
+            </div>
         </div>
-        <div class="col-xs-12 col-md-8">
-            <form method='POST' class='avis-form-container'>
-                {% csrf_token %}
-                <div class="contact-container">
-                    <h3 class="text-center">Formulaire de contact</h3>
-                    <label for="">Email</label>
-                    <br>
-                    {{ form.from_email }}
-                    <br>
-                    <label for="">Objet du message</label>
-                    <br>{{ form.subject }}
-                    <br>
-                    <label for="">Message</label><br>
-                    {{ form.message }} <br>
-
+        <div class="col-xs-12 col-md-6 mb-3 section-right-container">
+            <div class="section-form">
+                <h3 class="text-center">Formulaire de contact</h3>
+                <form method='POST'>
+                    {% csrf_token %}
+                    <label for="email">Email</label>
+                    <p>{{ form.from_email }}</p>
+                    <small>{{ form.from_email.errors }}</small>
+                    <label for="objet">Objet</label>
+                    <p>{{ form.subject }}</p>
+                    <small>{{ form.subject.errors }}</small>
+                    <label for="message">Message</label>
+                    <p>{{ form.message }}</p>
+                    <small>{{ form.message.errors }}</small>
                     <input type="submit" name="Envoyer" class="btn-valider">
-
-                </div>
-            </form>
-
+                </form>
+            </div>
         </div>
     </div>
 </div>

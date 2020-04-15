@@ -48,7 +48,7 @@
 
         <div class="dropdown-menu dropdown-menu-right drop-content">
             <p class='text-center'>Hello {{request.user|username|capfirst}} !</p>
-            <a href="{% url 'profil' %}" class="dropdown-item">Tableau de bord</a>
+            <a href="{% url 'profil' %}" class="dropdown-item">Mes commandes</a>
             <a href="{% url 'request-refund' %}" class="dropdown-item">Demande de remboursement</a>
             <a href="{% url 'account_logout' %}" class="dropdown-item">Se déconnecter</a>
         </div>

@@ -1,8 +1,8 @@
-// Home Page Style
+// STYLE HOME PAGE --------------------------------------------------------------------------------------------------------
 
-// Banner Section
+// HERO BANNER ------------------------------------------------------------------------------------------------------------
 
-.home-banner {
+.section-banner-home-img {
     height: 80vh;
     background-position: center;
     background-size: cover;
@@ -11,7 +11,7 @@
     opacity: 0.8;
 }
 
-.home-banner-title {
+.section-banner-home-title{
     height: 80vh;
     box-shadow: 0px 0px 10px $gris;
     padding: 31px;
@@ -27,103 +27,35 @@
     }
 }
 
-// Home Section Concept Livraison Produits
+// SECTION PRESENTATION DU CONCEPT ET LIVRAISON ---------------------------------------------------------------------------
 
-.concept-container {
+.section-presentation-container {
     height: auto;
     padding: 30px;
     box-shadow: 0 0 10px $gris;
     margin-top: 20px;
     h1 {
-       color: #4dbdc047;
-       
+       color: $vertc;
     } p {
         font-size: 14px;
     }
 }
 
-.centered-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-// Section Concept
 
-.livraison-container {
-    height: 400px;
-    padding: 30px;
-    box-shadow: 0 0 10px $gris;
-    margin: 20px 0;
-}
-
-.section-description-livraison {
+.section-description-livraison, .section-presentation-concept {
     padding-top: 30px;
 }
 
-/// Banner modal
-
-.menu-choice-modal {
-    border: none;
-    box-shadow: 0 0 10px $gris;
-    background-color: rgba(255, 255, 255, 0.9);
+// IMG CONCEPT HEIGHT------------------------------------------------------------------------------------------------------
+#logo-home {
+    height: 100px;
 }
-
-.menu-choices-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    height: 300px;
-
-    a {
-        padding: 20px;
-        background-color: $vertf;
-        color: white;
-        border-radius: 3px;
-    }
-}
-
-.menu-choices-header {
-    border: none;
-}
-
-.no-border {
-    border: none;
-    box-shadow: 0 0 10px $gris;
+#logo-home-text {
+    height: 60px;
 }
 
 
-// Map
-
-.marker {
-    background-image: url('../images/marker.svg');
-    background-size: cover;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-.marker-apero {
-    background-image: url('../images/marker-apero.svg');
-    background-size: cover;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-
-.mapboxgl-popup {
-    max-width: 200px;
-  }
-  
-  .mapboxgl-popup-content {
-    text-align: center;
-    font-family: 'Open Sans', sans-serif;
-  }
-
-
-// SLider
+// BANNER SLIDER ----------------------------------------------------------------------------------------------------------
 
 .rslides {
     position: relative;
@@ -132,37 +64,32 @@
     width: 100%;
     padding: 0;
     margin: 0;
-    }
+}
   
-  .rslides li {
+.rslides li {
     -webkit-backface-visibility: hidden;
     position: absolute;
     display: none;
     width: 100%;
     left: 0;
     top: 0;
-    }
+}
   
-  .rslides li:first-child {
+.rslides li:first-child {
     position: relative;
     display: block;
     float: left;
-    }
+}
   
-  .rslides img {
+.rslides img {
     display: block;
     height: 80vh;
     float: left;
     width: 100%;
     border: 0;
-    }
+}
 
-    #logo-home {
-        height: 100px;
-    }
-    #logo-home-text {
-        height: 60px;
-    }
+    
 // MEDIA QUERIES ---------------------------
 
 @media screen and (max-width:450px) {
@@ -170,19 +97,17 @@
         height: auto;
         
         h1 {
-            font-size: 1.5em;
+                font-size: 1.5em;
         }
     }
-
     .home-banner {
-        height: 40vh;
-        
+        height: 40vh;    
     }
-
+        
     .concept-container {
         padding: 30px 20px;
     }
-
+    
     .rslides img {
         height: 40vh;
     }
@@ -190,12 +115,16 @@
     #map {
         height: 280px;
     }
-
-    // #logo-home {
-    //     height: 200px;
-    // }
-
     .menu-choices-container a {
         padding: 8px;
     }
+}
+
+
+
+
+.centered-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
