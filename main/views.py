@@ -739,7 +739,7 @@ class PaymentView(View):
             send_mail(subject, text_message, from_email, [
                       'david.crenin@gmail.com'], html_message=html_message, fail_silently=False)
 
-            messages.success(
+            messages.info(
                 self.request, "Votre commande a été bien été prise en compte")
             return redirect("/")
 
@@ -841,7 +841,7 @@ class PaymentAperoView(View):
             send_mail(subject, text_message, from_email, [
                       'david.crenin@gmail.com'], html_message=html_message, fail_silently=False)
 
-            messages.success(
+            messages.info(
                 self.request, "Votre commande a été bien été prise en compte")
             return redirect("/")
 
@@ -1007,6 +1007,18 @@ class ProfileView(View):
 
         return render(self.request, 'profile.html', context)
 
+
+
+
+
+
+
+
+
+
+
+
+
 # def get_coupon(request, code):
 #     try:
 #         coupon = Coupon.objects.get(code=code)
@@ -1029,7 +1041,7 @@ class ProfileView(View):
 #                 )
 #                 order.coupon = get_coupon(self.request, code)
 #                 order.save()
-#                 messages.success(self.request, 'Le code coupon est accepté')
+#                 messages.info(self.request, 'Le code coupon est accepté')
 #                 return redirect('checkout')
 #             except ObjectDoesNotExist:
 #                 messages.info(self.request, "You do not have an active order")

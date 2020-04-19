@@ -64,7 +64,6 @@ class Product(models.Model):
     allergene3 = models.CharField(
         max_length=32, choices=PRODUCT_ALLERGENES, blank=True, null=True)
     menu = models.CharField(max_length=30, choices=MENU, default='Dejeuner')
-    quantite = models.IntegerField(default=1)
 
     def __str__(self):
         return self.name
@@ -196,7 +195,7 @@ class Info(models.Model):
     code_postal = models.IntegerField()
     pays = CountryField(multiple=False)
     default = models.BooleanField(default=False)
-    zone_delivery = models.CharField(max_length=30)
+    zone_delivery = models.CharField(max_length=30, default='')
     rang_delivery = models.CharField(max_length=20)
     numero_delivery = models.CharField(max_length=30)
 

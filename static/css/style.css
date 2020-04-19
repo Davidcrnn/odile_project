@@ -951,6 +951,16 @@ body {
 .alert {
   margin-bottom: 0; }
 
+.alert-info, .alert-warning {
+  background-color: #4A898B;
+  color: white;
+  border: none; }
+
+.alert-success {
+  background-color: vertc;
+  color: white;
+  border: none; }
+
 p {
   color: #454545; }
 
