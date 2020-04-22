@@ -192,6 +192,9 @@ ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
 
 COUNTRIES_FIRST = ['FR']
 COUNTRIES_FIRST_SORT = True
+# COUNTRIES_ONLY = ['FR', 'US', 'ES', 'IT']
+COUNTRIES_ONLY = [('NA', ('Non précisé')), 'FR', 'BE', 'DE', 'IE',
+                  'GR', 'ES', 'IT', 'NL', 'CA', 'JP', 'RU', 'GB', 'US', 'CN']
 
 
 EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"

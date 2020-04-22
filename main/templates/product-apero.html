@@ -175,7 +175,7 @@
                 action: 'post',
             },
             success: function (json) {
-                $('.selectpicker').selectpicker('refresh'); // Reset form select
+                $('.selectpicker').val('1').selectpicker('refresh'); // reset form select
                 $('.modal').modal('hide'); // Hide modal
                 var total = json.total + '€'
                 var myvar = '<li class="list-group-item d-flex justify-content-between lh-condensed">' +

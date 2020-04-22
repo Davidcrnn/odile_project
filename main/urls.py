@@ -27,6 +27,8 @@ from .views import (
     AvisCreate,
     ContactView,
     ProfileView,
+    is_delivered,
+    GeneratePdf,
 
     #     AddCouponView,
 
@@ -48,18 +50,22 @@ urlpatterns = [
          name='order-summary-dejeuner'),
     path('panier-apero/', OrderSummaryAperoView.as_view(),
          name='order-summary-apero'),
-    path('checkout/', CheckoutView.as_view(), name='checkout'),
-    path('checkout-apero/', CheckoutViewApero.as_view(), name='checkout-apero'),
-    path('payment-dejeuner/', PaymentView.as_view(), name='payment-dejeuner'),
-    path('payment-apero/', PaymentAperoView.as_view(), name='payment-apero'),
+    path('livraison-dejeuner/', CheckoutView.as_view(), name='checkout'),
+    path('livraison-apero/', CheckoutViewApero.as_view(), name='checkout-apero'),
+    path('paiement-dejeuner/', PaymentView.as_view(), name='payment-dejeuner'),
+    path('paiement-apero/', PaymentAperoView.as_view(), name='payment-apero'),
     #     path('add-coupon/', AddCouponView.as_view(), name='add-coupon'),
-    path('request-refund/', RequestRefundView.as_view(), name='request-refund'),
-    path('order/', OrderDash.as_view(), name='order'),
+    path('demande-remboursement/',
+         RequestRefundView.as_view(), name='request-refund'),
+    path('tableau-de-bord/', OrderDash.as_view(), name='order'),
     path('mentions-legales/', mentionsLegales.as_view(), name='mentions'),
     path('conditions-generales/', ConditionsGenerales.as_view(), name='cgv'),
     path('votre-avis/', AvisCreate.as_view(), name='avis'),
     path('contact/', ContactView.as_view(), name='contact'),
     path('profil/', ProfileView.as_view(), name='profil'),
+    path('is_delivered/<ref_code>/', is_delivered, name='is_delivered'),
+    path('pdf/<ref_code>', GeneratePdf, name='pdf'),
+
 
 
 ]

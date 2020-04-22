@@ -116,11 +116,9 @@
                                 <input type="checkbox" class="custom-control-input" name="use_default_shipping"
                                     id="use_default_shipping">
 
-                                <label class="custom-control-label" for="use_default_shipping">Utiliser votre profil
-                                    :
+                                <label class="custom-control-label" for="use_default_shipping">Utiliser votre profil:
                                     <ul>
                                         <li>{{ default_address.prenom }} {{ default_address.name }}</li>
-
                                         <li>{{ default_address.email }}</li>
                                         <li>{{ default_address.phone }}</li>
                                     </ul>
@@ -191,35 +189,23 @@
                                     {{ form.pays.errors }}
                                 </div>
                             </div>
-                            {% if not default_address %}
+
                             <div class="col-xs-12">
                                 <div class="md-form mb-2 ml-3">
-
-                                    <!-- {{ form.save_address }}
-                                        <label for="" class="">Sauvegarder ces informations pour une prochaine
-                                            commande</label> -->
-
-                                    <input type="checkbox" class="custom-control-input" name="save_address">
-
+                                    <input type="checkbox" class="custom-control-input" name="save_address"
+                                        id="save_address">
                                     <label class="custom-control-label" for="save_address">Sauvegarder ces informations
-                                        pour une prochaine
-                                        commande
+                                        pour une prochaine commande
                                     </label>
                                 </div>
                             </div>
-                            {% endif %}
                         </div>
                     </div>
-
-
                     <hr>
                     <h3>Modalités de livraison <span id="delivery-tooltip"> <img
                                 src="{% static '../static/images/tooltip.svg' %}" alt="" style='height: 15px;'></span>
                     </h3>
-
                     <div class="d-block my-3">
-
-
                         {% for value, name in form.fields.delivery_option.choices %}
                         <div class="option-delivery">
                             <label class="" for="{{ name }}">
@@ -229,7 +215,6 @@
                             </label>
                         </div>
                         {% endfor %}
-
                     </div>
                     <div class="option-bateau" id='emplacement-bateau'>
                         <h3>Option Livraison sur Bateau <span id="delivery-option-tooltip"> <img
@@ -257,7 +242,6 @@
                                 {{ form.creneau_delivery.errors }}
                             </div>
                         </div>
-
                     </div>
                     <div id='map-dejeuner' style='width: 100%; height: 340px;'></div>
                     <br>

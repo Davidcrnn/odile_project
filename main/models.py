@@ -64,6 +64,7 @@ class Product(models.Model):
     allergene3 = models.CharField(
         max_length=32, choices=PRODUCT_ALLERGENES, blank=True, null=True)
     menu = models.CharField(max_length=30, choices=MENU, default='Dejeuner')
+    visible = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
@@ -144,9 +145,16 @@ class Order(models.Model):
             total += order_product.quantity
         return total
 
-    class Meta:
-        ordering = ('-date_de_creation',)
-        verbose_name = 'Commande'
+    def get_is_delivered_url(self):
+        return reverse('is_delivered', kwargs={'ref_code': self.ref_code})
+
+    # def get_GeneratePdf_url(self):
+    #     return reverse('GeneratePdf', kwargs={'ref_code': self.ref_code})
+
+
+class Meta:
+    ordering = ('-date_de_creation',)
+    verbose_name = 'Commande'
 
 
 class Payment(models.Model):
@@ -195,9 +203,9 @@ class Info(models.Model):
     code_postal = models.IntegerField()
     pays = CountryField(multiple=False)
     default = models.BooleanField(default=False)
-    zone_delivery = models.CharField(max_length=30, default='')
-    rang_delivery = models.CharField(max_length=20)
-    numero_delivery = models.CharField(max_length=30)
+    zone_delivery = models.CharField(max_length=30, blank=True, null=True)
+    rang_delivery = models.CharField(max_length=20, blank=True, null=True)
+    numero_delivery = models.CharField(max_length=30, blank=True, null=True)
 
     def __str__(self):
         return self.user.email

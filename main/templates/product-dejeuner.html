@@ -168,7 +168,7 @@
                 action: 'post',
             },
             success: function (json) {
-                $('.selectpicker').selectpicker('refresh'); // reset form select
+                $('.selectpicker').val('1').selectpicker('refresh'); // reset form select
 
                 $('.modal').modal('hide');
                 var total = json.total + '€'

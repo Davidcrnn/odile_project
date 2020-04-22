@@ -29,7 +29,8 @@
                         </ul>
                         <p class="total-profil">Total: {{ o.payment.amount|floatformat }}€ </p>
                         <small><a href="{% url 'request-refund' %} ">Demande de remboursement</a></small><br>
-                        <small><a href="{% url 'contact' %} ">Une question ? </a></small>
+                        <small><a href="{% url 'contact' %} ">Une question ? </a></small><br>
+                        <small><a href="{% url 'pdf' o.ref_code %}">Facture</a></small>
 
                     </div>
                 </div>
