@@ -1,8 +1,7 @@
-// Tableau de bord Utilisation
+// HISTORIQUE DES COMMANDES USER & ADMIN ---------------------
 
 .section-order-profil{
     padding: 20px;
-   
     h4 {
         color: $vertf;
         text-align: center;
@@ -28,4 +27,35 @@
     position: absolute;
     right: 30px;
     top:20px;
+}
+
+.filter-card-order{
+    box-shadow: 0 0 10px #b9b9b9;
+    padding:20px;
+    height: 150px;
+    h2 {
+        color: $vertf;
+        font-size: 20px;
+        
+    }
+}
+
+.table td p  {
+    margin: 0;
+}
+
+.border-green {
+   padding-bottom: 20px;
+    border-bottom: 2px solid $vertf;
+}
+
+.header-order {
+    text-align: center;
+    color: $vertc;
+    padding: 30px 0;
+    
+}
+
+.pointer {
+    cursor: pointer;
 }

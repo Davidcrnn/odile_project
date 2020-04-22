@@ -230,16 +230,25 @@ class ProductForm(forms.Form):
              ('2', 2),
              ('3', 3),
              ('4', 4),
-
+             ('5', 5),
+             ('6', 6),
+             ('7', 7),
+             ('8', 8),
+             ('9', 9),
+             ('10', 10),
          )
          ),
     )
 
     quantity = forms.ChoiceField(
         widget=forms.Select(attrs={
-
             "class": "selectpicker",
         }), choices=QUANTITY_PRODUCT, label='Choisissez la quantité:', initial='--Choisissez une quantité --')
+
+
+class DeliveredForm(forms.Form):
+    is_delivered = forms.BooleanField(
+        required=True, widget=forms.CheckboxInput())
 
 
 class CouponForm(forms.Form):

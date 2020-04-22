@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block head_title %}Tableau des commandes{% endblock head_title %}
-
+{% load tz %}
 
 {% block content %}
 
@@ -12,27 +12,221 @@
         </div>
     </div>
 
-    <div class="row">
-        {% for order in orders %}
-        <div class="col-xs-12 col-md-6 border">
-            <p>{{ order.ref_code }}</p>
-            <p>{{ order.user }}</p>
-            <p>{{ order.payment.amount }}</p>
-            {% for orderitem in order.products.all  %}
-            <p>{{ orderitem }}</p>
-            {% endfor %}
 
-            {% for price in order.payment.all  %}
-            <p>{{ price.amount }}</p>
-            {% endfor %}
-
-
+    <div class="row border-green">
+        <div class="col-xs-12 col-md-4">
+            <div class="filter-card-order centered-content all-order pointer">
+                <h2>TOUTES LES COMMANDES</h2>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-4">
+            <div class="filter-card-order centered-content dej-order pointer">
+                <h2>COMMANDES DÉJEUNER</h2>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-4">
+            <div class="filter-card-order centered-content apero-order pointer">
+                <h2>COMMANDES APERO</h2>
+            </div>
         </div>
 
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-3">
+            <p>filter by:</p>
+        </div>
+    </div>
+    <div class="row">
 
 
-        {% endfor %}
+        <div class="col-xs-12 col-md-12">
+            <div class="dejeuner-card-all">
+                <div class="header-order">
+                    <h3>DÉJEUNER({{ orders_dej.count }})</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Référence commande</th>
+                                <th scope="col">Date de livraison</th>
+                                <th scope="col">Mode de livraison</th>
+                                <th scope="col">Produits</th>
+                                <th scope="col">Préparé</th>
+                            </tr>
+                        </thead>
+                        {% for order in orders_dej %}
+                        <tbody>
+                            <tr data-id='{{ order.ref_code }}'>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{ order.ref_code }}</td>
+                                <td>{{ order.date_de_creation|date:'d/m/Y H:i' }}</td>
+                                <td>{{order.delivery_option}}</td>
+                                <td>{% for orderitem in order.products.all  %}
+                                    <p>{{ orderitem }}</p>
+                                    {% endfor %}
+
+                                </td>
+                                <form method="POST" action="{{ order.get_is_delivered_url }}" id='{{ order.ref_code }}'>
+                                    {% csrf_token %}
+                                    <td>
+                                        <p>{{form.is_delivered}}</p>
+                                        <input type="submit" value="Done">
+
+                                    </td>
+                                </form>
+                            </tr>
+
+                        </tbody>
+                        {% endfor %}
+                    </table>
+                </div>
+                <h3>Aujourd'hui ({{orders_today_dej.count}})</h3>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Référence commande</th>
+                                <th scope="col">Date de livraison</th>
+                                <th scope="col">Mode de livraison</th>
+                                <th scope="col">Produits</th>
+                            </tr>
+                        </thead>
+                        {% for order in orders_today_dej%}
+                        <tbody>
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{ order.ref_code }}</td>
+                                <td>{{ order.date_delivery }}</td>
+                                <td>{{order.delivery_option}}</td>
+                                <td>{% for orderitem in order.products.all  %}
+                                    <p>{{ orderitem }}</p>
+                                    {% endfor %}
+
+                                </td>
+                            </tr>
+
+                        </tbody>
+                        {% endfor %}
+                    </table>
+                </div>
+                <h3>Demain</h3>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Référence commande</th>
+                                <th scope="col">Date de livraison</th>
+                                <th scope="col">Mode de livraison</th>
+                                <th scope="col">Produits</th>
+                            </tr>
+                        </thead>
+                        {% for order in order_qs %}
+                        <tbody>
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{ order.ref_code }}</td>
+                                <td>{{ order.date_delivery }}</td>
+                                <td>{{order.delivery_option}}</td>
+                                <td>{% for orderitem in order.products.all  %}
+                                    <p>{{ orderitem }}</p>
+                                    {% endfor %}
+
+                                </td>
+                            </tr>
+
+                        </tbody>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="apero-card-all">
+        <div class="header-order">
+            <h3>APERO</h3>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Référence commande</th>
+                        <th scope="col">Date de livraison</th>
+                        <th scope="col">Produits</th>
+                    </tr>
+                </thead>
+                {% for order in orders_apero %}
+                <tbody>
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ order.ref_code }}</td>
+                        <td>{{ order.date_delivery }}</td>
+                        <td>{% for orderitem in order.products.all  %}
+                            <p>{{ orderitem }}</p>
+                            {% endfor %}
+
+                        </td>
+                    </tr>
+
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
     </div>
 
 </div>
 {% endblock content %}
+
+{% block extra_scripts %}
+<script>
+    $(document).ready(function () {
+
+        $('.dej-order').on('click', function () {
+            $('.dejeuner-card-all').show();
+            $('.apero-card-all').hide();
+        });
+
+        $('.apero-order').on('click', function () {
+            $('.dejeuner-card-all').hide();
+            $('.apero-card-all').show();
+        });
+        $('.all-order').on('click', function () {
+            $('.dejeuner-card-all').show();
+            $('.apero-card-all').show();
+        });
+    });
+</script>
+
+<script>
+    // AJAX CALL TO ADD TO CART ---------------------------------------------
+    $('table').on("submit", 'form', function (e) {
+        e.preventDefault();
+        var target = $(this).attr('id');
+
+        var urlAjax = $(this).attr('action');
+        console.log(urlAjax);
+        $.ajax({
+            type: 'POST',
+            url: urlAjax,
+            data: {
+                is_delivered: true,
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                action: 'post',
+            },
+            success: function (json) {
+                console.log('it_works')
+                $('tr[data-id=' + target + ']').remove();
+            },
+            error: function (xhr, errmsg, err) {
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });
+    });
+</script>
+
+{% endblock extra_scripts %}

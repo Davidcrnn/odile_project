@@ -1,0 +1,96 @@
+{% load static  %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Django HTMLtoPDF Tutorial</title>
+
+    <title>Facture</title>
+    <style type="text/css">
+        body {
+            font-weight: 200;
+            font-size: 14px;
+        }
+
+        .header {
+            font-size: 20px;
+            font-weight: 100;
+            text-align: center;
+            color: #007cae;
+        }
+
+        .title {
+            font-size: 22px;
+            font-weight: 100;
+            /* text-align: right;*/
+            padding: 10px 20px 0px 20px;
+        }
+
+        .title span {
+            color: #007cae;
+        }
+
+        .details {
+            padding: 10px 20px 0px 20px;
+            text-align: left !important;
+            /*margin-left: 40%;*/
+        }
+
+        .hrItem {
+            border: none;
+            height: 1px;
+            /* Set the hr color */
+            color: #333;
+            /* old IE */
+            background-color: #fff;
+            /* Modern Browsers */
+        }
+    </style>
+</head>
+
+<body>
+    <div class='wrapper'>
+        <div class='header'>
+            <p class='title'>Facture : {{ ref_code }} </p>
+            <img src="{% static '../static/images/logo-bateau.svg' %}" alt="" style="height:50px">
+        </div>
+        <div>
+            <div class='details'>
+                Bill to: {{total|floatformat}}<br />
+                Amount: <br />
+                Date:
+                <hr class='hrItem' />
+            </div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="1">#</th>
+                    <th colspan="1">Repas</th>
+                    <th colspan="1">Prix</th>
+                    <th colspan="1">Quantité</th>
+                    <th colspan="1">Prix Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>
+                        {{ product.product.name }}</li>
+                    </td>
+                    <td>{{ product.product.price }}</td>
+                    <td>{{ product.quantity }}</td>
+                    <td>{{ product.product.name }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
+
+</html>

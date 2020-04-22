@@ -1,14 +1,16 @@
 from django.contrib import messages
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
+import datetime
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView, ListView, DetailView, View, CreateView
-from .forms import CheckoutForm, CheckoutAperoForm, CouponForm, RefundForm, PaymentForm, AvisForm, ContactForm, ProductForm
+from .forms import CheckoutForm, CheckoutAperoForm, CouponForm, RefundForm, PaymentForm, AvisForm, ContactForm, ProductForm, DeliveredForm
 from .models import Product, OrderProduct, Order, Payment, Coupon, Refund, Info, Avis
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.urls import reverse
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -44,7 +46,7 @@ class ProductListView(ListView):
     context_object_name = 'products'
 
     def get(self, *args, **kwargs):
-        products = Product.objects.filter(menu='Dejeuner')
+        products = Product.objects.filter(menu='Dejeuner', visible=True)
         form = ProductForm(auto_id=False)
         user = self.request.user
         if user.is_authenticated:
@@ -73,7 +75,7 @@ class ProductAperoView(ListView):
     context_object_name = 'products'
 
     def get(self, *args, **kwargs):
-        products = Product.objects.filter(menu='Apero')
+        products = Product.objects.filter(menu='Apero', visible=True)
         form = ProductForm(auto_id=False)
         user = self.request.user
         if user.is_authenticated:
@@ -455,7 +457,7 @@ def remove_single_product_from_cart(request, slug):
 
 
 class CheckoutView(View):
-
+    @method_decorator(login_required)
     def get(self, *args, **kwargs):
         try:
             order = Order.objects.get(user=self.request.user, ordered=False, type_of_order='Dejeuner')
@@ -480,6 +482,7 @@ class CheckoutView(View):
 
         return render(self.request, "checkout.html", context)
 
+    @method_decorator(login_required)
     def post(self, *args, **kwargs):
         form = CheckoutForm(self.request.POST or None)
         args = {}
@@ -576,7 +579,7 @@ class CheckoutView(View):
 
 
 class CheckoutViewApero(View):
-
+    @method_decorator(login_required)
     def get(self, *args, **kwargs):
         try:
             order = Order.objects.get(user=self.request.user, ordered=False, type_of_order='Apero')
@@ -600,7 +603,7 @@ class CheckoutViewApero(View):
             return redirect('checkout-apero')
 
         return render(self.request, "checkout-apero.html", context)
-
+    @method_decorator(login_required)
     def post(self, *args, **kwargs):
         form = CheckoutAperoForm(self.request.POST or None)
         args= {}
@@ -684,6 +687,7 @@ class CheckoutViewApero(View):
 
 
 class PaymentView(View):
+    @method_decorator(login_required)
     def get(self, *args, **kwargs):
         order = Order.objects.get(user=self.request.user, ordered=False,type_of_order='Dejeuner')
         if order.information:
@@ -696,7 +700,7 @@ class PaymentView(View):
             messages.warning(
                 self.request, "Vous devez remplir le formulaire avant d'accèder au paiement ")
             return redirect("checkout")
-
+    @method_decorator(login_required)
     def post(self, *args, **kwargs):
         order = Order.objects.get(user=self.request.user, ordered=False, type_of_order='Dejeuner')
         token = self.request.POST.get('stripeToken')
@@ -786,6 +790,7 @@ class PaymentView(View):
 
 
 class PaymentAperoView(View):
+    @method_decorator(login_required)
     def get(self, *args, **kwargs):
         order = Order.objects.get(user=self.request.user, ordered=False, type_of_order='Apero')
         if order.information:
@@ -800,7 +805,7 @@ class PaymentAperoView(View):
             messages.warning(
                 self.request, "Vous devez remplir le formulaire avant d'accèder au paiement ")
             return redirect("checkout-apero")
-
+    @method_decorator(login_required)
     def post(self, *args, **kwargs):
         order = Order.objects.get(user=self.request.user, ordered=False, type_of_order='Apero')
         token = self.request.POST.get('stripeToken')
@@ -920,10 +925,68 @@ class RequestRefundView(View):
 
 
 
-class OrderDash(ListView):
-    model = Order
-    context_object_name = 'orders'
-    template_name = 'order-list.html'
+class OrderDash(View):
+   
+
+    def get(self, *args, **kwargs):
+        orders_dej = Order.objects.filter(type_of_order='Dejeuner', ordered=True, is_delivered=False).order_by('date_de_creation')
+        orders_apero = Order.objects.filter(type_of_order='Apero', ordered=True, is_delivered=False).order_by('date_delivery')
+        order_delivery_ecole = Order.objects.filter(delivery_option='1', ordered=True, is_delivered=False).order_by('date_delivery')
+        order_delivery_loueur = Order.objects.filter(delivery_option='2', ordered=True, is_delivered=False).order_by('date_delivery')
+        order_delivery_bateau = Order.objects.filter(delivery_option='3', ordered=True, is_delivered=False).order_by('date_delivery')
+        tomorrow = datetime.datetime.now() + datetime.timedelta(days=1)
+        order_qs = Order.objects.filter(date_de_creation__date = tomorrow.date())
+        orders_today_dej = Order.objects.filter(date_de_creation__date=datetime.datetime.now())
+        form = DeliveredForm(auto_id=False)
+        context = {
+            "orders_dej": orders_dej,
+            "orders_apero": orders_apero,
+            "order_delivery_ecole": order_delivery_ecole,
+            "order_delivery_loueur": order_delivery_loueur,
+            "order_delivery_bateau": order_delivery_bateau,
+            "order_qs": order_qs,
+            "orders_today_dej": orders_today_dej,
+            "form": form
+
+        }
+        return render(self.request, 'order-list.html', context)
+
+    # def post(self,*args,**kwargs):
+    #     orders_dej = Order.objects.filter(type_of_order='Dejeuner', ordered=True, is_delivered=False)
+    #     form = DeliveredForm(self.request.POST)
+    #     data = {}
+    #     if form.is_valid():
+    #         is_delivered = form.cleaned_data['is_delivered']
+    #         try:
+    #             if is_delivered:
+    #                 order = orders_dej[0]
+    #                 order.is_delivered = True
+    #                 order.save()
+    #             messages.info(self.request, 'LIVRER')
+    #             return redirect('order')
+    #         except ObjectDoesNotExist:
+    #             messages.info(self.request, "La commande n'existe pas")
+    #             return redirect('order')
+
+def is_delivered(request, ref_code):
+    form = DeliveredForm(request.POST)
+    orders_dej = Order.objects.get(ref_code=ref_code)
+    data ={}
+    if form.is_valid():
+        is_delivered = form.cleaned_data['is_delivered']
+        try:
+            if is_delivered:
+                order = orders_dej
+                order.is_delivered = True
+                order.save()
+                
+            messages.info(request, 'LIVRER')
+            # return redirect('order')
+            return JsonResponse(data)
+        except ObjectDoesNotExist:
+            messages.info(request, "La commande n'existe pas")
+            return redirect('order')
+
 
 
 
@@ -993,8 +1056,9 @@ class ContactView(View):
             args['form'] = form
             return render(self.request, 'contact.html', args)
 
-# @login_required
+
 class ProfileView(View):
+    @method_decorator(login_required)
     def get(self, request):
         user = self.request.user
         order = Order.objects.filter(user=user, ordered=True).order_by('-date_de_creation')
@@ -1046,3 +1110,36 @@ class ProfileView(View):
 #             except ObjectDoesNotExist:
 #                 messages.info(self.request, "You do not have an active order")
 #                 return redirect('checkout')
+
+
+
+# PDF VIEW
+
+from django.template.loader import get_template
+
+#import render_to_pdf from util.py 
+from .utils import render_to_pdf 
+
+
+def GeneratePdf(request, ref_code):
+    template = get_template('invoice.html')
+    order = Order.objects.get(ref_code=ref_code)
+    context = {
+        "ref_code": order.ref_code,
+        'products': order.products.all(),
+        "total": order.get_total,
+        "amount": 1399.99,
+        "today": "Today",
+    }
+    html = template.render(context)
+    pdf = render_to_pdf('invoice.html', context)
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        filename = "Commande_%s.pdf" %(order.ref_code)
+        content = "inline; filename='%s'" %(filename)
+        download = request.GET.get("download")
+        if download:
+            content = "attachment; filename='%s'" %(filename)
+        response['Content-Disposition'] = content
+        return response
+    return HttpResponse("Not found")

@@ -10,6 +10,10 @@ def make_refund_accepted(modeladmin, request, queryset):
 make_refund_accepted.short_description = 'Update orders to refund granted'
 
 
+def make_is_delivered_true(modeladmin, request, queryset):
+    queryset.update(is_delivered=False, received=True)
+
+
 class OrderAdmin(admin.ModelAdmin):
     list_display = [
         'user',
@@ -42,7 +46,7 @@ class OrderAdmin(admin.ModelAdmin):
         'ref_code'
     ]
 
-    actions = [make_refund_accepted]
+    actions = [make_refund_accepted, make_is_delivered_true]
 
 
 class PaymentAdmin(admin.ModelAdmin):
