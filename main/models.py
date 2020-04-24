@@ -114,6 +114,8 @@ class Order(models.Model):
         'Info', on_delete=models.SET_NULL, blank=True, null=True)
     date_de_creation = models.DateTimeField(default=now)
     date_delivery = models.CharField(max_length=100)
+    date_de_livraison = models.DateTimeField(
+        default=now, blank=True)
     creneau_delivery = models.CharField(
         max_length=30, default='10', blank=True, null=True)
     # date_publication = models.DateField(auto_now_add=False, blank=True, null=True)
@@ -155,6 +157,7 @@ class Order(models.Model):
 class Meta:
     ordering = ('-date_de_creation',)
     verbose_name = 'Commande'
+    verbose_name_plural = 'Commandes'
 
 
 class Payment(models.Model):
