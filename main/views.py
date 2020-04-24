@@ -491,7 +491,7 @@ class CheckoutView(View):
                 user=self.request.user, ordered=False, type_of_order='Dejeuner')
             if form.is_valid():
                 default_address = form.cleaned_data.get('default_address')
-                date_delivery = form.cleaned_data.get('date_delivery')
+                date_de_livraison = form.cleaned_data.get('date_de_livraison')
                 delivery_option = form.cleaned_data.get('delivery_option')
                 couvert = form.cleaned_data.get('couvert')
 
@@ -504,9 +504,12 @@ class CheckoutView(View):
                         shipping_address = address_qs[0]
                         order.information = shipping_address
                         order.delivery_option = delivery_option
-                        order.date_delivery = date_delivery
+                        order.date_de_livraison = datetime.datetime.strptime(date_de_livraison, '%d/%m/%Y %H:%M' )
                         order.couvert = couvert
                         order.save()
+                        messages.info(
+                            self.request, 'Il ne vous reste plus que le paiement - default')
+                        return redirect('payment-dejeuner')
                     else:
                         messages.info(
                             self.request, "Pas de profil enregistré")
@@ -518,7 +521,7 @@ class CheckoutView(View):
                     email = form.cleaned_data.get('email')
                     code_postal = form.cleaned_data.get('code_postal')
                     pays = form.cleaned_data.get('pays')
-                    date_delivery = form.cleaned_data.get('date_delivery')
+                    date_de_livraison = form.cleaned_data.get('date_de_livraison')
                     delivery_option = form.cleaned_data.get(
                         'delivery_option')
 
@@ -548,7 +551,7 @@ class CheckoutView(View):
 
                         order.information = adresse_info
                         order.couvert= couvert
-                        order.date_delivery = date_delivery
+                        order.date_de_livraison = datetime.datetime.strptime(date_de_livraison, '%d/%m/%Y %H:%M' )
                         order.delivery_option = delivery_option
                         order.creneau_delivery= creneau_delivery
                         
@@ -612,7 +615,7 @@ class CheckoutViewApero(View):
                 user=self.request.user, ordered=False, type_of_order='Apero')
             if form.is_valid():
                 default_address = form.cleaned_data.get('default_address')
-                date_delivery = form.cleaned_data.get('date_delivery')
+                date_de_livraison = form.cleaned_data.get('date_de_livraison')
                 couvert = form.cleaned_data.get('couvert')
                 
 
@@ -624,9 +627,12 @@ class CheckoutViewApero(View):
                     if address_qs.exists():
                         shipping_address = address_qs[0]
                         order.information = shipping_address
-                        order.date_delivery = date_delivery
+                        order.date_de_livraison = datetime.datetime.strptime(date_de_livraison, '%d/%m/%Y %H:%M' )
                         order.couvert = couvert
                         order.save()
+                        messages.info(
+                            self.request, 'Il ne vous reste plus que le paiement - default')
+                        return redirect('payment-apero')
                     else:
                         messages.info(
                             self.request, "Pas de profil enregistré")
@@ -638,7 +644,7 @@ class CheckoutViewApero(View):
                     email = form.cleaned_data.get('email')
                     code_postal = form.cleaned_data.get('code_postal')
                     pays = form.cleaned_data.get('pays')
-                    date_delivery = form.cleaned_data.get('date_delivery')
+                    date_de_livraison = form.cleaned_data.get('date_de_livraison')
                     couvert = form.cleaned_data.get('couvert')
                     
                     
@@ -657,7 +663,8 @@ class CheckoutViewApero(View):
                         adresse_info.save()
 
                         order.information = adresse_info
-                        order.date_delivery = date_delivery
+                        # order.date_de_livraison = date_de_livraison
+                        order.date_de_livraison = datetime.datetime.strptime(date_de_livraison, '%d/%m/%Y %H:%M' )
                         order.couvert = couvert
                        
                         
@@ -929,14 +936,14 @@ class OrderDash(View):
    
 
     def get(self, *args, **kwargs):
-        orders_dej = Order.objects.filter(type_of_order='Dejeuner', ordered=True, is_delivered=False).order_by('date_de_creation')
-        orders_apero = Order.objects.filter(type_of_order='Apero', ordered=True, is_delivered=False).order_by('date_delivery')
-        order_delivery_ecole = Order.objects.filter(delivery_option='1', ordered=True, is_delivered=False).order_by('date_delivery')
-        order_delivery_loueur = Order.objects.filter(delivery_option='2', ordered=True, is_delivered=False).order_by('date_delivery')
-        order_delivery_bateau = Order.objects.filter(delivery_option='3', ordered=True, is_delivered=False).order_by('date_delivery')
+        orders_dej = Order.objects.filter(type_of_order='Dejeuner', ordered=True, is_delivered=False).order_by('date_de_livraison')
+        orders_apero = Order.objects.filter(type_of_order='Apero', ordered=True, is_delivered=False).order_by('date_de_livraison')
+        order_delivery_ecole = Order.objects.filter(delivery_option='1', ordered=True, is_delivered=False).order_by('date_de_livraison')
+        order_delivery_loueur = Order.objects.filter(delivery_option='2', ordered=True, is_delivered=False).order_by('date_de_livraison')
+        order_delivery_bateau = Order.objects.filter(delivery_option='3', ordered=True, is_delivered=False).order_by('date_de_livraison')
         tomorrow = datetime.datetime.now() + datetime.timedelta(days=1)
-        order_qs = Order.objects.filter(date_de_creation__date = tomorrow.date())
-        orders_today_dej = Order.objects.filter(date_de_creation__date=datetime.datetime.now())
+        order_qs = Order.objects.filter(date_de_livraison__date = tomorrow.date())
+        orders_today_dej = Order.objects.filter(date_de_livraison__date=datetime.datetime.now())
         form = DeliveredForm(auto_id=False)
         context = {
             "orders_dej": orders_dej,
@@ -1143,3 +1150,4 @@ def GeneratePdf(request, ref_code):
         response['Content-Disposition'] = content
         return response
     return HttpResponse("Not found")
+

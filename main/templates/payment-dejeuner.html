@@ -111,7 +111,7 @@
                 <p>{{ order.information.name }}</p>
                 <p>{{ order.information.email }}</p>
                 <p>{{ order.information.phone }}</p>
-                <p>Date de livraison: {{ order.date_delivery }}</p>
+                <p>Date de livraison: {{ order.date_de_livraison|date:'d/m/Y H:i'}}</p>
                 <p>Moyen de livraison : {{ order.delivery_option }}</p>
             </div>
             <div id="stickycart">

@@ -37,7 +37,7 @@ if DEBUG:
     }
 
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -135,7 +135,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'fr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Paris'
 
 USE_I18N = True
 
@@ -144,6 +144,7 @@ USE_L10N = False
 USE_TZ = True
 
 DATETIME_INPUT_FORMATS = '%d/%m/%Y %H:%M'
+DATETIME_FORMATS = '%d/%m/%Y %H:%M'
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
