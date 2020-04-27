@@ -97,6 +97,7 @@
                         <div class="col-xs-12 col-md-12">
                             <div class="md-form mb-2 ">
                                 <p>{{ form.couvert.label_tag }} {{ form.couvert }}</p>
+                                <small>{{ form.couvert.errors }}</small>
                             </div>
                         </div>
                     </div>
@@ -212,6 +213,7 @@
                                 <input id="{{ name }}" name="delivery_option" value="{{ value }}" type="radio" class=""
                                     required>
                                 <span>{{ name }}</span>
+                                {{ form.delivery_option.errors }}
                             </label>
                         </div>
                         {% endfor %}
@@ -562,22 +564,30 @@
     $(document).ready(function () {
 
         var firstOption = $('#select-time'),
-            firstOpt = firstOption.children(':first-child'),
-            secondOpt = firstOption.children().last(),
+            firstOpt = $('.optgroup-1 '),
+            secondOpt = $('.optgroup-2'),
+            // firstOpt = firstOption.children(':first-child'),
+            // secondOpt = firstOption.children().last(),
             myCreneau = $('#creneau-show'),
             zone_delivery_value = $('#id_zone_delivery');
 
-        myCreneau.hide();
-        zone_delivery_value.change(function () {
-            myCreneau.show();
-            if (zone_delivery_value.val() == '4' || zone_delivery_value.val() == '5b') {
+        // myCreneau.hide();
+        myCreneau.show();
+        zone_delivery_value.on('change', function () {
+            $('#select-time').selectpicker('refresh');
+            $('#select-time').selectpicker('render');
 
-                secondOpt.children().attr('disabled', true);
-                firstOpt.children().attr('disabled', false);
+            if (zone_delivery_value.val() == '4' || zone_delivery_value.val() == '5b') {
+                secondOpt.hide();
+                firstOpt.prop('disabled', false)
+                $('.selectpicker').selectpicker('refresh');
+
 
             } else {
-                firstOpt.children().attr('disabled', true);
-                secondOpt.children().attr('disabled', false);
+                firstOpt.hide();
+                secondOpt.prop('disabled', false);
+                $('.selectpicker').selectpicker('refresh');
+
 
             }
 

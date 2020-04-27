@@ -24,6 +24,7 @@ OBJET_CHOICES = (
 ZONE_LIVRAISON_BATEAU = (
     ('-- Choisissez une zone --',
      (
+         ('', 'Choisissez'),
          ('4', 'Zone 4'),
          ('5a', 'Zone 5a'),
          ('5b', 'Zone 5b'),
@@ -60,7 +61,7 @@ CRENEAU_DELIVERY = (
 COUVERT_CHOICES = (
     ('-- Nombre de couverts --',
         (
-            ('Pas besoin', 'Pas besoin'),
+            ('', 'Choisissez'),
             ('1', '1'),
             ('2', '2'),
             ('3', '3'),
@@ -168,6 +169,7 @@ class CheckoutForm(forms.Form):
             'id': 'select-time',
             'class': 'selectpicker',
             'data-size': "5",
+            'data-hide-disabled': 'true',
         }), choices=CRENEAU_DELIVERY)
 
 

@@ -474,7 +474,7 @@ class CheckoutView(View):
             )
             if address_qs.exists():
                 context.update(
-                    {'default_address': address_qs[0]})
+                    {'default_address': address_qs.latest('id')})
 
         except ObjectDoesNotExist:
             messages.info(self.request, "You do not have an active order")
@@ -551,10 +551,14 @@ class CheckoutView(View):
 
                         order.information = adresse_info
                         order.couvert= couvert
-                        order.date_de_livraison = datetime.datetime.strptime(date_de_livraison, '%d/%m/%Y %H:%M' )
                         order.delivery_option = delivery_option
                         order.creneau_delivery= creneau_delivery
-                        
+
+                        if order.delivery_option == '3':
+                            order.date_de_livraison = datetime.datetime.strptime(date_de_livraison, '%d/%m/%Y' )
+                        else:
+                            order.date_de_livraison = datetime.datetime.strptime(date_de_livraison, '%d/%m/%Y %H:%M' )
+                            
                         order.save()
 
                         save_address = form.cleaned_data.get(
@@ -599,7 +603,7 @@ class CheckoutViewApero(View):
             )
             if address_qs.exists():
                 context.update(
-                    {'default_address': address_qs[0]})
+                    {'default_address': address_qs.latest('id')})
 
         except ObjectDoesNotExist:
             messages.info(self.request, "You do not have an active order")
