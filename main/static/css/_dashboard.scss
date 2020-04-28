@@ -39,6 +39,19 @@
         
     }
 }
+.filter-card-by-type {
+    box-shadow: 0 0 10px #b9b9b9;
+    background-color: $jaune;
+    color: white;
+    padding:20px;
+    height: 60px;
+    border-radius: 20px;
+    h2 {
+        margin: 0;
+        font-size: 15px;
+        
+    }
+}
 
 .table td p  {
     margin: 0;
@@ -51,7 +64,7 @@
 
 .header-order {
     text-align: center;
-    color: $vertc;
+    color: $jaune;
     padding: 30px 0;
     
 }

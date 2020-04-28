@@ -52,7 +52,7 @@ TYPE_OF_ORDER = (
 class Product(models.Model):
     name = models.CharField(max_length=200)
     price = models.FloatField(verbose_name='Prix')
-    image = models.ImageField(blank=True, null=True)
+    image = models.FileField(upload_to='images/', blank=True, null=True)
     description = models.TextField()
     slug = models.SlugField()
     category = models.CharField(
