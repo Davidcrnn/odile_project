@@ -925,6 +925,17 @@ label:hover:before {
     color: #4A898B;
     font-size: 20px; }
 
+.filter-card-by-type {
+  box-shadow: 0 0 10px #b9b9b9;
+  background-color: #ffb627;
+  color: white;
+  padding: 20px;
+  height: 60px;
+  border-radius: 20px; }
+  .filter-card-by-type h2 {
+    margin: 0;
+    font-size: 15px; }
+
 .table td p {
   margin: 0; }
 
@@ -934,7 +945,7 @@ label:hover:before {
 
 .header-order {
   text-align: center;
-  color: #4DBDC0;
+  color: #ffb627;
   padding: 30px 0; }
 
 .pointer {

@@ -1,0 +1,101 @@
+// STYLE MODAL ------------------------------------------------------------------------------
+
+.modal-titre {
+    border: none !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    position: relative;
+    h5 {
+        font-size: 16px;
+        text-align: center;
+    }
+}
+
+.modal-bg-white {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+// MODAL HOMEPAGE SELECT MENU ---------------------------------------------------
+.menu-choices-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 300px;
+    a {
+        padding: 20px;
+        background-color: $vertf;
+        color: white;
+        border-radius: 3px;
+    }
+}
+
+
+// Header top no border --------------------------------------------
+.menu-choices-header {
+    border: none;
+}
+
+.no-border {
+    border: none;
+    box-shadow: 0 0 10px $gris;
+}
+
+.close {
+    color: $vertf !important;
+    opacity: 1 !important;
+    font-size: 30px;
+    position: absolute;
+    top: 10px;
+    right: 20Px;
+    z-index: 10;
+}
+
+// MODAL PRODUCT CONTENT ------------------------------------------------------
+
+.product-card-image-modal {
+    height: 250px;
+    background-position: center;
+    background-size: cover;
+    border-radius: 3px;
+    box-shadow: 0 0 10px $gris;
+}
+
+
+.product-card-text-modal{
+    padding: 0 40px 40px;
+    p {
+    margin: 20px 0;
+    font-size: 12px;   
+    }
+}
+
+.product-card-text-modal h4 {
+    color: $vertf;
+    font-size: 20px;
+    
+}
+.modal-btn {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.product-card-info-modal {
+    position: relative;
+    margin-top: 20px;
+    box-shadow: 0 0 10px $gris;
+    padding: 20px;
+}
+
+// Select modal btn
+
+
+
+.dropdown-item.active {
+    background-color: $gris;
+}
+
+
+

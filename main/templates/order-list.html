@@ -9,6 +9,7 @@
     <div class="header-section-title-container">
         <div class="header-section-title">
             <h1>TABLEAU DE BORD</h1>
+            <p>{{ today|date:'d/m/Y' }}</p>
         </div>
     </div>
 
@@ -31,127 +32,367 @@
         </div>
 
     </div>
-    <div class="row">
-        <div class="col-xs-12 col-md-3">
-            <p>filter by:</p>
-            <ul>
 
-            </ul>
+
+    <div class="order-card-all">
+
+
+        <div class="header-order">
+            <h3>AUJOURD'HUI ({{orders_today.count}})</h3>
+
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Référence commande</th>
+                        <th scope="col">Date de livraison</th>
+                        <th scope="col">Mode de livraison</th>
+                        <th scope="col">Produits</th>
+                    </tr>
+                </thead>
+
+                {% for order in orders_today%}
+                <tbody>
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ order.ref_code }}</td>
+                        <td>{{ order.date_de_livraison|date:'d/m/Y H:i'}}</td>
+                        <td>{{order.delivery_option}}</td>
+                        <td>{% for orderitem in order.products.all  %}
+                            <p>{{ orderitem }}</p>
+                            {% endfor %}
+
+                        </td>
+                    </tr>
+
+                    {% empty %}
+                    <tr>
+                        <td colspan='5' style='text-align: center'>Vous n'avez pas de commande pour aujourd'hui
+                        </td>
+                    </tr>
+
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="header-order">
+            <h3>DEMAIN ({{orders_tomorrow.count}})</h3>
+
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Référence commande</th>
+                        <th scope="col">Date de livraison</th>
+                        <th scope="col">Mode de livraison</th>
+                        <th scope="col">Produits</th>
+                    </tr>
+                </thead>
+                {% for order in orders_tomorrow %}
+                <tbody>
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ order.ref_code }}</td>
+                        <td>{{ order.date_de_livraison|date:'d/m/Y H:i' }}</td>
+                        <td>{{order.delivery_option}}</td>
+                        <td>{% for orderitem in order.products.all  %}
+                            <p>{{ orderitem }}</p>
+                            {% endfor %}
+
+                        </td>
+                    </tr>
+
+
+
+                    {% empty %}
+                    <tr>
+                        <td colspan='5' style='text-align: center'>Vous n'avez pas de commande pour demain
+                        </td>
+                    </tr>
+
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="header-order">
+            <h3>COMMANDE{{orders_all.count|pluralize:'S'}} ({{ orders_all.count }})</h3>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+
+                        <th scope="col">Référence commande</th>
+                        <th scope="col">Date de livraison</th>
+                        <th scope="col">Type de livraison</th>
+                        <th scope="col">Produits</th>
+
+                    </tr>
+                </thead>
+                {% for order in orders_all %}
+                <tbody>
+                    <tr data-id='{{ order.ref_code }}'>
+
+                        <td>{{ order.ref_code }}</td>
+                        <td>{{ order.date_de_livraison|date:'d/m/Y H:i' }}</td>
+                        <td>{{order.type_of_order}}</td>
+                        <td>{% for orderitem in order.products.all  %}
+                            <p>{{ orderitem }}</p>
+                            {% endfor %}
+
+                        </td>
+                    </tr>
+
+                </tbody>
+                {% endfor %}
+            </table>
         </div>
     </div>
-    <div class="row">
+
+    <div class="dejeuner-card-all">
 
 
-        <div class="col-xs-12 col-md-12">
-            <div class="dejeuner-card-all">
-                <div class="header-order">
-                    <h3>DÉJEUNER({{ orders_dej.count }})</h3>
-                </div>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Référence commande</th>
-                                <th scope="col">Date de livraison</th>
-                                <th scope="col">Mode de livraison</th>
-                                <th scope="col">Produits</th>
-                                <th scope="col">Préparé</th>
-                            </tr>
-                        </thead>
-                        {% for order in orders_dej %}
-                        <tbody>
-                            <tr data-id='{{ order.ref_code }}'>
-                                <th scope="row">{{ forloop.counter }}</th>
-                                <td>{{ order.ref_code }}</td>
-                                <td>{{ order.date_de_livraison|date:'d/m/Y H:i' }}</td>
-                                <td>{{order.delivery_option}}</td>
-                                <td>{% for orderitem in order.products.all  %}
-                                    <p>{{ orderitem }}</p>
-                                    {% endfor %}
+        <div class="header-order">
+            <h3>DÉJEUNER - AUJOURD'HUI ({{orders_today_dej.count}})</h3>
 
-                                </td>
-                                <form method="POST" action="{{ order.get_is_delivered_url }}" id='{{ order.ref_code }}'>
-                                    {% csrf_token %}
-                                    <td>
-                                        {{form.is_delivered}}
-                                        <input type="submit" value="Done" class=''>
-
-                                    </td>
-                                </form>
-                            </tr>
-
-                        </tbody>
-                        {% endfor %}
-                    </table>
-                </div>
-                <h3>Aujourd'hui ({{orders_today_dej.count}})</h3>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Référence commande</th>
-                                <th scope="col">Date de livraison</th>
-                                <th scope="col">Mode de livraison</th>
-                                <th scope="col">Produits</th>
-                            </tr>
-                        </thead>
-                        {% for order in orders_today_dej%}
-                        <tbody>
-                            <tr>
-                                <th scope="row">{{ forloop.counter }}</th>
-                                <td>{{ order.ref_code }}</td>
-                                <td>{{ order.date_de_livraison|date:'d/m/Y H:i'}}</td>
-                                <td>{{order.delivery_option}}</td>
-                                <td>{% for orderitem in order.products.all  %}
-                                    <p>{{ orderitem }}</p>
-                                    {% endfor %}
-
-                                </td>
-                            </tr>
-
-                        </tbody>
-                        {% endfor %}
-                    </table>
-                </div>
-                <h3>Demain</h3>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Référence commande</th>
-                                <th scope="col">Date de livraison</th>
-                                <th scope="col">Mode de livraison</th>
-                                <th scope="col">Produits</th>
-                            </tr>
-                        </thead>
-                        {% for order in order_qs %}
-                        <tbody>
-                            <tr>
-                                <th scope="row">{{ forloop.counter }}</th>
-                                <td>{{ order.ref_code }}</td>
-                                <td>{{ order.date_de_livraison|date:'d/m/Y H:i' }}</td>
-                                <td>{{order.delivery_option}}</td>
-                                <td>{% for orderitem in order.products.all  %}
-                                    <p>{{ orderitem }}</p>
-                                    {% endfor %}
-
-                                </td>
-                            </tr>
-
-                        </tbody>
-                        {% endfor %}
-                    </table>
-                </div>
-            </div>
         </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+
+                        <th scope="col">Référence commande</th>
+                        <th scope="col">Date de livraison</th>
+                        <th scope="col">Mode de livraison</th>
+                        <th scope="col">Produits</th>
+                        <th scope="col">Préparé</th>
+                    </tr>
+                </thead>
+
+                {% for order in orders_today_dej%}
+                <tbody>
+                    <tr data-id='{{ order.ref_code }}'>
+
+                        <td>{{ order.ref_code }}</td>
+                        <td>{{ order.date_de_livraison|date:'d/m/Y H:i'}}</td>
+                        <td>{{order.delivery_option}}</td>
+                        <td>{% for orderitem in order.products.all  %}
+                            <p>{{ orderitem }}</p>
+                            {% endfor %}
+                        </td>
+                        <form method="POST" action="{{ order.get_is_delivered_url }}" id='{{ order.ref_code }}'>
+                            {% csrf_token %}
+                            <td>
+                                {{form.is_delivered}}
+                                <input type="submit" value="Done" class=''>
+
+                            </td>
+                        </form>
+                    </tr>
+
+                    {% empty %}
+                    <tr>
+                        <td colspan='5' style='text-align: center'>Vous n'avez pas de commande pour aujourd'hui
+                        </td>
+                    </tr>
+
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="header-order">
+            <h3>DÉJEUNER - DEMAIN ({{orders_tomorrow_dej.count}})</h3>
+
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+
+                        <th scope="col">Référence commande</th>
+                        <th scope="col">Date de livraison</th>
+                        <th scope="col">Mode de livraison</th>
+                        <th scope="col">Produits</th>
+                        <th scope="col">Préparé</th>
+                    </tr>
+                </thead>
+                {% for order in orders_tomorrow_dej %}
+                <tbody>
+                    <tr data-id='{{ order.ref_code }}'>
+
+                        <td>{{ order.ref_code }}</td>
+                        <td>{{ order.date_de_livraison|date:'d/m/Y H:i' }}</td>
+                        <td>{{order.delivery_option}}</td>
+                        <td>{% for orderitem in order.products.all  %}
+                            <p>{{ orderitem }}</p>
+                            {% endfor %}
+
+                        </td>
+                        <form method="POST" action="{{ order.get_is_delivered_url }}" id='{{ order.ref_code }}'>
+                            {% csrf_token %}
+                            <td>
+                                {{form.is_delivered}}
+                                <input type="submit" value="Done" class=''>
+
+                            </td>
+                        </form>
+                    </tr>
+
+
+
+                    {% empty %}
+                    <tr>
+                        <td colspan='5' style='text-align: center'>Vous n'avez pas de commande pour demain
+                        </td>
+                    </tr>
+
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="header-order">
+            <h3>DÉJEUNER({{ orders_all_dej.count }})</h3>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+
+                        <th scope="col">Référence commande</th>
+                        <th scope="col">Date de livraison</th>
+                        <th scope="col">Mode de livraison</th>
+                        <th scope="col">Produits</th>
+
+                    </tr>
+                </thead>
+                {% for order in orders_all_dej %}
+                <tbody>
+                    <tr data-id='{{ order.ref_code }}'>
+
+                        <td>{{ order.ref_code }}</td>
+                        <td>{{ order.date_de_livraison|date:'d/m/Y H:i' }}</td>
+                        <td>{{order.delivery_option}}</td>
+                        <td>{% for orderitem in order.products.all  %}
+                            <p>{{ orderitem }}</p>
+                            {% endfor %}
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+
     </div>
+
 
     <div class="apero-card-all">
+
         <div class="header-order">
-            <h3>APERO</h3>
+            <h3>APERO - AUJOURD'HUI ({{orders_today_apero.count}})</h3>
+
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Référence commande</th>
+                        <th scope="col">Date de livraison</th>
+
+                        <th scope="col">Produits</th>
+                        <th scope="col">Préparé</th>
+                    </tr>
+                </thead>
+
+                {% for order in orders_today_apero%}
+                <tbody>
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ order.ref_code }}</td>
+                        <td>{{ order.date_de_livraison|date:'d/m/Y H:i'}}</td>
+                        <td>{% for orderitem in order.products.all  %}
+                            <p>{{ orderitem }}</p>
+                            {% endfor %}
+
+                        </td>
+                        <form method="POST" action="{{ order.get_is_delivered_url }}" id='{{ order.ref_code }}'>
+                            {% csrf_token %}
+                            <td>
+                                {{form.is_delivered}}
+                                <input type="submit" value="Done" class=''>
+
+                            </td>
+                        </form>
+                    </tr>
+
+                    {% empty %}
+                    <tr>
+                        <td colspan='5' style='text-align: center'>Vous n'avez pas de commande pour aujourd'hui
+                        </td>
+                    </tr>
+
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="header-order">
+            <h3>APERO - DEMAIN ({{orders_tomorrow_apero.count}})</h3>
+
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Référence commande</th>
+                        <th scope="col">Date de livraison</th>
+
+                        <th scope="col">Produits</th>
+                        <th scope="col">Préparé</th>
+                    </tr>
+                </thead>
+                {% for order in orders_tomorrow_apero %}
+                <tbody>
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ order.ref_code }}</td>
+                        <td>{{ order.date_de_livraison|date:'d/m/Y H:i' }}</td>
+                        <td>{% for orderitem in order.products.all  %}
+                            <p>{{ orderitem }}</p>
+                            {% endfor %}
+
+                        </td>
+                        <form method="POST" action="{{ order.get_is_delivered_url }}" id='{{ order.ref_code }}'>
+                            {% csrf_token %}
+                            <td>
+                                {{form.is_delivered}}
+                                <input type="submit" value="Done" class=''>
+
+                            </td>
+                        </form>
+                    </tr>
+
+
+
+                    {% empty %}
+                    <tr>
+                        <td colspan='4' style='text-align: center'>Vous n'avez pas de commande pour demain
+                        </td>
+                    </tr>
+
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="header-order">
+            <h3>APERO ({{orders_all_apero.count }})</h3>
         </div>
         <div class="table-responsive">
             <table class="table">
@@ -163,7 +404,7 @@
                         <th scope="col">Produits</th>
                     </tr>
                 </thead>
-                {% for order in orders_apero %}
+                {% for order in orders_all_apero %}
                 <tbody>
                     <tr>
                         <th scope="row">{{ forloop.counter }}</th>
@@ -180,6 +421,7 @@
                 {% endfor %}
             </table>
         </div>
+
     </div>
 
 </div>
@@ -188,10 +430,13 @@
 {% block extra_scripts %}
 <script>
     $(document).ready(function () {
-
+        $('.apero-card-all').hide();
+        $('.dejeuner-card-all').hide();
+        $('.all-order').addClass('black');
         $('.dej-order').on('click', function () {
             $('.dejeuner-card-all').show();
             $('.apero-card-all').hide();
+            $('.order-card-all').hide();
             $('.dej-order').addClass('black');
             $('.apero-order').removeClass('black');
             $('.all-order').removeClass('black');
@@ -199,14 +444,18 @@
 
         $('.apero-order').on('click', function () {
             $('.dejeuner-card-all').hide();
+            $('.order-card-all').hide();
             $('.apero-card-all').show();
+
+
             $('.apero-order').addClass('black');
             $('.dej-order').removeClass('black');
             $('.all-order').removeClass('black');
         });
         $('.all-order').on('click', function () {
-            $('.dejeuner-card-all').show();
-            $('.apero-card-all').show();
+            $('.order-card-all').show();
+            $('.dejeuner-card-all').hide();
+            $('.apero-card-all').hide();
             $('.all-order').addClass('black');
             $('.apero-order').removeClass('black');
             $('.dej-order').removeClass('black');

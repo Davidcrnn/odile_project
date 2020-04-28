@@ -18,3 +18,7 @@ if settings.DEBUG:
         path('accounts/', include('allauth.urls')),
         path('', include('main.urls')),
     ]
+
+
+# handler404 = 'main.views.custom_page_not_found_view'
+# handler500 = 'main.views.custom_error_view'
