@@ -1,7 +1,5 @@
 from django import forms
 from django.forms import ModelForm
-from django_countries.fields import CountryField
-from django_countries.widgets import CountrySelectWidget
 from flatpickr import DatePickerInput, TimePickerInput, DateTimePickerInput
 from django.utils.timezone import datetime
 from .models import Avis
@@ -111,18 +109,6 @@ class CheckoutForm(forms.Form):
             'class': 'form-control checkout-input',
         }))
 
-    code_postal = forms.CharField(max_length=13, required=True, error_messages={
-        'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
-            'placeholder': '75000',
-            'class': 'form-control checkout-input',
-        }))
-
-    pays = CountryField(blank_label='Pays').formfield(
-        required=True, widget=CountrySelectWidget(attrs={
-            'class': 'form-control checkout-input selectpicker',
-            'data-size': "5",
-
-        }))
     delivery_option = forms.ChoiceField(required=True,
                                         widget=forms.RadioSelect,
                                         choices=LIVRAISON_CHOICES,
@@ -201,20 +187,6 @@ class CheckoutAperoForm(forms.Form):
         'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
             'placeholder': 'Alan@turing.com',
             'class': 'form-control checkout-input',
-        }))
-
-    code_postal = forms.CharField(max_length=13, required=True, error_messages={
-        'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
-            'placeholder': '75000',
-            'class': 'form-control checkout-input',
-
-        }))
-    pays = CountryField(blank_label='(Pays)').formfield(
-
-        required=True, widget=CountrySelectWidget(attrs={
-            'class': 'form-control selectpicker',
-            'data-size': "5",
-            'data-live-search': "true",
         }))
 
     # date_delivery = forms.CharField(required=True, error_messages={

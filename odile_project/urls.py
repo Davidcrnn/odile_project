@@ -21,5 +21,4 @@ if settings.DEBUG:
 
 
 handler404 = 'main.views.custom_error_404_view'
-handler404 = 'main.views.custom_error_500_view'
-# handler500 = 'main.views.custom_error_view'
+handler500 = 'main.views.custom_error_500_view'

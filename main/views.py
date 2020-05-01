@@ -519,8 +519,6 @@ class CheckoutView(View):
                     prenom = form.cleaned_data.get('prenom')
                     phone = form.cleaned_data.get('phone')
                     email = form.cleaned_data.get('email')
-                    code_postal = form.cleaned_data.get('code_postal')
-                    pays = form.cleaned_data.get('pays')
                     date_de_livraison = form.cleaned_data.get('date_de_livraison')
                     delivery_option = form.cleaned_data.get(
                         'delivery_option')
@@ -532,13 +530,11 @@ class CheckoutView(View):
                     couvert = form.cleaned_data.get('couvert')
                     
 
-                    if is_valid_form([name, prenom, pays, code_postal, phone, email]):
+                    if is_valid_form([name, prenom, phone, email]):
                         adresse_info = Info(
                             user=self.request.user,
                             name=name,
                             prenom=prenom,
-                            pays=pays,
-                            code_postal=code_postal,
                             phone=phone,
                             email=email,
                             zone_delivery=zone_delivery,
@@ -646,20 +642,16 @@ class CheckoutViewApero(View):
                     prenom = form.cleaned_data.get('prenom')
                     phone = form.cleaned_data.get('phone')
                     email = form.cleaned_data.get('email')
-                    code_postal = form.cleaned_data.get('code_postal')
-                    pays = form.cleaned_data.get('pays')
                     date_de_livraison = form.cleaned_data.get('date_de_livraison')
                     couvert = form.cleaned_data.get('couvert')
                     
                     
 
-                    if is_valid_form([name, prenom, pays, code_postal, phone, email]):
+                    if is_valid_form([name, prenom, phone, email]):
                         adresse_info = Info(
                             user=self.request.user,
                             name=name,
                             prenom=prenom,
-                            pays=pays,
-                            code_postal=code_postal,
                             phone=phone,
                             email=email,
 
@@ -1084,10 +1076,10 @@ class ProfileView(View):
 
 
 def custom_error_404_view(request, exception):
-    return render(request, '404.html')
+    return render(request, '404.html', status = 404)
 
-def custom_error_500_view(request, exception):
-    return render(request, '500.html')
+def custom_error_500_view(request):
+    return render(request, '500.html', status=500)
 
 
 

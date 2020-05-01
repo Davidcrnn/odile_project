@@ -58,8 +58,6 @@ class PaymentAdmin(admin.ModelAdmin):
 class InfoAdmin(admin.ModelAdmin):
     list_display = [
         'user',
-        'code_postal',
-        'pays',
         'phone',
         'email',
     ]
