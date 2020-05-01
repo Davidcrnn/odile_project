@@ -1,12 +1,34 @@
-<html>
+{% extends 'base.html' %}
+{% load static %}
 
-<head>
+{% block content %}
+<style>
+    .image-404 img {
 
-<body>
-    <div class="container">
-        <h1>Erreur 500</h1>
+        background-size: cover;
+        background-position: center;
+        height: 600px;
+        width: auto;
+
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-3">
+            <h1 style="font-size: 25px; color: #4A898B;" class='mb-4 mt-5'>Une erreur est survenue
+            </h1>
+            <a href="{% url 'home' %}" class='btn-valider'>Retour vers le site</a>
+        </div>
+        <div class="col-xs-12 col-md-9">
+            <div class="image-404" style="background-image: url('https://odilesite-bucket.s3.eu-west-3.amazonaws.com/images/404.jpg');    height: 600px;
+                background-size: cover;">
+            </div>
+
+        </div>
     </div>
-</body>
-</head>
 
-</html>
+
+</div>
+
+
+{% endblock content %}

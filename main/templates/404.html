@@ -1,15 +1,36 @@
-<html>
+{% extends 'base.html' %}
+{% load static %}
 
-<head>
+{% block content %}
+<style>
+    .image-404 img {
 
-<body style="background: red;">
-    <h1>Error</h1>
-    <a href="{% url 'home' %}">Retour vers le site</a>
-    <p>{{ name }}</p>
+        background-size: cover;
+        background-position: center;
+        height: 600px;
+        width: auto;
 
-    <!-- <img src="{% static '../static/images/logo-bateau.svg' %}" alt="" style='height: 50px;'> -->
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-3">
+            <h1 style="font-size: 25px; color: #4A898B;" class='mb-4 mt-5'>Vous avez échoué sur une page non répertoriée
+                sur
+                les cartes
+            </h1>
+            <a href="{% url 'home' %}" class='btn-valider'>Retour vers le site</a>
+        </div>
+        <div class="col-xs-12 col-md-9">
+            <div class="image-404" style="background-image: url('https://odilesite-bucket.s3.eu-west-3.amazonaws.com/images/404.jpg');    height: 600px;
+                background-size: cover;">
+            </div>
 
-</body>
-</head>
+        </div>
+    </div>
 
-</html>
+
+</div>
+
+
+{% endblock content %}

@@ -753,8 +753,6 @@ class PaymentView(View):
             from_email = self.request.user.email
             send_mail(subject, text_message, from_email, [
                       'david.crenin@gmail.com'], html_message=html_message, fail_silently=False)
-            
-            send_mail('Commande recu', 'Commande payé', from_email, ['david.crenin@gmail.com'], fail_silently=False)
 
             messages.info(
                 self.request, "Votre commande a été bien été prise en compte")
@@ -850,7 +848,7 @@ class PaymentAperoView(View):
             context = {
                 'user': self.request.user,
                 'ref': order.ref_code,
-                'total': order.payment.amount
+                'total': order.payment.amount,
             }
             subject = "Déjeuner sur l'eau: Votre commande a bien été prise en compte !"
             html_message = render_to_string('email-order-confirmation.html', context)
@@ -942,35 +940,23 @@ class OrderDash(View):
    
 
     def get(self, *args, **kwargs):
-        today = datetime.datetime.now()
+        orders_dej = Order.objects.filter(type_of_order='Dejeuner', ordered=True, is_delivered=False).order_by('date_de_livraison')
+        orders_apero = Order.objects.filter(type_of_order='Apero', ordered=True, is_delivered=False).order_by('date_de_livraison')
+        order_delivery_ecole = Order.objects.filter(delivery_option='1', ordered=True, is_delivered=False).order_by('date_de_livraison')
+        order_delivery_loueur = Order.objects.filter(delivery_option='2', ordered=True, is_delivered=False).order_by('date_de_livraison')
+        order_delivery_bateau = Order.objects.filter(delivery_option='3', ordered=True, is_delivered=False).order_by('date_de_livraison')
         tomorrow = datetime.datetime.now() + datetime.timedelta(days=1)
-
-        orders_all_dej = Order.objects.filter(type_of_order='Dejeuner', ordered=True, is_delivered=False).order_by('date_de_livraison', 'delivery_option')
-        orders_tomorrow_dej = Order.objects.filter(date_de_livraison__date = tomorrow.date(),type_of_order='Dejeuner', ordered=True, is_delivered=False)
-        orders_today_dej = Order.objects.filter(date_de_livraison__date=datetime.datetime.now(),type_of_order='Dejeuner', ordered=True, is_delivered=False)
-
-        orders_all_apero = Order.objects.filter(type_of_order='Apero', ordered=True, is_delivered=False).order_by('date_de_livraison')
-        orders_tomorrow_apero = Order.objects.filter(date_de_livraison__date = tomorrow.date(),type_of_order='Apero', ordered=True, is_delivered=False)
-        orders_today_apero = Order.objects.filter(date_de_livraison__date=datetime.datetime.now(), type_of_order='Apero', ordered=True, is_delivered=False)
-
-        orders_all = Order.objects.filter(ordered=True, is_delivered=False).order_by('date_de_livraison', 'delivery_option')
-        orders_tomorrow = Order.objects.filter(date_de_livraison__date = tomorrow.date(), ordered=True, is_delivered=False)
-        orders_today = Order.objects.filter(date_de_livraison__date=datetime.datetime.now(), ordered=True, is_delivered=False)
+        order_qs = Order.objects.filter(date_de_livraison__date = tomorrow.date())
+        orders_today_dej = Order.objects.filter(date_de_livraison__date=datetime.datetime.now())
         form = DeliveredForm(auto_id=False)
         context = {
-            "today": today,
-            "orders_all": orders_all,
-            "orders_tomorrow": orders_tomorrow,
-            "orders_today": orders_today,
-            "orders_all_dej": orders_all_dej,
-            "orders_tomorrow_dej": orders_tomorrow_dej,
+            "orders_dej": orders_dej,
+            "orders_apero": orders_apero,
+            "order_delivery_ecole": order_delivery_ecole,
+            "order_delivery_loueur": order_delivery_loueur,
+            "order_delivery_bateau": order_delivery_bateau,
+            "order_qs": order_qs,
             "orders_today_dej": orders_today_dej,
-            "orders_all_apero": orders_all_apero,
-            "orders_tomorrow_apero": orders_tomorrow_apero,
-            "orders_today_apero": orders_today_apero,
-            # "order_delivery_ecole": order_delivery_ecole,
-            # "order_delivery_loueur": order_delivery_loueur,
-            # "order_delivery_bateau": order_delivery_bateau,
             "form": form
 
         }
@@ -1097,7 +1083,11 @@ class ProfileView(View):
         return render(self.request, 'profile.html', context)
 
 
+def custom_error_404_view(request, exception):
+    return render(request, '404.html')
 
+def custom_error_500_view(request, exception):
+    return render(request, '500.html')
 
 
 
@@ -1169,19 +1159,3 @@ def GeneratePdf(request, ref_code):
         return response
     return HttpResponse("Not found")
 
-# Errors Views
-
-# def custom_page_not_found_view(request, exception):
-#     data = {
-#         "order": Order.objects.all()
-#     }
-#     return render(request, "404.html", data)
-
-# def custom_error_view(request, exception=None):
-#     return render(request, "500.html", {})
-
-# def custom_permission_denied_view(request, exception=None):
-#     return render(request, "errors/403.html", {})
-
-# def custom_bad_request_view(request, exception=None):
-#     return render(request, "errors/400.html", {})
