@@ -2,12 +2,12 @@
 
 
 .checkout-input {
-    border: 1Px solid lightslategray;
+    border: 2Px solid $vertf;
     // border-radius: 8px;
     height: 40px;
-    border-left: none;
-    border-right: none;
-    border-top: none;
+    // border-left: none;
+    // border-right: none;
+    // border-top: none;
     border-radius: 0px;
     
     
@@ -27,7 +27,7 @@ input#datepicker-dejeuner {
 }
 .checkout-input:focus {
 
-    background-color: $gris;
+    background-color: $grisbg;
     opacity: 0.5;
     border-color: $vertf;
     outline: 0;
@@ -184,11 +184,7 @@ ul.errorlist {
   // STYLE CHECK BOX ---------------------------
 
   /* Base for label styling */
-[type="checkbox"]:not(:checked),
-[type="checkbox"]:checked {
-//   position: absolute;
-//   left: -9999px;
-}
+
 [type="checkbox"]:not(:checked) + label,
 [type="checkbox"]:checked + label {
   position: relative;
