@@ -3,7 +3,7 @@
 // Navbar container
 
 .nav-container {
-    height: 80px;
+    height: 50px;
     position: sticky;
     top:0;
     left: 0;
@@ -42,11 +42,12 @@
     } li > a {
         color: $vertf;
         font-size: 13px;
-        transition: 0.3s ease-in-out;
+        transition: font-size 0.4s ease-in-out;
         
     } a:hover {
-      font-size: 17px;
+      font-size: 16px;
       text-decoration: none;
+      border-bottom: 2px solid;
       
     }
 }

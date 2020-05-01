@@ -162,7 +162,7 @@
   background-color: #8080805c; }
 
 .nav-container {
-  height: 80px;
+  height: 50px;
   position: sticky;
   top: 0;
   left: 0;
@@ -196,10 +196,11 @@
   .nav-link li > a, .nav-link .drop-content li > p, .drop-content .nav-link li > p {
     color: #4A898B;
     font-size: 13px;
-    transition: 0.3s ease-in-out; }
+    transition: font-size 0.4s ease-in-out; }
   .nav-link a:hover, .nav-link .drop-content p:hover, .drop-content .nav-link p:hover {
-    font-size: 17px;
-    text-decoration: none; }
+    font-size: 16px;
+    text-decoration: none;
+    border-bottom: 2px solid; }
 
 .nav-log h1 {
   margin: 0; }
@@ -951,15 +952,15 @@ label:hover:before {
 .marker {
   background-image: url("../images/marker.svg");
   background-size: cover;
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
   cursor: pointer; }
 
 .marker-apero {
   background-image: url("../images/marker-apero.svg");
   background-size: cover;
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
   cursor: pointer; }
 
 .mapboxgl-popup {
@@ -968,6 +969,34 @@ label:hover:before {
 .mapboxgl-popup-content {
   text-align: center;
   font-family: 'Montserrat', sans-serif !important; }
+
+.section-text-livraison p {
+  font-size: 13px; }
+
+.section-text-livraison h3 {
+  font-size: 25px;
+  color: #4A898B;
+  border-bottom: 2px solid #f5f5f5;
+  margin-bottom: 15px; }
+
+.section-text-livraison h6 {
+  color: #4DBDC0; }
+
+table.creneau-delivery {
+  border-collapse: collapse;
+  caption-side: bottom;
+  border: solid 1px #000;
+  padding: 10px; }
+
+.creneau-delivery {
+  border-collapse: collapse;
+  caption-side: bottom;
+  border: solid 1px #000;
+  padding: 10px;
+  font-size: 13px; }
+
+th.creneau-delivery {
+  margin: 0 auto; }
 
 body {
   font-family: 'Montserrat', sans-serif;
