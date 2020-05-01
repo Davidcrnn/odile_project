@@ -10,9 +10,8 @@
     <div class="row">
         <div class="col-xs-12 col-md-6 mb-3 section-left-container">
             <div class="section-left-text">
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nemo autem quos amet, enim, dolorum ullam
-                    accusamus est ipsam sed pariatur eum omnis, natus tempore nostrum vero laudantium. Aliquid,
-                    molestiae velite.
+                <p>Votre avis nous intéresse. Donnez votre avis sur notre service pour qu'on puisse améliorer et ajuster
+                    notre offre. Cet avis ne sera pas partagé.
                 </p>
             </div>
         </div>
@@ -21,9 +20,6 @@
                 <h3 class="text-center">Partagez votre avis</h3>
                 <form method='POST'>
                     {% csrf_token %}
-                    <label for="email">Email</label>
-                    <p>{{ form.email }}</p>
-                    <small>{{ form.email.errors }}</small>
                     <label for="objet">Objet</label>
                     {% for value, name in form.fields.objet.choices %}
                     <div class="option-delivery">

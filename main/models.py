@@ -227,7 +227,6 @@ class Avis(models.Model):
         ('Autre', 'Autre'),
     )
 
-    email = models.EmailField()
     objet = models.CharField(max_length=50, choices=OBJET)
     message = models.TextField()
 

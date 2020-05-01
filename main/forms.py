@@ -284,10 +284,6 @@ class AvisForm(forms.Form):
         ('Autre', 'Autre'),
     )
 
-    email = forms.EmailField(widget=forms.TextInput(attrs={
-        'class': 'form-control checkout-input',
-        'placeholder': 'Votre email ...'
-    }))
     objet = forms.ChoiceField(required=True,
                               widget=forms.RadioSelect,
                               choices=OBJET,
@@ -295,7 +291,7 @@ class AvisForm(forms.Form):
     message = forms.CharField(widget=forms.Textarea(attrs={
         'placeholder': "Votre message nous permettra d'améliorer nos services ...",
         'class': 'form-control checkout-input',
-        'rows': 4, 'cols': 15
+        'rows': 6, 'cols': 15
     }))
 
 
