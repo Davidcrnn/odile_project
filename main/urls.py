@@ -29,6 +29,7 @@ from .views import (
     ProfileView,
     is_delivered,
     GeneratePdf,
+    delivery,
 
     #     AddCouponView,
 
@@ -65,6 +66,7 @@ urlpatterns = [
     path('profil/', ProfileView.as_view(), name='profil'),
     path('is_delivered/<ref_code>/', is_delivered, name='is_delivered'),
     path('pdf/<ref_code>', GeneratePdf, name='pdf'),
+    path('livraison', delivery, name='livraison'),
 
 
 

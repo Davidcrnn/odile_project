@@ -1081,7 +1081,8 @@ def custom_error_404_view(request, exception):
 def custom_error_500_view(request):
     return render(request, '500.html', status=500)
 
-
+def delivery(request):
+    return render(request, 'livraison.html')
 
 
 
