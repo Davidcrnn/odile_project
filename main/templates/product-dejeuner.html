@@ -22,17 +22,19 @@
         <div class="col-xs-12 col-md-2	d-none d-md-block">
             <div class="filter-product">
                 <ul>
-                    <li><a href="#1" class="js-anchor-link filter-entrées">Entrées</a></li>
-                    <li><a href="#2" class="js-anchor-link filter-plats">Plats</a></li>
-                    <li><a href="#3" class="js-anchor-link filter-desserts">Desserts</a></li>
-                    <li><a href="#4" class="js-anchor-link filter-boissons">Boissons</a></li>
-                    <li><a href="#5" class="js-anchor-link filter-accessoires">Accessoires</a></li>
+                    <li><a href="#1" class="js-anchor-link ">Entrées & Tapas</a></li>
+                    <li><a href="#2" class="js-anchor-link ">Salades, Taboulés & Quiches</a></li>
+                    <li><a href="#3" class="js-anchor-link ">Fromage & Charcuterie</a></li>
+                    <li><a href="#4" class="js-anchor-link ">Desserts</a></li>
+                    <li><a href="#5" class="js-anchor-link ">Panier enfant</a></li>
+                    <li><a href="#6" class="js-anchor-link ">Boissons & Café</a></li>
+                    <li><a href="#7" class="js-anchor-link ">Accessoires</a></li>
                 </ul>
             </div>
         </div>
         <div class="col-xs-12 col-md-7">
             <div class="product-item-container">
-                <h1 id="1">Entrées
+                <h1 id="1">Entrées & Tapas
                 </h1>
                 <div class="row">
                     {% for product in products %}
@@ -41,15 +43,23 @@
                     {% endif %}
                     {% endfor %}
                 </div>
-                <h1 id="2">Plats</h1>
+                <h1 id="2">Salades, Taboulés & Quiches</h1>
                 <div class="row">
                     {% for product in products %}
-                    {% if product.category == 'Plats' %}
+                    {% if product.category == 'Salades' %}
                     {% include 'product-modal.html' %}
                     {% endif %}
                     {% endfor %}
                 </div>
-                <h1 id="3">Desserts</h1>
+                <h1 id="3">Fromage & Charcuterie</h1>
+                <div class="row">
+                    {% for product in products %}
+                    {% if product.category == 'Fromage' %}
+                    {% include 'product-modal.html' %}
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <h1 id="4">Desserts</h1>
                 <div class="row">
                     {% for product in products %}
                     {% if product.category == 'Desserts' %}
@@ -57,7 +67,15 @@
                     {% endif %}
                     {% endfor %}
                 </div>
-                <h1 id="4">Boissons</h1>
+                <h1 id="5">Panier enfant</h1>
+                <div class="row">
+                    {% for product in products %}
+                    {% if product.category == 'Enfant' %}
+                    {% include 'product-modal.html' %}
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <h1 id="6">Boissons & Café</h1>
                 <div class="row">
                     {% for product in products %}
                     {% if product.category == 'Boissons' %}
@@ -65,7 +83,7 @@
                     {% endif %}
                     {% endfor %}
                 </div>
-                <h1 id="5">Accessoires</h1>
+                <h1 id="7">Accessoires</h1>
                 <div class="row">
                     {% for product in products %}
                     {% if product.category == 'Accessoires' %}

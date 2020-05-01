@@ -444,8 +444,8 @@
   .filter-product a:hover, .filter-product .drop-content p:hover, .drop-content .filter-product p:hover {
     text-decoration: none;
     cursor: pointer;
-    opacity: 0.6;
-    letter-spacing: 2px; }
+    opacity: 0.8;
+    border-bottom: 2px solid #4A898B; }
 
 .btn-valider {
   padding: 10px 15px;

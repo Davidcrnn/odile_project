@@ -1,16 +1,18 @@
 from django.db import models
 from django.conf import settings
 from django.urls import reverse
-from django_countries.fields import CountryField
 import datetime
 from django.utils.timezone import now
 
 
 PRODUCT_CATEGORIES = (
-    ('Entrées', 'Entrées'),
-    ('Boissons', 'Boissons'),
-    ('Plats', 'Plats'),
+    ('Entrées', 'Entrées & Tapas'),
+    ('Salades', 'Salades, Taboulés & Quiche'),
+    ('Fromage', 'Fromages & Charcuterie'),
     ('Desserts', 'Desserts'),
+    ('Enfant', 'Panier enfant'),
+    ('Boissons', 'Boissons & Café'),
+    ('Plats', 'Plats'),
     ('Accessoires', 'Accessoires'),
 )
 
@@ -203,8 +205,6 @@ class Info(models.Model):
     prenom = models.CharField(max_length=30)
     phone = models.CharField(max_length=100)
     email = models.EmailField()
-    code_postal = models.IntegerField()
-    pays = CountryField(multiple=False)
     default = models.BooleanField(default=False)
     zone_delivery = models.CharField(max_length=30, blank=True, null=True)
     rang_delivery = models.CharField(max_length=20, blank=True, null=True)

@@ -171,20 +171,6 @@
                             </div>
                         </div>
                         <div class="row mb-4">
-                            <div class="col-xs-12 col-md-6">
-                                <div class="md-form mb-2">
-                                    {{ form.code_postal.label_tag }}
-                                    {{ form.code_postal }}
-                                    {{ form.code_postal.errors }}
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-md-6">
-                                <div class="md-form mb-2">
-                                    {{ form.pays.label_tag }}
-                                    {{ form.pays }}
-                                    {{ form.pays.errors }}
-                                </div>
-                            </div>
                             <div class="col-xs-12">
                                 <div class="md-form mb-2 ml-3">
                                     <input type="checkbox" class="custom-control-input" name="save_address"
@@ -323,8 +309,6 @@
             $("#id_name").val('{{ default_address.name }}');
             $("#id_email").val('{{ default_address.email }}');
             $("#id_phone").val('{{ default_address.phone }}');
-            $("#id_code_postal").val('{{ default_address.code_postal }}');
-            $("#id_pays").val('{{ default_address.pays }}');
             hide_form.hide();
             not_show.hide();
         } else {
@@ -332,15 +316,10 @@
             $("#id_name").prop('required', true);
             $("#id_email").prop('required', true);
             $("#id_phone").prop('required', true);
-            $("#id_code_postal").prop('required', true);
-            $("#id_pays").prop('required', true);
-
             $("#id_prenom").val('');
             $("#id_name").val('');
             $("#id_email").val('');
             $("#id_phone").val('');
-            $("#id_code_postal").val('');
-            $("#id_pays").val('');
             hide_form.show();
         }
     });
