@@ -111,8 +111,21 @@
                 <p>{{ order.information.name }}</p>
                 <p>{{ order.information.email }}</p>
                 <p>{{ order.information.phone }}</p>
+
+                {% if order.delivery_option == 'livraison-sur-bateau' %}
+                <p>Date de livraison: {{ order.date_de_livraison|date:'d/m/Y'}} à {{ order.creneau_delivery }}</p>
+
+                {% else %}
                 <p>Date de livraison: {{ order.date_de_livraison|date:'d/m/Y H:i'}}</p>
+
+                {% endif %}
+
                 <p>Moyen de livraison : {{ order.delivery_option }}</p>
+
+                {% if order.loueur_bateau %}
+                <p>Loueur de bateau : {{ order.loueur_bateau|capfirst}}</p>
+                {% endif %}
+
             </div>
             <div id="stickycart">
                 {% include 'order-snippet.html' %}

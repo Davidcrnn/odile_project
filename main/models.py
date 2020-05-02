@@ -33,11 +33,18 @@ PRODUCT_ALLERGENES = (
     ('Mollusques', 'Mollusques'),
 
 )
+LOUEUR_CHOICES = (
+    ('', 'Choisissez'),
+    ('bat-express', 'Bat Express'),
+    ('ferret-marine', 'Ferret Marine'),
+    ('sensey', 'Sensey')
+)
 
 LIVRAISON_CHOICES = (
-    ('1', 'Point fixe 1'),
-    ('2', 'Point fixe - Loueur de bateau'),
-    ('3', 'Livraison-sur-bateau')
+    ('ecole-de-voile', 'Ecole de voile'),
+    ('loueur-bateau', 'Loueur bateau'),
+    ('bateau-fixe', 'Bateau fixe'),
+    ('livraison-sur-bateau', 'Livraison sur bateau'),
 )
 
 MENU = (
@@ -123,6 +130,8 @@ class Order(models.Model):
     # date_publication = models.DateField(auto_now_add=False, blank=True, null=True)
     delivery_option = models.CharField(
         max_length=100, choices=LIVRAISON_CHOICES)
+    loueur_bateau = models.CharField(
+        max_length=100, choices=LOUEUR_CHOICES, blank=True, null=True)
     couvert = models.CharField(max_length=32, default='1')
     # cgv = models.BooleanField(default=False)
     coupon = models.ForeignKey(

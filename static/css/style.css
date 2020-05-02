@@ -19,7 +19,8 @@
   .section-banner-home-title h1 {
     border-bottom: 2px solid #4A898B;
     margin-bottom: 40px;
-    color: #4A898B; }
+    color: #4A898B;
+    text-shadow: #8080805c 2px 0 5px; }
 
 .section-presentation-container {
   height: auto;
@@ -27,7 +28,8 @@
   box-shadow: 0 0 10px #8080805c;
   margin-top: 20px; }
   .section-presentation-container h1 {
-    color: #4DBDC0; }
+    color: #4DBDC0;
+    text-shadow: #8080805c 2px 0 5px; }
   .section-presentation-container p {
     font-size: 14px; }
 
@@ -196,6 +198,7 @@
   .nav-link li > a, .nav-link .drop-content li > p, .drop-content .nav-link li > p {
     color: #4A898B;
     font-size: 13px;
+    text-shadow: #8080805c 2px 0 5px;
     transition: font-size 0.4s ease-in-out; }
   .nav-link a:hover, .nav-link .drop-content p:hover, .drop-content .nav-link p:hover {
     font-size: 16px;
@@ -398,7 +401,8 @@
 .header-section-title h1 {
   font-size: 30px;
   color: #4A898B;
-  letter-spacing: 6.4px; }
+  letter-spacing: 6.4px;
+  text-shadow: #8080805c 2px 0 5px; }
 
 .product-item-container {
   margin: 20px 0; }

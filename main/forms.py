@@ -7,9 +7,17 @@ from django.conf import settings
 
 
 LIVRAISON_CHOICES = (
-    ('1', 'Point-fixe-1'),
-    ('2', 'Loueur-de-bateau'),
-    ('3', 'Livraison-sur-bateau')
+    ('ecole-de-voile', 'Ecole de voile'),
+    ('loueur-bateau', 'Loueur bateau'),
+    ('bateau-fixe', 'Bateau fixe'),
+    ('livraison-sur-bateau', 'Livraison sur bateau'),
+)
+
+LOUEUR_CHOICES = (
+    ('', 'Choisissez'),
+    ('bat-express', 'Bat Express'),
+    ('ferret-marine', 'Ferret Marine'),
+    ('sensey', 'Sensey')
 )
 
 OBJET_CHOICES = (
@@ -35,6 +43,7 @@ ZONE_LIVRAISON_BATEAU = (
 CRENEAU_DELIVERY = (
     ('-- Zone 4 et Zone 5b --',
         (
+            ('', 'Choisissez'),
             ('10:30', '10:30'),
             ('10:40', '10:40'),
             ('10:50', '10:50'),
@@ -80,7 +89,7 @@ COUVERT_CHOICES = (
 class CheckoutForm(forms.Form):
 
     couvert = forms.ChoiceField(
-        required=True, widget=forms.Select(
+        required=True, error_messages={'required': "Vous devez renseigner ce champ"}, widget=forms.Select(
             attrs={
                 'class': 'selectpicker',
                 'data-size': "5"
@@ -150,6 +159,7 @@ class CheckoutForm(forms.Form):
     }))
 
     creneau_delivery = forms.ChoiceField(
+        required=False,
         label='Heure de livraison',
         widget=forms.Select(attrs={
             'id': 'select-time',
@@ -157,6 +167,47 @@ class CheckoutForm(forms.Form):
             'data-size': "5",
             'data-hide-disabled': 'true',
         }), choices=CRENEAU_DELIVERY)
+
+    loueur_bateau = forms.ChoiceField(
+        label='Préciser le loueur de bateau', required=False, widget=forms.Select(attrs={'class': 'selectpicker'}), choices=LOUEUR_CHOICES)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        delivery_option = cleaned_data.get('delivery_option')
+        loueur_bateau = cleaned_data.get('loueur_bateau')
+        zone_delivery = cleaned_data.get('zone_delivery')
+        creneau_delivery = cleaned_data.get('creneau_delivery')
+        rang_delivery = cleaned_data.get('rang_delivery')
+        numero_delivery = cleaned_data.get('numero_delivery')
+
+        list = ['10:30', '10:40', '10:50', '11:30', '11:40', '11:50']
+        list1 = ['10:00', '10:10', '10:20', '11:00', '11:10', '11:20']
+
+        if delivery_option == "livraison-sur-bateau" and (rang_delivery == "" or numero_delivery == ""):
+            msg = 'Vous devez préciser votre emplacement'
+            if rang_delivery == "":
+                self.add_error('rang_delivery', msg)
+                self.add_error('delivery_option', msg)
+            elif numero_delivery == "":
+                self.add_error('numero_delivery', msg)
+                self.add_error('delivery_option', msg)
+            else:
+                self.add_error('delivery_option', msg)
+
+        if (zone_delivery == '4' or zone_delivery == '5b') and creneau_delivery not in list:
+            msg = 'Vous devez sélectionner un créneau horaire correspondant à votre zone'
+            self.add_error('delivery_option', msg)
+            self.add_error('creneau_delivery', msg)
+
+        if (zone_delivery == '5a' or zone_delivery == '6' or zone_delivery == '7') and creneau_delivery not in list1:
+            msg = 'Vous devez sélectionner un créneau horaire correspondant à votre zone'
+            self.add_error('delivery_option', msg)
+            self.add_error('creneau_delivery', msg)
+
+        if delivery_option == 'loueur-bateau' and loueur_bateau == '':
+            msg = 'Vous devez préciser un loueur de bateau'
+            self.add_error('delivery_option', msg)
+            self.add_error('loueur_bateau', msg)
 
 
 class CheckoutAperoForm(forms.Form):

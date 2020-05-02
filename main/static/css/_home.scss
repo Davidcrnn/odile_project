@@ -24,6 +24,7 @@
         border-bottom: 2px solid $vertf;
         margin-bottom: 40px;
         color: $vertf;
+        text-shadow: $gris 2px 0 5px;
     }
 }
 
@@ -36,6 +37,7 @@
     margin-top: 20px;
     h1 {
        color: $vertc;
+       text-shadow: $gris 2px 0 5px;
     } p {
         font-size: 14px;
     }
@@ -129,5 +131,6 @@
     justify-content: center;
 }
 
-// Test
+// PRELOADER -----------------
 
+ 
