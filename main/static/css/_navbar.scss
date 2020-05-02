@@ -42,6 +42,7 @@
     } li > a {
         color: $vertf;
         font-size: 13px;
+        text-shadow: $gris 2px 0 5px;
         transition: font-size 0.4s ease-in-out;
         
     } a:hover {

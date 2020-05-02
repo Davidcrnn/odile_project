@@ -494,6 +494,7 @@ class CheckoutView(View):
                 date_de_livraison = form.cleaned_data.get('date_de_livraison')
                 delivery_option = form.cleaned_data.get('delivery_option')
                 couvert = form.cleaned_data.get('couvert')
+                loueur_bateau = form.cleaned_data.get('loueur_bateau')
 
                 if default_address:
                     address_qs = Info.objects.filter(
@@ -506,6 +507,7 @@ class CheckoutView(View):
                         order.delivery_option = delivery_option
                         order.date_de_livraison = datetime.datetime.strptime(date_de_livraison, '%d/%m/%Y %H:%M' )
                         order.couvert = couvert
+                        order.loueur_bateau = loueur_bateau
                         order.save()
                         messages.info(
                             self.request, 'Il ne vous reste plus que le paiement - default')
@@ -528,6 +530,7 @@ class CheckoutView(View):
                     numero_delivery = form.cleaned_data.get('numero_delivery')
                     creneau_delivery = form.cleaned_data.get('creneau_delivery')
                     couvert = form.cleaned_data.get('couvert')
+                    loueur_bateau = form.cleaned_data.get('loueur_bateau')
                     
 
                     if is_valid_form([name, prenom, phone, email]):
@@ -549,8 +552,9 @@ class CheckoutView(View):
                         order.couvert= couvert
                         order.delivery_option = delivery_option
                         order.creneau_delivery= creneau_delivery
+                        order.loueur_bateau = loueur_bateau
 
-                        if order.delivery_option == '3':
+                        if order.delivery_option == 'livraison-sur-bateau':
                             order.date_de_livraison = datetime.datetime.strptime(date_de_livraison, '%d/%m/%Y' )
                         else:
                             order.date_de_livraison = datetime.datetime.strptime(date_de_livraison, '%d/%m/%Y %H:%M' )

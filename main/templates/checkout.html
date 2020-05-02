@@ -4,6 +4,8 @@
 {% block content %}
 
 <div class="container relative">
+
+    <!-- Display cart icon with model on xs screen -->
     <div class="cart-mobile d-block d-sm-none">
         <div class="cart-position">
             <p>{{ order.get_quantity}}</p>
@@ -36,7 +38,7 @@
 
                             </div>
                             <span class="text-muted"
-                                data-total-id='{{order_item.product.slug}}'>{{ order_item.get_total_product_price }}€</span>
+                                data-total-id='{{order_item.product.slug}}'>{{ order_item.get_total_product_price|floatformat }}€</span>
                         </li>
                         {% endfor %}
 
@@ -53,7 +55,7 @@
                                         {% endif %} -->
                         <li class="list-group-item cart-line d-flex justify-content-between">
                             <span>Total (€)</span>
-                            <strong id="order-snippet-id">{{ order.get_total }}€</strong>
+                            <strong id="order-snippet-id">{{ order.get_total|floatformat }}€</strong>
                         </li>
                         <!-- {% if DISPLAY_COUPON_FORM %}
                                         <form class="card p-2" action="{% url 'add-coupon' %}" method="POST">
@@ -79,6 +81,7 @@
             </div>
         </div>
     </div>
+    <!--  End display cart icon  -->
     <div class="header-section-title-container">
         <div class="header-section-title">
             <h1>LIVRAISON - DÉJEUNER</h1>
@@ -90,6 +93,9 @@
             <div class="card-checkout">
                 <form method="POST" class="card-body">
                     {% csrf_token %}
+                    {% for error in form.non_field_errors %}
+                    <small>{{error}}</small>
+                    {% endfor %}
                     <h3>Des couverts ? <span id="informations-tooltip"> <img
                                 src="{% static '../static/images/tooltip.svg' %}" alt="" style='height: 15px;'></span>
                     </h3>
@@ -105,7 +111,7 @@
                     <h3 class='mb-3'>Informations personnelles <span id="informations-tooltip"> <img
                                 src="{% static '../static/images/tooltip.svg' %}" alt="" style='height: 15px;'></span>
                     </h3>
-                    {{ form.non_field_errors }}
+
 
                     {% if default_address %}
                     <div class="row">
@@ -186,14 +192,15 @@
                     <h3>Modalités de livraison <span id="delivery-tooltip"> <img
                                 src="{% static '../static/images/tooltip.svg' %}" alt="" style='height: 15px;'></span>
                     </h3>
+                    {{ form.delivery_option.errors }}
                     <div class="d-block my-3">
                         {% for value, name in form.fields.delivery_option.choices %}
                         <div class="option-delivery">
-                            <label class="" for="{{ name }}">
-                                <input id="{{ name }}" name="delivery_option" value="{{ value }}" type="radio" class=""
+                            <label class="" for="{{ value }}">
+                                <input id="{{ value }}" name="delivery_option" value="{{ value }}" type="radio" class=""
                                     required>
                                 <span>{{ name }}</span>
-                                {{ form.delivery_option.errors }}
+
                             </label>
                         </div>
                         {% endfor %}
@@ -225,7 +232,21 @@
                             </div>
                         </div>
                     </div>
+                    <div class="option-bateau" id='loueur-bat'>
+                        <h3>Livraison chez le loueur de bateau <span id="delivery-option-tooltip"> <img
+                                    src="{% static '../static/images/tooltip.svg' %}" alt=""
+                                    style='height: 15px;'></span></h3>
+                        <div class="row mb-3">
+                            <div class="col-xs-12 col-md-6">
+                                {{ form.loueur_bateau.label_tag }}
+                                {{ form.loueur_bateau }}
+                                {{ form.loueur_bateau.errors }}
+                            </div>
+
+                        </div>
+                    </div>
                     <div id='map-dejeuner' style='width: 100%; height: 340px;'></div>
+
                     <br>
                     <h3>Date de livraison<span id="date-tooltip"> <img src="{% static '../static/images/tooltip.svg' %}"
                                 alt="" style='height: 15px;'></span></h3>
@@ -255,10 +276,10 @@
                 </form>
             </div>
 
-
-
-
         </div>
+
+
+        <!-- Stycky Cart -->
         <div class="col-md-4 d-none d-md-block">
             <div id='stickycart' class="col-md-12 mb-4">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
@@ -276,7 +297,7 @@
 
                         </div>
                         <span class="text-muted"
-                            data-total-id='{{order_item.product.slug}}'>{{ order_item.get_total_product_price }}€</span>
+                            data-total-id='{{order_item.product.slug}}'>{{ order_item.get_total_product_price|floatformat }}€</span>
                     </li>
                     {% endfor %}
 
@@ -293,7 +314,7 @@
                                 {% endif %} -->
                     <li class="list-group-item cart-line d-flex justify-content-between">
                         <span>Total (€)</span>
-                        <strong id="order-snippet-id">{{ order.get_total }}€</strong>
+                        <strong id="order-snippet-id">{{ order.get_total|floatformat }}€</strong>
                     </li>
                     <!-- {% if DISPLAY_COUPON_FORM %}
                                 <form class="card p-2" action="{% url 'add-coupon' %}" method="POST">
@@ -316,12 +337,12 @@
                 </ul>
             </div>
         </div>
+        <!-- End stycky cart -->
 
     </div>
 
 </div>
 
-</div>
 
 
 {% endblock content %}
@@ -355,9 +376,10 @@
 <script>
 
     $(document).ready(function () {
-        var delivery_one = document.getElementById('Point-fixe-1'),
-            delivery_two = document.getElementById('Loueur-de-bateau'),
-            delivery_bateau = document.getElementById('Livraison-sur-bateau');
+        var delivery_one = document.getElementById('ecole-de-voile'),
+            delivery_two = document.getElementById('loueur-bateau'),
+            delivery_three = document.getElementById('loueur-bateau'),
+            delivery_bateau = document.getElementById('livraison-sur-bateau');
 
         delivery_one.addEventListener('click', function () {
             flatpickr('#datepicker-dejeuner', {
@@ -393,6 +415,24 @@
                 locale: "fr",
                 disableMobile: "true"
 
+
+            });
+
+        });
+
+        delivery_three.addEventListener('click', function () {
+            flatpickr('#datepicker-dejeuner', {
+                // defaultDate: new Date().fp_incr(1),
+                minDate: new Date().fp_incr(1),
+                dateFormat: "d/m/Y H:i",
+                altFormat: "d/m/Y H:i",
+                defaultTime: '10:00',
+                minTime: '10:00',
+                maxTime: '10:00',
+                enableTime: true,
+                time_24hr: true,
+                locale: "fr",
+                disableMobile: "true"
 
             });
 
@@ -446,29 +486,47 @@
 <script>
     $(document).ready(function () {
         $('#emplacement-bateau').hide();
-        $("#Livraison-sur-bateau").click(function () {
+        $('#loueur-bat').hide();
+        $("#livraison-sur-bateau").click(function () {
             $('#emplacement-bateau').show();
-            $("#id_zone_delivery").prop('required', true);
-            $("#id_rang_delivery").prop('required', true);
-            $("#id_numero_delivery").prop('required', true);
+            $('#loueur-bat').hide();
+            // $("#id_zone_delivery").prop('required', true);
+            // $("#id_rang_delivery").prop('required', true);
+            // $("#id_numero_delivery").prop('required', true);
+            // $('#select-time').prop('required', true);
         })
-        $("#Point-fixe-1").click(function () {
+        $("#ecole-de-voile").click(function () {
             $('#emplacement-bateau').hide();
+            $('#loueur-bat').hide();
             $("#id_zone_delivery").prop('required', false);
             $("#id_rang_delivery").prop('required', false);
             $("#id_numero_delivery").prop('required', false);
+            $('#select-time').prop('required', false);
         })
-        $("#Loueur-de-bateau").click(function () {
+        $("#loueur-bateau").click(function () {
+            $('#loueur-bat').show();
             $('#emplacement-bateau').hide();
+            // $("#id_zone_delivery").prop('required', false);
+            // $("#id_rang_delivery").prop('required', false);
+            // $("#id_numero_delivery").prop('required', false);
+            // $('#select-time').prop('required', false);
+            // $('id_loueur_bateau').prop('required', true)
+        })
+        $("#bateau-fixe").click(function () {
+            $('#emplacement-bateau').hide();
+            $('#loueur-bat').hide();
             $("#id_zone_delivery").prop('required', false);
             $("#id_rang_delivery").prop('required', false);
             $("#id_numero_delivery").prop('required', false);
+            $('#select-time').prop('required', false);
         })
 
     })
 
 
 </script>
+
+
 
 <script>
     mapboxgl.accessToken = 'pk.eyJ1Ijoib2RpbGVsZWNsZXJjc2l0ZSIsImEiOiJjazZjMDJtNGEwZ3F2M2tvdnNncnkxNXRxIn0.c7i8XUNby5CQwhdrsG3r0A';
@@ -539,19 +597,19 @@
         // myCreneau.hide();
         myCreneau.show();
         zone_delivery_value.on('change', function () {
-            $('#select-time').selectpicker('refresh');
-            $('#select-time').selectpicker('render');
+
+
 
             if (zone_delivery_value.val() == '4' || zone_delivery_value.val() == '5b') {
-                secondOpt.hide();
+                secondOpt.remove();
                 firstOpt.prop('disabled', false)
-                $('.selectpicker').selectpicker('refresh');
+                $('#select-time').selectpicker('refresh');
 
 
             } else {
-                firstOpt.hide();
+                firstOpt.remove();
                 secondOpt.prop('disabled', false);
-                $('.selectpicker').selectpicker('refresh');
+                $('#select-time').selectpicker('refresh');
 
 
             }
