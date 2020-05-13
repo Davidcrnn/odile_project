@@ -283,10 +283,24 @@ class ProductForm(forms.Form):
          ),
     )
 
+    VAR_CATEGORIES = (
+        ('boisson', 'boisson'),
+        ('sandwich', 'sandwich'),
+        ('dessert', 'dessert'),
+        ('huitre', 'huitre'),
+    )
+
     quantity = forms.ChoiceField(
         widget=forms.Select(attrs={
             "class": "selectpicker",
         }), choices=QUANTITY_PRODUCT, label='Choisissez la quantité:', initial='--Choisissez une quantité --')
+
+    sandwich = forms.CharField(required=False,
+                               widget=forms.RadioSelect, label='Choisissez votre sandwich :')
+    boisson = forms.CharField(required=False,
+                              widget=forms.RadioSelect, label='Choisissez votre boisson :')
+    dessert = forms.CharField(required=False,
+                              widget=forms.RadioSelect, label='Choisissez votre dessert :')
 
 
 class DeliveredForm(forms.Form):
