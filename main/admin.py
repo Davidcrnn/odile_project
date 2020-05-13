@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, OrderProduct, Order, Payment, Coupon, Refund, Info, Avis
+from .models import Product, Variation, OrderProduct, Order, Payment, Coupon, Refund, Info, Avis
 # Register your models here.
 
 
@@ -63,11 +63,12 @@ class InfoAdmin(admin.ModelAdmin):
     ]
 
 
-class ProductAdmin(admin.ModelAdmin):
-    prepopulated_fields = {"slug": ("name",)}
+# class ProductAdmin(admin.ModelAdmin):
+#     prepopulated_fields = {"slug": ("name",)}
 
 
-admin.site.register(Product, ProductAdmin)
+admin.site.register(Product)
+admin.site.register(Variation)
 admin.site.register(OrderProduct)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Payment, PaymentAdmin)

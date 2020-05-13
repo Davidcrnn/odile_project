@@ -142,11 +142,6 @@ class OrderSummaryAperoView(LoginRequiredMixin, View):
 @login_required
 def add_to_cart(request, slug):
     product = get_object_or_404(Product, slug=slug)
-    order_product, created = OrderProduct.objects.get_or_create(
-        product=product,
-        user=request.user,
-        ordered=False
-    )
     order_dejeuner_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Dejeuner')
     order_apero_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Apero')
     form = ProductForm(request.POST)
@@ -154,34 +149,60 @@ def add_to_cart(request, slug):
     response ={}
     if form.is_valid() and request.method == 'POST':
         quantity = int(form.cleaned_data.get('quantity'))
+        dessert = form.cleaned_data.get('dessert')
+        boisson = form.cleaned_data.get('boisson')
+        sandwich = form.cleaned_data.get('sandwich')
+        order_product, created = OrderProduct.objects.get_or_create(
+            product=product,
+            user=request.user,
+            ordered=False,
+            dessert= dessert,
+            boisson=boisson,
+            sandwich=sandwich
+        )
+
+       
         if product.menu == 'Dejeuner':
             if order_dejeuner_qs.exists():
                 order = order_dejeuner_qs[0]
-                if order.products.filter(product__slug=product.slug).exists():
+                if order.products.filter(product__slug=product.slug, dessert= dessert,boisson=boisson, sandwich=sandwich).exists():
                     order_product.quantity += quantity
+                    order_product.dessert = dessert
+                    # order_product.boisson = boisson
+                    # order_product.sandwich = sandwich
                     order_product.save()
                     response_data = {
                         'quantity': order_product.quantity,
                         'total': order.get_total(),
                         'name': product.name,
+                        'dessert':order_product.dessert,
+                        'boisson':order_product.boisson,
+                        'sandwich':order_product.sandwich,
                         'product_total': order_product.get_total_product_price(),
                         'cart_quantity': order.get_quantity(),
                         'product_name': order_product.product.name,
+                        'order_product_id': order_product.id
                     }
                     return JsonResponse(response_data)
                 else:    
-                    
+                    print("ok")
                     order_product.quantity = quantity
+                    # order_product.dessert = dessert
+                    # order_product.boisson = boisson
+                    # order_product.sandwich = sandwich
                     order_product.save()
-                    response_data['quantity'] = order_product.quantity
                     order.products.add(order_product)
                     response_data = {
                         'quantity': order_product.quantity,
                         'total': order.get_total(),
                         'name': product.name,
+                        'dessert':order_product.dessert,
+                        'boisson':order_product.boisson,
+                        'sandwich':order_product.sandwich,
                         'product_total': order_product.get_total_product_price(),
                         'cart_quantity': order.get_quantity(),
                         'product_name': order_product.product.name,
+                        'order_product_id': order_product.id
                     }
                     # messages.info(request, 'Le produit a été ajouté au panier')
                     
@@ -190,16 +211,22 @@ def add_to_cart(request, slug):
                 order = Order.objects.create(
                     user=request.user, type_of_order='Dejeuner')
                 order_product.quantity = quantity
-                
+                # order_product.dessert = dessert
+                # order_product.boisson = boisson
+                #order_product.sandwich = sandwich
                 order_product.save()
                 order.products.add(order_product)
                 response_data = {
                         'quantity': order_product.quantity,
                         'total': order.get_total(),
                         'name': product.name,
+                        'dessert':order_product.dessert,
+                        'boisson':order_product.boisson,
+                        'sandwich':order_product.sandwich,
                         'product_total': order_product.get_total_product_price(),
                         'cart_quantity': order.get_quantity(),
                         'product_name': order_product.product.name,
+                        'order_product_id': order_product.id
                     }
             return JsonResponse(response_data)
         elif product.menu == 'Apero':
@@ -257,8 +284,14 @@ def add_single_item_to_cart(request, slug):
     order_product, created = OrderProduct.objects.get_or_create(
         product=product,
         user=request.user,
-        ordered=False
+        ordered=False,
+        sandwich=request.POST['sandwich'],
+        boisson=request.POST['boisson'],
+        dessert=request.POST['dessert'],
     )
+    print(request.POST['sandwich'])
+    print(request.POST['boisson'])
+    print(request.POST['dessert'])
     order_dejeuner_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Dejeuner')
     order_apero_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Apero')
     response_data = {}
@@ -324,11 +357,16 @@ def remove_from_cart(request, slug):
                 order_product = OrderProduct.objects.filter(
                     product=product,
                     user=request.user,
-                    ordered=False
+                    ordered=False,
+                    
                 )[0]
                 order.products.remove(order_product)
                 order_product.delete()
                 response_data = {
+                    'sandwich': order_product.sandwich,
+                    'dessert': order_product.dessert,
+                    'boisson': order_product.boisson,
+                    'order_id': order_product.id,
                     'quantity': order_product.quantity,
                     'total': order_product.get_total_product_price(),
                     'get_total': order.get_total(),
@@ -384,11 +422,22 @@ def remove_single_product_from_cart(request, slug):
             order = order_dejeuner_qs[0]
             # check if the order item is in the order
             if order.products.filter(product__slug=product.slug).exists():
-                order_product = OrderProduct.objects.filter(
-                    product=product,
-                    user=request.user,
-                    ordered=False
-                )[0]
+                # order_product = OrderProduct.objects.filter(
+                #     product=product,
+                #     user=request.user,
+                #     ordered=False
+                # )[0]
+                order_product, created = OrderProduct.objects.get_or_create(
+                product=product,
+                user=request.user,
+                ordered=False,
+                sandwich=request.POST['sandwich'],
+                boisson=request.POST['boisson'],
+                dessert=request.POST['dessert'],
+                )
+                print(request.POST['sandwich'])
+                print(request.POST['boisson'])
+                print(request.POST['dessert'])
                 if order_product.quantity > 1:
                     order_product.quantity -= 1
                     order_product.save()

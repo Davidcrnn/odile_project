@@ -25,26 +25,46 @@
             </thead>
             <tbody>
                 {% for order_product in  order_dejeuner.products.all %}
-                <tr data-x='{{order_product.product.slug}}'>
+                <tr id-data='{{ order_product.product.slug }}-{{ order_product.id }}'>
                     <!-- <th scope="row">{{ forloop.counter }}</th> -->
-                    <td>{{ order_product.product.name }} </td>
+                    <td>{{ order_product.product.name }} <br>
+                        {% if order_product.sandwich %}
+                        <small
+                            data-sandwich-id="{{ order_product.product.slug }}-{{ order_product.id }}">{{ order_product.sandwich }}</small>
+                        <br>
+                        {% endif %}
+
+                        {% if order_product.dessert %}
+                        <small
+                            data-dessert-id="{{ order_product.product.slug }}-{{ order_product.id }}">{{ order_product.dessert }}</small>
+                        <br>
+                        {% endif %}
+                        {% if order_product.boisson %}
+                        <small
+                            data-boisson-id="{{ order_product.product.slug }}-{{ order_product.id }}">{{ order_product.boisson }}</small>
+                        {% endif %}
+                    </td>
+
+
                     <td>{{ order_product.product.price }} </td>
                     <td>
 
 
                         <a style='color: #165361;'
                             href="{% url 'remove-single-product-from-cart' order_product.product.slug %}"
-                            id={{order_product.product.slug}} class="ajax" data-y={{order_product.product.slug}}>
+                            id={{order_product.product.slug}}-{{order_product.id}} class="ajax"
+                            data-y="{{ order_product.product.slug }}-{{ order_product.id }}">
                             <i class="fas fa-minus mr-2"></i></a>
-                        <span data-id="{{ order_product.product.slug}}">{{ order_product.quantity }}</span>
+                        <span
+                            data-id="{{ order_product.product.slug }}-{{ order_product.id }}">{{ order_product.quantity }}</span>
                         <a style='color: #165361;' href="{% url 'add-single-item-to-cart' order_product.product.slug %}"
-                            id={{order_product.product.slug}} class='ajax'>
+                            id={{order_product.product.slug}}-{{order_product.id}} class='ajax'>
                             <i class="fas fa-plus ml-2"></i></a>
                     </td>
                     <td><span
-                            data-total={{order_product.product.slug}}>{{ order_product.get_total_product_price|floatformat}}</span>€
+                            data-total="{{ order_product.product.slug }}-{{ order_product.id }}">{{ order_product.get_total_product_price|floatformat}}</span>€
                         <a style='color: #165361;' href="{% url 'remove-from-cart' order_product.product.slug %}"
-                            class="removeItem ajax-remove" id={{order_product.product.slug}}>
+                            class="removeItem ajax-remove" id="{{ order_product.product.slug }}-{{ order_product.id }}">
                             <i class="fas fa-trash float-right"></i>
                         </a></td>
 
@@ -70,24 +90,20 @@
                 {% endif %} -->
 
                 {% if order_dejeuner.get_total %}
-
                 <div id="total-cart">
                     <tr>
-
                         <td></td>
                         <td></td>
                         <td class="">Sous-total</td>
                         <td class='js-get-total'>{{ order_dejeuner.get_total|floatformat}}€</td>
                     </tr>
                     <tr>
-
                         <td></td>
                         <td></td>
                         <td class="">Frais de livraison</td>
                         <td>Gratuit</td>
                     </tr>
                     <tr>
-
                         <td></td>
                         <td></td>
                         <td class="">Total</td>
@@ -96,15 +112,11 @@
                     <tr>
                         <td colspan="5">
                             <a class='btn-valider float-right ml-2' href='{% url "checkout" %}'>Commander</a>
-
                             <a class='btn-annuler float-right mt-4' href="{% url 'products'%}">Ajoutez d'autres
                                 produits</a>
-
                         </td>
-
                     </tr>
                 </div>
-
                 {% endif %}
 
             </tbody>
@@ -198,7 +210,6 @@
         </div>
         {% endfor %}
     </div> -->
-
 </div>
 
 {% endblock content  %}
@@ -245,21 +256,29 @@
 
         var urlAjax = $(this).attr('href');
 
+        var sandwich = $('[data-sandwich-id=' + target + ']').text();
+        var boisson = $('[data-boisson-id=' + target + ']').text();
+        var dessert = $('[data-dessert-id=' + target + ']').text();
 
+        console.log(target, sandwich, boisson, dessert)
 
         $.ajax({
             type: 'POST',
             url: urlAjax,
             data: {
+                sandwich: sandwich,
+                boisson: boisson,
+                dessert: dessert,
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
                 action: 'post',
 
             },
             success: function (json) {
-                console.log(json.quantity);
+
                 $('[data-id=' + target + ']').text(json.quantity);
                 $('[data-total=' + target + ']').text(json.total);
                 $('.js-get-total').text(json.get_total + '€');
+
                 // 
                 if ($('[data-id=' + target + ']').text() == "1") {
                     $('a[data-y=' + target + ']').addClass('disabled');
@@ -277,38 +296,13 @@
             }
         });
     });
-</script>
-
-<script>
-    $.ajaxSetup({
-        beforeSend: function (xhr, settings) {
-            function getCookie(name) {
-                var cookieValue = null;
-                if (document.cookie && document.cookie != '') {
-                    var cookies = document.cookie.split(';');
-                    for (var i = 0; i < cookies.length; i++) {
-                        var cookie = jQuery.trim(cookies[i]);
-                        // Does this cookie string begin with the name we want?
-                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                            break;
-                        }
-                    }
-                }
-                return cookieValue;
-            }
-            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-                // Only send the token to relative URLs i.e. locally.
-                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-            }
-        }
-    });
     $('td').on("click", 'a.ajax-remove', function (e) {
         e.preventDefault();
         var target = $(this).attr('id');
 
-        var urlAjax = $(this).attr('href');
 
+
+        var urlAjax = $(this).attr('href');
 
 
         $.ajax({
@@ -321,6 +315,8 @@
             },
             success: function (json) {
                 console.log(json.quantity);
+                console.log(json.sandwich)
+
                 $('[data-id=' + target + ']').text(json.quantity);
                 $('[data-total=' + target + ']').text(json.total);
                 $('.js-get-total').text(json.get_total + '€');
@@ -330,7 +326,6 @@
                 } else {
                     $('a[data-y=' + target + ']').removeClass('disabled');
                 }
-
 
                 var myvar =
                     '                    <tr>' +
@@ -343,10 +338,7 @@
                     '                        </td>' +
                     '                    </tr>';
 
-
-
-
-                $('tr[data-x=' + target + ']').remove();
+                $('tr[id-data=' + target + ']').remove();
                 if ($('#cart-total').text() == "0€") {
                     $('tbody tr').remove();
                     $("tbody").append(myvar);
@@ -360,4 +352,5 @@
         });
     });
 </script>
+
 {% endblock extra_scripts %}

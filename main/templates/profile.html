@@ -25,6 +25,12 @@
                         <ul>
                             {% for order_item in o.products.all  %}
                             <li> {{ order_item }}</li>
+                            <ul>
+                                <li>{% if order_item.sandwich %}{{ order_item.sandwich }}{% endif %}</li>
+                                <li>{% if order_item.boisson %}{{ order_item.boisson }}{% endif %}</li>
+                                <li>{% if order_item.dessert %}{{ order_item.dessert }}{% endif %}</li>
+
+                            </ul>
                             {% endfor %}
                         </ul>
                         <p class="total-profil">Total: {{ o.payment.amount|floatformat }}€ </p>

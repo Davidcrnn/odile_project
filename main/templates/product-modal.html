@@ -41,14 +41,89 @@
                     {% else %}
                     <p>Ce produit ne contient pas d'allergène alimentaire.</p>
                     {% endif %}
+
                 </div>
                 <form method="POST" action="{{ product.get_add_to_cart_url }}" id='{{ product.slug}}'>
                     {% csrf_token %}
-                    <p> {{ form.quantity.label_tag}} {{ form.quantity }}</p>
+                    <p> {{ form.quantity.label_tag}} </p>
+                    {{ form.quantity }}
+
+
+
+
+                    {% if product.variation_set.all %}
+                    <hr>
+
+
+
+                    {% if product.variation_set.sandwichs %}
+                    <p>{{ form.sandwich.label_tag }}</p>
+                    {% for item in product.variation_set.sandwichs %}
+                    <div class="option-delivery">
+                        <label class="" for="{{ item.title }}">
+                            <input id="{{ item.title }}" name="sandwich" value="{{ item.title }}" type="radio" class=""
+                                required>
+                            <span>{{ item.title }}</span>
+
+                        </label>
+                    </div>
+                    {% endfor %}
+
+                    <hr>
+                    {% endif %}
+
+                    {% if product.variation_set.boissons %}
+                    <p>{{ form.boisson.label_tag }}</p>
+                    {% for item in product.variation_set.boissons %}
+                    <div class="option-delivery">
+                        <label class="" for="{{ item.title }}">
+                            <input id="{{ item.title }}" name="boisson" value="{{ item.title }}" type="radio" class=""
+                                required>
+                            <span>{{ item.title }}</span>
+
+                        </label>
+                    </div>
+                    {% endfor %}
+
+                    <hr>
+                    {% endif %}
+
+                    {% if product.variation_set.desserts %}
+                    <p>{{ form.dessert.label_tag }}</p>
+                    {% for item in product.variation_set.desserts %}
+                    <div class="option-delivery">
+                        <label class="" for="{{ item.title }}">
+                            <input id="{{ item.title }}" name="dessert" value="{{ item.title }}" type="radio" class=""
+                                required>
+                            <span>{{ item.title }}</span>
+
+                        </label>
+                    </div>
+                    {% endfor %}
+
+
+                    <hr>
+                    {% endif %}
+                    {% endif %}
+
+
+                    {% if product.alcool%}
+
+
+                    <div class="info-boisson">
+                        <p>
+                            Pour commander vous devez avoir l’âge légal autorisé pour acheter ou consommer de
+                            l’alcool. L’abus
+                            d’alcool est dangereux pour la santé, à consommer avec modération.
+                        </p>
+                    </div>
+                    {% endif %}
+
             </div>
             <div class="modal-footer modal-btn">
                 <a class='btn-annuler' data-dismiss="modal">
                     Retour
+
                 </a>
                 {% if request.user.is_authenticated %}
                 <input type="submit" value='Ajouter au panier' class='btn-valider'>

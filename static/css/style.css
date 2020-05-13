@@ -13,7 +13,7 @@
   padding: 31px;
   margin-top: 20px; }
   .section-banner-home-title h4 {
-    font-size: 17px;
+    font-size: 14px;
     margin-bottom: 40px;
     color: #4DBDC0; }
   .section-banner-home-title h1 {
@@ -1022,5 +1022,8 @@ body {
 
 p {
   color: #454545; }
+
+.filter-option {
+  font-size: 13px; }
 
 /*# sourceMappingURL=style.css.map */

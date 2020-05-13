@@ -63,9 +63,10 @@ class Product(models.Model):
     price = models.FloatField(verbose_name='Prix')
     image = models.FileField(upload_to='images/', blank=True, null=True)
     description = models.TextField()
-    slug = models.SlugField()
+    slug = models.SlugField(max_length=100)
     category = models.CharField(
         max_length=32, choices=PRODUCT_CATEGORIES, default='Plats')
+    alcool = models.BooleanField(default=False)
     allergene = models.CharField(
         max_length=32, choices=PRODUCT_ALLERGENES, blank=True, null=True)
     allergene2 = models.CharField(
@@ -91,12 +92,54 @@ class Product(models.Model):
         verbose_name = 'Produit'
 
 
+class VariationManager(models.Manager):
+    def all(self):
+        return super(VariationManager, self).filter(visible=True)
+
+    def boissons(self):
+        return self.all().filter(category='boisson')
+
+    def sandwichs(self):
+        return self.all().filter(category='sandwich')
+
+    def desserts(self):
+        return self.all().filter(category='dessert')
+
+    def huitres(self):
+        return self.all().filter(category='huitre')
+
+
+VAR_CATEGORIES = (
+    ('boisson', 'boisson'),
+    ('sandwich', 'sandwich'),
+    ('dessert', 'dessert'),
+    ('huitre', 'huitre'),
+)
+
+
+class Variation(models.Model):
+    product = models.ManyToManyField(Product)
+    category = models.CharField(
+        max_length=100, choices=VAR_CATEGORIES, default='boisson')
+    title = models.CharField(max_length=100)
+    price = models.FloatField(verbose_name='Prix', null=True, blank=True)
+    visible = models.BooleanField(default=True)
+
+    objects = VariationManager()
+
+    def __str__(self):
+        return self.title
+
+
 class OrderProduct(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
+    dessert = models.CharField(max_length=100, null=True, blank=True)
+    boisson = models.CharField(max_length=100, null=True, blank=True)
+    sandwich = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
         return f"{self.quantity} x {self.product.name}"

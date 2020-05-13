@@ -382,23 +382,47 @@
             delivery_bateau = document.getElementById('livraison-sur-bateau');
 
         delivery_one.addEventListener('click', function () {
-            flatpickr('#datepicker-dejeuner', {
-                // defaultDate: new Date().fp_incr(1),
-                minDate: new Date().fp_incr(1),
-                dateFormat: "d/m/Y H:i",
-                altFormat: "d/m/Y H:i",
-                defaultTime: '10:30',
-                minTime: '10:30',
-                maxTime: '11:00',
-                enableTime: true,
-                time_24hr: true,
-                minuteIncrement: '10',
-                locale: "fr",
-                disableMobile: "true"
+            var time = new Date($.now());
+            var hours = time.getHours()
+            console.log(hours)
+            if (hours > 19) {
 
-            });
 
+                flatpickr('#datepicker-dejeuner', {
+                    // defaultDate: new Date().fp_incr(1),
+                    minDate: new Date().fp_incr(2),
+                    dateFormat: "d/m/Y H:i",
+                    altFormat: "d/m/Y H:i",
+                    defaultTime: '10:30',
+                    minTime: '10:30',
+                    maxTime: '11:00',
+                    enableTime: true,
+                    time_24hr: true,
+                    minuteIncrement: '10',
+                    locale: "fr",
+                    disableMobile: "true"
+
+                });
+            } else {
+                flatpickr('#datepicker-dejeuner', {
+                    // defaultDate: new Date().fp_incr(1),
+                    minDate: new Date().fp_incr(1),
+                    dateFormat: "d/m/Y H:i",
+                    altFormat: "d/m/Y H:i",
+                    defaultTime: '10:30',
+                    minTime: '10:30',
+                    maxTime: '11:00',
+                    enableTime: true,
+                    time_24hr: true,
+                    minuteIncrement: '10',
+                    locale: "fr",
+                    disableMobile: "true"
+
+
+                });
+            }
         });
+
 
         delivery_two.addEventListener('click', function () {
             flatpickr('#datepicker-dejeuner', {

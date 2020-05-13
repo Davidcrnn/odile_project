@@ -374,20 +374,63 @@
 
     $(document).ready(function () {
 
-        flatpickr('#datepicker-apero', {
-            // defaultDate: new Date().fp_incr(1),
-            minDate: new Date().fp_incr(1),
-            dateFormat: "d/m/Y H:i",
-            altFormat: "d/m/Y H:i",
-            defaultTime: '17:00',
-            minTime: '17:00',
-            maxTime: '18:00',
-            enableTime: true,
-            time_24hr: true,
-            minuteIncrement: '10',
-            locale: "fr",
-            disableMobile: "true"
-        })
+        var time = new Date($.now());
+        var hours = time.getHours()
+        if (hours > 19) {
+            mindate = new Date(time.getTime() + 24 * 60 * 60 * 1000)
+            flatpickr('#datepicker-apero', {
+                // defaultDate: new Date().fp_incr(1),
+
+                minDate: mindate,
+                dateFormat: "d/m/Y H:i",
+                altFormat: "d/m/Y H:i",
+                defaultTime: '17:00',
+                minTime: '17:00',
+                maxTime: '18:00',
+                enableTime: true,
+                time_24hr: true,
+                minuteIncrement: '10',
+                locale: "fr",
+                disableMobile: "true",
+                // disable: [
+                //     {
+                //         from: "04/05/2020 00:00",
+                //         to: "05/07/2020 00:00"
+                //     },
+                //     {
+                //         from: "31/08/2020 00:00",
+                //         to: "05/07/2021 00:00"
+                //     }
+                // ]
+            })
+        } else {
+
+            flatpickr('#datepicker-apero', {
+                // defaultDate: new Date().fp_incr(1),
+
+                minDate: new Date().fp_incr(1),
+                dateFormat: "d/m/Y H:i",
+                altFormat: "d/m/Y H:i",
+                defaultTime: '17:00',
+                minTime: '17:00',
+                maxTime: '18:00',
+                enableTime: true,
+                time_24hr: true,
+                minuteIncrement: '10',
+                locale: "fr",
+                disableMobile: "true",
+                // disable: [
+                //     {
+                //         from: "04/05/2020 00:00",
+                //         to: "05/07/2020 00:00"
+                //     },
+                //     {
+                //         from: "31/08/2020 00:00",
+                //         to: "05/07/2021 00:00"
+                //     }
+                // ]
+            })
+        }
     });
 
 </script>
