@@ -97,5 +97,18 @@
     background-color: $gris;
 }
 
+// INFO ALCOOL SECTION ------------------------
 
+.info-boisson {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: #f6f6f5;
+    margin-top: 30px;
+    box-shadow: 0 0 10px $gris;
+    p {
+        margin: 0 0 0 20px;
+    }
+}
 
