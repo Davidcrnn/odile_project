@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block head_title %}Contactez-nous{% endblock head_title %}
 {% block content %}
 <div class="container">
@@ -9,14 +10,23 @@
     </div>
     <div class="row">
         <div class="col-xs-12 col-md-6 mb-3 section-left-container">
-            <div class="section-left-text">
-                <p>
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti sit dicta ipsa aliquam error,
-                    reiciendis,
-                    eaque magni maiores dolor, voluptatem fugit ducimus molestias velit amet. Hic ipsum dignissimos
-                    repellendus
-                    perferendis?
-                </p>
+            <div class="section-left-text text-center ">
+                <img src="{% static '../static/images/telephone.svg' %}" alt="" height=100 class=''>
+                <h5>Vous avez une question ? Besoin d'un renseignement ?</h5>
+                <div class="contact-info-form ">
+                    <div class="contact-row d-flex justify-content-between">
+                        <img src="{% static '../static/images/carte.svg' %}" alt="" height=40>
+                        <p>Cap Ferret</p>
+                    </div>
+                    <div class="contact-row d-flex justify-content-between">
+                        <img src="{% static '../static/images/telephone.svg' %}" alt="" height=40>
+                        <p>01-45-45-45-45</p>
+                    </div>
+                    <div class="contact-row d-flex justify-content-between">
+                        <img src="{% static '../static/images/email-letter.svg' %}" alt="" height=40>
+                        <p>Dejeunersurleau@contact.com</p>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-xs-12 col-md-6 mb-3 section-right-container">

@@ -61,6 +61,7 @@
 .filter-product {
     width: 100%;
     position: sticky;
+    position: -webkit-sticky;
     top: 100px;
     margin-top: 20px;
     border-right: 2px solid $vertf;

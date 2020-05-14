@@ -13,9 +13,9 @@
   padding: 31px;
   margin-top: 20px; }
   .section-banner-home-title h4 {
-    font-size: 14px;
+    font-size: 17px;
     margin-bottom: 40px;
-    color: #4DBDC0; }
+    color: #949a9a; }
   .section-banner-home-title h1 {
     border-bottom: 2px solid #4A898B;
     margin-bottom: 40px;
@@ -91,6 +91,22 @@
   align-items: center;
   justify-content: center; }
 
+#popup {
+  padding: 15px 20px;
+  margin-top: 20px;
+  color: #ffb627;
+  border: 2px solid #ffb627;
+  position: relative; }
+  #popup h2 {
+    font-size: 20px;
+    margin: 0; }
+
+#popup-close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer; }
+
 .modal-titre {
   border: none !important;
   display: flex;
@@ -163,9 +179,21 @@
 .dropdown-item.active {
   background-color: #8080805c; }
 
+.info-boisson {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: #f6f6f5;
+  margin-top: 30px;
+  box-shadow: 0 0 10px #8080805c; }
+  .info-boisson p {
+    margin: 0 0 0 20px; }
+
 .nav-container {
   height: 50px;
   position: sticky;
+  position: -webkit-sticky;
   top: 0;
   left: 0;
   width: 100%;
@@ -425,8 +453,8 @@
   font-size: 14px; }
 
 .product-card-text h5 {
-  color: #454545;
-  border-bottom: 2px solid #454545; }
+  color: #949a9a;
+  border-bottom: 2px solid #949a9a; }
 
 .product-card-text span {
   font-size: 15Px;
@@ -435,6 +463,7 @@
 .filter-product {
   width: 100%;
   position: sticky;
+  position: -webkit-sticky;
   top: 100px;
   margin-top: 20px;
   border-right: 2px solid #4A898B; }
@@ -445,7 +474,7 @@
     list-style: none;
     margin-bottom: 20px; }
   .filter-product a, .filter-product .drop-content p, .drop-content .filter-product p {
-    color: #454545; }
+    color: #949a9a; }
   .filter-product a:hover, .filter-product .drop-content p:hover, .drop-content .filter-product p:hover {
     text-decoration: none;
     cursor: pointer;
@@ -552,9 +581,9 @@
   .bandereau-card p {
     margin: 0; }
   .bandereau-card small {
-    color: #454545; }
+    color: #949a9a; }
   .bandereau-card a, .bandereau-card .drop-content p, .drop-content .bandereau-card p {
-    color: #454545; }
+    color: #949a9a; }
 
 .justify-content {
   display: flex;
@@ -574,6 +603,7 @@
 
 #stickycart {
   position: sticky;
+  position: -webkit-sticky;
   top: 100px;
   background: #f5f5f5;
   padding: 20px;
@@ -839,6 +869,24 @@ label:hover:before {
 
 .section-left-text {
   padding: 20px; }
+  .section-left-text h5 {
+    color: #4A898B;
+    font-size: 16px;
+    text-align: center;
+    margin: 15px 0 20px; }
+
+.contact-info-form {
+  margin: 20Px 0; }
+
+.contact-row {
+  padding: 10px 20px;
+  box-shadow: 0 0 3px #4A898B;
+  margin: 20px 0;
+  align-items: center;
+  border-radius: 20px; }
+  .contact-row p {
+    margin: 0;
+    color: #949a9a; }
 
 .section-right-container {
   padding: 0; }
@@ -851,9 +899,10 @@ label:hover:before {
     margin-bottom: 10Px; }
   .section-form h3 {
     margin-bottom: 20px;
-    color: #4A898B; }
+    color: #4A898B;
+    font-size: 20px; }
   .section-form a, .section-form .drop-content p, .drop-content .section-form p {
-    color: #454545; }
+    color: #949a9a; }
 
 .moyendepaiement-container {
   height: auto;
@@ -865,7 +914,7 @@ label:hover:before {
     font-size: 14px; }
 
 .recap-info {
-  color: #454545;
+  color: #949a9a;
   padding: 0 20px; }
   .recap-info p {
     margin: 0;
@@ -1005,7 +1054,7 @@ th.creneau-delivery {
 body {
   font-family: 'Montserrat', sans-serif;
   font-weight: medium;
-  color: #454545; }
+  color: #949a9a; }
 
 .alert {
   margin-bottom: 0; }
@@ -1021,7 +1070,7 @@ body {
   border: none; }
 
 p {
-  color: #454545; }
+  color: #949a9a; }
 
 .filter-option {
   font-size: 13px; }

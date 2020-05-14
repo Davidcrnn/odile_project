@@ -6,20 +6,23 @@
 
 
 <div class="container">
+    <!-- style="display:none" -->
+    <div id="popup">
+        <div>
+            <h2>Les commandes et livraisons ne pourront s'effectuer qu'à partir du 5 juillet 2020 !</h2>
+        </div>
+        <div id="popup-close">
+            <img src="{% static '../static/images/croix.svg' %}" alt="" height='30px'>
+        </div>
+    </div>
     <div class="row">
         <div class="col-xs-12 order-2 col-md-4">
             <div class="section-banner-home-title">
                 <h1>DÉJEUNER SUR L'EAU</h1>
-                <h4>Vous partez en mer pour la journée ? Déjeuner sur l’eau vous livre avant votre départ sur
-                    votre bateau un panier pique-nique à vos mesures.
-                    Mais vous pouvez préférer profiter de la plage et venir retirer votre pique-nique à un point
-                    fixe.</h4>
-                <h4>
-                    Pour profiter du coucher du soleil aux pieds des cabanes tchanquées par exemple, la carte
-                    vous réserve un « coin apéro » avec, selon vos envies, des huitres du bassin, des crevettes
-                    bio, des cannelés salés, … le tout accompagné d’un champagne, d’un vin blanc ou rosé.
+                <h4>Un pique-nique que vous composez sur notre site internet vous est livré sur votre bateau pour que
+                    vous profitiez pleinement de votre journée.</h4>
 
-                </h4>
+
                 <button type="button" class="btn-valider" data-toggle="modal" data-target="#menu-choices">
                     VOIR LE MENU
                 </button>
@@ -61,11 +64,20 @@
         <div class="row">
             <div class="col-xs-12 col-md-6">
                 <div class="section-presentation-concept">
-                    <p>Un pique-nique que vous composez sur notre site internet vous est livré sur votre bateau
-                        pour que vous profitiez pleinement de votre journée .
-                        La carte est évolutive.
-                        Les produits sont frais, de saison et faits maison.
-                        La priorité est donnée aux produits bio et locaux.
+                    <p>Vous partez en mer pour la journée ? Déjeuner sur l’eau vous livre avant votre départ sur
+                        votre bateau un panier pique-nique à vos mesures.
+                        Mais vous pouvez préférer profiter de la plage et venir retirer votre pique-nique à un point
+                        fixe.
+                    </p>
+                    <p>
+                        Pour profiter du coucher du soleil aux pieds des cabanes tchanquées par exemple, la carte
+                        vous réserve un « coin apéro » avec, selon vos envies, des huitres du bassin, des crevettes
+                        bio, des cannelés salés, … le tout accompagné d’un champagne, d’un vin blanc ou rosé.
+
+                    </p>
+                    <p>
+                        La carte est évolutive. Les produits sont frais, de
+                        saison et faits maison. La priorité est donnée aux produits bio et locaux.
                     </p>
                 </div>
 
@@ -202,6 +214,25 @@
             .addTo(map);
     });
 </script>
+
+<script>
+    // Pop Up - Commande commence le 
+    $(document).ready(function () {
+        if (localStorage.getItem('popState') != 'shown') {
+            $("#popup").delay(5000).fadeIn();
+            localStorage.setItem('popState', 'shown')
+        }
+
+        $('#popup-close').click(function (e) // You are clicking the close button
+        {
+            $('#popup').fadeOut(); // Now the pop up is hiden.
+        });
+        $('#popup').click(function (e) {
+            $('#popup').fadeOut();
+        });
+    });
+</script>
+
 
 
 {% endblock extra_scripts %}

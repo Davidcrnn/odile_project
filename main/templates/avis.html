@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block head_title %}Votre avis nous intéresse{% endblock head_title %}
 {% block content %}
 <div class="container">
@@ -8,9 +9,10 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-12 col-md-6 mb-3 section-left-container">
-            <div class="section-left-text">
-                <p> Nous avons la réelle volonté de répondre aux mieux à vos attentes alors n’hésitez pas à formuler vos
+        <div class="col-xs-12 col-md-6 mb-3 section-left-container centered-content">
+            <div class="section-left-text text-center ">
+                <img src="{% static '../static/images/email-letter.svg' %}" alt="" height=200 class=''>
+                <p> Nous avons la réelle volonté de répondre au mieux à vos attentes alors n’hésitez pas à formuler vos
                     remarques via le formulaire.
                 </p>
             </div>
@@ -30,7 +32,9 @@
                     </div>
                     {% endfor %}
                     <small>{{ form.objet.errors }}</small>
-
+                    <label for="email">Email <small>(facultatif)</small> </label>
+                    <p>{{ form.email }}</p>
+                    <small>{{ form.email.errors }}</small>
 
                     <label for="message">Message</label>
                     <p>{{ form.message }}</p>

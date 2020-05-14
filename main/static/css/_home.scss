@@ -17,9 +17,9 @@
     padding: 31px;
     margin-top: 20px;
     h4 {
-        font-size: 14px;
+        font-size: 17px;
         margin-bottom: 40px;
-        color: $vertc;
+        color: #949a9a;
     } h1 {
         border-bottom: 2px solid $vertf;
         margin-bottom: 40px;
@@ -131,6 +131,31 @@
     justify-content: center;
 }
 
+
+
 // PRELOADER -----------------
+
+
+// POP UP OUVERTURE LIVRAISON --------------------
+
+#popup {
+    padding: 15px 20px;
+    margin-top: 20px;
+    color: $jaune;
+    border: 2px solid $jaune;
+    position: relative;
+    h2 {
+        font-size: 20px;
+        margin:0;
+    }
+}
+
+#popup-close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+}
+
 
  

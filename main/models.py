@@ -280,6 +280,7 @@ class Avis(models.Model):
     )
 
     objet = models.CharField(max_length=50, choices=OBJET)
+    email = models.EmailField(blank=True, null=True)
     message = models.TextField()
 
     def __str__(self):

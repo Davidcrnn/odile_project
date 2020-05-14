@@ -353,6 +353,10 @@ class AvisForm(forms.Form):
                               widget=forms.RadioSelect,
                               choices=OBJET,
                               )
+    email = forms.EmailField(widget=forms.TextInput(attrs={
+        'placeholder': 'Votre email ...',
+        'class': 'form-control checkout-input'}))
+
     message = forms.CharField(widget=forms.Textarea(attrs={
         'placeholder': "Votre message nous permettra d'améliorer nos services ...",
         'class': 'form-control checkout-input',

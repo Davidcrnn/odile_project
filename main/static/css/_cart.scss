@@ -2,6 +2,7 @@
 
 #stickycart {
     position: sticky;
+    position: -webkit-sticky;
     top: 100px;
     background: $grisbg;
     padding: 20px;

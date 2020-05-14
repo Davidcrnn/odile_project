@@ -1,5 +1,5 @@
 <!-- PRODUCT CARD  -->
-
+{% load static %}
 <div class="col-xs-12 col-md-6 mb-3">
     <a class="" data-toggle="modal" data-target="#Modal{{ product.id}}">
         <div class="carte all {{ product.category}}">
@@ -41,6 +41,8 @@
                     {% else %}
                     <p>Ce produit ne contient pas d'allergène alimentaire.</p>
                     {% endif %}
+
+
 
                 </div>
                 <form method="POST" action="{{ product.get_add_to_cart_url }}" id='{{ product.slug}}'>
@@ -111,6 +113,7 @@
 
 
                     <div class="info-boisson">
+                        <img src="{% static '../static/images/under.svg' %}" alt="" height=30>
                         <p>
                             Pour commander vous devez avoir l’âge légal autorisé pour acheter ou consommer de
                             l’alcool. L’abus

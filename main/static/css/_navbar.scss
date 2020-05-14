@@ -5,6 +5,7 @@
 .nav-container {
     height: 50px;
     position: sticky;
+    position: -webkit-sticky;
     top:0;
     left: 0;
     width: 100%;
