@@ -108,12 +108,16 @@ class VariationManager(models.Manager):
     def huitres(self):
         return self.all().filter(category='huitre')
 
+    def alcool(self):
+        return self.all().filter(category='alcool')
+
 
 VAR_CATEGORIES = (
     ('boisson', 'boisson'),
     ('sandwich', 'sandwich'),
     ('dessert', 'dessert'),
     ('huitre', 'huitre'),
+    ('alcool', 'alcool'),
 )
 
 
@@ -140,6 +144,7 @@ class OrderProduct(models.Model):
     dessert = models.CharField(max_length=100, null=True, blank=True)
     boisson = models.CharField(max_length=100, null=True, blank=True)
     sandwich = models.CharField(max_length=100, null=True, blank=True)
+    alcool = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
         return f"{self.quantity} x {self.product.name}"
@@ -207,11 +212,10 @@ class Order(models.Model):
     # def get_GeneratePdf_url(self):
     #     return reverse('GeneratePdf', kwargs={'ref_code': self.ref_code})
 
-
-class Meta:
-    ordering = ('-date_de_creation',)
-    verbose_name = 'Commande'
-    verbose_name_plural = 'Commandes'
+    class Meta:
+        ordering = ('-date_de_creation',)
+        verbose_name = 'Commande'
+        verbose_name_plural = 'Commandes'
 
 
 class Payment(models.Model):

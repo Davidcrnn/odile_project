@@ -111,6 +111,28 @@
 
                     {% if product.alcool%}
 
+                    {% if product.variation_set.alcool %}
+                    <p>{{ form.alcool.label_tag }}</p>
+                    {% for item in product.variation_set.alcool %}
+                    <div class="option-delivery">
+                        <label class="" for="{{ item.title }}-{{product.id}}">
+                            <input id="{{ item.title }}-{{product.id}}" name="alcool" value="{{ item.title }}" type="radio"
+                                class="" required>
+                            <span>{{ item.title }}</span>
+
+                        </label>
+                    </div>
+                    {% endfor %}
+
+
+                    <hr>
+                    {% endif %}
+                    <div class="info-boisson">
+                        <img src="{% static '../static/images/tirebouchon.svg' %}" alt="" height=30>
+                        <p>
+                            Vous pouvez aussi acheter un tire bouchon dans la catégorie accessoire.
+                        </p>
+                    </div>
 
                     <div class="info-boisson">
                         <img src="{% static '../static/images/under.svg' %}" alt="" height=30>

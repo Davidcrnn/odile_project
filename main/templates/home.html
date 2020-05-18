@@ -6,6 +6,11 @@
 
 
 <div class="container">
+
+    <div id="preloader">
+        <div id="status">&nbsp;</div>
+    </div>
+
     <!-- style="display:none" -->
     <div id="popup">
         <div>
@@ -83,9 +88,12 @@
 
 
             </div>
-            <div class="col-xs-12 col-md-6 text-center">
-                <img src="{% static '../static/images/logo-bateau.svg' %}" alt="" id='logo-home'> <br>
-                <img src="{% static '../static/images/logo-text.svg' %}" alt="" id='logo-home-text'>
+            <div class="col-xs-12 col-md-6 text-center centered-content">
+                <div>
+                    <img src="{% static '../static/images/logo-bateau.svg' %}" alt="" id='logo-home'> <br>
+                    <img src="{% static '../static/images/logo-text.svg' %}" alt="" id='logo-home-text'>
+
+                </div>
             </div>
         </div>
     </div>
@@ -230,9 +238,24 @@
         $('#popup').click(function (e) {
             $('#popup').fadeOut();
         });
+
+        $('#popup').delay(5000).fadeOut();
     });
 </script>
 
+<script>
+    $(window).on('load', function () { // makes sure the whole site is loaded 
+        // $('#status').fadeOut(); // will first fade out the loading animation 
+        $('#preloader').delay(1000).fadeOut('slow'); // will fade out the white DIV that covers the website. 
+        $('body').delay(2000).css({ 'overflow': 'visible' });
+    })
 
+
+
+
+
+
+
+</script>
 
 {% endblock extra_scripts %}

@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-xs-12 col-md-6 mb-3 section-left-container centered-content">
             <div class="section-left-text text-center ">
-                <img src="{% static '../static/images/email-letter.svg' %}" alt="" height=200 class=''>
+                <img src="{% static '../static/images/email-letter.svg' %}" alt="" height=150 class=''>
                 <p> Nous avons la réelle volonté de répondre au mieux à vos attentes alors n’hésitez pas à formuler vos
                     remarques via le formulaire.
                 </p>
@@ -23,14 +23,21 @@
                 <form method='POST'>
                     {% csrf_token %}
                     <label for="objet">Objet</label>
-                    {% for value, name in form.fields.objet.choices %}
-                    <div class="option-delivery">
-                        <label class="" for="{{ name }}">
-                            <input id="{{ name }}" name="objet" value="{{ value }}" type="radio" class="" required>
-                            <span>{{ name }}</span>
-                        </label>
+                    <div class="row">
+
+                        {% for value, name in form.fields.objet.choices %}
+                        <div class="col-md-6">
+                            <div class="option-delivery">
+                                <label class="" for="{{ name }}">
+                                    <input id="{{ name }}" name="objet" value="{{ value }}" type="radio" class=""
+                                        required>
+                                    <span>{{ name }}</span>
+                                </label>
+                            </div>
+
+                        </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
                     <small>{{ form.objet.errors }}</small>
                     <label for="email">Email <small>(facultatif)</small> </label>
                     <p>{{ form.email }}</p>

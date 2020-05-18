@@ -3,7 +3,7 @@
 // Navbar container
 
 .nav-container {
-    height: 50px;
+    height: 80px;
     position: sticky;
     position: -webkit-sticky;
     top:0;
@@ -25,6 +25,7 @@
 .black {
     background-color: $grisbg;
     box-shadow: 0 0 10px #8080805c;
+    height: 50px !important;
 }
 
 // Navbar link

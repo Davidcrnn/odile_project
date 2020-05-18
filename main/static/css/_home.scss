@@ -36,8 +36,9 @@
     box-shadow: 0 0 10px $gris;
     margin-top: 20px;
     h1 {
-       color: $vertc;
+       color: $vertf;
        text-shadow: $gris 2px 0 5px;
+       font-size: 30px;
     } p {
         font-size: 14px;
     }
@@ -158,4 +159,37 @@
 }
 
 
- 
+ // PRELOADER -------------------------------------------
+
+  
+  #preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #fff;
+    /* change if the mask should have another color then white */
+    z-index: 99;
+    /* makes sure it stays on top */
+  }
+  
+  #status {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    left: 50%;
+    /* centers the loading animation horizontally one the screen */
+    top: 50%;
+    /* centers the loading animation vertically one the screen */
+    background-image: url('../images/logo-bateau.svg');
+    /* path to your loading animation */
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: -100px 0 0 -100px;
+    /* is width and height divided by two */
+  }
+
+
+
+  

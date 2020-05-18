@@ -28,8 +28,9 @@
   box-shadow: 0 0 10px #8080805c;
   margin-top: 20px; }
   .section-presentation-container h1 {
-    color: #4DBDC0;
-    text-shadow: #8080805c 2px 0 5px; }
+    color: #4A898B;
+    text-shadow: #8080805c 2px 0 5px;
+    font-size: 30px; }
   .section-presentation-container p {
     font-size: 14px; }
 
@@ -106,6 +107,32 @@
   right: 10px;
   top: 10px;
   cursor: pointer; }
+
+#preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #fff;
+  /* change if the mask should have another color then white */
+  z-index: 99;
+  /* makes sure it stays on top */ }
+
+#status {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  left: 50%;
+  /* centers the loading animation horizontally one the screen */
+  top: 50%;
+  /* centers the loading animation vertically one the screen */
+  background-image: url("../images/logo-bateau.svg");
+  /* path to your loading animation */
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: -100px 0 0 -100px;
+  /* is width and height divided by two */ }
 
 .modal-titre {
   border: none !important;
@@ -191,7 +218,7 @@
     margin: 0 0 0 20px; }
 
 .nav-container {
-  height: 50px;
+  height: 80px;
   position: sticky;
   position: -webkit-sticky;
   top: 0;
@@ -210,7 +237,8 @@
 
 .black {
   background-color: #f5f5f5;
-  box-shadow: 0 0 10px #8080805c; }
+  box-shadow: 0 0 10px #8080805c;
+  height: 50px !important; }
 
 .nav-link {
   margin: 0;
@@ -423,7 +451,7 @@
   align-items: center;
   height: 150px;
   text-align: center;
-  border-bottom: 2px solid #4A898B;
+  border-bottom: 7px double #4A898B;
   margin-bottom: 20px; }
 
 .header-section-title h1 {
@@ -641,6 +669,10 @@ tbody tr {
   padding: 10px; }
   .cart-line h6 {
     font-size: 14px; }
+  .cart-line p {
+    color: #949a9a;
+    margin: 0;
+    font-size: 11px; }
 
 .checkout-input {
   border: 2Px solid #4A898B;
