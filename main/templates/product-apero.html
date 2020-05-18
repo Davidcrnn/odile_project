@@ -91,6 +91,7 @@
                                     data-quantity-id="{{order_item.product.slug}}">{{ order_item.quantity }}</span>
                                 x
                                 {{ order_item.product.name}}</h6>
+                            <p data-alcool-id="{{prder_item.id}}">{{ order_item.alcool }}</p>
 
                         </div>
                         <span class="text-muted"
@@ -163,14 +164,17 @@
     $('body').on("submit", 'form', function (e) {
         e.preventDefault();
         var target = $(this).attr('id');
-        var quantity = $(this).find('select').val();
+        var quantity = $(this).find('select[name="quantity"]').val();
+        var alcool = $(this).find('input[name="alcool"]:checked').val();
         var urlAjax = $(this).attr('action');
+
         console.log(urlAjax);
         $.ajax({
             type: 'POST',
             url: urlAjax,
             data: {
                 quantity: quantity,
+                alcool: alcool,
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
                 action: 'post',
             },
@@ -178,25 +182,26 @@
                 $('.selectpicker').val('1').selectpicker('refresh'); // reset form select
                 $('.modal').modal('hide'); // Hide modal
                 var total = json.total + '€'
-                var myvar = '<li class="list-group-item d-flex justify-content-between lh-condensed">' +
+                var myvar = '<li class="list-group-item d-flex cart-line justify-content-between lh-condensed">' +
                     '                        <div>' +
                     '                            <h6 class="my-0"><span' +
                     '                                    data-quantity-id=' + target + '>' + json.quantity + '</span>' +
                     '                                x' +
                     '                                ' + json.product_name + ' </h6>' +
-                    '' +
+                    '' + '<p>' + json.alcool + '</p>' +
                     '                        </div>' +
                     '                        <span class="text-muted"' +
                     '                            data-total-id=\'{{order_item.product.slug}}\'>' + json.product_total + '€</span>' +
                     '                    </li>';
 
                 /* Check if product is in the cartif true then update quantity et total else append to cart*/
-                if ($('[data-quantity-id=' + target + ']').text() != "") {
+                if ($('[data-quantity-id=' + target + ']').text() >= 1 && $('[data-alcool-id=' + json.order_product_id + ']').text() == json.alcool) {
                     $('[data-quantity-id=' + target + ']').text(json.quantity);
                     $('[data-total-id=' + target + ']').text(json.product_total + '€');
                     $('#order-snippet-id').text(total);
                 } else {
-                    $('#js-cart-append').prepend(myvar).fadeIn(1000);
+                    $('#js-cart-append').prepend(myvar);
+
                 }
                 $('#cart-quantity').text('Panier - ' + json.cart_quantity);
             },

@@ -288,6 +288,7 @@ class ProductForm(forms.Form):
         ('sandwich', 'sandwich'),
         ('dessert', 'dessert'),
         ('huitre', 'huitre'),
+        ('alcool', 'alcool')
     )
 
     quantity = forms.ChoiceField(
@@ -301,6 +302,8 @@ class ProductForm(forms.Form):
                               widget=forms.RadioSelect, label='Choisissez votre boisson :')
     dessert = forms.CharField(required=False,
                               widget=forms.RadioSelect, label='Choisissez votre dessert :')
+    alcool = forms.CharField(required=False,
+                             widget=forms.RadioSelect, label='Choisissez une option :')
 
 
 class DeliveredForm(forms.Form):

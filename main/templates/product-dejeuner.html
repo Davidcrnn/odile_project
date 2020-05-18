@@ -109,16 +109,16 @@
                                 {{ order_product.product.name}}</h6>
 
                             {% if order_product.sandwich %}
-                            <small data-sandwich-id="{{order_product.id}}">{{ order_product.sandwich }}</small>
-                            <br>
+                            <p data-sandwich-id="{{order_product.id}}">{{ order_product.sandwich }}</p>
+
                             {% endif %}
 
                             {% if order_product.dessert %}
-                            <small data-dessert-id="{{order_product.id}}">{{ order_product.dessert }}</small>
-                            <br>
+                            <p data-dessert-id="{{order_product.id}}">{{ order_product.dessert }}</p>
+
                             {% endif %}
                             {% if order_product.boisson %}
-                            <small data-boisson-id="{{order_product.id}}">{{ order_product.boisson }}</small>
+                            <p data-boisson-id="{{order_product.id}}">{{ order_product.boisson }}</p>
                             {% endif %}
                         </div>
                         <span class="text-muted"
@@ -191,13 +191,13 @@
                 $('.cart-position p').text(json.cart_quantity)
 
 
-                var myvar = '<li class="list-group-item d-flex justify-content-between lh-condensed">' +
+                var myvar = '<li class="list-group-item cart-line d-flex justify-content-between lh-condensed">' +
                     '                        <div>' +
                     '                            <h6 class="my-0"><span' +
                     '                                    data-quantity-id=' + json.order_product_id + '>' + json.quantity + '</span>' +
                     '                                x' +
                     '                                ' + json.product_name + ' </h6>' +
-                    '' + '<small data-sandwich-id=' + json.order_product_id + '>' + json.sandwich + '</small></br><small data-boisson-id=' + json.order_product_id + '>' + json.boisson + '</small><small data-dessert-id=' + json.order_product_id + '>' + json.dessert + '</small>' +
+                    '' + '<p data-sandwich-id=' + json.order_product_id + '>' + json.sandwich + '</p><p data-boisson-id=' + json.order_product_id + '>' + json.boisson + '</p><p data-dessert-id=' + json.order_product_id + '>' + json.dessert + '</p>' +
 
                     '                        </div>' +
                     '                        <span class="text-muted"' +

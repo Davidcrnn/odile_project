@@ -26,23 +26,33 @@
             </thead>
             <tbody>
                 {% for order_product in  order_apero.products.all %}
-                <tr data-x='{{order_product.product.slug}}'>
+                <tr data-x='{{order_product.product.slug}}-{{ order_product.id }}'>
 
-                    <td>{{ order_product.product.name }} </td>
-                    <td>{{ order_product.product.price }} </td>
+                    <td>{{ order_product.product.name }} <br>
+
+                        {% if order_product.alcool %}
+                        <small
+                            data-alcool-id="{{order_product.product.slug}}-{{order_product.id}}">{{ order_product.alcool }}</small>
+                        {% endif %}
+
+                    </td>
+                    <td>{{ order_product.product.price|floatformat  }}€ </td>
                     <td>
                         <a style='color: #165361;'
                             href="{% url 'remove-single-product-from-cart' order_product.product.slug %}"
-                            id={{order_product.product.slug}} class="ajax" data-y={{order_product.product.slug}}>
+                            id="{{order_product.product.slug}}-{{ order_product.id }}" class="ajax"
+                            data-y="{{order_product.product.slug}}-{{ order_product.id }}">
                             <i class="fas fa-minus mr-2"></i></a>
-                        <span data-id="{{ order_product.product.slug}}">{{ order_product.quantity }}</span>
+                        <span
+                            data-id="{{ order_product.product.slug}}-{{ order_product.id }}">{{ order_product.quantity }}</span>
                         <a style='color: #165361;' href="{% url 'add-single-item-to-cart' order_product.product.slug %}"
-                            id={{order_product.product.slug}} class='ajax'><i class="fas fa-plus ml-2"></i></a>
+                            id="{{order_product.product.slug}}-{{ order_product.id }}" class='ajax'><i
+                                class="fas fa-plus ml-2"></i></a>
                     </td>
                     <td><span
-                            data-total={{order_product.product.slug}}>{{ order_product.get_total_product_price|floatformat}}</span>€<a
+                            data-total="{{order_product.product.slug}}-{{ order_product.id }}">{{ order_product.get_total_product_price|floatformat}}</span>€<a
                             style='color: #165361;' href="{% url 'remove-from-cart' order_product.product.slug %}"
-                            class="removeItem ajax-remove" id={{order_product.product.slug}}>
+                            class="removeItem ajax-remove" id="{{order_product.product.slug}}-{{ order_product.id }}">
                             <i class="fas fa-trash float-right"></i>
                         </a></td>
 
@@ -60,12 +70,7 @@
                 </tr>
                 {% endfor %}
 
-                <!-- {% if order_apero.coupon %}
-                <tr>
-                    <td colspan="4">Coupon</td>
-                    <td> - {{ object.coupon.amount}}€</td>
-                </tr>
-                {% endif %} -->
+
 
                 {% if order_apero.get_total %}
 
@@ -107,22 +112,7 @@
 
             </tbody>
         </table>
-        <!-- {% if DISPLAY_COUPON_FORM %}
-        <form class="card p-2" action="{% url 'add-coupon' %}" method="POST">
-            {% csrf_token %}
-            <div class="input-group">
 
-                {{ couponform.code }}
-
-
-
-                <div class="input-group-append">
-
-                    <button class=" btn-md btn-valider waves-effect m-0" type="submit">Valider</button>
-                </div>
-            </div>
-        </form>
-        {% endif %} -->
     </div>
 
 
@@ -172,15 +162,16 @@
         $('td').on("click", 'a.ajax', function (e) {
             e.preventDefault();
             var target = $(this).attr('id');
-
+            console.log(target)
             var urlAjax = $(this).attr('href');
-
-
+            var alcool = $('[data-alcool-id=' + target + ']').text();
+            console.log(alcool)
 
             $.ajax({
                 type: 'POST',
                 url: urlAjax,
                 data: {
+                    alcool: alcool,
                     csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
                     action: 'post',
 
@@ -206,35 +197,6 @@
                     console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
                 }
             });
-        });
-    });
-
-</script>
-
-<script>
-    $(document).ready(function () {
-        $.ajaxSetup({
-            beforeSend: function (xhr, settings) {
-                function getCookie(name) {
-                    var cookieValue = null;
-                    if (document.cookie && document.cookie != '') {
-                        var cookies = document.cookie.split(';');
-                        for (var i = 0; i < cookies.length; i++) {
-                            var cookie = jQuery.trim(cookies[i]);
-                            // Does this cookie string begin with the name we want?
-                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                                break;
-                            }
-                        }
-                    }
-                    return cookieValue;
-                }
-                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-                    // Only send the token to relative URLs i.e. locally.
-                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-                }
-            }
         });
         $('td').on("click", 'a.ajax-remove', function (e) {
             e.preventDefault();
@@ -292,6 +254,36 @@
                 }
             });
         });
+    });
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                function getCookie(name) {
+                    var cookieValue = null;
+                    if (document.cookie && document.cookie != '') {
+                        var cookies = document.cookie.split(';');
+                        for (var i = 0; i < cookies.length; i++) {
+                            var cookie = jQuery.trim(cookies[i]);
+                            // Does this cookie string begin with the name we want?
+                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                }
+                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                    // Only send the token to relative URLs i.e. locally.
+                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                }
+            }
+        });
+
     });
 
 </script>
