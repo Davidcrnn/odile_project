@@ -67,6 +67,7 @@ class Product(models.Model):
     category = models.CharField(
         max_length=32, choices=PRODUCT_CATEGORIES, default='Plats')
     alcool = models.BooleanField(default=False)
+    info = models.BooleanField(default=False)
     allergene = models.CharField(
         max_length=32, choices=PRODUCT_ALLERGENES, blank=True, null=True)
     allergene2 = models.CharField(

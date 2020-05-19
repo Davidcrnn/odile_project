@@ -33,7 +33,7 @@
                 </div>
                 {% endif %}
                 <div class="product-card-info-modal">
-                    <h4>Ingrédients : </h4>
+                    <h4>Descriptif : </h4>
                     <h6>{{ product.description|safe }}</h6>
                     {% if product.allergene is not None %}
                     <p>Allergène : {{ product.allergene }} {% if product.allergene2 %} {{ product.allergene2 }}
@@ -41,6 +41,19 @@
                     {% else %}
                     <p>Ce produit ne contient pas d'allergène alimentaire.</p>
                     {% endif %}
+
+
+                    {% if product.info %}
+                    <div class="info-boisson">
+
+                        <p>
+                            Sauf à ce que vous fassiez l'acquistion d'un de nos thermos, nous ne sommes pas en mesure de
+                            vous fournir du café chaud.
+                        </p>
+                    </div>
+                    {% endif %}
+
+
 
 
 
@@ -116,8 +129,8 @@
                     {% for item in product.variation_set.alcool %}
                     <div class="option-delivery">
                         <label class="" for="{{ item.title }}-{{product.id}}">
-                            <input id="{{ item.title }}-{{product.id}}" name="alcool" value="{{ item.title }}" type="radio"
-                                class="" required>
+                            <input id="{{ item.title }}-{{product.id}}" name="alcool" value="{{ item.title }}"
+                                type="radio" class="" required>
                             <span>{{ item.title }}</span>
 
                         </label>

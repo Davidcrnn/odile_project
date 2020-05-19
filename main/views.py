@@ -1049,7 +1049,7 @@ def is_delivered(request, ref_code):
                 order.is_delivered = True
                 order.save()
                 
-            messages.info(request, 'LIVRER')
+            # messages.info(request, 'LIVRER')
             # return redirect('order')
             return JsonResponse(data)
         except ObjectDoesNotExist:
@@ -1198,10 +1198,15 @@ from .utils import render_to_pdf
 def GeneratePdf(request, ref_code):
     template = get_template('invoice.html')
     order = Order.objects.get(ref_code=ref_code)
+    print(order.information.phone)
     context = {
+        "name": order.information.name,
+        "prenom": order.information.prenom,
+        "phone": order.information.phone,
+        "email": order.information.email,
         "ref_code": order.ref_code,
         'products': order.products.all(),
-        "total": order.get_total,
+        "total": order.get_total(),
         "amount": 1399.99,
         "today": "Today",
     }
@@ -1210,10 +1215,10 @@ def GeneratePdf(request, ref_code):
     if pdf:
         response = HttpResponse(pdf, content_type='application/pdf')
         filename = "Commande_%s.pdf" %(order.ref_code)
-        content = "inline; filename='%s'" %(filename)
+        content = "inline; filename=%s" %(filename)
         download = request.GET.get("download")
         if download:
-            content = "attachment; filename='%s'" %(filename)
+            content = "attachment; filename=%s" %(filename)
         response['Content-Disposition'] = content
         return response
     return HttpResponse("Not found")
