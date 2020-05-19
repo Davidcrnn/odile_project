@@ -1,5 +1,6 @@
 {% load cart_template_tags %}
 {% load static %}
+
 <div class="nav-container" id="nav">
     <div class="hamburger-navbar d-block d-sm-none">
         <ul>
@@ -36,7 +37,7 @@
             </li>
 
 
-            <!-- <b class='count-cart'>{{ request.user|cart_product_count }}</b> -->
+
         </ul>
     </div>
     <div class="nav-log">
@@ -104,6 +105,7 @@
 <script>
     $(window).on('scroll', function () {
         if ($(window).scrollTop()) {
+
             $('#nav').addClass('black');
         } else {
             $('#nav').removeClass('black');
