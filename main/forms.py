@@ -123,15 +123,6 @@ class CheckoutForm(forms.Form):
                                         choices=LIVRAISON_CHOICES,
                                         help_text='Choississez une date de livraison et son horaire')
 
-    # date_delivery = forms.CharField(required=True, help_text="Les commandes pour le déjeuner doivent être prises au plus tard la veille pour le lendemain ", error_messages={
-    #     'required': "Vous devez renseigner ce champ"}, widget=DateTimePickerInput(
-    #     attrs={    # input element attributes
-    #         "class": "checkout-input",
-    #         "placeholder": 'Choisir une date de livraison',
-    #         "id": 'datepicker-dejeuner',
-
-    #     }
-    # ))
 
     date_de_livraison = forms.CharField(required=True, help_text="Les commandes pour le déjeuner doivent être prises au plus tard la veille pour le lendemain ", error_messages={
         'required': "Vous devez renseigner ce champ"}, widget=DateTimePickerInput(
@@ -240,14 +231,6 @@ class CheckoutAperoForm(forms.Form):
             'class': 'form-control checkout-input',
         }))
 
-    # date_delivery = forms.CharField(required=True, error_messages={
-    #     'required': "Vous devez renseigner ce champ"}, widget=DateTimePickerInput(
-    #     attrs={    # input element attributes
-    #         "class": "checkout-input form-control",
-    #         "placeholder": 'Choisir une date de livraison',
-    #         "id": 'datepicker-apero',
-    #     }
-    # ))
 
     date_de_livraison = forms.CharField(required=True, error_messages={
         'required': "Vous devez renseigner ce champ"}, widget=DateTimePickerInput(

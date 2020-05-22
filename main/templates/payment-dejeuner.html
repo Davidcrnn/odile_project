@@ -107,9 +107,8 @@
         <div class="col-xs-12 order-2 col-md-6  section-left-payment">
             <div class="recap-info mb-2 mt-4">
                 <h5>Détails de la commande</h5>
-                <p>{{ order.information.prenom }}</p>
-                <p>{{ order.information.name }}</p>
-                <p>{{ order.information.email }}</p>
+                <p>{{ order.information.full_name|capfirst  }}</p>
+                <p>{{ order.information.email|capfirst  }}</p>
                 <p>{{ order.information.phone }}</p>
 
                 {% if order.delivery_option == 'livraison-sur-bateau' %}

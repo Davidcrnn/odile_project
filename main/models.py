@@ -171,18 +171,18 @@ class Order(models.Model):
     information = models.ForeignKey(
         'Info', on_delete=models.SET_NULL, blank=True, null=True)
     date_de_creation = models.DateTimeField(default=now)
-    date_delivery = models.CharField(max_length=100)
+    # date_delivery = models.CharField(max_length=100)
     date_de_livraison = models.DateTimeField(
         default=now, blank=True)
     creneau_delivery = models.CharField(
-        max_length=30, default='10', blank=True, null=True)
-    # date_publication = models.DateField(auto_now_add=False, blank=True, null=True)
+        max_length=30, blank=True, null=True)
+
     delivery_option = models.CharField(
         max_length=100, choices=LIVRAISON_CHOICES)
     loueur_bateau = models.CharField(
         max_length=100, choices=LOUEUR_CHOICES, blank=True, null=True)
     couvert = models.CharField(max_length=32, default='1')
-    # cgv = models.BooleanField(default=False)
+
     coupon = models.ForeignKey(
         'Coupon', on_delete=models.SET_NULL, blank=True, null=True)
     received = models.BooleanField(default=False)
@@ -269,6 +269,9 @@ class Info(models.Model):
 
     def __str__(self):
         return self.user.email
+
+    def full_name(self):
+        return self.prenom + ' ' + self.name
 
     class Meta:
         verbose_name = 'Informations utilisateurs'
