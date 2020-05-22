@@ -25,21 +25,26 @@ body {
 
 .alert {
     margin-bottom: 0;
-}
-.alert-info, .alert-warning {
-    background-color: $vertf;
-    color: white;
-    border: none;
-}
-.alert-success {
     background-color: vertc;
     color: white;
     border: none;
 }
+// .alert-info, .alert-warning {
+//     background-color: $vertf;
+//     color: white;
+//     border: none;
+// }
+// .alert-success {
+//     background-color: vertc;
+//     color: white;
+//     border: none;
+// }
 
-p {
+p, td, li{
     color: $noir;
 }
+
+
 
 .filter-option {
     font-size: 13px;

@@ -998,24 +998,35 @@ class OrderDash(View):
    
 
     def get(self, *args, **kwargs):
-        orders_dej = Order.objects.filter(type_of_order='Dejeuner', ordered=True, is_delivered=False).order_by('date_de_livraison')
-        orders_apero = Order.objects.filter(type_of_order='Apero', ordered=True, is_delivered=False).order_by('date_de_livraison')
-        order_delivery_ecole = Order.objects.filter(delivery_option='1', ordered=True, is_delivered=False).order_by('date_de_livraison')
-        order_delivery_loueur = Order.objects.filter(delivery_option='2', ordered=True, is_delivered=False).order_by('date_de_livraison')
-        order_delivery_bateau = Order.objects.filter(delivery_option='3', ordered=True, is_delivered=False).order_by('date_de_livraison')
         tomorrow = datetime.datetime.now() + datetime.timedelta(days=1)
-        order_qs = Order.objects.filter(date_de_livraison__date = tomorrow.date())
-        orders_today_dej = Order.objects.filter(date_de_livraison__date=datetime.datetime.now())
+        orders_dej = Order.objects.filter(type_of_order='Dejeuner', ordered=True, is_delivered=False).order_by('-date_de_livraison')
+        orders_dej_today = Order.objects.filter(type_of_order='Dejeuner', ordered=True, is_delivered=False, date_de_livraison__date=datetime.datetime.now()).order_by('-date_de_livraison')
+        orders_dej_tomorrow = Order.objects.filter(type_of_order='Dejeuner', ordered=True, is_delivered=False, date_de_livraison__date=tomorrow.date()).order_by('-date_de_livraison')
+
+        orders_apero = Order.objects.filter(type_of_order='Apero', ordered=True, is_delivered=False).order_by('-date_de_livraison')
+        orders_apero_today = Order.objects.filter(type_of_order='Apero', ordered=True, is_delivered=False, date_de_livraison__date=datetime.datetime.now()).order_by('-date_de_livraison')
+        orders_apero_tomorrow = Order.objects.filter(type_of_order='Apero', ordered=True, is_delivered=False, date_de_livraison__date=tomorrow.date()).order_by('-date_de_livraison')
+
+        orders_all = Order.objects.filter(ordered=True, is_delivered=False).order_by('-date_de_livraison')
+        orders_all_today = Order.objects.filter(ordered=True, is_delivered=False, date_de_livraison__date=datetime.datetime.now()).order_by('-date_de_livraison')
+        orders_all_tomorrow = Order.objects.filter(ordered=True, is_delivered=False, date_de_livraison__date=tomorrow.date()).order_by('-date_de_livraison')
+      
         form = DeliveredForm(auto_id=False)
         context = {
             "orders_dej": orders_dej,
+            "orders_dej_today": orders_dej_today,
+            "orders_dej_tomorrow": orders_dej_tomorrow,
+
             "orders_apero": orders_apero,
-            "order_delivery_ecole": order_delivery_ecole,
-            "order_delivery_loueur": order_delivery_loueur,
-            "order_delivery_bateau": order_delivery_bateau,
-            "order_qs": order_qs,
-            "orders_today_dej": orders_today_dej,
-            "form": form
+            "orders_apero_today": orders_apero_today,
+            "orders_apero_tomorrow": orders_apero_tomorrow,
+
+            "orders_all": orders_all,
+            "orders_all_today": orders_all_today,
+            "orders_all_tomorrow": orders_all_tomorrow,
+            
+            "form": form,
+            "today": datetime.datetime.now(),
 
         }
         return render(self.request, 'order-list.html', context)

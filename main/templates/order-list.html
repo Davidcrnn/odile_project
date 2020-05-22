@@ -9,11 +9,12 @@
     <div class="header-section-title-container">
         <div class="header-section-title">
             <h1>TABLEAU DE BORD</h1>
-            <p>{{ today|date:'d/m/Y' }}</p>
+            <p>Tableau des commandes réservé à l'administrateur</p>
+            <p>{{ today|date:'d/m/Y H:i' }}</p>
         </div>
     </div>
 
-
+    <!-- Button filter section order -->
     <div class="row border-green">
         <div class="col-xs-12 col-md-4">
             <div class="filter-card-order centered-content all-order pointer">
@@ -31,14 +32,14 @@
             </div>
         </div>
 
-    </div>
+    </div> <!--  End Button filter section order -->
 
-
+    <!-- Section orders all -->
     <div class="order-card-all">
 
 
         <div class="header-order">
-            <h3>AUJOURD'HUI ({{orders_today.count}})</h3>
+            <h3>AUJOURD'HUI {% if orders_all_today %} ({{orders_all_today.count}}) {% endif %}</h3>
 
         </div>
         <div class="table-responsive">
@@ -47,21 +48,29 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Référence commande</th>
+                        <th scope='col'>Type de commande</th>
                         <th scope="col">Date de livraison</th>
                         <th scope="col">Mode de livraison</th>
                         <th scope="col">Produits</th>
                     </tr>
                 </thead>
 
-                {% for order in orders_today%}
+                {% for order in orders_all_today%}
                 <tbody>
                     <tr>
                         <th scope="row">{{ forloop.counter }}</th>
                         <td>{{ order.ref_code }}</td>
+                        <td>{{ order.type_of_order }}</td>
                         <td>{{ order.date_de_livraison|date:'d/m/Y H:i'}}</td>
                         <td>{{order.delivery_option}}</td>
                         <td>{% for orderitem in order.products.all  %}
                             <p>{{ orderitem }}</p>
+                            <ul>
+                                <li>{% if orderitem.sandwich %}{{ orderitem.sandwich }}{% endif %}</li>
+                                <li>{% if orderitem.boisson %}{{ orderitem.boisson }}{% endif %}</li>
+                                <li>{% if orderitem.dessert %}{{ orderitem.dessert }}{% endif %}</li>
+
+                            </ul>
                             {% endfor %}
 
                         </td>
@@ -78,7 +87,7 @@
             </table>
         </div>
         <div class="header-order">
-            <h3>DEMAIN ({{orders_tomorrow.count}})</h3>
+            <h3>DEMAIN {% if orders_all_tomorrow %} ({{orders_all_tomorrow.count}}) {% endif %}</h3>
 
         </div>
         <div class="table-responsive">
@@ -87,20 +96,28 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Référence commande</th>
+                        <th scope='col'>Type de commande</th>
                         <th scope="col">Date de livraison</th>
                         <th scope="col">Mode de livraison</th>
                         <th scope="col">Produits</th>
                     </tr>
                 </thead>
-                {% for order in orders_tomorrow %}
+                {% for order in orders_all_tomorrow %}
                 <tbody>
                     <tr>
                         <th scope="row">{{ forloop.counter }}</th>
                         <td>{{ order.ref_code }}</td>
+                        <td>{{ order.type_of_order }}</td>
                         <td>{{ order.date_de_livraison|date:'d/m/Y H:i' }}</td>
                         <td>{{order.delivery_option}}</td>
                         <td>{% for orderitem in order.products.all  %}
                             <p>{{ orderitem }}</p>
+                            <ul>
+                                <li>{% if orderitem.sandwich %}{{ orderitem.sandwich }}{% endif %}</li>
+                                <li>{% if orderitem.boisson %}{{ orderitem.boisson }}{% endif %}</li>
+                                <li>{% if orderitem.dessert %}{{ orderitem.dessert }}{% endif %}</li>
+
+                            </ul>
                             {% endfor %}
 
                         </td>
@@ -119,7 +136,7 @@
             </table>
         </div>
         <div class="header-order">
-            <h3>COMMANDE{{orders_all.count|pluralize:'S'}} ({{ orders_all.count }})</h3>
+            <h3>COMMANDE {{orders_all.count|pluralize:'S'}} {% if orders_all %}({{ orders_all.count }}) {% endif %}</h3>
         </div>
         <div class="table-responsive">
             <table class="table">
@@ -127,6 +144,7 @@
                     <tr>
 
                         <th scope="col">Référence commande</th>
+                        <th scope='col'>Type de commande</th>
                         <th scope="col">Date de livraison</th>
                         <th scope="col">Type de livraison</th>
                         <th scope="col">Produits</th>
@@ -138,10 +156,17 @@
                     <tr data-id='{{ order.ref_code }}'>
 
                         <td>{{ order.ref_code }}</td>
+                        <td>{{ order.type_of_order }}</td>
                         <td>{{ order.date_de_livraison|date:'d/m/Y H:i' }}</td>
                         <td>{{order.type_of_order}}</td>
                         <td>{% for orderitem in order.products.all  %}
                             <p>{{ orderitem }}</p>
+                            <ul>
+                                <li>{% if orderitem.sandwich %}{{ orderitem.sandwich }}{% endif %}</li>
+                                <li>{% if orderitem.boisson %}{{ orderitem.boisson }}{% endif %}</li>
+                                <li>{% if orderitem.dessert %}{{ orderitem.dessert }}{% endif %}</li>
+
+                            </ul>
                             {% endfor %}
 
                         </td>
@@ -151,13 +176,14 @@
                 {% endfor %}
             </table>
         </div>
-    </div>
+    </div> <!--  End Section orders all -->
 
+    <!-- Section Commande Déjeuner -->
     <div class="dejeuner-card-all">
 
 
         <div class="header-order">
-            <h3>DÉJEUNER - AUJOURD'HUI ({{orders_today_dej.count}})</h3>
+            <h3>DÉJEUNER - AUJOURD'HUI {% if orders_dej_today %} ({{orders_dej_today.count}}) {% endif %}</h3>
 
         </div>
         <div class="table-responsive">
@@ -173,7 +199,7 @@
                     </tr>
                 </thead>
 
-                {% for order in orders_today_dej%}
+                {% for order in orders_dej_today%}
                 <tbody>
                     <tr data-id='{{ order.ref_code }}'>
 
@@ -182,13 +208,19 @@
                         <td>{{order.delivery_option}}</td>
                         <td>{% for orderitem in order.products.all  %}
                             <p>{{ orderitem }}</p>
+                            <ul>
+                                <li>{% if orderitem.sandwich %}{{ orderitem.sandwich }}{% endif %}</li>
+                                <li>{% if orderitem.boisson %}{{ orderitem.boisson }}{% endif %}</li>
+                                <li>{% if orderitem.dessert %}{{ orderitem.dessert }}{% endif %}</li>
+
+                            </ul>
                             {% endfor %}
                         </td>
                         <form method="POST" action="{{ order.get_is_delivered_url }}" id='{{ order.ref_code }}'>
                             {% csrf_token %}
                             <td>
                                 {{form.is_delivered}}
-                                <input type="submit" value="Done" class=''>
+                                <input type="submit" value="Fini" class='btn-delivered'>
 
                             </td>
                         </form>
@@ -204,8 +236,10 @@
                 {% endfor %}
             </table>
         </div>
+
+
         <div class="header-order">
-            <h3>DÉJEUNER - DEMAIN ({{orders_tomorrow_dej.count}})</h3>
+            <h3>DÉJEUNER - DEMAIN {% if orders_dej_tomorrow %} ({{orders_dej_tomorrow.count}}) {% endif %}</h3>
 
         </div>
         <div class="table-responsive">
@@ -220,7 +254,7 @@
                         <th scope="col">Préparé</th>
                     </tr>
                 </thead>
-                {% for order in orders_tomorrow_dej %}
+                {% for order in orders_dej_tomorrow %}
                 <tbody>
                     <tr data-id='{{ order.ref_code }}'>
 
@@ -229,6 +263,12 @@
                         <td>{{order.delivery_option}}</td>
                         <td>{% for orderitem in order.products.all  %}
                             <p>{{ orderitem }}</p>
+                            <ul>
+                                <li>{% if orderitem.sandwich %}{{ orderitem.sandwich }}{% endif %}</li>
+                                <li>{% if orderitem.boisson %}{{ orderitem.boisson }}{% endif %}</li>
+                                <li>{% if orderitem.dessert %}{{ orderitem.dessert }}{% endif %}</li>
+
+                            </ul>
                             {% endfor %}
 
                         </td>
@@ -236,7 +276,7 @@
                             {% csrf_token %}
                             <td>
                                 {{form.is_delivered}}
-                                <input type="submit" value="Done" class=''>
+                                <input type="submit" value="Fini" class='btn-delivered'>
 
                             </td>
                         </form>
@@ -254,8 +294,11 @@
                 {% endfor %}
             </table>
         </div>
+
+
+
         <div class="header-order">
-            <h3>DÉJEUNER({{ orders_all_dej.count }})</h3>
+            <h3>DÉJEUNER {% if orders_dej %}({{ orders_dej.count }}) {% endif %}</h3>
         </div>
         <div class="table-responsive">
             <table class="table">
@@ -269,15 +312,21 @@
 
                     </tr>
                 </thead>
-                {% for order in orders_all_dej %}
+                {% for order in orders_dej %}
                 <tbody>
                     <tr data-id='{{ order.ref_code }}'>
 
                         <td>{{ order.ref_code }}</td>
-                        <td>{{ order.date_de_livraison|date:'d/m/Y H:i' }}</td>
+                        <td>{{ order.date_de_livraison|date:'d/m/Y' }}</td>
                         <td>{{order.delivery_option}}</td>
                         <td>{% for orderitem in order.products.all  %}
                             <p>{{ orderitem }}</p>
+                            <ul>
+                                <li>{% if orderitem.sandwich %}{{ orderitem.sandwich }}{% endif %}</li>
+                                <li>{% if orderitem.boisson %}{{ orderitem.boisson }}{% endif %}</li>
+                                <li>{% if orderitem.dessert %}{{ orderitem.dessert }}{% endif %}</li>
+
+                            </ul>
                             {% endfor %}
 
                         </td>
@@ -289,13 +338,13 @@
             </table>
         </div>
 
-    </div>
+    </div> <!-- END Section Commande Déjeuner -->
 
-
+    <!-- Section Commande Apero -->
     <div class="apero-card-all">
 
         <div class="header-order">
-            <h3>APERO - AUJOURD'HUI ({{orders_today_apero.count}})</h3>
+            <h3>APERO - AUJOURD'HUI {% if orders_apero_today %} ({{orders_apero_today.count}}) {% endif %}</h3>
 
         </div>
         <div class="table-responsive">
@@ -311,7 +360,7 @@
                     </tr>
                 </thead>
 
-                {% for order in orders_today_apero%}
+                {% for order in orders_apero_today %}
                 <tbody>
                     <tr>
                         <th scope="row">{{ forloop.counter }}</th>
@@ -319,6 +368,9 @@
                         <td>{{ order.date_de_livraison|date:'d/m/Y H:i'}}</td>
                         <td>{% for orderitem in order.products.all  %}
                             <p>{{ orderitem }}</p>
+                            <ul>
+                                <li>{% if orderitem.alcool %}{{ orderitem.alcool }}{% endif %}</li>
+                            </ul>
                             {% endfor %}
 
                         </td>
@@ -326,7 +378,7 @@
                             {% csrf_token %}
                             <td>
                                 {{form.is_delivered}}
-                                <input type="submit" value="Done" class=''>
+                                <input type="submit" value="Fini" class='btn-delivered'>
 
                             </td>
                         </form>
@@ -343,7 +395,7 @@
             </table>
         </div>
         <div class="header-order">
-            <h3>APERO - DEMAIN ({{orders_tomorrow_apero.count}})</h3>
+            <h3>APERO - DEMAIN {% if orders_apero_tomorrow %}({{orders_apero_tomorrow.count}}) {% endif %}</h3>
 
         </div>
         <div class="table-responsive">
@@ -358,7 +410,7 @@
                         <th scope="col">Préparé</th>
                     </tr>
                 </thead>
-                {% for order in orders_tomorrow_apero %}
+                {% for order in orders_apero_tomorrow %}
                 <tbody>
                     <tr>
                         <th scope="row">{{ forloop.counter }}</th>
@@ -366,6 +418,9 @@
                         <td>{{ order.date_de_livraison|date:'d/m/Y H:i' }}</td>
                         <td>{% for orderitem in order.products.all  %}
                             <p>{{ orderitem }}</p>
+                            <ul>
+                                <li>{% if orderitem.alcool %}{{ orderitem.alcool }}{% endif %}</li>
+                            </ul>
                             {% endfor %}
 
                         </td>
@@ -373,7 +428,7 @@
                             {% csrf_token %}
                             <td>
                                 {{form.is_delivered}}
-                                <input type="submit" value="Done" class=''>
+                                <input type="submit" value="Fini" class='btn-delivered'>
 
                             </td>
                         </form>
@@ -392,7 +447,7 @@
             </table>
         </div>
         <div class="header-order">
-            <h3>APERO ({{orders_all_apero.count }})</h3>
+            <h3>APERO {% if orders_apero %} ({{orders_apero.count }}) {% endif %}</h3>
         </div>
         <div class="table-responsive">
             <table class="table">
@@ -404,7 +459,7 @@
                         <th scope="col">Produits</th>
                     </tr>
                 </thead>
-                {% for order in orders_all_apero %}
+                {% for order in orders_apero %}
                 <tbody>
                     <tr>
                         <th scope="row">{{ forloop.counter }}</th>
@@ -412,6 +467,9 @@
                         <td>{{ order.date_de_livraison|date:'d/m/Y H:i'}}</td>
                         <td>{% for orderitem in order.products.all  %}
                             <p>{{ orderitem }}</p>
+                            <ul>
+                                <li>{% if orderitem.alcool %}{{ orderitem.alcool }}{% endif %}</li>
+                            </ul>
                             {% endfor %}
 
                         </td>
@@ -422,7 +480,7 @@
             </table>
         </div>
 
-    </div>
+    </div><!-- Section Commande Apero -->
 
 </div>
 {% endblock content %}
@@ -432,14 +490,14 @@
     $(document).ready(function () {
         $('.apero-card-all').hide();
         $('.dejeuner-card-all').hide();
-        $('.all-order').addClass('black');
+        $('.all-order').addClass('active-gray ');
         $('.dej-order').on('click', function () {
             $('.dejeuner-card-all').show();
             $('.apero-card-all').hide();
             $('.order-card-all').hide();
-            $('.dej-order').addClass('black');
-            $('.apero-order').removeClass('black');
-            $('.all-order').removeClass('black');
+            $('.dej-order').addClass('active-gray ');
+            $('.apero-order').removeClass('active-gray ');
+            $('.all-order').removeClass('active-gray ');
         });
 
         $('.apero-order').on('click', function () {
@@ -448,17 +506,17 @@
             $('.apero-card-all').show();
 
 
-            $('.apero-order').addClass('black');
-            $('.dej-order').removeClass('black');
-            $('.all-order').removeClass('black');
+            $('.apero-order').addClass('active-gray ');
+            $('.dej-order').removeClass('active-gray ');
+            $('.all-order').removeClass('active-gray ');
         });
         $('.all-order').on('click', function () {
             $('.order-card-all').show();
             $('.dejeuner-card-all').hide();
             $('.apero-card-all').hide();
-            $('.all-order').addClass('black');
-            $('.apero-order').removeClass('black');
-            $('.dej-order').removeClass('black');
+            $('.all-order').addClass('active-gray ');
+            $('.apero-order').removeClass('active-gray ');
+            $('.dej-order').removeClass('active-gray ');
         });
     });
 </script>

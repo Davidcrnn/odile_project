@@ -114,6 +114,21 @@
 
 }
 
+.btn-delivered {
+    padding: 5px 15px;
+    color: white;
+    background-color: $jaune;
+    border: none;
+    border-radius: 3px;
+    margin-left: 10px;
+    &:hover {
+        color: $jaune;
+        background-color: white;
+        text-decoration: none;
+        border: 1px solid $jaune;
+    }
+}
+
 // ICON PANIER ONLY ON MOBILE ----------------------------------------------
 
 .relative {
