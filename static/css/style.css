@@ -240,6 +240,10 @@
   box-shadow: 0 0 10px #8080805c;
   height: 50px !important; }
 
+.active-gray {
+  background-color: #f5f5f5;
+  box-shadow: 0 0 10px #8080805c; }
+
 .nav-link {
   margin: 0;
   padding: 0;
@@ -535,6 +539,19 @@
     text-decoration: none;
     color: white;
     letter-spacing: 3px; }
+
+.btn-delivered {
+  padding: 5px 15px;
+  color: white;
+  background-color: #ffb627;
+  border: none;
+  border-radius: 3px;
+  margin-left: 10px; }
+  .btn-delivered:hover {
+    color: #ffb627;
+    background-color: white;
+    text-decoration: none;
+    border: 1px solid #ffb627; }
 
 .relative {
   position: relative; }
@@ -1089,19 +1106,12 @@ body {
   color: #949a9a; }
 
 .alert {
-  margin-bottom: 0; }
-
-.alert-info, .alert-warning {
-  background-color: #4A898B;
-  color: white;
-  border: none; }
-
-.alert-success {
+  margin-bottom: 0;
   background-color: vertc;
   color: white;
   border: none; }
 
-p {
+p, td, li {
   color: #949a9a; }
 
 .filter-option {

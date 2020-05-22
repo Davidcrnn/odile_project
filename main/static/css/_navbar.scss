@@ -28,6 +28,11 @@
     height: 50px !important;
 }
 
+.active-gray {
+  background-color: $grisbg;
+  box-shadow: 0 0 10px #8080805c;
+}
+
 // Navbar link
 
 .nav-link {

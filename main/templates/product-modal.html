@@ -63,14 +63,8 @@
                     <p> {{ form.quantity.label_tag}} </p>
                     {{ form.quantity }}
 
-
-
-
                     {% if product.variation_set.all %}
                     <hr>
-
-
-
                     {% if product.variation_set.sandwichs %}
                     <p>{{ form.sandwich.label_tag }}</p>
                     {% for item in product.variation_set.sandwichs %}
