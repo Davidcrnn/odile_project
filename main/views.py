@@ -799,7 +799,10 @@ class PaymentView(View):
             order.save()
             
             context = {
-                'user': self.request.user,
+                'user': order.information.full_name,
+                'user_email': order.information.email, 
+                'user_phone': order.information.phone, 
+                'date_delivery': order.date_de_livraison,
                 'ref': order.ref_code,
                 'total': order.payment.amount,
                 'product': order.products.all(),
@@ -904,10 +907,16 @@ class PaymentAperoView(View):
             order.save()
             
             context = {
-                'user': self.request.user,
+                'user': order.information.full_name,
+                'user_email': order.information.email, 
+                'user_phone': order.information.phone, 
+                'date_delivery': order.date_de_livraison,
                 'ref': order.ref_code,
                 'total': order.payment.amount,
+                'product': order.products.all(),
+                
             }
+
             subject = "Déjeuner sur l'eau: Votre commande a bien été prise en compte !"
             html_message = render_to_string('email-order-confirmation.html', context)
             text_message = strip_tags(html_message)

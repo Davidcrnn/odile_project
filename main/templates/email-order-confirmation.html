@@ -6,34 +6,197 @@
     <title>Commande</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <style>
+        @media screen {
+            @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: medium;
+
+        }
+
+        p {
+            font-size: 14px;
+        }
+
+        h2 {
+            font-size: 17px;
+            color: #4A898B;
+            margin-top: 0;
+        }
+
+
+
+        .container h1,
+        h4 {
+            text-align: center;
+        }
+
+        .container>img {
+            margin: 20px auto;
+
+        }
+
+        .details p {
+            margin: 0;
+        }
+
+        .details {
+            margin: 20px 0;
+        }
+
+        .details h2 {
+            font-size: 17px;
+            color: #4A898B;
+            margin-top: 0;
+        }
+
+        .btn-valider {
+            padding: 10px 15px;
+            background-color: #4A898B;
+            border-radius: 3px;
+            color: white !important;
+            text-align: center;
+            width: 100%;
+            transition: all 0.7s ease-in-out;
+            text-decoration: none;
+        }
+
+        .btn-valider:hover {
+            text-decoration: none;
+            color: #4A898B;
+            background-color: white;
+            border: 1px solid #4A898B;
+        }
+
+        tr>th {
+            color: white;
+            background-color: #4A898B;
+            padding: 10px 10px;
+        }
+
+        td {
+            padding: 5px 10px;
+            text-align: left;
+        }
+
+        .details-order {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        table {
+            width: 100%;
+        }
+    </style>
 
 </head>
 
 <body>
-    <div class='container' style='background-color: #f5f5f5; box-shadow: 0 0 10 px #8080805c; padding: 20px;'>
-        <img src="https://odilesite-bucket.s3.eu-west-3.amazonaws.com/banner-bateau.jpg" alt="Useful alt text"
-            width="500" height="300" style="border:0; outline:none; text-decoration:none; display:block;">
-        <h1 style='color: #4A898B;'>Hello</h1>
+
+    <div class='container' style=' background-color: #f5f5f5; padding: 20px; width:500px; margin: 20px auto'>
+        <a href="https://dejeunersurleau.herokuapp.com/" style="font-size: 14px; text-decoration: none;">Retour au
+            site</a>
+        <img src="https://odilesite-bucket.s3.eu-west-3.amazonaws.com/Logo-email-img-01.png" alt="Logo" width="300"
+            height="150" style="border:0; outline:none; text-decoration:none; display:block;">
+        <h1 style='color: #4A898B;'>Déjeuner sur l'eau</h1>
         <h4>Votre commande a bien été enregistrée !</h4>
-        <div class='row'>
-            <div class='col-xs-12-md-6'>
-                <small>Référence de votre commande : {{ref}}</small>
-                <p><strong>Nous vous remercions pour votre commande !</strong> </p>
-                <p>Vore commande :</p>
-
+        <p>Bonjour {{ user }}, nous vous remercions pour votre commande et espérons que vous avez apprécié le temps
+            passé sur notre
+            site.</p>
+        <hr>
+        <div class="details-order" style='display: flex; justify-content: space-between;'>
+            <div class="details">
+                <h2>Coordonnées du client:</h2>
+                <p>{{ user|capfirst }}</p>
+                <p>{{ user_email }}</p>
+                <p>{{ user_phone }}</p>
             </div>
-            <div class='col-xs-12-md-6'>
-                <ul style='list-style: none;'>
-                    {% for prod in product  %}
-                    <li>{{ prod.quantity }} x {{ prod.product.name }}</li>
-
-                    {% endfor %}
-                </ul>
-                <p>Montant total de la commande {{ total }}€</p>
-                <a href="https://dejeunersurleau.herokuapp.com/votre-avis/">Partagez votre avis</a>
-
+            <div class="details">
+                <h2>Coordonnées du vendeur:</h2>
+                <p>Déjeuner sur l'eau</p>
+                <p>contact@dejeunersurleau.com</p>
+                <p>0145454545</p>
+                <p>Cap Ferret</p>
             </div>
         </div>
+        <hr>
+        <div class="details">
+            <h2>Votre commande:</h2>
+
+            <p>Méthode de paiement: Carte bancaire</p>
+            <p>Numero de commande: {{ref}}</p>
+            <p>Date de livraison: {{ date_delivery|date:'d/m/Y H:i'}}</p>
+
+        </div>
+
+        <hr>
+        <div class="details">
+            <h2>Détails de votre commande</h2>
+
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Quantité</th>
+                    <th>Repas</th>
+                    <th>Prix</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for prod in product  %}
+                <tr>
+                    <td>{{ prod.quantity }}</td>
+                    <td>{{ prod.product.name }}</td>
+                    <td>{{ prod.product.price }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+
+                    <td></td>
+                    <td class="">Sous-total</td>
+                    <td>{{ total|floatformat}}€</td>
+                </tr>
+                <tr>
+
+                    <td></td>
+                    <td class="">Frais de livraison</td>
+                    <td>Gratuit</td>
+                </tr>
+                <tr>
+
+                    <td></td>
+                    <td class="">Total</td>
+                    <td>{{ total|floatformat}}€</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr>
+        <div class="contact" style=" margin: 20px 0;">
+            <h2>Des questions sur votre commande ?</h2>
+            <p>Contactez nous par mail à l'adresse : contact@dejeunersurleau.com</p>
+            <p>Ou directement par téléphone au 0145454545</p>
+        </div>
+        <hr>
+        <div class="details">
+            <h2>Merci d'avoir commandé chez nous ! On espèce vous revoir très vite ! </h2>
+            <p>Bonne balade en mer !</p>
+        </div>
+        <div style='text-align: center; margin: 30px'>
+            <a href="https://dejeunersurleau.herokuapp.com/votre-avis/" class="btn-valider">Partagez
+                votre avis</a>
+
+        </div>
+
+        <div class="copyright" style='text-align: center;'>
+            <small>Copyright © 2020 Déjeuner sur l'eau</small>
+        </div>
+
+
     </div>
 
 </body>

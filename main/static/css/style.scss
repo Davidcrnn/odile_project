@@ -25,20 +25,14 @@ body {
 
 .alert {
     margin-bottom: 0;
-    background-color: vertc;
+    
+}
+.alert-info, .alert-warning, .alert-success {
+    background-color: $vertf;
     color: white;
     border: none;
 }
-// .alert-info, .alert-warning {
-//     background-color: $vertf;
-//     color: white;
-//     border: none;
-// }
-// .alert-success {
-//     background-color: vertc;
-//     color: white;
-//     border: none;
-// }
+
 
 p, td, li{
     color: $noir;

@@ -1106,8 +1106,10 @@ body {
   color: #949a9a; }
 
 .alert {
-  margin-bottom: 0;
-  background-color: vertc;
+  margin-bottom: 0; }
+
+.alert-info, .alert-warning, .alert-success {
+  background-color: #4A898B;
   color: white;
   border: none; }
 
