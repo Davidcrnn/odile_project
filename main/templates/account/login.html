@@ -1,6 +1,7 @@
 {% extends "account/base.html" %}
 {% load i18n %}
 {% load account socialaccount %}
+{% providers_media_js %}
 {% load crispy_forms_tags %}
 
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
@@ -16,25 +17,33 @@
           {% get_providers as socialaccount_providers %}
 
           {% if socialaccount_providers %}
-          <p>{% blocktrans with site.name as site_name %}Please sign in with one
+          <!-- <p>{% blocktrans with site.name as site_name %}Please sign in with one
             of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
-            for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
-
+            for a {{ site_name }} account and sign in below:{% endblocktrans %}</p> -->
+          <p>{% blocktrans %}Si vous n'avez pas encore un compte,
+            <a href="{{ signup_url }}">inscrivez-vous</a>.{% endblocktrans %}</p>
           <div class="socialaccount_ballot">
 
-            <ul class="socialaccount_providers">
+            <!-- <ul class="socialaccount_providers">
               {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-            </ul>
+            </ul> -->
+            <a href="{% provider_login_url 'facebook' method='js_sdk' %}" class=" btn-facebook">
+              <i class="fab fa-facebook-f pr-3"></i>
+              Se connecter avec Facebook
+            </a>
 
-            <div class="login-or">{% trans 'or' %}</div>
+
+            <div class="login-or text-center">
+              <hr class="hr-text" data-content="OU">
+            </div>
 
           </div>
 
           {% include "socialaccount/snippets/login_extra.html" %}
 
           {% else %}
-          <p>{% blocktrans %}Si vous n'avez pas encore un compte, veuillez vous
-            <a href="{{ signup_url }}">inscrire</a>.{% endblocktrans %}</p>
+          <!-- <p>{% blocktrans %}Si vous n'avez pas encore un compte, veuillez vous
+            <a href="{{ signup_url }}">inscrire</a>.{% endblocktrans %}</p> -->
           {% endif %}
 
           <form class="login" method="POST" action="{% url 'account_login' %}">
@@ -45,11 +54,16 @@
             {% endif %}
             <a class="btn btn-default" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
             <button class="btn-valider" type="submit">{% trans "Sign In" %}</button>
+            <hr class="hr-text">
+
+
           </form>
         </div>
       </div>
     </div>
   </div>
 </main>
-
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous"
+  src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v7.0&appId=335361157431121&autoLogAppEvents=1"></script>
 {% endblock %}

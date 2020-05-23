@@ -54,18 +54,18 @@
                             href="{% url 'remove-single-product-from-cart' order_product.product.slug %}"
                             id={{order_product.product.slug}}-{{order_product.id}} class="ajax"
                             data-y="{{ order_product.product.slug }}-{{ order_product.id }}">
-                            <i class="fas fa-minus mr-2"></i></a>
+                            <i class="fas fa-minus mr-2" style='color: #4A898B;'></i></a>
                         <span
                             data-id="{{ order_product.product.slug }}-{{ order_product.id }}">{{ order_product.quantity }}</span>
                         <a style='color: #165361;' href="{% url 'add-single-item-to-cart' order_product.product.slug %}"
                             id={{order_product.product.slug}}-{{order_product.id}} class='ajax'>
-                            <i class="fas fa-plus ml-2"></i></a>
+                            <i class="fas fa-plus ml-2" style='color: #4A898B;'></i></a>
                     </td>
                     <td><span
                             data-total="{{ order_product.product.slug }}-{{ order_product.id }}">{{ order_product.get_total_product_price|floatformat}}</span>€
                         <a style='color: #165361;' href="{% url 'remove-from-cart' order_product.product.slug %}"
                             class="removeItem ajax-remove" id="{{ order_product.product.slug }}-{{ order_product.id }}">
-                            <i class="fas fa-trash float-right"></i>
+                            <i class="fas fa-trash float-right" style='color: #4A898B;'></i>
                         </a></td>
 
                 </tr>

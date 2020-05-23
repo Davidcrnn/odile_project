@@ -132,6 +132,21 @@
     }
 }
 
+.btn-facebook {
+    padding: 10px 20px !important;
+    border: none !important;
+    background-color: #4267B2 !important;
+    color: white !important;
+    border-radius: 3px !important;
+    display: inherit;
+    text-align: center;
+    margin-top: 20px;
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+
 // ICON PANIER ONLY ON MOBILE ----------------------------------------------
 
 .relative {
