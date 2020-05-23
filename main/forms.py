@@ -123,7 +123,6 @@ class CheckoutForm(forms.Form):
                                         choices=LIVRAISON_CHOICES,
                                         help_text='Choississez une date de livraison et son horaire')
 
-
     date_de_livraison = forms.CharField(required=True, help_text="Les commandes pour le déjeuner doivent être prises au plus tard la veille pour le lendemain ", error_messages={
         'required': "Vous devez renseigner ce champ"}, widget=DateTimePickerInput(
         attrs={    # input element attributes
@@ -230,7 +229,6 @@ class CheckoutAperoForm(forms.Form):
             'placeholder': 'Alan@turing.com',
             'class': 'form-control checkout-input',
         }))
-
 
     date_de_livraison = forms.CharField(required=True, error_messages={
         'required': "Vous devez renseigner ce champ"}, widget=DateTimePickerInput(
@@ -346,7 +344,7 @@ class AvisForm(forms.Form):
     message = forms.CharField(widget=forms.Textarea(attrs={
         'placeholder': "Votre message nous permettra d'améliorer nos services ...",
         'class': 'form-control checkout-input',
-        'rows': 6, 'cols': 15
+        'rows': 10,
     }))
 
 
@@ -358,6 +356,6 @@ class ContactForm(forms.Form):
         'placeholder': "Une petite question ...",
         'class': 'form-control checkout-input'}))
     message = forms.CharField(widget=forms.Textarea(attrs={
-        'rows': 5,
+        'rows': 10,
         'placeholder': 'Votre message ...',
         'class': 'form-control checkout-input '}))

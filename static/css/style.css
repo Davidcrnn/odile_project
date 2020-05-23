@@ -464,6 +464,9 @@
   letter-spacing: 6.4px;
   text-shadow: #8080805c 2px 0 5px; }
 
+p {
+  margin: 0; }
+
 .product-item-container {
   margin: 20px 0; }
   .product-item-container h1 {
@@ -476,7 +479,8 @@
   height: 160px;
   background: white;
   padding: 20px;
-  box-shadow: 0px 0px 10px #8080805c; }
+  box-shadow: 0px 0px 10px #8080805c;
+  cursor: pointer; }
   .carte:hover {
     opacity: 0.6; }
 
@@ -573,6 +577,21 @@
     padding: 3px;
     right: 2px;
     border-radius: 50%; }
+
+.info-header {
+  padding: 20px;
+  background-color: #f5f5f5;
+  color: #4A898B;
+  border-radius: 3px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0px 0px 5px #8080805c; }
+  .info-header p {
+    margin: 0;
+    font-size: 15px; }
+  .info-header img {
+    margin-right: 20px; }
 
 @media screen and (max-width: 650px) {
   .carte {
@@ -694,7 +713,8 @@ tbody tr {
 .checkout-input {
   border: 2Px solid #4A898B;
   height: 40px;
-  border-radius: 0px; }
+  border-radius: 0px;
+  margin-bottom: 10px; }
 
 input#datepicker-dejeuner {
   width: 100%; }

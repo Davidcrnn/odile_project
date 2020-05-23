@@ -39,11 +39,11 @@
                         {% endfor %}
                     </div>
                     <small>{{ form.objet.errors }}</small>
-                    <label for="email">Email <small>(facultatif)</small> </label>
+                    <label class='mt-3' for="email">Email <small>(facultatif)</small> </label>
                     <p>{{ form.email }}</p>
                     <small>{{ form.email.errors }}</small>
 
-                    <label for="message">Message</label>
+                    <label class='mt-3' for="message">Message</label>
                     <p>{{ form.message }}</p>
                     <small>{{ form.message.errors }}</small>
                     <input type="submit" value='PARTAGER' class="btn-valider">
