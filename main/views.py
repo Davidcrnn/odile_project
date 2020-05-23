@@ -811,9 +811,9 @@ class PaymentView(View):
             subject = "Déjeuner sur l'eau: Votre commande a bien été prise en compte !"
             html_message = render_to_string('email-order-confirmation.html', context)
             text_message = strip_tags(html_message)
-            from_email = self.request.user.email
-            send_mail(subject, text_message, from_email, [
-                      'david.crenin@gmail.com'], html_message=html_message, fail_silently=False)
+            from_email = 'david.crenin@gmail.com'
+            to = order.information.email
+            send_mail(subject, text_message, from_email, [to], html_message=html_message, fail_silently=False)
 
             messages.info(
                 self.request, "Votre commande a été bien été prise en compte")
@@ -920,9 +920,9 @@ class PaymentAperoView(View):
             subject = "Déjeuner sur l'eau: Votre commande a bien été prise en compte !"
             html_message = render_to_string('email-order-confirmation.html', context)
             text_message = strip_tags(html_message)
-            from_email = self.request.user.email
-            send_mail(subject, text_message, from_email, [
-                      'david.crenin@gmail.com'], html_message=html_message, fail_silently=False)
+            from_email = 'david.crenin@gmail.com'
+            to = order.information.email
+            send_mail(subject, text_message, from_email, [to], html_message=html_message, fail_silently=False)
 
             messages.info(
                 self.request, "Votre commande a été bien été prise en compte")

@@ -91,7 +91,7 @@
                 <form method="POST" class="card-body" novalidate>
                     {% csrf_token %}
                     {{ form.non_field_errors }}
-                    <h3>Des couverts ? <span id="informations-tooltip"> <img
+                    <h3 class='mb-3'>Des couverts ? <span id="informations-tooltip"> <img
                                 src="{% static '../static/images/tooltip.svg' %}" alt="" style='height: 15px;'></span>
                     </h3>
                     <div class="row">
@@ -105,6 +105,7 @@
                             </div>
                         </div>
                     </div>
+                    <hr class="hr-text">
                     <h3>Informations personnelles<span id="informations-tooltip"> <img
                                 src="{% static '../static/images/tooltip.svg' %}" alt="" style='height: 15px;'></span>
                     </h3>
@@ -183,28 +184,29 @@
                         </div>
                     </div>
 
-                    <hr>
-                    <h3>Date de livraison<span id="date-tooltip"> <img src="{% static '../static/images/tooltip.svg' %}"
-                                alt="" style='height: 15px;'></span></h3>
+                    <hr class="hr-text">
+                    <h3 class='mb-3'>Date de livraison<span id="date-tooltip"> <img
+                                src="{% static '../static/images/tooltip.svg' %}" alt="" style='height: 15px;'></span>
+                    </h3>
                     <div class="row">
                         <div class="col">
 
                             {{ form.date_de_livraison }}
                             {{ form.date_de_livraison.errors }}
                             <div class="help-text-form">
-                                <span><img src="{% static '../static/images/warning.svg' %}" alt="attention"
+                                <span><img src="{% static '../static/images/info.svg' %}" alt="attention"
                                         style="height: 30px;"></span>
                                 <p>Le lieu de livraison se situe sur notre corps-mort. Veuillez regarder la carte
                                     ci-dessous
                                 </p>
                             </div>
-                            <br>
+                            <hr class="hr-text">
                             <div id='map-apero' style='width: 100%; height: 340px;'></div>
                         </div>
                     </div>
-                    <hr class="mb-4">
+                    <hr class="hr-text">
 
-                    <button class="btn-valider btn-lg btn-block" type="submit">Valider la commande</button>
+                    <button class="btn-valider btn-lg btn-block mb-4" type="submit">Valider la commande</button>
                     <p style="font-size: 13px; color: #454545">En continuant, vous acceptez nos <a
                             href="{% url 'cgv' %}" target="_blank" style="color: #4A898B">conditions
                             générales de vente</a>. Nous

@@ -96,9 +96,10 @@
                     {% for error in form.non_field_errors %}
                     <small>{{error}}</small>
                     {% endfor %}
-                    <h3>Des couverts ? <span id="informations-tooltip"> <img
+                    <h3 class='mb-3'>Des couverts ? <span id="informations-tooltip"> <img
                                 src="{% static '../static/images/tooltip.svg' %}" alt="" style='height: 15px;'></span>
                     </h3>
+
                     <div class="row">
                         <div class="col-xs-12 col-md-12">
                             <div class="md-form mb-2 ">
@@ -107,7 +108,7 @@
                             </div>
                         </div>
                     </div>
-
+                    <hr class="hr-text">
                     <h3 class='mb-3'>Informations personnelles <span id="informations-tooltip"> <img
                                 src="{% static '../static/images/tooltip.svg' %}" alt="" style='height: 15px;'></span>
                     </h3>
@@ -188,7 +189,7 @@
                             </div>
                         </div>
                     </div>
-                    <hr>
+                    <hr class="hr-text">
                     <h3>Modalités de livraison <span id="delivery-tooltip"> <img
                                 src="{% static '../static/images/tooltip.svg' %}" alt="" style='height: 15px;'></span>
                     </h3>
@@ -247,7 +248,7 @@
                     </div>
                     <div id='map-dejeuner' style='width: 100%; height: 340px;'></div>
 
-                    <br>
+                    <hr class="hr-text">
                     <h3>Date de livraison<span id="date-tooltip"> <img src="{% static '../static/images/tooltip.svg' %}"
                                 alt="" style='height: 15px;'></span></h3>
                     <br>
@@ -256,16 +257,16 @@
                         <div class="col">
                             {{ form.date_de_livraison }}
                             {{ form.date_de_livraison.errors }}
-                            <div class="help-text-form">
-                                <span><img src="{% static '../static/images/warning.svg' %}" alt="attention"
+                            <div class="help-text-form mt-3">
+                                <span><img src="{% static '../static/images/info.svg' %}" alt="attention"
                                         style="height: 30px;"></span> {{ form.date_de_livraison.help_text }}
                             </div>
                         </div>
                     </div>
 
 
-                    <hr class="mb-4">
-                    <button class="btn-valider btn-lg btn-block mb-2" type="submit" id='submit-checkout'>Valider la
+                    <hr class="hr-text">
+                    <button class="btn-valider btn-lg btn-block mb-4" type="submit" id='submit-checkout'>Valider la
                         commande</button>
 
                     <p style="font-size: 13px; color: #454545">En continuant, vous acceptez nos <a
