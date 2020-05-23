@@ -34,13 +34,13 @@
                 <h3 class="text-center">Formulaire de contact</h3>
                 <form method='POST'>
                     {% csrf_token %}
-                    <label for="email">Email</label>
+                    <label class='mt-3' for="email">Email</label>
                     <p>{{ form.from_email }}</p>
                     <small>{{ form.from_email.errors }}</small>
-                    <label for="objet">Objet</label>
+                    <label class='mt-3' for="objet">Objet</label>
                     <p>{{ form.subject }}</p>
                     <small>{{ form.subject.errors }}</small>
-                    <label for="message">Message</label>
+                    <label class='mt-3' for="message">Message</label>
                     <p>{{ form.message }}</p>
                     <small>{{ form.message.errors }}</small>
                     <input type="submit" name="Envoyer" class="btn-valider">

@@ -66,7 +66,7 @@
                     {% if product.variation_set.all %}
                     <hr>
                     {% if product.variation_set.sandwichs %}
-                    <p>{{ form.sandwich.label_tag }}</p>
+                    <p>Choisissez votre sandwich:</p>
                     {% for item in product.variation_set.sandwichs %}
                     <div class="option-delivery">
                         <label class="" for="{{ item.title }}">
@@ -82,7 +82,7 @@
                     {% endif %}
 
                     {% if product.variation_set.boissons %}
-                    <p>{{ form.boisson.label_tag }}</p>
+                    <p>Choisissez votre boisson:</p>
                     {% for item in product.variation_set.boissons %}
                     <div class="option-delivery">
                         <label class="" for="{{ item.title }}">
@@ -98,7 +98,7 @@
                     {% endif %}
 
                     {% if product.variation_set.desserts %}
-                    <p>{{ form.dessert.label_tag }}</p>
+                    <p>Choisissez votre dessert:</p>
                     {% for item in product.variation_set.desserts %}
                     <div class="option-delivery">
                         <label class="" for="{{ item.title }}">
@@ -111,7 +111,7 @@
                     {% endfor %}
 
 
-                    <hr>
+
                     {% endif %}
                     {% endif %}
 

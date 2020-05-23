@@ -143,6 +143,8 @@ USE_L10N = False
 
 USE_TZ = True
 
+
+SITE_ID = 1
 DATETIME_INPUT_FORMATS = '%d/%m/%Y %H:%M'
 DATETIME_FORMATS = '%d/%m/%Y %H:%M'
 STATICFILES_FINDERS = [
