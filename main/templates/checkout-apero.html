@@ -201,7 +201,8 @@
                                 </p>
                             </div>
                             <hr class="hr-text">
-                            <div id='map-apero' style='width: 100%; height: 340px;'></div>
+                            <div id='map-apero' style='width: 100%; height: 340px;     border-radius: 15px;
+                            box-shadow: 0 0 10px;'></div>
                         </div>
                     </div>
                     <hr class="hr-text">
@@ -327,63 +328,18 @@
     });
 
 </script>
-<script>
-    mapboxgl.accessToken = 'pk.eyJ1Ijoib2RpbGVsZWNsZXJjc2l0ZSIsImEiOiJjazZjMDJtNGEwZ3F2M2tvdnNncnkxNXRxIn0.c7i8XUNby5CQwhdrsG3r0A';
-    var map = new mapboxgl.Map({
-        container: 'map-apero',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [-1.249550, 44.651470], //longitude, latitude
-        zoom: 11,
-    });
-
-
-    var geojson = {
-        type: 'FeatureCollection',
-        features: [{
-            type: 'Feature',
-            geometry: {
-                type: 'Point',
-                coordinates: [-1.2449717, 44.646565,]
-            },
-            properties: {
-                title: 'Point fixe',
-                description: 'Livraison apero: Corps morts'
-            }
-
-        }]
-    };
-
-
-    // add markers to map
-    geojson.features.forEach(function (marker) {
-
-        // create a HTML element for each feature
-        var el = document.createElement('div');
-        el.className = 'marker';
-
-        // make a marker for each feature and add to the map
-        new mapboxgl.Marker(el)
-            .setLngLat(marker.geometry.coordinates)
-            .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-                .setHTML('<h3>' + marker.properties.title + '</h3><p>' + marker.properties.description + '</p>'))
-            .addTo(map);
-    });
-</script>
+<script src="../static/js/mapApero.js"></script>
 
 <script src="https://npmcdn.com/flatpickr/dist/l10n/fr.js"></script>
 
 <script>
 
     $(document).ready(function () {
-
         var time = new Date($.now());
         var hours = time.getHours()
-        if (hours > 19) {
-            mindate = new Date(time.getTime() + 24 * 60 * 60 * 1000)
+        if (hours >= 9) {
             flatpickr('#datepicker-apero', {
-                // defaultDate: new Date().fp_incr(1),
-
-                minDate: mindate,
+                minDate: new Date().fp_incr(2),
                 dateFormat: "d/m/Y H:i",
                 altFormat: "d/m/Y H:i",
                 defaultTime: '17:00',
@@ -394,22 +350,9 @@
                 minuteIncrement: '10',
                 locale: "fr",
                 disableMobile: "true",
-                // disable: [
-                //     {
-                //         from: "04/05/2020 00:00",
-                //         to: "05/07/2020 00:00"
-                //     },
-                //     {
-                //         from: "31/08/2020 00:00",
-                //         to: "05/07/2021 00:00"
-                //     }
-                // ]
             })
         } else {
-
             flatpickr('#datepicker-apero', {
-                // defaultDate: new Date().fp_incr(1),
-
                 minDate: new Date().fp_incr(1),
                 dateFormat: "d/m/Y H:i",
                 altFormat: "d/m/Y H:i",
@@ -421,16 +364,6 @@
                 minuteIncrement: '10',
                 locale: "fr",
                 disableMobile: "true",
-                // disable: [
-                //     {
-                //         from: "04/05/2020 00:00",
-                //         to: "05/07/2020 00:00"
-                //     },
-                //     {
-                //         from: "31/08/2020 00:00",
-                //         to: "05/07/2021 00:00"
-                //     }
-                // ]
             })
         }
     });

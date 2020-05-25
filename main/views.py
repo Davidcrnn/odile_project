@@ -17,6 +17,7 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
 
+
 # Create your views here.
 import random
 import string
@@ -34,6 +35,9 @@ def is_valid_form(values):
         if field == '':
             valid = False
     return valid
+
+
+
 
 
 class HomePageView(TemplateView):
@@ -139,7 +143,7 @@ class OrderSummaryAperoView(LoginRequiredMixin, View):
             messages.warning(self.request, "Vous n'avez rien dans votre panier")
             return redirect("/")
 
-@login_required
+# @login_required
 def add_to_cart(request, slug):
     product = get_object_or_404(Product, slug=slug)
     order_dejeuner_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Dejeuner')
@@ -209,6 +213,7 @@ def add_to_cart(request, slug):
                         'product_name': order_product.product.name,
                         'order_product_id': order_product.id
                     }
+                   
                     
                     return JsonResponse(response_data)
             else:

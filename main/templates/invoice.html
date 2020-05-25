@@ -9,6 +9,10 @@
 
     <title>Facture</title>
 
+
+</head>
+
+<body>
     <style type="text/css">
         body {
             font-weight: 200;
@@ -26,6 +30,11 @@
         .header h1 {
             margin: 0;
             padding: 0;
+        }
+
+        .details-order {
+            display: flex;
+            justify-content: space-between;
         }
 
         .title {
@@ -88,31 +97,31 @@
             padding: 5px 0;
         }
     </style>
-</head>
-
-<body>
     <div class='wrapper'>
         <div class='header'>
+            <img src="{% static '../static/images/logo-bateau.svg' %}" height="100px" alt="">
             <h1>Déjeuner sur l'eau</h1>
             <p class='title'> Facture : {{ ref_code }} </p>
 
         </div>
+        <div class="details-order">
 
-        <div class='details'>
-            <h2>Déjeuner sur l'eau</h2>
-            <p>Livraison de panier repas</p>
-            <p>01-45-45-45-45</p>
-            <p>Cap Ferret</p>
-            <p>contact@dejeunersurleau.com</p>
-            <hr class='hrItem' />
-        </div>
+            <div class='details'>
+                <h2>Déjeuner sur l'eau</h2>
+                <p>Livraison de panier repas</p>
+                <p>01-45-45-45-45</p>
+                <p>Cap Ferret</p>
+                <p>contact@dejeunersurleau.com</p>
+                <hr class='hrItem' />
+            </div>
 
-        <div class="details">
-            <h2>Détails du client:</h2>
-            <p>{{ prenom|capfirst }} {{ nom|capfirst }}</p>
-            <p>{{ phone }}</p>
-            <p>{{ email }}</p>
-            <hr class='hrItem' />
+            <div class="details">
+                <h2>Détails du client:</h2>
+                <p>{{ prenom|capfirst }} {{ nom|capfirst }}</p>
+                <p>{{ phone }}</p>
+                <p>{{ email }}</p>
+                <hr class='hrItem' />
+            </div>
         </div>
 
         <table>
@@ -133,7 +142,7 @@
                     <td>
                         {{ product.product.name }}</li>
                     </td>
-                    <td>{{ product.product.price }}</td>
+                    <td>{{ product.product.price|floatformat }}€</td>
                     <td>{{ product.quantity }}</td>
                     <td>{{ product.get_total_product_price|floatformat}}€</td>
                 </tr>

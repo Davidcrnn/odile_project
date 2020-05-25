@@ -20,13 +20,12 @@
     <div class="nav-link d-none d-md-block">
         <ul>
 
-            <li><a href="{% url 'home' %}#concept" class="">CONCEPT </a></li>
-            <li><a href="{% url 'livraison' %}" class="">LIVRAISON </a></li>
-            <li><a href="{% url 'products' %}">MENU DEJEUNER</a> </li>
-            <li><a href="{% url 'products-apero' %}">MENU APERO</a> </li>
-            <!-- <li><a href="{% url 'home' %}#livraison" class="">LIVRAISON </a></li> -->
+            <li><a class="link-navbar-animation" href="{% url 'home' %}#concept" class="">CONCEPT </a></li>
+            <li><a class="link-navbar-animation" href="{% url 'livraison' %}" class="">LIVRAISON </a></li>
+            <li><a class="link-navbar-animation" href="{% url 'products' %}">MENU DEJEUNER</a> </li>
+            <li><a class="link-navbar-animation" href="{% url 'products-apero' %}">MENU APERO</a> </li>
             <li class="dropdown">
-                <a href="" class="dropbtn"> CONTACT <i class="fa fa-caret-down"></i></a>
+                <a class="link-navbar-animation dropbtn" href=""> CONTACT <i class="fa fa-caret-down"></i></a>
                 <div class="dropdown-content">
                     <a href=" {% url 'contact' %}">Contactez-nous</a>
                     <a href=" {% url 'avis' %}">Votre avis nous intéresse</a>
@@ -113,6 +112,7 @@
         }
     })
 </script>
+
 
 
 
