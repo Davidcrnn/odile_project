@@ -9,6 +9,8 @@
     position: relative;
     margin-top: 20px;
     opacity: 0.8;
+    box-shadow: 0px 0px 10px $gris;
+    border-radius: 15px;
 }
 
 .section-banner-home-title{
@@ -23,8 +25,11 @@
     } h1 {
         // border-bottom: 2px solid $vertf;
         margin-bottom: 40px;
-        color: $vertf;
+        // color: $vertf;
         text-shadow: $gris 2px 0 5px;
+        background: -webkit-linear-gradient($vertf, $vertc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 }
 
@@ -36,7 +41,9 @@
     box-shadow: 0 0 10px $gris;
     margin-top: 20px;
     h1 {
-       color: $vertf;
+        background: -webkit-linear-gradient($vertf, $vertc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
        text-shadow: $gris 2px 0 5px;
        font-size: 30px;
     } p {
@@ -47,6 +54,10 @@
 
 .section-description-livraison, .section-presentation-concept {
     padding-top: 30px;
+
+    p {
+        margin-top: 10px;
+    }
 }
 
 
@@ -69,6 +80,8 @@
     width: 100%;
     padding: 0;
     margin: 0;
+    
+    
 }
   
 .rslides li {
@@ -78,6 +91,7 @@
     width: 100%;
     left: 0;
     top: 0;
+  
 }
   
 .rslides li:first-child {
@@ -92,6 +106,7 @@
     float: left;
     width: 100%;
     border: 0;
+    border-radius: 15px;
 }
 
     
@@ -136,7 +151,7 @@
 
 
 
-// PRELOADER -----------------
+
 
 
 // POP UP OUVERTURE LIVRAISON --------------------
@@ -148,7 +163,7 @@
     border: 2px solid $jaune;
     position: relative;
     h2 {
-        font-size: 20px;
+        font-size: 15px;
         margin:0;
     }
 }

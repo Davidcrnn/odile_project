@@ -1,3 +1,4 @@
+from allauth.account.forms import SignupForm
 from django import forms
 from django.forms import ModelForm
 from flatpickr import DatePickerInput, TimePickerInput, DateTimePickerInput
@@ -359,3 +360,17 @@ class ContactForm(forms.Form):
         'rows': 10,
         'placeholder': 'Votre message ...',
         'class': 'form-control checkout-input '}))
+
+
+class CustomSignupForm(SignupForm):
+    prenom = forms.CharField(
+        max_length=30, label='Prenom', widget=forms.TextInput
+        (attrs={'placeholder': 'Prenom'}))
+    name = forms.CharField(max_length=30, label='Nom', widget=forms.TextInput
+                           (attrs={'placeholder': 'Nom'}))
+
+    def signup(self, request, user):
+        user.prenom = self.cleaned_data['prenom']
+        user.name = self.cleaned_data['name']
+        user.save()
+        return user
