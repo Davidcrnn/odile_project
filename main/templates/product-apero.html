@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% load static %}
 {% block head_title %}Menu Apéro - Produits{% endblock head_title %}
+{% block popup %}
+<div id="add-popup-product">
+    <h1> <i class="far fa-check-circle"></i> Le produit vient d'être ajouté au panier</h1>
+</div>
+{% endblock popup %}
 {% block content %}
 <div class="container relative">
     <div class="cart-mobile d-block d-sm-none">
@@ -158,6 +163,14 @@
 {% endblock content %}
 {% block extra_scripts %}
 <script>
+
+    $(document).ready(function () {
+
+        $("#add-popup-product").hide();
+    });
+
+</script>
+<script>
     // FILTER CATEGORY LINK SCROLL --------------------------------------
     $(document).ready(function () {
         $('.js-anchor-link').click(function (e) {
@@ -192,6 +205,7 @@
             success: function (json) {
                 $('.selectpicker').val('1').selectpicker('refresh'); // reset form select
                 $('.modal').modal('hide'); // Hide modal
+                $("#add-popup-product").show('slow').delay(3000).hide('slow');
                 var total = json.total + '€'
                 var myvar = '<li class="list-group-item d-flex cart-line justify-content-between lh-condensed">' +
                     '                        <div>' +

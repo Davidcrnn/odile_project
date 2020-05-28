@@ -47,7 +47,7 @@
         <img src="{% static '../static/images/profil.svg' %}" alt="" style='height: 30px;' class="dropdown-toggle"
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
-        <div class="dropdown-menu dropdown-menu-right drop-content">
+        <div class="dropdown-menu dropdown-menu-right drop-content menu-profil">
             <p class='text-center'>Hello {{request.user|username|capfirst}} !</p>
             <a href="{% url 'profil' %}" class="dropdown-item">Mes commandes</a>
             <a href="{% url 'request-refund' %}" class="dropdown-item">Demande de remboursement</a>

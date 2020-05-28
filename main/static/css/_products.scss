@@ -59,6 +59,16 @@
     }
 }
 
+.carte-accessoires {
+    padding: 20px;
+    box-shadow: 0 0 10px $gris;
+    h1 {
+        color: #4a898a;
+    font-size: 17px;
+    text-align: center;
+    }
+}
+
 // FILTER CATEGORY PRODUCT ---------------------------------------------------
 
 .filter-product {
@@ -204,4 +214,55 @@
     .product-item-container h1 {
         font-size: 20px;
     }
+}
+
+
+// POP UP ADD TO CART 
+
+
+#add-popup {
+    border: 1px solid $vertf;
+    color: $vertf;
+    padding: 10px 15px;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    text-align: center;
+    
+
+    h1 {
+        font-size: 17px;
+        margin: 0;
+    }
+}
+
+#add-popup-product {
+    background-color: $vertf;
+    color: white;
+    text-align: center;
+    padding: 10px 15px;
+    border-radius: 3px;
+    position: fixed;
+    width: 100%;
+    z-index: 900;
+    h1 {
+        font-size: 17px;
+        margin: 0;
+    }
+}
+
+
+// Slider Popup accessoires
+
+
+.swiper-button-prev, .swiper-button-next {
+    color: $vertf !important;
+}
+
+.swiper-pagination-bullet-active {
+    background: $vertf !important;
+}
+
+.swiper-container {
+    padding: 30px 0 !important;
+    margin: 0 20px !important;
 }

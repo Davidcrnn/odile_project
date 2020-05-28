@@ -20,6 +20,7 @@
     color: #949a9a; }
   .section-banner-home-title h1 {
     margin-bottom: 40px;
+    text-align: center;
     text-shadow: #8080805c 2px 0 5px;
     background: -webkit-linear-gradient(#4A898B, #4DBDC0);
     -webkit-background-clip: text;
@@ -84,16 +85,20 @@
     height: auto; }
     .home-banner-title h1 {
       font-size: 1.5em; }
-  .home-banner {
-    height: 40vh; }
+  .section-banner-home-img {
+    height: 60vh; }
+  .section-banner-home-title {
+    height: auto; }
   .concept-container {
     padding: 30px 20px; }
   .rslides img {
-    height: 40vh; }
+    height: 60vh; }
   #map {
     height: 280px; }
   .menu-choices-container a, .menu-choices-container .drop-content p, .drop-content .menu-choices-container p {
-    padding: 8px; } }
+    padding: 8px; }
+  .section-presentation-concept {
+    margin-bottom: 20px; } }
 
 .centered-content {
   display: flex;
@@ -223,20 +228,31 @@
     margin: 20px 0;
     font-size: 12px; }
 
+.product-card-text-modal-accessoires {
+  padding: 0 0px 40px; }
+  .product-card-text-modal-accessoires p {
+    margin: 20px 0;
+    font-size: 12px; }
+
 .product-card-text-modal h4 {
   color: #4A898B;
   font-size: 20px; }
 
 .modal-btn {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center; }
+
+.modal-header-accessoire {
+  padding: 10px; }
 
 .product-card-info-modal {
   position: relative;
   margin-top: 20px;
   box-shadow: 0 0 10px #8080805c;
   padding: 20px; }
+  .product-card-info-modal h4 {
+    font-size: 20px; }
 
 .dropdown-item.active {
   background-color: #8080805c; }
@@ -324,7 +340,7 @@
   display: none;
   position: absolute;
   background-color: white;
-  min-width: 160px;
+  min-width: 180px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 10;
   margin-top: 3px; }
@@ -341,6 +357,13 @@
 
 .dropdown:hover .dropdown-content {
   display: block; }
+
+.menu-profil {
+  border: none; }
+  .menu-profil p {
+    padding: 10px 15px; }
+  .menu-profil a, .menu-profil .drop-content p, .drop-content .menu-profil p {
+    padding: 5px 15px; }
 
 .button_container {
   position: absolute;
@@ -531,6 +554,14 @@ p {
   font-size: 15Px;
   color: #4A898B; }
 
+.carte-accessoires {
+  padding: 20px;
+  box-shadow: 0 0 10px #8080805c; }
+  .carte-accessoires h1 {
+    color: #4a898a;
+    font-size: 17px;
+    text-align: center; }
+
 .filter-product {
   width: 100%;
   position: sticky;
@@ -645,6 +676,40 @@ p {
     height: auto; }
   .product-item-container h1 {
     font-size: 20px; } }
+
+#add-popup {
+  border: 1px solid #4A898B;
+  color: #4A898B;
+  padding: 10px 15px;
+  border-radius: 3px;
+  margin-bottom: 20px;
+  text-align: center; }
+  #add-popup h1 {
+    font-size: 17px;
+    margin: 0; }
+
+#add-popup-product {
+  background-color: #4A898B;
+  color: white;
+  text-align: center;
+  padding: 10px 15px;
+  border-radius: 3px;
+  position: fixed;
+  width: 100%;
+  z-index: 900; }
+  #add-popup-product h1 {
+    font-size: 17px;
+    margin: 0; }
+
+.swiper-button-prev, .swiper-button-next {
+  color: #4A898B !important; }
+
+.swiper-pagination-bullet-active {
+  background: #4A898B !important; }
+
+.swiper-container {
+  padding: 30px 0 !important;
+  margin: 0 20px !important; }
 
 .footer-container {
   background: #4dbdc0;

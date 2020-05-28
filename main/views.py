@@ -51,6 +51,7 @@ class ProductListView(ListView):
 
     def get(self, *args, **kwargs):
         products = Product.objects.filter(menu='Dejeuner', visible=True)
+        accessoire_product = Product.objects.filter(menu='Dejeuner',category='Accessoires')
         form = ProductForm(auto_id=False)
         user = self.request.user
         if user.is_authenticated:
@@ -60,6 +61,7 @@ class ProductListView(ListView):
             context = {
                 'order': order,
                 'products': products,
+                'accessoires': accessoire_product,
                 'form': form,
                 # 'couponform': CouponForm(),
                 # 'DISPLAY_COUPON_FORM': True,
@@ -114,11 +116,11 @@ class OrderSummaryDejeunerView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         try:
             order_dejeuner_qs = Order.objects.get(user=self.request.user, ordered=False,type_of_order='Dejeuner')
-            accessoire_product = Product.objects.filter(category='Accessoires')
+            
             form = ProductForm()
             context = {
                 'order_dejeuner': order_dejeuner_qs,
-                'products': accessoire_product,
+                
                 'form': form,
                 # 'couponform': CouponForm(),
                 # 'DISPLAY_COUPON_FORM': True,
@@ -544,7 +546,7 @@ class CheckoutView(View):
                     {'default_address': address_qs.latest('id')})
 
         except ObjectDoesNotExist:
-            messages.info(self.request, "You do not have an active order")
+            messages.info(self.request, "Vous n'avez pas encore de produits dans votre panier")
             return redirect('checkout')
 
         return render(self.request, "checkout.html", context)
@@ -645,7 +647,7 @@ class CheckoutView(View):
                 args['form'] = form
                 args['order'] = order
                 print(form)
-                messages.info(self.request, 'Le formulaire doit être rempli')
+                messages.info(self.request, 'Une erreur est présente dans votre formulaire')
                 return render(self.request, 'checkout.html', args)
         except ObjectDoesNotExist:
             messages.info(self.request, 'This order does not exist.')

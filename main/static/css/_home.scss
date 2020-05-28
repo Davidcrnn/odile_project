@@ -25,7 +25,7 @@
     } h1 {
         // border-bottom: 2px solid $vertf;
         margin-bottom: 40px;
-        // color: $vertf;
+        text-align: center;
         text-shadow: $gris 2px 0 5px;
         background: -webkit-linear-gradient($vertf, $vertc);
         -webkit-background-clip: text;
@@ -120,16 +120,19 @@
                 font-size: 1.5em;
         }
     }
-    .home-banner {
-        height: 40vh;    
+    .section-banner-home-img {
+        height: 60vh;    
     }
+    .section-banner-home-title {
+        height: auto;
         
+    }
     .concept-container {
         padding: 30px 20px;
     }
     
     .rslides img {
-        height: 40vh;
+        height: 60vh;
     }
 
     #map {
@@ -137,6 +140,9 @@
     }
     .menu-choices-container a {
         padding: 8px;
+    }
+    .section-presentation-concept {
+        margin-bottom: 20px;
     }
 }
 

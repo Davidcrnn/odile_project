@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
     'crispy_forms',
     'django_countries',
     'debug_toolbar',
@@ -251,6 +252,15 @@ SOCIALACCOUNT_PROVIDERS = {
         'LOCALE_FUNC': lambda request: 'kr_KR',
         'VERIFIED_EMAIL': False,
         'VERSION': 'v7.0',
+    },
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
     }
 }
 
@@ -262,3 +272,7 @@ SOCIAL_AUTH_FACEBOOK_SECRET = config('SOCIAL_AUTH_FACEBOOK_SECRET')  # app key
 ACCOUNT_FORMS = {
     'signup': 'main.forms.CustomSignupForm',
 }
+
+
+GOOGLE_CLIENT_ID = '688077183022-7ghl92jgacde7cseltojpu8jqapvr2gh.apps.googleusercontent.com'
+GOOGLE_SECRET_KEY = 'Jye5oOFnoUcwSqhykZ4UURUr'
