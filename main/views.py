@@ -145,7 +145,7 @@ class OrderSummaryAperoView(LoginRequiredMixin, View):
             messages.warning(self.request, "Vous n'avez rien dans votre panier")
             return redirect("/")
 
-# @login_required
+@login_required
 def add_to_cart(request, slug):
     product = get_object_or_404(Product, slug=slug)
     order_dejeuner_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Dejeuner')
