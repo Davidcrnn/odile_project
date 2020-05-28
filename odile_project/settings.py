@@ -274,5 +274,5 @@ ACCOUNT_FORMS = {
 }
 
 
-GOOGLE_CLIENT_ID = '688077183022-7ghl92jgacde7cseltojpu8jqapvr2gh.apps.googleusercontent.com'
-GOOGLE_SECRET_KEY = 'Jye5oOFnoUcwSqhykZ4UURUr'
+GOOGLE_CLIENT_ID = config('GOOGLE_CLIENT_ID')
+GOOGLE_SECRET_KEY = config('GOOGLE_SECRET_KEY')
