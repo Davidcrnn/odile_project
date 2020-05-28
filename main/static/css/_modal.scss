@@ -70,6 +70,13 @@
     font-size: 12px;   
     }
 }
+.product-card-text-modal-accessoires{
+    padding: 0 0px 40px;
+    p {
+    margin: 20px 0;
+    font-size: 12px;   
+    }
+}
 
 .product-card-text-modal h4 {
     color: $vertf;
@@ -78,8 +85,12 @@
 }
 .modal-btn {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
+}
+
+.modal-header-accessoire {
+    padding: 10px;
 }
 
 .product-card-info-modal {
@@ -87,7 +98,11 @@
     margin-top: 20px;
     box-shadow: 0 0 10px $gris;
     padding: 20px;
+    h4 {
+        font-size: 20px;
+    }
 }
+
 
 // Select modal btn
 

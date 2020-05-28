@@ -9,8 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="theme-color" content="#red">
     <title>{% block head_title %}{% endblock %}</title>
-    {% block extra_head %}
-    {% endblock %}
 
     <!-- Map -->
     <script src='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js'></script>
@@ -25,6 +23,8 @@
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="{% sass_src 'css/style.scss' %}" type="text/css" media="screen" />
+    {% block extra_head %}
+    {% endblock %}
 
     {{ form.media }}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
@@ -45,6 +45,10 @@
     </div>
     {% endfor %}
     {% endif %}
+
+    {% block popup %}
+
+    {% endblock popup %}
 
     {% block content %}
     {% endblock content %}

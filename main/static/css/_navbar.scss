@@ -96,7 +96,7 @@
     display: none;
     position: absolute;
     background-color: white;
-    min-width: 160px;
+    min-width: 180px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 10;
     margin-top: 3px;
@@ -114,6 +114,14 @@
   
   .dropdown:hover .dropdown-content {display: block;}
   
+  .menu-profil {
+    border: none;
+    p {
+      padding: 10px 15px;
+    } a {
+      padding: 5px 15px;
+    }
+  }
 // overlay 
 $color-background: $vertf;
 $color-main: #1abc9c;
