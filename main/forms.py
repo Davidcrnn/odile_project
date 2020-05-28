@@ -70,6 +70,7 @@ COUVERT_CHOICES = (
     ('-- Nombre de couverts --',
         (
             ('', 'Choisissez'),
+            ('Pas besoin', 'Pas besoin'),
             ('1', '1'),
             ('2', '2'),
             ('3', '3'),
@@ -97,7 +98,7 @@ class CheckoutForm(forms.Form):
             }
         ), choices=COUVERT_CHOICES)
 
-    name = forms.CharField(required=True, error_messages={'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
+    name = forms.CharField(required=True, label='Nom', error_messages={'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
         'placeholder': 'Turing',
         'class': 'form-control checkout-input',
     }))
@@ -108,7 +109,7 @@ class CheckoutForm(forms.Form):
             'class': 'form-control checkout-input',
         }))
 
-    phone = forms.CharField(max_length=13, help_text='Numéro valide', error_messages={
+    phone = forms.CharField(max_length=13, label='Téléphone', help_text='Numéro valide', error_messages={
         'required': "Vous devez renseigner ce champ"}, required=True, widget=forms.TextInput(attrs={
             'placeholder': '0145444646',
             'class': 'form-control checkout-input',
@@ -211,7 +212,7 @@ class CheckoutAperoForm(forms.Form):
             }
         ), choices=COUVERT_CHOICES)
 
-    name = forms.CharField(required=True, error_messages={'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
+    name = forms.CharField(required=True, label='Nom', error_messages={'required': "Vous devez renseigner ce champ"}, widget=forms.TextInput(attrs={
         'placeholder': 'Turing',
         'class': 'form-control checkout-input',
     }))
@@ -220,7 +221,7 @@ class CheckoutAperoForm(forms.Form):
             'placeholder': 'Alan',
             'class': 'form-control checkout-input',
         }))
-    phone = forms.CharField(max_length=13, error_messages={
+    phone = forms.CharField(max_length=13, label='Téléphone', error_messages={
         'required': "Vous devez renseigner ce champ"}, required=True, widget=forms.TextInput(attrs={
             'placeholder': '0145444646',
             'class': 'form-control checkout-input',
