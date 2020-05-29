@@ -160,6 +160,7 @@ def add_to_cart(request, slug):
         boisson = form.cleaned_data.get('boisson')
         sandwich = form.cleaned_data.get('sandwich')
         alcool = form.cleaned_data.get('alcool')
+        huitre = form.cleaned_data.get('huitre')
         order_product, created = OrderProduct.objects.get_or_create(
             product=product,
             user=request.user,
@@ -167,7 +168,8 @@ def add_to_cart(request, slug):
             dessert= dessert,
             boisson=boisson,
             sandwich=sandwich,
-            alcool=alcool
+            alcool=alcool,
+            huitre=huitre
 
         )
 
@@ -178,9 +180,6 @@ def add_to_cart(request, slug):
                 if order.products.filter(product__slug=product.slug, dessert= dessert,boisson=boisson, sandwich=sandwich).exists():
                     
                     order_product.quantity += quantity
-                    # order_product.dessert = dessert
-                    # order_product.boisson = boisson
-                    # order_product.sandwich = sandwich
                     order_product.save()
                     response_data = {
                         'quantity': order_product.quantity,
@@ -243,7 +242,7 @@ def add_to_cart(request, slug):
         elif product.menu == 'Apero':
             if order_apero_qs.exists():
                 order = order_apero_qs[0]
-                if order.products.filter(product__slug=product.slug, alcool=alcool).exists():
+                if order.products.filter(product__slug=product.slug, alcool=alcool, huitre=huitre).exists():
                     order_product.quantity += quantity
                     order_product.save()
                     response = {
@@ -254,12 +253,14 @@ def add_to_cart(request, slug):
                         'cart_quantity': order.get_quantity(),
                         'product_name': order_product.product.name,
                         'alcool': order_product.alcool,
+                        'huitre': order_product.huitre,
                         'order_product_id': order_product.id
                     }
                     return JsonResponse(response)
                 else:
                     order_product.quantity = quantity
                     order_product.alcool =alcool
+                    order_product.huitre =huitre
                     order_product.save()
                     order.products.add(order_product)
                     response = {
@@ -270,6 +271,7 @@ def add_to_cart(request, slug):
                         'cart_quantity': order.get_quantity(),
                         'product_name': order_product.product.name,
                         'alcool': order_product.alcool,
+                        'huitre': order_product.huitre,
                         'order_product_id': order_product.id
                     }
                     return JsonResponse(response)
@@ -278,6 +280,7 @@ def add_to_cart(request, slug):
                     user=request.user, type_of_order='Apero')
                 order_product.quantity = quantity
                 order_product.alcool = alcool
+                order_product.huitre=huitre
                 order_product.save()
                 order.products.add(order_product)
                 response = {
@@ -288,6 +291,7 @@ def add_to_cart(request, slug):
                         'cart_quantity': order.get_quantity(),
                         'product_name': order_product.product.name,
                         'alcool': order_product.alcool,
+                        'huitre': order_product.huitre,
                         'order_product_id': order_product.id
                     }
                 return JsonResponse(response)
@@ -339,6 +343,7 @@ def add_single_item_to_cart(request, slug):
         user=request.user,
         ordered=False,
         alcool=request.POST['alcool'],
+        huitre= request.POST['huitre'],
     )
         if order_apero_qs.exists():
             order = order_apero_qs[0]

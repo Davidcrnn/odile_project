@@ -8,6 +8,7 @@
 {% endblock popup %}
 {% block content %}
 <div class="container relative">
+    <!-- BOUTTON PANIER VERSION MOBILE & TABLETTE -->
     <div class="cart-mobile d-block d-sm-none">
         <div class="cart-position">
             <p>{{ order.get_quantity}}</p>
@@ -15,6 +16,8 @@
                     style="height: 40px;"></a>
         </div>
     </div>
+    <!-- FIN BOUTTON PANIER VERSION MOBILE & TABLETTE -->
+    <!-- HEADER MENU APERO-->
     <div class="header-section-title-container">
         <div class="header-section-title">
             <h1>À LA CARTE</h1>
@@ -23,6 +26,8 @@
 
         </div>
     </div>
+    <!-- FIN HEADER MENU APERO-->
+    <!-- TEXTE INFORMATIF AU SUJET DE LA LIVRAISON -->
     <div class="row">
         <div class="col-xs-12">
             <div class="info-header">
@@ -33,7 +38,9 @@
             </div>
         </div>
     </div>
+    <!-- FIN TEXTE INFORMATIF AU SUJET DE LA LIVRAISON-->
     <div class="row">
+        <!-- SECTION FILTRE PRODUIT PAR CATEGORIE -->
         <div class="col-xs-12 col-md-2 d-none d-md-block">
             <div class="filter-product">
                 <ul>
@@ -44,8 +51,10 @@
                     <li><a href="#5" class="js-anchor-link filter-accessoires">Accessoires</a></li>
                 </ul>
             </div>
-
         </div>
+        <!-- FIN SECTION FILTRE PRODUIT PAR CATEGORIE -->
+
+        <!-- SECTION PRODUIT APERO PAR CATEGORIE-->
         <div class="col-xs-12 col-md-7">
             <div class="product-item-container">
                 <div class="product-item-container">
@@ -93,70 +102,40 @@
                 </div>
             </div>
         </div>
+        <!-- FIN SECTION PRODUIT APERO PAR CATEGORIE-->
+
+        <!-- PANIER FIXE PAGE PRODUIT APERO -->
         <div class="col-xs-12 col-md-3 d-none d-md-block">
             <div id='stickycart' class="col-md-12 mb-4 mt-5 ">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                     <span class="cart-header" id='cart-quantity'> Panier - {{ order.get_quantity }}</span>
-
                 </h4>
                 <ul id="js-cart-append" class="list-group mb-3 z-depth-1">
                     {% for order_item in order.products.all %}
                     <li class="list-group-item cart-line d-flex justify-content-between lh-condensed">
                         <div>
-                            <h6 class="my-0"><span
-                                    data-quantity-id="{{order_item.product.slug}}">{{ order_item.quantity }}</span>
-                                x
-                                {{ order_item.product.name}}</h6>
-                            <p data-alcool-id="{{prder_item.id}}">{{ order_item.alcool }}</p>
-
+                            <h6 class="my-0"><span data-quantity-id="{{order_item.id}}">{{ order_item.quantity }}</span>
+                                x {{ order_item.product.name}}</h6>
+                            <p data-alcool-id="{{order_item.id}}">{{ order_item.alcool }}</p>
+                            <p data-huitre-id="{{order_item.id}}">{{ order_item.huitre }}</p>
                         </div>
                         <span class="text-muted"
-                            data-total-id='{{order_item.product.slug}}'>{{ order_item.get_total_product_price|floatformat }}€</span>
+                            data-total-id='{{order_item.id}}'>{{ order_item.get_total_product_price|floatformat }}€</span>
                     </li>
                     {% endfor %}
 
-                    <!-- {% if order.coupon %}
-        
-                            <li class="list-group-item cart-line d-flex justify-content-between bg-light">
-                                <div class="text-success">
-                                    <h6 class="my-0">Coupon</h6>
-                                    <small>{{ order.coupon.code }}</small>
-                                </div>
-                                <span class="text-success">-{{ order.coupon.amount }}€</span>
-                            </li>
-        
-                            {% endif %} -->
+
                     <li class="list-group-item cart-line d-flex justify-content-between">
                         <span>Total (€)</span>
                         <strong id="order-snippet-id">{{ order.get_total|floatformat }}€</strong>
                     </li>
-                    <!-- {% if DISPLAY_COUPON_FORM %}
-                            <form class="card p-2" action="{% url 'add-coupon' %}" method="POST">
-                                {% csrf_token %}
-                                <div class="input-group">
-        
-                                    {{ couponform.code }}
-        
-        
-        
-                                    <div class="input-group-append">
-        
-                                        <button class=" btn-md btn-valider waves-effect m-0" type="submit">Valider</button>
-                                    </div>
-                                </div>
-                            </form>
-                            {% endif %} -->
+
                     <a class='btn-valider float-right mt-2' href="{% url 'order-summary-apero' %}">
                         Voir le panier</a>
                 </ul>
             </div>
-
-
-
-
-
         </div>
-
+        <!-- FIN PANIER FIXE PAGE PRODUIT APERO -->
     </div>
 </div>
 
@@ -190,7 +169,9 @@
         var target = $(this).attr('id');
         var quantity = $(this).find('select[name="quantity"]').val();
         var alcool = $(this).find('input[name="alcool"]:checked').val();
+        var huitre = $(this).find('input[name="huitre"]:checked').val();
         var urlAjax = $(this).attr('action');
+
 
         console.log(urlAjax);
         $.ajax({
@@ -199,35 +180,41 @@
             data: {
                 quantity: quantity,
                 alcool: alcool,
+                huitre: huitre,
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
                 action: 'post',
             },
             success: function (json) {
+
                 $('.selectpicker').val('1').selectpicker('refresh'); // reset form select
                 $('.modal').modal('hide'); // Hide modal
                 $("#add-popup-product").show('slow').delay(3000).hide('slow');
+
                 var total = json.total + '€'
                 var myvar = '<li class="list-group-item d-flex cart-line justify-content-between lh-condensed">' +
                     '                        <div>' +
                     '                            <h6 class="my-0"><span' +
-                    '                                    data-quantity-id=' + target + '>' + json.quantity + '</span>' +
+                    '                                    data-quantity-id=' + json.order_product_id + '>' + json.quantity + '</span>' +
                     '                                x' +
                     '                                ' + json.product_name + ' </h6>' +
-                    '' + '<p>' + json.alcool + '</p>' +
+                    '' + '<p data-alcool-id= ' + json.order_product_id + '>' + json.alcool + '</p>' + '<p data-huitre-id= ' + json.order_product_id + '>' + json.huitre + '</p>' +
                     '                        </div>' +
                     '                        <span class="text-muted"' +
-                    '                            data-total-id=\'{{order_item.product.slug}}\'>' + json.product_total + '€</span>' +
+                    '                            data-total-id=' + json.order_product_id + '>' + json.product_total + '€</span>' +
                     '                    </li>';
 
+
                 /* Check if product is in the cartif true then update quantity et total else append to cart*/
-                if ($('[data-quantity-id=' + target + ']').text() >= 1 && $('[data-alcool-id=' + json.order_product_id + ']').text() == json.alcool) {
-                    $('[data-quantity-id=' + target + ']').text(json.quantity);
-                    $('[data-total-id=' + target + ']').text(json.product_total + '€');
+                if ($('[data-quantity-id=' + json.order_product_id + ']').text() >= 1 && $('[data-alcool-id=' + json.order_product_id + ']').text() == json.alcool || $('[data-quantity-id=' + json.order_product_id + ']').text() >= 1 && $('[data-huitre-id=' + json.order_product_id + ']').text() === json.huitre) {
+                    $('[data-quantity-id=' + json.order_product_id + ']').text(json.quantity);
+                    $('[data-total-id=' + json.order_product_id + ']').text(json.product_total + '€');
                     $('#order-snippet-id').text(total);
                 } else {
                     $('#js-cart-append').prepend(myvar);
 
                 }
+
+
                 $('#cart-quantity').text('Panier - ' + json.cart_quantity);
             },
             error: function (xhr, errmsg, err) {

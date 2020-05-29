@@ -8,7 +8,7 @@
                     <div class="product-card-text">
                         <h5>{{ product.name }} </h5>
                         <p> {{ product.description|truncatewords:6 }}</p>
-                        <span>{{ product.price|floatformat }}€</span>
+                        <span>{{ product.price|floatformat|floatformat }}€</span>
                     </div>
                 </div>
             </div>
@@ -109,9 +109,19 @@
                         </label>
                     </div>
                     {% endfor %}
+                    {% endif %}
+                    {% if product.variation_set.huitres %}
+                    <p>Choisissez une option:</p>
+                    {% for item in product.variation_set.huitres %}
+                    <div class="option-delivery">
+                        <label class="" for="{{ item.title }}">
+                            <input id="{{ item.title }}" name="huitre" value="{{ item.title }}" type="checkbox"
+                                class="">
+                            <span>{{ item.title }} - {{ item.price|floatformat }}€</span>
 
-
-
+                        </label>
+                    </div>
+                    {% endfor %}
                     {% endif %}
                     {% endif %}
 
