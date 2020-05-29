@@ -34,6 +34,10 @@
                         <small
                             data-alcool-id="{{order_product.product.slug}}-{{order_product.id}}">{{ order_product.alcool }}</small>
                         {% endif %}
+                        {% if order_product.huitre %}
+                        <small
+                            data-huitre-id="{{order_product.product.slug}}-{{order_product.id}}">{{ order_product.huitre }}</small>
+                        {% endif %}
 
                     </td>
                     <td>{{ order_product.product.price|floatformat  }}€ </td>
@@ -165,6 +169,7 @@
             console.log(target)
             var urlAjax = $(this).attr('href');
             var alcool = $('[data-alcool-id=' + target + ']').text();
+            var huitre = $('[data-huitre-id=' + target + ']').text();
             console.log(alcool)
 
             $.ajax({
@@ -172,6 +177,7 @@
                 url: urlAjax,
                 data: {
                     alcool: alcool,
+                    huitre: huitre,
                     csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
                     action: 'post',
 

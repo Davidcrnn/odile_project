@@ -287,6 +287,8 @@ class ProductForm(forms.Form):
                               widget=forms.RadioSelect, label='Choisissez votre dessert :')
     alcool = forms.CharField(required=False,
                              widget=forms.RadioSelect, label='Choisissez une option :')
+    huitre = forms.CharField(required=False,
+                             widget=forms.RadioSelect, label='Choisissez une option :')
 
 
 class DeliveredForm(forms.Form):

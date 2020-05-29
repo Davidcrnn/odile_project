@@ -135,6 +135,9 @@ class Variation(models.Model):
     def __str__(self):
         return self.title
 
+    def get_price(self):
+        return self.price + self.product.price
+
 
 class OrderProduct(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -146,6 +149,7 @@ class OrderProduct(models.Model):
     boisson = models.CharField(max_length=100, null=True, blank=True)
     sandwich = models.CharField(max_length=100, null=True, blank=True)
     alcool = models.CharField(max_length=100, null=True, blank=True)
+    huitre = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
         return f"{self.quantity} x {self.product.name}"

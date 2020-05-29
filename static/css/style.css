@@ -888,7 +888,8 @@ tbody tr {
   margin-bottom: 10px; }
 
 input#datepicker-dejeuner {
-  width: 100%; }
+  width: 100%;
+  padding: 20px; }
 
 .checkout-input[type='text'], textarea.checkout-input {
   font-size: 12px;
