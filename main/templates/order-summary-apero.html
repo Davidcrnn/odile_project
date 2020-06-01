@@ -34,13 +34,13 @@
                         <small
                             data-alcool-id="{{order_product.product.slug}}-{{order_product.id}}">{{ order_product.alcool }}</small>
                         {% endif %}
-                        {% if order_product.huitre %}
+
                         <small
                             data-huitre-id="{{order_product.product.slug}}-{{order_product.id}}">{{ order_product.huitre }}</small>
-                        {% endif %}
+
 
                     </td>
-                    <td>{{ order_product.product.price|floatformat  }}€ </td>
+                    <td>{{ order_product.get_price_product_with_variant|floatformat  }}€ </td>
                     <td>
                         <a style='color: #165361;'
                             href="{% url 'remove-single-product-from-cart' order_product.product.slug %}"
@@ -54,7 +54,7 @@
                                 class="fas fa-plus ml-2" style='color: #4A898B;'></i></a>
                     </td>
                     <td><span
-                            data-total="{{order_product.product.slug}}-{{ order_product.id }}">{{ order_product.get_total_product_price|floatformat}}</span>€<a
+                            data-total="{{order_product.product.slug}}-{{ order_product.id }}">{{ order_product.get_total_product_with_variant_price|floatformat}}</span>€<a
                             style='color: #165361;' href="{% url 'remove-from-cart' order_product.product.slug %}"
                             class="removeItem ajax-remove" id="{{order_product.product.slug}}-{{ order_product.id }}">
                             <i class="fas fa-trash float-right" style='color: #4A898B;'></i>
@@ -170,7 +170,8 @@
             var urlAjax = $(this).attr('href');
             var alcool = $('[data-alcool-id=' + target + ']').text();
             var huitre = $('[data-huitre-id=' + target + ']').text();
-            console.log(alcool)
+
+            console.log(huitre)
 
             $.ajax({
                 type: 'POST',
@@ -264,33 +265,5 @@
 
 </script>
 
-<script>
-    $(document).ready(function () {
-        $.ajaxSetup({
-            beforeSend: function (xhr, settings) {
-                function getCookie(name) {
-                    var cookieValue = null;
-                    if (document.cookie && document.cookie != '') {
-                        var cookies = document.cookie.split(';');
-                        for (var i = 0; i < cookies.length; i++) {
-                            var cookie = jQuery.trim(cookies[i]);
-                            // Does this cookie string begin with the name we want?
-                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                                break;
-                            }
-                        }
-                    }
-                    return cookieValue;
-                }
-                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-                    // Only send the token to relative URLs i.e. locally.
-                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-                }
-            }
-        });
 
-    });
-
-</script>
 {% endblock extra_scripts %}
