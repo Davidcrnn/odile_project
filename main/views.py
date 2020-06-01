@@ -249,7 +249,7 @@ def add_to_cart(request, slug):
                         'quantity': order_product.quantity,
                         'total': order.get_total(),
                         'name': product.name,
-                        'product_total': order_product.get_total_product_price(),
+                        'product_total': order_product.get_total_product_with_variant_price(),
                         'cart_quantity': order.get_quantity(),
                         'product_name': order_product.product.name,
                         'alcool': order_product.alcool,
@@ -267,7 +267,7 @@ def add_to_cart(request, slug):
                         'quantity': order_product.quantity,
                         'total': order.get_total(),
                         'name': product.name,
-                        'product_total': order_product.get_total_product_price(),
+                        'product_total': order_product.get_total_product_with_variant_price(),
                         'cart_quantity': order.get_quantity(),
                         'product_name': order_product.product.name,
                         'alcool': order_product.alcool,
@@ -287,7 +287,7 @@ def add_to_cart(request, slug):
                         'quantity': order_product.quantity,
                         'total': order.get_total(),
                         'name': product.name,
-                        'product_total': order_product.get_total_product_price(),
+                        'product_total': order_product.get_total_product_with_variant_price(),
                         'cart_quantity': order.get_quantity(),
                         'product_name': order_product.product.name,
                         'alcool': order_product.alcool,
@@ -322,7 +322,7 @@ def add_single_item_to_cart(request, slug):
                 order_product.save()
                 response_data = {
                     'quantity': order_product.quantity,
-                    'total': order_product.get_total_product_price(),
+                    'total': order_product.get_total_product_with_variant_price(),
                     'get_total': order.get_total(),
                 }
                 # messages.info(
@@ -352,7 +352,7 @@ def add_single_item_to_cart(request, slug):
                 order_product.save()
                 response = {
                     'quantity': order_product.quantity,
-                    'total': order_product.get_total_product_price(),
+                    'total': order_product.get_total_product_with_variant_price(),
                     'get_total': order.get_total(),
                 }
                 return JsonResponse(response)
@@ -393,7 +393,7 @@ def remove_from_cart(request, slug):
                     'boisson': order_product.boisson,
                     'order_id': order_product.id,
                     'quantity': order_product.quantity,
-                    'total': order_product.get_total_product_price(),
+                    'total': order_product.get_total_product_with_variant_price(),
                     'get_total': order.get_total(),
                 }
                 return JsonResponse(response_data)
@@ -418,7 +418,7 @@ def remove_from_cart(request, slug):
                 order_product.delete()
                 response = {
                     'quantity': order_product.quantity,
-                    'total': order_product.get_total_product_price(),
+                    'total': order_product.get_total_product_with_variant_price(),
                     'get_total': order.get_total(),
                 }
                 return JsonResponse(response)
@@ -460,15 +460,13 @@ def remove_single_product_from_cart(request, slug):
                 boisson=request.POST['boisson'],
                 dessert=request.POST['dessert'],
                 )
-                print(request.POST['sandwich'])
-                print(request.POST['boisson'])
-                print(request.POST['dessert'])
+                
                 if order_product.quantity > 1:
                     order_product.quantity -= 1
                     order_product.save()
                     response_data = {
                     'quantity': order_product.quantity,
-                    'total': order_product.get_total_product_price(),
+                    'total': order_product.get_total_product_with_variant_price(),
                     'get_total': order.get_total(),
                     }
                     return JsonResponse(response_data)
@@ -476,7 +474,7 @@ def remove_single_product_from_cart(request, slug):
                     order.products.remove(order_product)
                     response_data = {
                         'quantity': order_product.quantity,
-                        'total': order_product.get_total_product_price(),
+                        'total': order_product.get_total_product_with_variant_price(),
                         'get_total': order.get_total(),
                     }
                     return JsonResponse(response_data)
@@ -489,21 +487,28 @@ def remove_single_product_from_cart(request, slug):
             messages.info(request, "You do not have an active order")
             return redirect("home")
     elif product.menu == 'Apero':
+        order_product, created = OrderProduct.objects.get_or_create(
+        product=product,
+        user=request.user,
+        ordered=False,
+        alcool=request.POST['alcool'],
+        huitre= request.POST['huitre'],
+        )
         if order_apero_qs.exists():
             order = order_apero_qs[0]
             # check if the order item is in the order
             if order.products.filter(product__slug=product.slug).exists():
-                order_product = OrderProduct.objects.filter(
-                    product=product,
-                    user=request.user,
-                    ordered=False
-                )[0]
+                # order_product = OrderProduct.objects.filter(
+                #     product=product,
+                #     user=request.user,
+                #     ordered=False
+                # )[0]
                 if order_product.quantity > 1:
                     order_product.quantity -= 1
                     order_product.save()
                     response = {
                     'quantity': order_product.quantity,
-                    'total': order_product.get_total_product_price(),
+                    'total': order_product.get_total_product_with_variant_price(),
                     'get_total': order.get_total(),
                     }
                     return JsonResponse(response)
@@ -511,7 +516,7 @@ def remove_single_product_from_cart(request, slug):
                     order.products.remove(order_product)
                     response = {
                     'quantity': order_product.quantity,
-                    'total': order_product.get_total_product_price(),
+                    'total': order_product.get_total_product_with_variant_price(),
                     'get_total': order.get_total(),
                     }
                     return JsonResponse(response)

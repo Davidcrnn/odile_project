@@ -115,8 +115,7 @@
                     {% for item in product.variation_set.huitres %}
                     <div class="option-delivery">
                         <label class="" for="{{ item.title }}">
-                            <input id="{{ item.title }}" name="huitre" value="{{ item.title }}" type="checkbox"
-                                class="">
+                            <input id="{{ item.title }}" name="huitre" value="{{ item.title }}" type="radio" class="">
                             <span>{{ item.title }} - {{ item.price|floatformat }}€</span>
 
                         </label>

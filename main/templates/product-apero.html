@@ -120,7 +120,7 @@
                             <p data-huitre-id="{{order_item.id}}">{{ order_item.huitre }}</p>
                         </div>
                         <span class="text-muted"
-                            data-total-id='{{order_item.id}}'>{{ order_item.get_total_product_price|floatformat }}€</span>
+                            data-total-id='{{order_item.id}}'>{{ order_item.get_total_product_with_variant_price|floatformat }}€</span>
                     </li>
                     {% endfor %}
 
@@ -171,7 +171,7 @@
         var alcool = $(this).find('input[name="alcool"]:checked').val();
         var huitre = $(this).find('input[name="huitre"]:checked').val();
         var urlAjax = $(this).attr('action');
-
+        console.log(huitre);
 
         console.log(urlAjax);
         $.ajax({

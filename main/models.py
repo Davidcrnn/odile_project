@@ -157,6 +157,22 @@ class OrderProduct(models.Model):
     def get_total_product_price(self):
         return self.quantity * self.product.price
 
+    def get_price_product_with_variant(self):
+        vr = self.product.variation_set.all()
+        vr1 = vr[0].price
+        if type(vr1) is float and self.huitre != '':
+            return self.product.price + vr1
+        return self.product.price
+
+    def get_total_product_with_variant_price(self):
+        var = self.product.variation_set.all()
+        var1 = var[0].price
+        total = self.quantity * self.product.price
+        if type(var1) is float and self.huitre != '':
+            total = self.quantity * (self.product.price + var1)
+            return total
+        return total
+
     class Meta:
         verbose_name = 'Commande - Produit'
         verbose_name_plural = 'Commande - Produits'
@@ -200,7 +216,7 @@ class Order(models.Model):
     def get_total(self):
         total = 0
         for order_product in self.products.all():
-            total += order_product.get_total_product_price()
+            total += order_product.get_total_product_with_variant_price()
         if self.coupon:
             total -= self.coupon.amount
         return total
