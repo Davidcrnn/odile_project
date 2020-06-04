@@ -301,7 +301,7 @@
   box-shadow: 0 0 10px #8080805c;
   padding: 20px; }
   .product-card-info-modal h4 {
-    font-size: 20px; }
+    font-size: 17px; }
 
 .dropdown-item.active {
   background-color: #8080805c; }
@@ -1062,6 +1062,10 @@ ul.errorlist {
 /* hover style just for information */
 label:hover:before {
   border: 2px solid #4A898B !important; }
+
+/* Select btn */
+.bootstrap-select > .dropdown-toggle {
+  width: 150px !important; }
 
 .inscription-form {
   margin: 50px 0;

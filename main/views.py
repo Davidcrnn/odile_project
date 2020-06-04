@@ -188,7 +188,7 @@ def add_to_cart(request, slug):
                         'dessert':order_product.dessert,
                         'boisson':order_product.boisson,
                         'sandwich':order_product.sandwich,
-                        'product_total': order_product.get_total_product_price(),
+                        'product_total': order_product.get_total_product_with_variant_price(),
                         'cart_quantity': order.get_quantity(),
                         'product_name': order_product.product.name,
                         'order_product_id': order_product.id
@@ -209,7 +209,7 @@ def add_to_cart(request, slug):
                         'dessert':order_product.dessert,
                         'boisson':order_product.boisson,
                         'sandwich':order_product.sandwich,
-                        'product_total': order_product.get_total_product_price(),
+                        'product_total': order_product.get_total_product_with_variant_price(),
                         'cart_quantity': order.get_quantity(),
                         'product_name': order_product.product.name,
                         'order_product_id': order_product.id
@@ -233,7 +233,7 @@ def add_to_cart(request, slug):
                         'dessert':order_product.dessert,
                         'boisson':order_product.boisson,
                         'sandwich':order_product.sandwich,
-                        'product_total': order_product.get_total_product_price(),
+                        'product_total': order_product.get_price_product_with_variant(),
                         'cart_quantity': order.get_quantity(),
                         'product_name': order_product.product.name,
                         'order_product_id': order_product.id
@@ -287,7 +287,7 @@ def add_to_cart(request, slug):
                         'quantity': order_product.quantity,
                         'total': order.get_total(),
                         'name': product.name,
-                        'product_total': order_product.get_total_product_with_variant_price(),
+                        'product_total': order_product.get_price_product_with_variant(),
                         'cart_quantity': order.get_quantity(),
                         'product_name': order_product.product.name,
                         'alcool': order_product.alcool,
@@ -406,14 +406,21 @@ def remove_from_cart(request, slug):
             messages.info(request, "Vous n'avez pas de commande")
             return redirect('products')
     elif product.menu == 'Apero':
+        order_product, created = OrderProduct.objects.get_or_create(
+        product=product,
+        user=request.user,
+        ordered=False,
+        alcool=request.POST['alcool'],
+        huitre= request.POST['huitre'],
+        )
         if order_apero_qs.exists():
             order = order_apero_qs[0]
             if order.products.filter(product__slug=product.slug).exists():
-                order_product = OrderProduct.objects.filter(
-                    product=product,
-                    user=request.user,
-                    ordered=False
-                )[0]
+                # order_product = OrderProduct.objects.filter(
+                #     product=product,
+                #     user=request.user,
+                #     ordered=False
+                # )[0]
                 order.products.remove(order_product)
                 order_product.delete()
                 response = {

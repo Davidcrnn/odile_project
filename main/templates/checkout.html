@@ -38,7 +38,7 @@
 
                             </div>
                             <span class="text-muted"
-                                data-total-id='{{order_item.product.slug}}'>{{ order_item.get_total_product_price|floatformat }}€</span>
+                                data-total-id='{{order_item.product.slug}}'>{{ order_item.get_total_product_with_variant_price|floatformat }}€</span>
                         </li>
                         {% endfor %}
 
@@ -275,7 +275,7 @@
 
                         </div>
                         <span class="text-muted"
-                            data-total-id='{{order_item.product.slug}}'>{{ order_item.get_total_product_price|floatformat }}€</span>
+                            data-total-id='{{order_item.product.slug}}'>{{ order_item.get_total_product_with_variant_price|floatformat }}€</span>
                     </li>
                     {% endfor %}
 
