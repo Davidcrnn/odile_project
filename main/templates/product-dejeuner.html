@@ -146,7 +146,7 @@
                             {% endif %}
                         </div>
                         <span class="text-muted"
-                            data-total-id='{{order_product.id}}'>{{ order_product.get_total_product_price|floatformat }}€</span>
+                            data-total-id='{{order_product.id}}'>{{ order_product.get_total_product_with_variant_price|floatformat }}€</span>
                     </li>
                     {% endfor %}
 
@@ -171,7 +171,7 @@
 <!-- Modal accessoires before cart page-->
 <div class="modal fade modal-bg-white" id="accesoires-product" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style='z-index: 9000;'>
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered " role="document">
         <div class="modal-content no-border">
             <!-- <div class="text-center modal-titre">
                 <h5 class="modal-title" id="exampleModalCenterTitle">Accessoires</h5>
@@ -274,7 +274,7 @@
             observeParents: true,
 
             slidesPerView: 2,
-            spaceBetween: 20,
+            spaceBetween: 40,
             centeredSlides: true,
             pagination: {
                 el: '.swiper-pagination',
@@ -338,7 +338,7 @@
             success: function (json) {
                 if (category != 'accessoires') {
                     $('.selectpicker').val('1').selectpicker('refresh'); // reset form select
-
+                    $('input[type="radio"]').prop('checked', false);
                     $('.modal').modal('hide');
                     $("#add-popup-product").show('slow').delay(3000).hide('slow');
                     var total = json.total + '€'
@@ -373,7 +373,7 @@
                 } else {
 
                     $("#add-popup").show('slow').delay(3000).hide('slow');
-
+                    $('input[type="radio"]').prop('checked', false);
                     $('.selectpicker').val('1').selectpicker('refresh'); // reset form select
 
                     // $('.modal').modal('hide');

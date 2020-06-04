@@ -187,6 +187,7 @@
             success: function (json) {
 
                 $('.selectpicker').val('1').selectpicker('refresh'); // reset form select
+                $('input[type="radio"]').prop('checked', false);
                 $('.modal').modal('hide'); // Hide modal
                 $("#add-popup-product").show('slow').delay(3000).hide('slow');
 

@@ -127,7 +127,7 @@ class Variation(models.Model):
     category = models.CharField(
         max_length=100, choices=VAR_CATEGORIES, default='boisson')
     title = models.CharField(max_length=100)
-    price = models.FloatField(verbose_name='Prix', null=True, blank=True)
+    price = models.FloatField(verbose_name='Prix', default=0)
     visible = models.BooleanField(default=True)
 
     objects = VariationManager()
@@ -154,24 +154,37 @@ class OrderProduct(models.Model):
     def __str__(self):
         return f"{self.quantity} x {self.product.name}"
 
-    def get_total_product_price(self):
-        return self.quantity * self.product.price
+    # def get_total_product_price(self):
+    #     return self.quantity * self.product.price
 
     def get_price_product_with_variant(self):
         vr = self.product.variation_set.all()
-        vr1 = vr[0].price
-        if type(vr1) is float and self.huitre != '':
-            return self.product.price + vr1
+        for v in vr:
+            if str(v) == self.huitre:
+                return self.product.price + v.price
+            elif str(v) == self.alcool:
+                return self.product.price + v.price
+            elif str(v) == self.boisson:
+                return self.product.price + v.price
+            elif str(v) == self.dessert:
+                return self.product.price + v.price
+            elif str(v) == self.sandwich:
+                return self.product.price + v.price
         return self.product.price
+        # vr1 = vr[0].price
+        # if type(vr1) is float and self.huitre != '':
+        #     return self.product.price + vr1
+        # return self.product.price
 
     def get_total_product_with_variant_price(self):
-        var = self.product.variation_set.all()
-        var1 = var[0].price
-        total = self.quantity * self.product.price
-        if type(var1) is float and self.huitre != '':
-            total = self.quantity * (self.product.price + var1)
-            return total
-        return total
+        return self.quantity * self.get_price_product_with_variant()
+        # var = self.product.variation_set.all()
+        # var1 = var[0].price
+        # total = self.quantity * self.product.price
+        # if type(var1) is float and self.huitre != '':
+        #     total = self.quantity * (self.product.price + var1)
+        #     return total
+        # return total
 
     class Meta:
         verbose_name = 'Commande - Produit'

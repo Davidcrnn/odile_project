@@ -62,7 +62,7 @@
                             <i class="fas fa-plus ml-2" style='color: #4A898B;'></i></a>
                     </td>
                     <td><span
-                            data-total="{{ order_product.product.slug }}-{{ order_product.id }}">{{ order_product.get_total_product_price|floatformat}}</span>€
+                            data-total="{{ order_product.product.slug }}-{{ order_product.id }}">{{ order_product.get_total_product_with_variant_price|floatformat}}</span>€
                         <a style='color: #165361;' href="{% url 'remove-from-cart' order_product.product.slug %}"
                             class="removeItem ajax-remove" id="{{ order_product.product.slug }}-{{ order_product.id }}">
                             <i class="fas fa-trash float-right" style='color: #4A898B;'></i>

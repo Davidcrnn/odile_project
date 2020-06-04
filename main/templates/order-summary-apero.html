@@ -210,6 +210,8 @@
             var target = $(this).attr('id');
 
             var urlAjax = $(this).attr('href');
+            var alcool = $('[data-alcool-id=' + target + ']').text();
+            var huitre = $('[data-huitre-id=' + target + ']').text();
 
 
 
@@ -217,6 +219,8 @@
                 type: 'POST',
                 url: urlAjax,
                 data: {
+                    alcool: alcool,
+                    huitre: huitre,
                     csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
                     action: 'post',
 

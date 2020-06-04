@@ -244,3 +244,10 @@ ul.errorlist {
 label:hover:before {
     border: 2px solid $vertf!important;
 }
+
+
+/* Select btn */
+
+.bootstrap-select>.dropdown-toggle{
+    width: 150px !important;
+}
