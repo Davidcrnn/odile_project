@@ -1,5 +1,6 @@
 //  Map all points delivery
 
+
 mapboxgl.accessToken = 'pk.eyJ1Ijoib2RpbGVsZWNsZXJjc2l0ZSIsImEiOiJjazZjMDJtNGEwZ3F2M2tvdnNncnkxNXRxIn0.c7i8XUNby5CQwhdrsG3r0A';
 var map = new mapboxgl.Map({
     container: 'map-livraison',
