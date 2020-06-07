@@ -42,6 +42,7 @@ def is_valid_form(values):
 
 class HomePageView(TemplateView):
     template_name = 'home.html'
+    
 
 
 class ProductListView(ListView):
@@ -49,7 +50,17 @@ class ProductListView(ListView):
     model = Product
     context_object_name = 'products'
 
-    def get(self, *args, **kwargs):
+    def get(self,*args, **kwargs):
+        # cart_id = request.session.get('cart_id', None)
+        # print(cart_id)
+        # if cart_id is None:
+        #     cart_obj = Order.objects.create(user=None)
+        #     print('create new cart')
+        #     request.session['cart_id'] = cart_obj.id
+        # else:
+        #     print('Cart Id exists')
+        #     print(cart_id)
+        #     # cart_obj= Order.objects.get(id=cart_id)
         products = Product.objects.filter(menu='Dejeuner', visible=True)
         accessoire_product = Product.objects.filter(menu='Dejeuner',category='Accessoires')
         form = ProductForm(auto_id=False)
@@ -147,6 +158,7 @@ class OrderSummaryAperoView(LoginRequiredMixin, View):
 
 @login_required
 def add_to_cart(request, slug):
+    
     product = get_object_or_404(Product, slug=slug)
     order_dejeuner_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Dejeuner')
     order_apero_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Apero')
@@ -163,7 +175,6 @@ def add_to_cart(request, slug):
         huitre = form.cleaned_data.get('huitre')
         order_product, created = OrderProduct.objects.get_or_create(
             product=product,
-            user=request.user,
             ordered=False,
             dessert= dessert,
             boisson=boisson,
@@ -301,6 +312,7 @@ def add_to_cart(request, slug):
 
 @login_required
 def add_single_item_to_cart(request, slug):
+    
     product = get_object_or_404(Product, slug=slug)
     order_dejeuner_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Dejeuner')
     order_apero_qs = Order.objects.filter(user=request.user, ordered=False, type_of_order ='Apero')
