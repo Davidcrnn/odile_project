@@ -277,6 +277,7 @@ class ProductForm(forms.Form):
     quantity = forms.ChoiceField(
         widget=forms.Select(attrs={
             "class": "selectpicker",
+            'data-size': "3"
         }), choices=QUANTITY_PRODUCT, label='Choisissez la quantité:', initial='--Choisissez une quantité --')
 
     sandwich = forms.CharField(required=False,

@@ -51,7 +51,7 @@ class ProductListView(ListView):
 
     def get(self, *args, **kwargs):
         products = Product.objects.filter(menu='Dejeuner', visible=True)
-        accessoire_product = Product.objects.filter(menu='Dejeuner',category='Accessoires')
+        accessoire_product = Product.objects.filter(menu='Dejeuner',category='Accessoires', visible=True)
         form = ProductForm(auto_id=False)
         user = self.request.user
         if user.is_authenticated:
@@ -62,7 +62,7 @@ class ProductListView(ListView):
                 'order': order,
                 'products': products,
                 'accessoires': accessoire_product,
-                'form': form,
+                'form': form,      
                 # 'couponform': CouponForm(),
                 # 'DISPLAY_COUPON_FORM': True,
             }
@@ -82,6 +82,7 @@ class ProductAperoView(ListView):
 
     def get(self, *args, **kwargs):
         products = Product.objects.filter(menu='Apero', visible=True)
+        accessoire_product = Product.objects.filter(menu='Apero',category='Accessoires', visible=True)
         form = ProductForm(auto_id=False)
         user = self.request.user
         if user.is_authenticated:
@@ -91,6 +92,7 @@ class ProductAperoView(ListView):
             context = {
                 'order': order,
                 'products': products,
+                'accessoires': accessoire_product,
                 'form': form,
                 # # 'couponform': CouponForm(),
                 # 'DISPLAY_COUPON_FORM': False,
