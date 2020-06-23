@@ -336,77 +336,51 @@
                 action: 'post',
             },
             success: function (json) {
-                if (category != 'accessoires') {
-                    $('.selectpicker').val('1').selectpicker('refresh'); // reset form select
-                    $('input[type="radio"]').prop('checked', false);
-                    $('.modal').modal('hide');
-                    $("#add-popup-product").show('slow').delay(3000).hide('slow');
-                    var total = json.total + '€'
-                    $('.cart-position p').text(json.cart_quantity)
+                $('.selectpicker').val('1').selectpicker('refresh'); // reset form select
+                $('input[type="radio"]').prop('checked', false);
+                $('.modal-product-all').modal('hide');
+                var message = ' <h1> <i class="far fa-check-circle"></i>' + " Le produit vient d'être ajouté au panier</h1>"
+                var message2 = '<h1> <i class="far fa-check-circle"></i> Le produit vient' + "d'être ajouté au panier</h1>"
+
+                $("#add-popup-product").append(message).show('slow').delay(2000).hide('slow');
+                setTimeout(function () {
+                    $("#add-popup-product h1").remove();
+                }, 2000);
+
+                $("#add-popup").append(message2).show('slow').delay(2000).hide('slow');
+                setTimeout(function () {
+                    $("#add-popup h1").remove();
+                }, 2000);
+                var total = json.total + '€'
+                $('.cart-position p').text(json.cart_quantity)
 
 
-                    var myvar = '<li class="list-group-item cart-line d-flex justify-content-between lh-condensed">' +
-                        '                        <div>' +
-                        '                            <h6 class="my-0"><span' +
-                        '                                    data-quantity-id=' + json.order_product_id + '>' + json.quantity + '</span>' +
-                        '                                x' +
-                        '                                ' + json.product_name + ' </h6>' +
-                        '' + '<p data-sandwich-id=' + json.order_product_id + '>' + json.sandwich + '</p><p data-boisson-id=' + json.order_product_id + '>' + json.boisson + '</p><p data-dessert-id=' + json.order_product_id + '>' + json.dessert + '</p>' +
+                var myvar = '<li class="list-group-item cart-line d-flex justify-content-between lh-condensed">' +
+                    '                        <div>' +
+                    '                            <h6 class="my-0"><span' +
+                    '                                    data-quantity-id=' + json.order_product_id + '>' + json.quantity + '</span>' +
+                    '                                x' +
+                    '                                ' + json.product_name + ' </h6>' +
+                    '' + '<p data-sandwich-id=' + json.order_product_id + '>' + json.sandwich + '</p><p data-boisson-id=' + json.order_product_id + '>' + json.boisson + '</p><p data-dessert-id=' + json.order_product_id + '>' + json.dessert + '</p>' +
 
-                        '                        </div>' +
-                        '                        <span class="text-muted"' +
-                        '                            data-total-id=\'{{order_item.product.slug}}\'>' + json.product_total + '€</span>' +
-                        '                    </li>';
+                    '                        </div>' +
+                    '                        <span class="text-muted"' +
+                    '                            data-total-id=\'{{order_item.product.slug}}\'>' + json.product_total + '€</span>' +
+                    '                    </li>';
 
-                    /* Check if product is in the cart if true then update quantity et total else append to cart*/
-                    if ($('[data-quantity-id=' + json.order_product_id + ']').text() >= 1 && $('[data-sandwich-id=' + json.order_product_id + ']').text() == json.sandwich && $('[data-boisson-id=' + json.order_product_id + ']').text() == json.boisson && $('[data-dessert-id=' + json.order_product_id + ']').text() == json.dessert) {
-                        $('[data-quantity-id=' + json.order_product_id + ']').text(json.quantity);
-                        $('[data-total-id=' + json.order_product_id + ']').text(json.product_total + '€');
-                        $('#order-snippet-id').text(total);
-
-                    } else {
-                        $('#js-cart-append').prepend(myvar).fadeIn(1000);
-                    }
-
-                    var t = $('#cart-quantity').text('Panier - ' + json.cart_quantity);
+                /* Check if product is in the cart if true then update quantity et total else append to cart*/
+                if ($('[data-quantity-id=' + json.order_product_id + ']').text() >= 1 && $('[data-sandwich-id=' + json.order_product_id + ']').text() == json.sandwich && $('[data-boisson-id=' + json.order_product_id + ']').text() == json.boisson && $('[data-dessert-id=' + json.order_product_id + ']').text() == json.dessert) {
+                    $('[data-quantity-id=' + json.order_product_id + ']').text(json.quantity);
+                    $('[data-total-id=' + json.order_product_id + ']').text(json.product_total + '€');
                     $('#order-snippet-id').text(total);
+
                 } else {
-
-                    $("#add-popup").show('slow').delay(3000).hide('slow');
-                    $('input[type="radio"]').prop('checked', false);
-                    $('.selectpicker').val('1').selectpicker('refresh'); // reset form select
-
-                    // $('.modal').modal('hide');
-                    var total = json.total + '€'
-                    $('.cart-position p').text(json.cart_quantity)
-
-
-                    var myvar = '<li class="list-group-item cart-line d-flex justify-content-between lh-condensed">' +
-                        '                        <div>' +
-                        '                            <h6 class="my-0"><span' +
-                        '                                    data-quantity-id=' + json.order_product_id + '>' + json.quantity + '</span>' +
-                        '                                x' +
-                        '                                ' + json.product_name + ' </h6>' +
-                        '' + '<p data-sandwich-id=' + json.order_product_id + '>' + json.sandwich + '</p><p data-boisson-id=' + json.order_product_id + '>' + json.boisson + '</p><p data-dessert-id=' + json.order_product_id + '>' + json.dessert + '</p>' +
-
-                        '                        </div>' +
-                        '                        <span class="text-muted"' +
-                        '                            data-total-id=\'{{order_item.product.slug}}\'>' + json.product_total + '€</span>' +
-                        '                    </li>';
-
-                    /* Check if product is in the cart if true then update quantity et total else append to cart*/
-                    if ($('[data-quantity-id=' + json.order_product_id + ']').text() >= 1 && $('[data-sandwich-id=' + json.order_product_id + ']').text() == json.sandwich && $('[data-boisson-id=' + json.order_product_id + ']').text() == json.boisson && $('[data-dessert-id=' + json.order_product_id + ']').text() == json.dessert) {
-                        $('[data-quantity-id=' + json.order_product_id + ']').text(json.quantity);
-                        $('[data-total-id=' + json.order_product_id + ']').text(json.product_total + '€');
-                        $('#order-snippet-id').text(total);
-
-                    } else {
-                        $('#js-cart-append').prepend(myvar).slideIn(1000);
-                    }
-
-                    var t = $('#cart-quantity').text('Panier - ' + json.cart_quantity);
-                    $('#order-snippet-id').text(total);
+                    $('#js-cart-append').prepend(myvar).fadeIn(1000);
                 }
+
+                var t = $('#cart-quantity').text('Panier - ' + json.cart_quantity);
+                $('#order-snippet-id').text(total);
+
             },
             error: function (xhr, errmsg, err) {
                 console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console

@@ -45,7 +45,8 @@ p, td, li{
 }
 
 
-button, [type=button] {
+button, [type=button], [type=submit] {
     -webkit-appearance : none !important;
     -moz-appearance: none!important;
+    border-style: none;
 }

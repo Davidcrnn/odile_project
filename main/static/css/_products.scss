@@ -221,32 +221,30 @@
 
 
 #add-popup {
-    border: 1px solid $vertf;
-    color: $vertf;
-    padding: 10px 15px;
-    border-radius: 3px;
-    margin-bottom: 20px;
-    text-align: center;
-    
-
     h1 {
+        border: 1px solid $vertf;
+        color: $vertf;
+        padding: 10px 15px;
+        border-radius: 3px;
+        margin-bottom: 20px;
+        text-align: center;
         font-size: 17px;
         margin: 0;
     }
 }
 
 #add-popup-product {
-    background-color: $vertf;
-    color: white;
-    text-align: center;
-    padding: 10px 15px;
-    border-radius: 3px;
-    position: fixed;
-    width: 100%;
-    z-index: 900;
     h1 {
         font-size: 17px;
         margin: 0;
+        background-color: $vertf;
+        color: white;
+        text-align: center;
+        padding: 10px 15px;
+        border-radius: 3px;
+        position: fixed;
+        width: 100%;
+        z-index: 900;
     }
 }
 
