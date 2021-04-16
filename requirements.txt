@@ -10,7 +10,7 @@ django-appconf==1.0.3
 django-compressor==2.3
 django-countries==5.5
 django-crispy-forms==1.8.0
-django-debug-toolbar==2.1
+django-debug-toolbar==2.2.1
 django-flatpickr==1.0.1
 django-sass-processor==0.7.4
 django-sendgrid-v5==0.8.1
